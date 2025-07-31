@@ -19,7 +19,7 @@ damping_wheel_const = 20    # Демпфирование для управлен
 
 ALOHA_CFG = ArticulationCfg(
     spawn=sim_utils.UsdFileCfg(
-        usd_path=f"/home/mipt/Downloads/assets/assets/aloha/ALOHA_with_sensor_02.usd",
+        usd_path=f"/home/xiso/Downloads/assets/assets/aloha/ALOHA_with_sensor_02.usd",
         activate_contact_sensors=True,
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             rigid_body_enabled=True,

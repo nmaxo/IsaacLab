@@ -17,7 +17,7 @@ def import_class_from_path(module_path, class_name):
     print(f"[DEBUG] Successfully imported class: {class_obj}")
     return class_obj
 
-module_path = "/home/mipt/Downloads/IsaacLab-main/source/isaaclab_tasks/isaaclab_tasks/direct/aloha/scene_manager.py"
+module_path = "/home/xiso/IsaacLab/source/isaaclab_tasks/isaaclab_tasks/direct/aloha/scene_manager.py"
 Scene_manager = import_class_from_path(module_path, "Scene_manager")
 
 class PathGenerator:

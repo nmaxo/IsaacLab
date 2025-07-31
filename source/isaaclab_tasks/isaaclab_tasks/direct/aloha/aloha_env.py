@@ -34,7 +34,7 @@ from .memory_manager import Memory_manager
 import omni.kit.commands
 import omni.usd
 import datetime
-from torch.utils.tensorboard import SummaryWriter
+# from torch.utils.tensorboard import SummaryWriter
 ##
 # Pre-defined configs
 ##
@@ -51,7 +51,7 @@ class WheeledRobotEnvWindow(BaseEnvWindow):
 
 @configclass
 class WheeledRobotEnvCfg(DirectRLEnvCfg):
-    episode_length_s = 10.0
+    episode_length_s = 512.0
     decimation = 4
     action_space = gym.spaces.Box(
         low=np.array([-1.0, -1.0], dtype=np.float32),
@@ -59,7 +59,7 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
         shape=(2,)
     )
     # Observation space is now the ResNet18 embedding size (512)
-    m = 4  # Например, 3 эмбеддинга и действия
+    m = 1  # Например, 3 эмбеддинга и действия
     observation_space = gym.spaces.Box(
         low=-float("inf"),
         high=float("inf"),
@@ -72,7 +72,7 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
     ui_window_class_type = WheeledRobotEnvWindow
 
     sim: SimulationCfg = SimulationCfg(
-        dt=1/60,
+        dt=1/120,
         render_interval=decimation,
         physics_material=sim_utils.RigidBodyMaterialCfg(
             friction_combine_mode="multiply",
@@ -113,7 +113,7 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
         height=224,
     )
     kitchen = sim_utils.UsdFileCfg(
-        usd_path="/home/mipt/Downloads/assets/assets/scenes/scenes_sber_kitchen_for_BBQ/kitchen_new_simple.usd",
+        usd_path="/home/xiso/Downloads/assets/assets/scenes/scenes_sber_kitchen_for_BBQ/kitchen_new_simple.usd",
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             disable_gravity=True,
             kinematic_enabled=True,
@@ -132,7 +132,7 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
     )
 
     table = sim_utils.UsdFileCfg(
-        usd_path="/home/mipt/Downloads/assets/scenes/scenes_sber_kitchen_for_BBQ/table/table2.usd",
+        usd_path="/home/xiso/Downloads/assets/scenes/scenes_sber_kitchen_for_BBQ/table/table2.usd",
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             disable_gravity=True,
             kinematic_enabled=True,
@@ -145,7 +145,7 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
 
     # Конфигурация миски (цели)
     bowl = sim_utils.UsdFileCfg(
-        usd_path="/home/mipt/Downloads/assets/assets/objects/bowl.usd",
+        usd_path="/home/xiso/Downloads/assets/assets/objects/bowl.usd",
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             disable_gravity=True,
             kinematic_enabled=True,  # Миска неподвижна
@@ -161,7 +161,7 @@ class WheeledRobotEnv(DirectRLEnv):
 
     def __init__(self, cfg: WheeledRobotEnvCfg, render_mode: str | None = None, **kwargs):
         super().__init__(cfg, render_mode, **kwargs)
-        self._actions = torch.ones((self.num_envs, 2), device=self.device)
+        self._actions = torch.zeros((self.num_envs, 2), device=self.device)
         self._actions[:, 1] = 0.0
         self._left_wheel_vel = torch.zeros(self.num_envs, device=self.device)
         self._right_wheel_vel = torch.zeros(self.num_envs, device=self.device)
@@ -184,16 +184,18 @@ class WheeledRobotEnv(DirectRLEnv):
         self.step_counter = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
 
         self.scene_manager = Scene_manager(self.num_envs, self.device, num_obstacles=3)
-        self.path_manager = Path_manager(scene_manager=self.scene_manager, log_dir="/home/mipt/Downloads/IsaacLab-main/logs", ratio=8.0, shift=[5, 4], device=self.device)
+        self.path_manager = Path_manager(scene_manager=self.scene_manager, log_dir="/home/xiso/Downloads/IsaacLab/logs", ratio=8.0, shift=[5, 4], device=self.device)
         self.control_module = Control_module(num_envs=self.num_envs, device=self.device)
-        self.memory_manager = Memory_manager(
-            num_envs=self.num_envs,
-            embedding_size=512,  # Размер эмбеддинга ResNet18
-            action_size=2,      # Размер действия (линейная и угловая скорость)
-            history_length=25,  # n = 10, можно настроить
-            device=self.device
-        )
-        self.memory_on = True
+        
+        self.memory_on = False
+        if self.memory_on:
+            self.memory_manager = Memory_manager(
+                num_envs=self.num_envs,
+                embedding_size=512,  # Размер эмбеддинга ResNet18
+                action_size=2,      # Размер действия (линейная и угловая скорость)
+                history_length=25,  # n = 10, можно настроить
+                device=self.device
+            )
         self.count = 0
         self._debug_log_enabled = True
         self._debug_envs_to_log = list(range(min(5, self.num_envs)))
@@ -203,12 +205,12 @@ class WheeledRobotEnv(DirectRLEnv):
         self.turn_on_controller = False
         self.turn_on_controller_step = 0
         self.my_episode_step = 0
-        self.my_episode_lenght = 200
+        self.my_episode_lenght = 1000
         self.turn_off_controller_step = 0
         self.use_controller = False
-        self.use_obstacles = True
+        self.use_obstacles = False
         self.imitation = False
-        self._screenshot_dir = "/home/mipt/Downloads/IsaacLab-main/logs/camera_images/screenshots"
+        self._screenshot_dir = "/home/xiso/Downloads/IsaacLab/logs/camera_images/screenshots"
         os.makedirs(self._screenshot_dir, exist_ok=True)
 
         self.previous_distance_to_goal = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
@@ -225,8 +227,8 @@ class WheeledRobotEnv(DirectRLEnv):
         ])
         self.success_rate = 100
         self._step_update_counter = 0
-        self.mean_radius = 1.4
-        self.max_angle = torch.pi/9#torch.pi/6
+        self.mean_radius = 0.2
+        self.max_angle = torch.pi / 4
         self._obstacle_update_counter = 0
         self.has_contact = torch.full((self.num_envs,), True, dtype=torch.bool, device=self.device)
         self.level = 0
@@ -244,7 +246,7 @@ class WheeledRobotEnv(DirectRLEnv):
         self.episode_lengths = torch.zeros(self.num_envs, device=self.device)
         self.episode_count = 0
         self.total_episode_length = 0.0
-        self.tensorboard_writer = SummaryWriter(log_dir=f"/home/mipt/Downloads/IsaacLab-main/logs/tensorboard/navigation_rl_{name}_{timestamp}")
+        # self.tensorboard_writer = SummaryWriter(log_dir=f"/home/xiso/IsaacLab/logs/tensorboard/navigation_rl_{name}_{timestamp}")
         self.tensorboard_step = 0
         self.print_config_info()
 
@@ -329,7 +331,7 @@ class WheeledRobotEnv(DirectRLEnv):
             chair_cfg = RigidObjectCfg(
                 prim_path=f"/World/envs/env_.*/Chair_{i}",  # Уникальный путь для каждого стула в каждой среде
                 spawn=sim_utils.UsdFileCfg(
-                    usd_path="/home/mipt/Downloads/assets/scenes/obstacles/chair2.usd",
+                    usd_path="/home/xiso/Downloads/assets/scenes/obstacles/chair2.usd",
                     rigid_props=sim_utils.RigidBodyPropertiesCfg(
                         rigid_body_enabled=True,
                         kinematic_enabled=True,
@@ -379,33 +381,36 @@ class WheeledRobotEnv(DirectRLEnv):
     # as they are not affected by the observation space change.
 
     def _pre_physics_step(self, actions: torch.Tensor):
+        print("actions: ", self._actions)
         self._actions = actions.clone().clamp(-1.0, 1.0)
         r = self.cfg.wheel_radius
         L = self.cfg.wheel_distance
         self.my_episode_step += 1
-        if self.turn_on_controller or self.imitation:
-            self.turn_on_controller_step += 1
-            # Получаем текущую ориентацию (yaw) из кватерниона
-            quat = self._robot.data.root_quat_w
-            siny_cosp = 2 * (quat[:, 0] * quat[:, 3] + quat[:, 1] * quat[:, 2])
-            cosy_cosp = 1 - 2 * (quat[:, 2] * quat[:, 2] + quat[:, 3] * quat[:, 3])
-            yaw = torch.atan2(siny_cosp, cosy_cosp)
-            env_ids = self._robot._ALL_INDICES
-            linear_speed, angular_speed = self.control_module.pure_pursuit_controller(
-                self.to_local(self._robot.data.root_pos_w[:, :2],env_ids),
-                yaw
-            )
-            # angular_speed = -angular_speed 
-            self._actions[:, 0] = (linear_speed / 0.5) - 1
-            self._actions[:, 1] = angular_speed / 0.4
-        else:
-            linear_speed = 0.5*(self._actions[:, 0] + 1.0) # [num_envs], всегда > 0
-            angular_speed = 0.4*self._actions[:, 1]  # [num_envs], оставляем как есть от RL
-        # print("vel is: ", linear_speed, angular_speed)
+        # if self.turn_on_controller or self.imitation:
+        #     self.turn_on_controller_step += 1
+        #     # Получаем текущую ориентацию (yaw) из кватерниона
+        #     quat = self._robot.data.root_quat_w
+        #     siny_cosp = 2 * (quat[:, 0] * quat[:, 3] + quat[:, 1] * quat[:, 2])
+        #     cosy_cosp = 1 - 2 * (quat[:, 2] * quat[:, 2] + quat[:, 3] * quat[:, 3])
+        #     yaw = torch.atan2(siny_cosp, cosy_cosp)
+        #     env_ids = self._robot._ALL_INDICES
+        #     linear_speed, angular_speed = self.control_module.pure_pursuit_controller(
+        #         self.to_local(self._robot.data.root_pos_w[:, :2],env_ids),
+        #         yaw
+        #     )
+        #     # angular_speed = -angular_speed 
+        #     self._actions[:, 0] = (linear_speed / 0.5) - 1
+        #     self._actions[:, 1] = angular_speed / 0.4
+        # else:
+        linear_speed = 0.0*(self._actions[:, 0] + 1.0) # [num_envs], всегда > 0
+        self._actions[:, 1] = -1
+        angular_speed = 40*self._actions[:, 1]  # [num_envs], оставляем как есть от RL
+        print("vel is: ", linear_speed, angular_speed)
         self._left_wheel_vel = (linear_speed - (angular_speed * L / 2)) / r
         self._right_wheel_vel = (linear_speed + (angular_speed * L / 2)) / r
         # self._left_wheel_vel = torch.zeros(1, device=self.device)
         # self._right_wheel_vel = torch.zeros(1, device=self.device)
+        return
 
         return self._actions
 
@@ -469,6 +474,7 @@ class WheeledRobotEnv(DirectRLEnv):
         time_out_penalty = -5 * time_out.float()
         
         reward = (-0.1 + goal_reached_reward + contact_penalty + time_out_penalty)
+        # print("reward ", reward)
         check = {
             "moves":moves,
             "contact_penalty": contact_penalty,
@@ -476,8 +482,8 @@ class WheeledRobotEnv(DirectRLEnv):
         for key, value in check.items():
             self._episode_sums[key] += value
 
-        if self.tensorboard_step % 100 == 0:
-            self.tensorboard_writer.add_scalar("Metrics/reward", torch.sum(reward), self.tensorboard_step)
+        # if self.tensorboard_step % 100 == 0:
+        #     self.tensorboard_writer.add_scalar("Metrics/reward", torch.sum(reward), self.tensorboard_step)
         return reward
     
     def quat_rotate(self, quat: torch.Tensor, vec: torch.Tensor) -> torch.Tensor:
@@ -707,16 +713,16 @@ class WheeledRobotEnv(DirectRLEnv):
         self._robot.write_root_pose_to_sim(default_root_state[:, :7], env_ids)
         self._robot.write_root_velocity_to_sim(default_root_state[:, 7:], env_ids)
         self._robot.write_joint_state_to_sim(joint_pos, joint_vel, None, env_ids)
-        self.tensorboard_writer.add_scalar("Metrics/Success_Rate", self.success_rate, self.tensorboard_step)
-        self.tensorboard_writer.add_scalar("Metrics/Max_angle", self.max_angle, self.tensorboard_step)
-        self.tensorboard_writer.add_scalar("Metrics/Mean_radius", self.mean_radius, self.tensorboard_step)
-        self.tensorboard_writer.add_scalar("Metrics/Contact", torch.count_nonzero(self.has_contact).item(), self.tensorboard_step)
-        self.tensorboard_writer.add_scalar("Metrics/Imitation", self.turn_on_controller, self.tensorboard_step)
+        # self.tensorboard_writer.add_scalar("Metrics/Success_Rate", self.success_rate, self.tensorboard_step)
+        # self.tensorboard_writer.add_scalar("Metrics/Max_angle", self.max_angle, self.tensorboard_step)
+        # self.tensorboard_writer.add_scalar("Metrics/Mean_radius", self.mean_radius, self.tensorboard_step)
+        # self.tensorboard_writer.add_scalar("Metrics/Contact", torch.count_nonzero(self.has_contact).item(), self.tensorboard_step)
+        # self.tensorboard_writer.add_scalar("Metrics/Imitation", self.turn_on_controller, self.tensorboard_step)
         # Логируем длину эпизодов для сброшенных сред
         self.total_episode_length += torch.sum(self.episode_lengths[env_ids]).item()
         self.episode_count += len(env_ids)
         mean_episode_length = self.total_episode_length / self.episode_count if self.episode_count > 0 else 0.0
-        self.tensorboard_writer.add_scalar("Metrics/Mean_episode_length", mean_episode_length, self.tensorboard_step)
+        # self.tensorboard_writer.add_scalar("Metrics/Mean_episode_length", mean_episode_length, self.tensorboard_step)
         # Сбрасываем счетчик длины для сброшенных сред
         self.episode_lengths[env_ids] = 0
             
@@ -731,16 +737,16 @@ class WheeledRobotEnv(DirectRLEnv):
         return pos[:, :2] - env_origins[env_ids, :2]
 
     def update_from_counters(self, env_ids: torch.Tensor):
-        if self.success_rate >= 85 and self._step_update_counter >= 50 and not self.turn_on_controller:
+        if self.success_rate >= 85 and self._step_update_counter >= 5000 and not self.turn_on_controller:
             self.sucess_ep_num += 1
             if self.sucess_ep_num > 5:
                 self.sucess_ep_num = 0
                 print("success_rate, self._step_update_counter: ", self.success_rate, self._step_update_counter)
                 self.num_update_level += 0.1
-                self.max_angle += torch.pi / 18
-                if self.max_angle > torch.pi / 6:
+                self.max_angle += torch.pi / 16
+                if self.max_angle > torch.pi / 4:
                     self.max_angle = 0
-                    self.mean_radius += 0.2
+                    self.mean_radius += 0.3
                 self._step_update_counter = 0
                 print("udate r,a: ",self.mean_radius, self.max_angle )
 
@@ -755,7 +761,7 @@ class WheeledRobotEnv(DirectRLEnv):
         pass
 
     def close(self):
-        self.tensorboard_writer.close()
+        # self.tensorboard_writer.close()
         super().close()
 
     def _update_chairs(self, env_ids: torch.Tensor = None, mess=False):

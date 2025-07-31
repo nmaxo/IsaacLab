@@ -11,7 +11,7 @@ def import_class_from_path(module_path, class_name):
     spec.loader.exec_module(module)
     return getattr(module, class_name)
 
-module_path = "/home/mipt/Downloads/IsaacLab-main/source/isaaclab_tasks/isaaclab_tasks/direct/aloha/graph_manager.py"
+module_path = "/home/xiso/IsaacLab/source/isaaclab_tasks/isaaclab_tasks/direct/aloha/graph_manager.py"
 ObstacleGraph = import_class_from_path(module_path, "ObstacleGraph")
 
 class Scene_manager:
