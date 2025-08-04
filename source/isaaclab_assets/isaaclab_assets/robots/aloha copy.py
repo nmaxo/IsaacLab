@@ -14,8 +14,8 @@ from isaaclab.assets import ArticulationCfg
 ##
 stiffness_arm_const = 500
 damping_arm_const = 500
-stiffness_wheel_const = 2.6  # Жесткость для управления скоростью колес
-damping_wheel_const = 10.6   # Демпфирование для управления скоростью колес
+stiffness_wheel_const = 3  # Жесткость для управления скоростью колес
+damping_wheel_const = 20    # Демпфирование для управления скоростью колес
 
 ALOHA_CFG = ArticulationCfg(
     spawn=sim_utils.UsdFileCfg(
@@ -23,16 +23,16 @@ ALOHA_CFG = ArticulationCfg(
         activate_contact_sensors=True,
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             rigid_body_enabled=True,
-            max_linear_velocity=100.0,
-            max_angular_velocity=100.0,
-            max_depenetration_velocity=0.3,
+            max_linear_velocity=10.0,
+            max_angular_velocity=20.0,
+            max_depenetration_velocity=10.0,
             enable_gyroscopic_forces=False,
         ),
         articulation_props=sim_utils.ArticulationRootPropertiesCfg(
             enabled_self_collisions=False,
-            solver_position_iteration_count=20,
-            solver_velocity_iteration_count=20,
-            sleep_threshold=0.0005,
+            solver_position_iteration_count=16,
+            solver_velocity_iteration_count=10,
+            sleep_threshold=0.005,
             stabilization_threshold=0.001,
             fix_root_link=False,
         ),
@@ -44,7 +44,7 @@ ALOHA_CFG = ArticulationCfg(
         # Актуатор для колес (управление скоростью)
         "wheel_actuators": ImplicitActuatorCfg(
             joint_names_expr=["left_wheel", "right_wheel"],
-            effort_limit=100,  # Оставляем, но не используется для скоростей
+            effort_limit=40,  # Оставляем, но не используется для скоростей
             velocity_limit=100.0,  # Ограничение скорости в рад/с
             stiffness={
                 "left_wheel": stiffness_wheel_const,
@@ -59,7 +59,7 @@ ALOHA_CFG = ArticulationCfg(
         "arm_actuators": ImplicitActuatorCfg(
             joint_names_expr=["fl_joint.*", "fr_joint.*", "lr_joint.*", "rr_joint.*"],
             effort_limit=40,
-            velocity_limit=1000.0,
+            velocity_limit=10000.0,
             stiffness={
                 "fl_joint.*": stiffness_arm_const,
                 "fr_joint.*": stiffness_arm_const,

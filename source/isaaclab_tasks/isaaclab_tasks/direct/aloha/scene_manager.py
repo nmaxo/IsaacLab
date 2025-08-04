@@ -90,6 +90,13 @@ class Scene_manager:
         self.selected_indices = {}
         self.active_indices = None
         self.mess = None
+        self.base_radius = 1
+
+        self.config_env_episode = {
+            "angle_error": torch.zeros(num_envs, device=device),
+            "dist_error": torch.zeros(num_envs, device=device),
+            "relevant": torch.zeros(num_envs,  device=device, dtype=torch.bool)
+        }
 
     def get_selected_indices(self, env_id=None):
         # print("[ SCENE MANAGER DEBUG ] selected_indices: ", self.selected_indices)
@@ -164,7 +171,7 @@ class Scene_manager:
             max_radius = self.max_radius_values
 
         # Генерация радиусов из нормального распределения
-        radii = torch.normal(mean=mean_radius, std=std_radius, size=(num_envs,), device=device)
+        radii = torch.normal(mean=mean_radius, std=mean_radius/5, size=(num_envs,), device=device)
         # print("radii ", radii)
         # Ограничение радиусов минимальным и глобальным максимальным значениями
         radii = torch.clamp(radii, min=min_radius, max=max_radius)
@@ -201,7 +208,7 @@ class Scene_manager:
         max_radii = self.compute_max_radii(goal_pos)
         # Инициализация радиусов
         delta = 0.2
-        base_radius = 1
+        base_radius = self.base_radius
         mean_radius = mean_radius + base_radius
         radii = self.initialize_radii(
             num_envs=num_envs,
@@ -448,22 +455,38 @@ class Scene_manager:
             env_ids)
         self.robot_pos[env_ids] = self.get_pos(
             env_ids, terrain_origins, mean_radius, min_radius)
-        
+
         # Генерация угловых ошибок
         random_sign = torch.sign(torch.rand(num_envs, device=self.device) - 0.5)
-        angle_errors = torch.rand(num_envs, device=self.device) * max_angle
-        
+        angle_errors = torch.normal(mean=max_angle, std=max_angle/5, size=(num_envs,), device=self.device)
         # Начальная ориентация робота
-        direction_to_goal = self.shift_pos(env_ids, self.goal_local_pos, terrain_origins) - self.robot_pos[env_ids]
+        goal_global_pos = self.shift_pos(env_ids, self.goal_local_pos, terrain_origins)
+        direction_to_goal = goal_global_pos - self.robot_pos[env_ids]
         yaw = torch.atan2(direction_to_goal[:, 1], direction_to_goal[:, 0])
-        self.robot_yaw[env_ids] = yaw + angle_errors * random_sign
-        
+
+        # print(env_ids)
+        # print(self.robot_pos[env_ids])
+        # print(goal_global_pos[env_ids])
+        self.config_env_episode["dist_error"][env_ids] = torch.norm(self.robot_pos[env_ids] - goal_global_pos[env_ids], dim=1)
+        self.config_env_episode["angle_error"][env_ids] = angle_errors
+
+        # Порог для близости (выберите значение по задаче)
+        angle_threshold = max(math.pi/18, 0.1 * max_angle)  # например, 10% от max_angle
+        dist_threshold = max(0.1, 0.1 * mean_radius)  # например, 10% от mean_radius
+        angle_close = torch.abs(self.config_env_episode["angle_error"][env_ids] - max_angle) <= angle_threshold
+        dist_close = torch.abs(self.config_env_episode["dist_error"][env_ids] - self.base_radius - mean_radius) <= dist_threshold
+        self.config_env_episode["relevant"][env_ids] = angle_close & dist_close
         # Возвращаем данные для симуляции
+        self.robot_yaw[env_ids] = yaw + angle_errors * random_sign
         quaternion = torch.zeros((num_envs, 4), device=self.device)
         quaternion[:, 0] = torch.cos(self.robot_yaw[env_ids] / 2.0)  # w
         quaternion[:, 3] = torch.sin(self.robot_yaw[env_ids] / 2.0)  # z
         
-        return self.robot_pos[env_ids], quaternion, self.shift_pos(env_ids, self.goal_local_pos, terrain_origins)
+        return self.robot_pos[env_ids], quaternion, goal_global_pos
+
+    def get_relevant_env(self):
+        return torch.where(self.config_env_episode["relevant"])[0]
+
 
     def generate_obstacle_positions(self, mess=False, env_ids=None, terrain_origins=None, min_num_active=0, max_num_active=None, mean_obs_rad=4,selected_indices=None):
         """

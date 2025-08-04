@@ -40,7 +40,6 @@ import datetime
 ##
 from isaaclab_assets.robots.aloha import ALOHA_CFG
 from isaaclab.markers import CUBOID_MARKER_CFG
-from transformers import CLIPProcessor, CLIPModel
 
 class WheeledRobotEnvWindow(BaseEnvWindow):
     def __init__(self, env: 'WheeledRobotEnv', window_name: str = "IsaacLab"):
@@ -133,17 +132,17 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
         filter_prim_paths_expr=["/World/envs/env_.*"],
     )
 
-    # table = sim_utils.UsdFileCfg(
-    #     usd_path="/home/xiso/Downloads/assets/scenes/scenes_sber_kitchen_for_BBQ/table/table2.usd",
-    #     rigid_props=sim_utils.RigidBodyPropertiesCfg(
-    #         disable_gravity=True,
-    #         kinematic_enabled=True,
-    #         rigid_body_enabled=True,
-    #     ),
-    #     collision_props=sim_utils.CollisionPropertiesCfg(
-    #         collision_enabled=True,
-    #     ),
-    # )
+    table = sim_utils.UsdFileCfg(
+        usd_path="/home/xiso/Downloads/assets/scenes/scenes_sber_kitchen_for_BBQ/table/table2.usd",
+        rigid_props=sim_utils.RigidBodyPropertiesCfg(
+            disable_gravity=True,
+            kinematic_enabled=True,
+            rigid_body_enabled=True,
+        ),
+        collision_props=sim_utils.CollisionPropertiesCfg(
+            collision_enabled=True,
+        ),
+    )
 
     # Конфигурация миски (цели)
     bowl = sim_utils.UsdFileCfg(
@@ -177,6 +176,9 @@ class WheeledRobotEnv(DirectRLEnv):
 
         self.set_debug_vis(self.cfg.debug_vis)
         self.Debug = True
+        self.event_history = torch.zeros((self.num_envs, 50), dtype=torch.float, device=self.device)
+        self.event_history_index = 0
+        self.event_history_filled = False
         self.event_update_counter = 0
         self.episode_counter = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
         self.success_counter = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
@@ -224,16 +226,10 @@ class WheeledRobotEnv(DirectRLEnv):
         self.transform = transforms.Compose([
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
         ])
-        self.success_rate = 0
-        self.episode_completion_history = torch.zeros((self.num_envs*4, self.num_envs), dtype=torch.bool, device=self.device)
-        self.success_history = torch.zeros((self.num_envs*4, self.num_envs), dtype=torch.bool, device=self.device)
-        self.history_index = 0
-        self.history_len = torch.zeros(self.num_envs, device=self.device)
+        self.success_rate = 100
         self._step_update_counter = 0
-        self.mean_radius = 0.7
-        self.max_angle_error = torch.pi / 6
-        self.cur_angle_error = torch.pi / 6
-        self.warm = True
+        self.mean_radius = 0.2
+        self.max_angle = torch.pi / 5
         self._obstacle_update_counter = 0
         self.has_contact = torch.full((self.num_envs,), True, dtype=torch.bool, device=self.device)
         self.level = 0
@@ -241,7 +237,7 @@ class WheeledRobotEnv(DirectRLEnv):
         self.sim = SimulationContext.instance()
         self.obstacle_positions = None
         self.key = None
-        self.success_ep_num = 0
+        self.sucess_ep_num = 0
         # self.run = wandb.init(project="aloha_direct")
         self.first_ep = True
         self.first_ep_step = 0
@@ -255,16 +251,12 @@ class WheeledRobotEnv(DirectRLEnv):
         self.tensorboard_step = 0
         self.print_config_info()
 
-        self.clip_model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").to(self.device)
-        self.clip_processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
-        self.clip_model.eval()  # Установить в режим оценки
-
     def print_config_info(self):
         print("__________[ CONGIFG INFO ]__________")
         print(f"|")
         print(f"| Start mean radius is: {self.mean_radius}")
         print(f"|")
-        print(f"| Start amx angle is: {self.max_angle_error}")
+        print(f"| Start amx angle is: {self.max_angle}")
         print(f"|")
         print(f"| Use controller: {self.use_controller}")
         print(f"|")
@@ -303,12 +295,12 @@ class WheeledRobotEnv(DirectRLEnv):
             orientation=(0.0, 0.0, 0.0, 1.0),
         )
         # Спавн стола
-        # spawn_from_usd(
-        #     prim_path="/World/envs/env_.*/Table",
-        #     cfg=self.cfg.table,
-        #     translation=(-4.5, 0.0, 0.0),  # Стол в центре локальной системы
-        #     orientation=(0.7071, 0.0, 0.0, 0.7071),
-        # )
+        spawn_from_usd(
+            prim_path="/World/envs/env_.*/Table",
+            cfg=self.cfg.table,
+            translation=(-4.5, 0.0, 0.0),  # Стол в центре локальной системы
+            orientation=(0.7071, 0.0, 0.0, 0.7071),
+        )
         goal_pos = (-4.5, 0, 0.65)  # z=0.8 для поверхности стола
         spawn_from_usd(
             prim_path="/World/envs/env_.*/Bowl",
@@ -321,7 +313,7 @@ class WheeledRobotEnv(DirectRLEnv):
         for env_id in range(self.cfg.scene.num_envs):
             for prim_path in [
                 f"/World/envs/env_{env_id}/Kitchen",
-                # f"/World/envs/env_{env_id}/Table",
+                f"/World/envs/env_{env_id}/Table",
                 f"/World/envs/env_{env_id}/Bowl",
             ]:
                 prim = stage.GetPrimAtPath(prim_path)
@@ -357,33 +349,33 @@ class WheeledRobotEnv(DirectRLEnv):
     def _get_observations(self) -> dict:
         self.tensorboard_step += 1
         self.episode_lengths += 1
-        
-        # Получение RGB изображений с камеры
-        camera_data = self._tiled_camera.data.output["rgb"].clone()  # Shape: (num_envs, 224, 224, 3)
-        
-        # Преобразование изображений для CLIP
-        # CLIP ожидает изображения в формате PIL или тензоры с правильной нормализацией
-        images = camera_data.cpu().numpy().astype(np.uint8)  # Конвертация в numpy uint8
-        inputs = self.clip_processor(images=images, return_tensors="pt", padding=True).to(self.device)
-        
-        # Получение эмбеддингов изображений
-        with torch.no_grad():
-            image_embeddings = self.clip_model.get_image_features(**inputs)  # Shape: (num_envs, 512)
-        
-        # Получение скоростей робота
         root_lin_vel_w = torch.norm(self._robot.data.root_lin_vel_w[:, :2], dim=1).unsqueeze(-1)
         root_ang_vel_w = self._robot.data.root_ang_vel_w[:, 2].unsqueeze(-1)
-        
-        # Обновление памяти, если используется
+        # Get RGB images from the tiled camera
+        camera_data = self._tiled_camera.data.output["rgb"].clone() / 255.0  # Shape: (num_envs, 224, 224, 3)
+        # Reshape and transpose to (num_envs, 3, 224, 224) for ResNet18
+        camera_data = camera_data.permute(0, 3, 1, 2).to(self.device)
+        # Apply ImageNet normalization
+        camera_data = self.transform(camera_data)
+
+        # Pass through ResNet18 to get embeddings
+        with torch.no_grad():
+            embeddings = self.resnet18(camera_data).squeeze(-1).squeeze(-1)  # Shape: (num_envs, 512)
+        # obs = torch.cat([embeddings, root_lin_vel_w, root_ang_vel_w], dim=-1)
+        # Обновляем историю эмбеддингов и действий
         if self.memory_on:
             velocities = torch.cat([root_lin_vel_w, root_ang_vel_w], dim=-1)
-            self.memory_manager.update(image_embeddings, velocities)
+            self.memory_manager.update(embeddings, velocities)  # self._actions из _pre_physics_step
+
+            # Получаем m эмбеддингов и действий с частотой k
             memory_data = self.memory_manager.get_observations()  # Shape: (num_envs, m * (512 + 2))
+
+            # Объединяем с линейной и угловой скоростью
             obs = torch.cat([memory_data], dim=-1)
         else:
-            obs = torch.cat([image_embeddings, root_lin_vel_w, root_ang_vel_w], dim=-1)
-        
+            obs = torch.cat([embeddings, root_lin_vel_w, root_ang_vel_w], dim=-1)
         observations = {"policy": obs}
+        
         return observations
 
     # The rest of the methods (_pre_physics_step, _apply_action, _get_rewards, etc.) remain unchanged
@@ -394,7 +386,6 @@ class WheeledRobotEnv(DirectRLEnv):
         r = self.cfg.wheel_radius
         L = self.cfg.wheel_distance
         self.my_episode_step += 1
-        self._step_update_counter += 1
         if self.turn_on_controller or self.imitation:
             self.turn_on_controller_step += 1
             # Получаем текущую ориентацию (yaw) из кватерниона
@@ -443,7 +434,7 @@ class WheeledRobotEnv(DirectRLEnv):
         goal_reached_reward_scale = 20.0
         num_subs_scale = 0.03
         goal_reached_reward = goal_reached.float() * goal_reached_reward_scale
-        moves = 5*(self.previous_distance_to_goal-distance_to_goal)
+        moves = 100*(self.previous_distance_to_goal-distance_to_goal)
         self.previous_distance_to_goal = distance_to_goal
 
         quat = self._robot.data.root_quat_w
@@ -475,22 +466,16 @@ class WheeledRobotEnv(DirectRLEnv):
         #reward = (-1 + goal_reached_reward + lin_vel_reward + ang_vel_reward + out_of_bounds_penalty + moves)
         has_contact = self.get_contact()
         # print("contact ", has_contact.long())
-        contact_penalty = -15 * has_contact.long()
+        contact_penalty = -10 * has_contact.long()
         num_subs_reward = num_subs * num_subs_scale
         IL_reward = 0
         if self.turn_on_controller:
             IL_reward = 0.3
-        time_out = self.is_time_out(self.my_episode_lenght-1)
+        time_out = self.is_time_out()
         time_out_penalty = -5 * time_out.float()
         
-        reward = (-0.05 + goal_reached_reward + contact_penalty + time_out_penalty)
-        if torch.any(has_contact) or torch.any(goal_reached) or torch.any(time_out):
-            sr = self.update_success_rate()
-            # print("sr: ", sr)
-        #     print("reward ", reward)
-        #     print("goal_reached ", goal_reached)
-        #     print("has_contact ", has_contact)
-        #     print("time_out ", time_out)
+        reward = (-0.01 + goal_reached_reward + contact_penalty + time_out_penalty)
+        # print("reward ", reward)
         check = {
             "moves":moves,
             "contact_penalty": contact_penalty,
@@ -532,7 +517,7 @@ class WheeledRobotEnv(DirectRLEnv):
         return torch.stack([rx_new, ry_new, rz_new], dim=1)
 
 
-    def goal_reached(self, distance_to_goal: torch.Tensor, angle_threshold: float = 10, get_num_subs=False) -> torch.Tensor:
+    def goal_reached(self, distance_to_goal: torch.Tensor, angle_threshold: float = 17, get_num_subs=False) -> torch.Tensor:
         """
         Проверяет достижение цели с учётом расстояния и направления взгляда робота.
         distance_to_goal: [N] расстояния до цели
@@ -569,7 +554,7 @@ class WheeledRobotEnv(DirectRLEnv):
 
         # Вычисляем угол между векторами
         angle = torch.acos(cos_angle)
-        angle_degrees = torch.abs(angle) * 180.0 / 3.141592653589793
+        angle_degrees = angle * 180.0 / 3.141592653589793
         # Проверяем, что угол меньше порога
         facing_goal = angle_degrees < angle_threshold
 
@@ -611,44 +596,33 @@ class WheeledRobotEnv(DirectRLEnv):
         #     print("high_contact_envs ", high_contact_envs)
         return high_contact_envs
 
-    def update_SR_history(self):
-        self.episode_completion_history = torch.zeros((self.num_envs*4, self.num_envs), dtype=torch.bool, device=self.device)
-        self.success_history = torch.zeros((self.num_envs*4, self.num_envs), dtype=torch.bool, device=self.device)
-        self.history_index = 0
-        self.history_len = torch.zeros(self.num_envs, device=self.device)
-
     def update_success_rate(self) -> torch.Tensor:
         # Сохраняем историю завершенных эпизодов за последние 100 шагов
         if self.turn_on_controller:
             return self.success_rate
+        self.episode_completion_history = getattr(self, 'episode_completion_history', torch.zeros((100, self.num_envs), dtype=torch.bool, device=self.device))
+        self.success_history = getattr(self, 'success_history', torch.zeros((100, self.num_envs), dtype=torch.bool, device=self.device))
+        self.history_index = getattr(self, 'history_index', 0)
+
         # Обновляем историю при завершении эпизодов
-        died, time_out = self._get_dones(self.my_episode_lenght-1,inner=True)
+        died, time_out = self._get_dones()
         completed = died | time_out
-        # print("completed ", completed)
         if torch.any(completed):
             self.episode_completion_history[self.history_index] = completed
             self.success_history[self.history_index] = self.goal_reached(torch.linalg.norm(self._desired_pos_w[:, :2] - self._robot.data.root_pos_w[:, :2], dim=1))
             self.history_index = (self.history_index + 1) % 100
-            self.history_len[completed] += 1
-        # print("history_len ", self.history_len)
+        
         # Считаем общее количество завершенных эпизодов и успешных за последние 100 шагов
         total_completed = self.episode_completion_history.float().sum(dim=0).clamp(min=1)  # Избегаем деления на 0
         total_success = self.success_history.float().sum(dim=0)
 
-        relevant_env_ids = self.scene_manager.get_relevant_env()  # Предположим, что возвращает тензор индексов
-        # print("relevant_env_ids", relevant_env_ids)
-        # Берём slice только по релевантным средам
-        total_completed_rel = total_completed[relevant_env_ids]
-        total_success_rel = total_success[relevant_env_ids]
+        # Процент успеха для каждой среды
+        success_rate = (total_success / total_completed) * 100.0
+        self.success_rate = torch.mean(success_rate).item()
+        return success_rate
 
-        # Считаем процент успеха только для релевантных сред
-        success_rate_rel = (total_success_rel / total_completed_rel) * 100.0
-
-        self.success_rate = torch.mean(success_rate_rel).item()  # Средний успех среди релевантных сред
-        return success_rate_rel
-
-    def _get_dones(self, my_episode_lenght = 256, inner=False) -> tuple[torch.Tensor, torch.Tensor]:
-        time_out = self.is_time_out(my_episode_lenght)
+    def _get_dones(self) -> tuple[torch.Tensor, torch.Tensor]:
+        time_out = self.is_time_out()
         root_pos_w = self._robot.data.root_pos_w[:, :2]
         distance_to_goal = torch.linalg.norm(self._desired_pos_w[:, :2] - root_pos_w, dim=1)
         
@@ -663,17 +637,16 @@ class WheeledRobotEnv(DirectRLEnv):
             self.episode_counter += died.long()
             self.success_counter += goal_reached.long()
             self.event_update_counter += torch.sum(died).item()
-        
-        if not inner:
-            self.episode_length_buf[died] = 0
-        # print("died ", time_out, self.episode_length_buf)
+            # print("died ", died, goal_reached, time_out)
+        self.episode_length_buf[died] = 0
         return died, time_out
     
-    def is_time_out(self, max_episode_length=256):
-        time_out = self.episode_length_buf >= max_episode_length
+    def is_time_out(self):
+        time_out = self.episode_length_buf >= 512 - 1
         return time_out
 
     def _reset_idx(self, env_ids: torch.Tensor | None):
+        self.update_success_rate()
         if self.turn_on_controller_step > self.my_episode_lenght and self.turn_on_controller:
             self.turn_on_controller_step = 0
             self.turn_on_controller = False
@@ -705,7 +678,7 @@ class WheeledRobotEnv(DirectRLEnv):
         self._desired_pos_w[env_ids, :2] = self._terrain.env_origins[env_ids, :2]
         min_radius_x = torch.tensor([1.1]) #((self.level + 1.5 + 0.2) * int(self.level > 0) + 1)**2 + 3**2])
         min_radius = torch.sqrt(min_radius_x)[0]
-        robot_pos, quaternion, goal_pos = self.scene_manager.reset(env_ids, self._terrain.env_origins, self.mean_radius, min_radius, self.cur_angle_error)
+        robot_pos, quaternion, goal_pos = self.scene_manager.reset(env_ids, self._terrain.env_origins, self.mean_radius, min_radius, self.max_angle)
         # print("i'm in path_manager")
         if self.turn_on_controller or self.imitation:
             if self.turn_on_controller_step == 0:
@@ -765,41 +738,31 @@ class WheeledRobotEnv(DirectRLEnv):
         return pos[:, :2] - env_origins[env_ids, :2]
 
     def update_from_counters(self, env_ids: torch.Tensor):
-        k = 4 if self.cur_angle_error >= self.max_angle_error else 2
-        base = k*self.my_episode_lenght
-        # print("self.success_rate ", self.success_rate)
-        if self.warm and self._step_update_counter >= base:
-            self.warm = False
-            self.mean_radius = 0.1
-            self.cur_angle_error = 0
-            self._step_update_counter = 0
-        elif not self.warm:
-            if self._step_update_counter >= base and not self.turn_on_controller:
-                if self.success_rate >= 90:
-                    self.success_ep_num += 1
-                    self.foult_ep_num = 0
-                    if self.success_ep_num > 5:
-                        self.success_ep_num = 0
-                        print("success_rate, self._step_update_counter: ", self.success_rate, self._step_update_counter)
-                        self.num_update_level += 0.1
-                        self.cur_angle_error += self.max_angle_error / 2
-                        if self.cur_angle_error > self.max_angle_error:
-                            self.cur_angle_error = 0
-                            self.mean_radius += 0.3
-                        self._step_update_counter = 0
-                        print("udate [ UP ] r,a: ", self.mean_radius, self.cur_angle_error)
-                elif self._step_update_counter >= 6 * self.my_episode_lenght and self.success_rate <= 70:
-                    print("success_rate, self._step_update_counter: ", self.success_rate, self._step_update_counter)
-                    self.foult_ep_num += 1
-                    self.success_ep_num = 0
-                    if self.foult_ep_num > 5:
-                        self.foult_ep_num = 0
-                        self.num_update_level += -0.1
-                        self.mean_radius += -0.1
-                        self._step_update_counter = 0
-                        print("udate [ DOWN ] r,a: ", self.mean_radius, self.cur_angle_error)
+        if self._step_update_counter >= self.my_episode_lenght and not self.turn_on_controller:
+            if self.success_rate >= 90:
+                # self.sucess_ep_num += 1
+                # if self.sucess_ep_num > 5:
+                #     self.sucess_ep_num = 0
+                print("success_rate, self._step_update_counter: ", self.success_rate, self._step_update_counter)
+                self.num_update_level += 0.1
+                # self.max_angle += torch.pi / 8
+                # if self.max_angle > torch.pi / 4:
+                #     self.max_angle = torch.pi / 4
+                self.mean_radius += 0.3
+                self._step_update_counter = 0
+                print("udate [ UP ] r,a: ", self.mean_radius, self.max_angle)
+            elif self._step_update_counter >= 3 * self.my_episode_lenght and self.success_rate <= 70:
+                print("success_rate, self._step_update_counter: ", self.success_rate, self._step_update_counter)
+                self.num_update_level += -0.1
+                # self.max_angle += torch.pi / 8
+                # if self.max_angle > torch.pi / 4:
+                #     self.max_angle = torch.pi / 4
+                self.mean_radius += -0.1
+                self._step_update_counter = 0
+                print("udate [ DOWN ] r,a: ", self.mean_radius, self.max_angle)
 
         self._obstacle_update_counter += 1
+        self._step_update_counter += 1
         return None
 
     def _set_debug_vis_impl(self, debug_vis: bool):

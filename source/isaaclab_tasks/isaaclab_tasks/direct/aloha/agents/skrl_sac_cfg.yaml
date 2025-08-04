@@ -11,72 +11,68 @@ models:
     clip_log_std: True
     min_log_std: -5.0
     max_log_std: 2.0
-    initial_log_std: 0.0
+    initial_log_std: 0.2
     network:
       - name: net
         input: STATES
-        layers: [512, 256]
-        activations: relu
+        layers: [512]
+        activations: elu
     output: tanh(ACTIONS)
   critic_1:  # see deterministic_model parameters
     class: DeterministicMixin
-    clip_actions: True
+    clip_actions: False
     network:
       - name: net
         input: STATES_ACTIONS
-        layers: [512, 256]
+        layers: [512]
         activations: relu
     output: ONE
   critic_2:  # see deterministic_model parameters
     class: DeterministicMixin
-    clip_actions: True
+    clip_actions: False
     network:
       - name: net
         input: STATES_ACTIONS
         layers: [512, 256]
-        activations: relu
+        activations: elu
     output: ONE
   target_critic_1:  # see deterministic_model parameters
     class: DeterministicMixin
-    clip_actions: True
+    clip_actions: False
     network:
       - name: net
         input: STATES_ACTIONS
-        layers: [512, 256]
+        layers: [512]
         activations: relu
     output: ONE
   target_critic_2:  # see deterministic_model parameters
     class: DeterministicMixin
-    clip_actions: True
+    clip_actions: False
     network:
       - name: net
         input: STATES_ACTIONS
         layers: [512, 256]
-        activations: relu
+        activations: elu
     output: ONE
 
 memory:
   class: RandomMemory
-  memory_size: 15625
+  memory_size: 1024
 
 agent:
   class: SAC
-  gradient_steps: 10
-  batch_size: 1024
+  gradient_steps: 4
+  batch_size: 256
 
   discount_factor: 0.99
   polyak: 0.005
 
-  actor_learning_rate: 5.0e-04
-  critic_learning_rate: 5.0e-04
-
-  random_timesteps: 1000
-  learning_starts: 1000
+  random_timesteps: 1024
+  learning_starts: 1024
 
   grad_norm_clip: 0
 
   learn_entropy: True
-  entropy_learning_rate: 5.0e-03
   initial_entropy_value: 1
   activate_contact_sensors: True
   state_preprocessor: RunningStandardScaler
@@ -98,13 +94,13 @@ agent:
   experiment:
     directory:  'aloha'
     experiment_name: 'SAC'
-    write_interval: auto
-    checkpoint_interval: 500
+    write_interval: 200
+    checkpoint_interval: 1000
 
 
 # Sequential trainer
 # https://skrl.readthedocs.io/en/latest/api/trainers/sequential.html
 trainer:
   class: SequentialTrainer
-  timesteps: 25000
+  timesteps: 100000
   environment_info: log
