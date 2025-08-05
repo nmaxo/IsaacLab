@@ -258,6 +258,7 @@ class WheeledRobotEnv(DirectRLEnv):
         self.clip_model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").to(self.device)
         self.clip_processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
         self.clip_model.eval()  # Установить в режим оценки
+        self.second_try = False
 
     def print_config_info(self):
         print("__________[ CONGIFG INFO ]__________")
@@ -765,7 +766,7 @@ class WheeledRobotEnv(DirectRLEnv):
         return pos[:, :2] - env_origins[env_ids, :2]
 
     def update_from_counters(self, env_ids: torch.Tensor):
-        k = 4 if self.cur_angle_error >= self.max_angle_error else 2
+        k = 4 if self.cur_angle_error >= self.max_angle_error and not self.second_try else 2
         base = k*self.my_episode_lenght
         # print("self.success_rate ", self.success_rate)
         if self.warm and self._step_update_counter >= base:
@@ -778,26 +779,34 @@ class WheeledRobotEnv(DirectRLEnv):
                 if self.success_rate >= 90:
                     self.success_ep_num += 1
                     self.foult_ep_num = 0
-                    if self.success_ep_num > 5:
+                    if self.success_ep_num > 50:
+                        self.second_try = False
                         self.success_ep_num = 0
-                        print("success_rate, self._step_update_counter: ", self.success_rate, self._step_update_counter)
                         self.num_update_level += 0.1
+                        old_mr = self.mean_radius
+                        old_a = self.cur_angle_error
                         self.cur_angle_error += self.max_angle_error / 2
+                        print("sr: ", self.success_rate)
                         if self.cur_angle_error > self.max_angle_error:
                             self.cur_angle_error = 0
                             self.mean_radius += 0.3
+                            print(f"udate [ UP ] r: from {round(old_mr, 2)} to {round(self.mean_radius, 2)}")
+                        else:
+                            print(f"udate [ UP ] r: {round(self.mean_radius, 2)} a: from {round(old_a, 2)} to {round(self.cur_angle_error, 2)}")
                         self._step_update_counter = 0
-                        print("udate [ UP ] r,a: ", self.mean_radius, self.cur_angle_error)
-                elif self._step_update_counter >= 6 * self.my_episode_lenght and self.success_rate <= 70:
-                    print("success_rate, self._step_update_counter: ", self.success_rate, self._step_update_counter)
+                elif self.success_rate <= 70 or self._step_update_counter >= 20 * self.my_episode_lenght:
                     self.foult_ep_num += 1
-                    self.success_ep_num = 0
-                    if self.foult_ep_num > 5:
+                    if self.foult_ep_num > 100:
+                        self.success_ep_num = 0
+                        self.second_try = True
+                        self.cur_angle_error = 0
                         self.foult_ep_num = 0
                         self.num_update_level += -0.1
+                        old_mr = self.mean_radius
                         self.mean_radius += -0.1
                         self._step_update_counter = 0
-                        print("udate [ DOWN ] r,a: ", self.mean_radius, self.cur_angle_error)
+                        print("sr: ", self.success_rate)
+                        print(f"udate [ DOWN ] r: from {round(old_mr, 2)} to {round(self.mean_radius, 2)}, a: {round(self.cur_angle_error, 2)}")
 
         self._obstacle_update_counter += 1
         return None
