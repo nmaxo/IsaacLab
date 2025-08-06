@@ -230,7 +230,7 @@ class WheeledRobotEnv(DirectRLEnv):
         self.history_index = 0
         self.history_len = torch.zeros(self.num_envs, device=self.device)
         self._step_update_counter = 0
-        self.mean_radius = 2.5
+        self.mean_radius = 0.7
         self.max_angle_error = torch.pi / 6
         self.cur_angle_error = torch.pi / 6
         self.warm = True
