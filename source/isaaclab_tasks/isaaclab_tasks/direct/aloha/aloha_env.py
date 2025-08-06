@@ -96,7 +96,7 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
         # ),
         debug_vis=False,
     )
-    scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=64, env_spacing=20, replicate_physics=True)
+    scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=64, env_spacing=15, replicate_physics=True)
     robot: ArticulationCfg = ALOHA_CFG.replace(prim_path="/World/envs/env_.*/Robot")
     wheel_radius = 0.068
     wheel_distance = 0.34
@@ -230,14 +230,12 @@ class WheeledRobotEnv(DirectRLEnv):
         self.history_index = 0
         self.history_len = torch.zeros(self.num_envs, device=self.device)
         self._step_update_counter = 0
-        self.mean_radius = 0.7
+        self.mean_radius = 2.5
         self.max_angle_error = torch.pi / 6
         self.cur_angle_error = torch.pi / 6
         self.warm = True
         self._obstacle_update_counter = 0
         self.has_contact = torch.full((self.num_envs,), True, dtype=torch.bool, device=self.device)
-        self.level = 0
-        self.num_update_level = 0
         self.sim = SimulationContext.instance()
         self.obstacle_positions = None
         self.key = None
@@ -253,12 +251,18 @@ class WheeledRobotEnv(DirectRLEnv):
         self.total_episode_length = 0.0
         # self.tensorboard_writer = SummaryWriter(log_dir=f"/home/xiso/IsaacLab/logs/tensorboard/navigation_rl_{name}_{timestamp}")
         self.tensorboard_step = 0
+        self.cur_step = 0
         self.print_config_info()
 
         self.clip_model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").to(self.device)
         self.clip_processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
         self.clip_model.eval()  # Установить в режим оценки
-        self.second_try = False
+        self.second_try = 0
+
+        # Инициализация стеков для хранения успехов (1 - успех, 0 - неуспех)
+        self.success_stacks = [[] for _ in range(self.num_envs)]  # Список списков для каждой среды
+        self.max_stack_size = 10  # Максимальный размер стека
+        self.sr_stack_full = False
 
     def print_config_info(self):
         print("__________[ CONGIFG INFO ]__________")
@@ -357,6 +361,7 @@ class WheeledRobotEnv(DirectRLEnv):
 
     def _get_observations(self) -> dict:
         self.tensorboard_step += 1
+        self.cur_step += 1
         self.episode_lengths += 1
         
         # Получение RGB изображений с камеры
@@ -619,34 +624,72 @@ class WheeledRobotEnv(DirectRLEnv):
         self.history_len = torch.zeros(self.num_envs, device=self.device)
 
     def update_success_rate(self) -> torch.Tensor:
-        # Сохраняем историю завершенных эпизодов за последние 100 шагов
         if self.turn_on_controller:
-            return self.success_rate
-        # Обновляем историю при завершении эпизодов
-        died, time_out = self._get_dones(self.my_episode_lenght-1,inner=True)
+            return torch.tensor(self.success_rate, device=self.device)
+        
+        # Получаем завершенные эпизоды
+        died, time_out = self._get_dones(self.my_episode_lenght - 1, inner=True)
         completed = died | time_out
-        # print("completed ", completed)
+        
         if torch.any(completed):
-            self.episode_completion_history[self.history_index] = completed
-            self.success_history[self.history_index] = self.goal_reached(torch.linalg.norm(self._desired_pos_w[:, :2] - self._robot.data.root_pos_w[:, :2], dim=1))
-            self.history_index = (self.history_index + 1) % 100
-            self.history_len[completed] += 1
-        # print("history_len ", self.history_len)
-        # Считаем общее количество завершенных эпизодов и успешных за последние 100 шагов
-        total_completed = self.episode_completion_history.float().sum(dim=0).clamp(min=1)  # Избегаем деления на 0
-        total_success = self.success_history.float().sum(dim=0)
-
-        relevant_env_ids = self.scene_manager.get_relevant_env()  # Предположим, что возвращает тензор индексов
-        # print("relevant_env_ids", relevant_env_ids)
-        # Берём slice только по релевантным средам
-        total_completed_rel = total_completed[relevant_env_ids]
-        total_success_rel = total_success[relevant_env_ids]
-
-        # Считаем процент успеха только для релевантных сред
-        success_rate_rel = (total_success_rel / total_completed_rel) * 100.0
-
-        self.success_rate = torch.mean(success_rate_rel).item()  # Средний успех среди релевантных сред
-        return success_rate_rel
+            # Получаем релевантные среды среди завершенных
+            relevant_env_ids = self.scene_manager.get_relevant_env()
+            # Фильтруем завершенные среды, оставляя только релевантные
+            # print("completed ", completed)
+            # print("relevant_env_ids ", relevant_env_ids)
+            # print("self._robot._ALL_INDICES ", self._robot._ALL_INDICES)
+            # print("self._robot._ALL_INDICES[completed] ", self._robot._ALL_INDICES[completed])
+            relevant_completed = relevant_env_ids[(relevant_env_ids.view(1, -1) == self._robot._ALL_INDICES[completed].view(-1, 1)).any(dim=0)] #torch.intersect1d(self._robot._ALL_INDICES[completed], relevant_env_ids)
+            # print("                      ")
+            # print("                      ")
+            # print("died", died)
+            # print("time_out", time_out)
+            # print("completed ", completed)
+            # print("_robot._ALL_INDICES[completed] ", self._robot._ALL_INDICES[completed])
+            # print("relevant_completed ", relevant_completed)
+            if len(relevant_completed) > 0:
+                # Вычисляем успехи для релевантных завершенных сред
+                distance_to_goal = torch.linalg.norm(self._desired_pos_w[:, :2] - self._robot.data.root_pos_w[:, :2], dim=1)
+                # print("distance_to_goal ", distance_to_goal)
+                success = self.goal_reached(distance_to_goal)
+                # print("sucess, ", success)
+                # Обновляем стеки для релевантных завершенных сред
+                for env_id in self._robot._ALL_INDICES[completed]:
+                    env_id = env_id.item()
+                    if success[env_id] == False:
+                        self.success_stacks[env_id].append(0)
+                    elif env_id in relevant_completed:
+                        self.success_stacks[env_id].append(1)
+                    
+                    if len(self.success_stacks[env_id]) > self.max_stack_size:
+                        self.success_stacks[env_id].pop(0)
+            # print("self.success_stacks ", self.success_stacks)
+        # Вычисляем процент успеха для всех сред с непустыми стеками
+        # Подсчитываем общий процент успеха по всем релевантным средам
+        total_successes = 0
+        total_elements = 0
+        # print(self.success_stacks)
+        for env_id in range(self.num_envs):
+            stack = self.success_stacks[env_id]
+            if len(stack) == 0:
+                continue
+            total_successes += sum(stack)
+            total_elements += len(stack)
+        
+        # Вычисляем процент успеха
+        # print("total_successes ", total_successes, total_elements)
+        if total_elements > 0:
+            self.success_rate = (total_successes / total_elements) * 100.0
+        else:
+            self.success_rate = 0.0
+        if total_elements > self.num_envs * 5:
+            self.sr_stack_full = True
+        # print(success_rates, self.success_rate)
+        return self.success_rate
+    
+    def update_sr_stack(self):
+        self.success_stacks = [[] for _ in range(self.num_envs)]  # Список списков для каждой среды
+        self.sr_stack_full = False
 
     def _get_dones(self, my_episode_lenght = 256, inner=False) -> tuple[torch.Tensor, torch.Tensor]:
         time_out = self.is_time_out(my_episode_lenght)
@@ -685,10 +728,8 @@ class WheeledRobotEnv(DirectRLEnv):
             prob = lambda x: torch.rand(1).item() <= x
             self.turn_on_controller = prob(0.01*max(10, min(30, 100 - self.success_rate))) #torch.clamp(1 - self.success_rate, min=10.0, max=60.0)
             print(f"turn controller: {self.turn_on_controller} with SR {self.success_rate}")
-
-        if env_ids is None or len(env_ids) == self.num_envs or len(self.scene_manager.get_selected_indices()) < self.num_envs:
+        if env_ids is None or len(env_ids) == self.num_envs:# or len(self.scene_manager.get_selected_indices()) < self.num_envs:
             env_ids = self._robot._ALL_INDICES
-        # print("env_ids: ", env_ids)
         if self.use_obstacles:
             self._update_chairs(env_ids)
         self.update_from_counters(env_ids)
@@ -697,14 +738,13 @@ class WheeledRobotEnv(DirectRLEnv):
         final_distance_to_goal = torch.linalg.norm(
             self._desired_pos_w[env_ids, :2] - self._robot.data.root_pos_w[env_ids, :2], dim=1
         ).mean()
-
         self._robot.reset(env_ids)
         super()._reset_idx(env_ids) #maybe this shuld be the first
         if len(env_ids) == self.num_envs:
             self.episode_length_buf = torch.zeros_like(self.episode_length_buf) #, high=int(self.max_episode_length))
         self._actions[env_ids] = 0.0
         self._desired_pos_w[env_ids, :2] = self._terrain.env_origins[env_ids, :2]
-        min_radius_x = torch.tensor([1.1]) #((self.level + 1.5 + 0.2) * int(self.level > 0) + 1)**2 + 3**2])
+        min_radius_x = torch.tensor([1.1])
         min_radius = torch.sqrt(min_radius_x)[0]
         robot_pos, quaternion, goal_pos = self.scene_manager.reset(env_ids, self._terrain.env_origins, self.mean_radius, min_radius, self.cur_angle_error)
         # print("i'm in path_manager")
@@ -732,7 +772,21 @@ class WheeledRobotEnv(DirectRLEnv):
         # print("in reset robot pose ", robot_pos, goal_pos)
         self._desired_pos_w[env_ids, :2] = goal_pos
         self._desired_pos_w[env_ids, 2] = 0.6
-        
+        if self.tensorboard_step > 500:
+            self.tensorboard_step = 0
+            print("Custom/success_rate", self.success_rate)
+            print("Custom/counter", self._step_update_counter)
+        # self.logger.record("Custom/sucess_rate", self.success_rate)
+        # self.logger.record("Custom/radius", self.mean_radius)
+        # self.logger.record("Custom/angle", self.cur_angle_error)
+        # self.logger.record("Custom/counter", self.counter)
+        # extras["sucess_rate"] = self.success_rate
+        # extras["radius"] = self.mean_radius
+        # extras["angle"] = self.cur_angle_error
+        # extras["step update counter"] = self._step_update_counter
+        # print("self.extras ", self.extras)
+        # self.extras["Episode"].update(extras)
+
         joint_pos = self._robot.data.default_joint_pos[env_ids].clone()
         joint_vel = self._robot.data.default_joint_vel[env_ids].clone()
         default_root_state = self._robot.data.default_root_state[env_ids].clone()
@@ -766,47 +820,46 @@ class WheeledRobotEnv(DirectRLEnv):
         return pos[:, :2] - env_origins[env_ids, :2]
 
     def update_from_counters(self, env_ids: torch.Tensor):
-        k = 4 if self.cur_angle_error >= self.max_angle_error and not self.second_try else 2
+        k = 2 if self.cur_angle_error >= self.max_angle_error and self.mean_radius > self.second_try else 1
         base = k*self.my_episode_lenght
         # print("self.success_rate ", self.success_rate)
-        if self.warm and self._step_update_counter >= base:
+        if self.warm and self.cur_step >= 2048:
             self.warm = False
             self.mean_radius = 0.1
             self.cur_angle_error = 0
             self._step_update_counter = 0
-        elif not self.warm:
-            if self._step_update_counter >= base and not self.turn_on_controller:
-                if self.success_rate >= 90:
-                    self.success_ep_num += 1
-                    self.foult_ep_num = 0
-                    if self.success_ep_num > 50:
-                        self.second_try = False
-                        self.success_ep_num = 0
-                        self.num_update_level += 0.1
-                        old_mr = self.mean_radius
-                        old_a = self.cur_angle_error
-                        self.cur_angle_error += self.max_angle_error / 2
-                        print("sr: ", self.success_rate)
-                        if self.cur_angle_error > self.max_angle_error:
-                            self.cur_angle_error = 0
-                            self.mean_radius += 0.3
-                            print(f"udate [ UP ] r: from {round(old_mr, 2)} to {round(self.mean_radius, 2)}")
-                        else:
-                            print(f"udate [ UP ] r: {round(self.mean_radius, 2)} a: from {round(old_a, 2)} to {round(self.cur_angle_error, 2)}")
-                        self._step_update_counter = 0
-                elif self.success_rate <= 70 or self._step_update_counter >= 20 * self.my_episode_lenght:
-                    self.foult_ep_num += 1
-                    if self.foult_ep_num > 100:
-                        self.success_ep_num = 0
-                        self.second_try = True
+        elif not self.warm and self._step_update_counter >= base and not self.turn_on_controller and self.sr_stack_full:
+            if self.success_rate >= 90:
+                self.success_ep_num += 1
+                self.foult_ep_num = 0
+                if self.success_ep_num > 50:
+                    self.second_try = max(self.mean_radius, self.second_try)
+                    self.success_ep_num = 0
+                    old_mr = self.mean_radius
+                    old_a = self.cur_angle_error
+                    self.cur_angle_error += self.max_angle_error / 2
+                    print("sr: ", round(self.success_rate, 2))
+                    if self.cur_angle_error > self.max_angle_error:
                         self.cur_angle_error = 0
-                        self.foult_ep_num = 0
-                        self.num_update_level += -0.1
-                        old_mr = self.mean_radius
-                        self.mean_radius += -0.1
-                        self._step_update_counter = 0
-                        print("sr: ", self.success_rate)
-                        print(f"udate [ DOWN ] r: from {round(old_mr, 2)} to {round(self.mean_radius, 2)}, a: {round(self.cur_angle_error, 2)}")
+                        self.mean_radius += 0.3
+                        print(f"udate [ UP ] r: from {round(old_mr, 2)} to {round(self.mean_radius, 2)}")
+                    else:
+                        print(f"udate [ UP ] r: {round(self.mean_radius, 2)} a: from {round(old_a, 2)} to {round(self.cur_angle_error, 2)}")
+                    self._step_update_counter = 0
+                    self.update_sr_stack()
+            elif self.success_rate <= 50 or self._step_update_counter >= 4 * self.my_episode_lenght:
+                self.foult_ep_num += 1
+                if self.foult_ep_num > 1 * self.my_episode_lenght:
+                    self.success_ep_num = 0
+                    self.cur_angle_error = 0
+                    self.foult_ep_num = 0
+                    old_mr = self.mean_radius
+                    self.mean_radius += -0.1
+                    self.mean_radius = max(self.mean_radius, 0.1)
+                    self._step_update_counter = 0
+                    print("sr: ", round(self.success_rate, 2))
+                    print(f"udate [ DOWN ] r: from {round(old_mr, 2)} to {round(self.mean_radius, 2)}, a: {round(self.cur_angle_error, 2)}")
+                    self.update_sr_stack()
 
         self._obstacle_update_counter += 1
         return None
