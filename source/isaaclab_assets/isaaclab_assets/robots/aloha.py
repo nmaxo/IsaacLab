@@ -8,7 +8,17 @@
 import isaaclab.sim as sim_utils
 from isaaclab.actuators import ImplicitActuatorCfg
 from isaaclab.assets import ArticulationCfg
-
+import os
+# import importlib.util
+# def import_class_from_path(module_path, class_name):
+#     spec = importlib.util.spec_from_file_location("custom_module", module_path)
+#     module = importlib.util.module_from_spec(spec)
+#     spec.loader.exec_module(module)
+#     return getattr(module, class_name)
+current_dir = os.getcwd()
+# module_path = os.path.join(current_dir, "source/isaaclab_tasks/isaaclab_tasks/direct/aloha/asset_manager.py")
+# Asset_paths = import_class_from_path(module_path, "Asset_paths")
+# Asset_paths_manager = Asset_paths()
 ##
 # Configuration
 ##
@@ -19,7 +29,7 @@ damping_wheel_const = 10.6   # Демпфирование для управле�
 
 ALOHA_CFG = ArticulationCfg(
     spawn=sim_utils.UsdFileCfg(
-        usd_path=f"/home/xiso/Downloads/assets/assets/aloha/ALOHA_with_sensor_02.usd",
+        usd_path=os.path.join(current_dir, "source/isaaclab_assets/data/aloha_assets", "aloha/ALOHA_with_sensor_02.usd"),
         activate_contact_sensors=True,
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             rigid_body_enabled=True,

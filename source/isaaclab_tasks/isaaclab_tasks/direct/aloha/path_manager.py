@@ -2,9 +2,10 @@ import json
 import torch
 import os
 from pathlib import Path
+from .asset_manager import Asset_paths
 
 class Path_manager:
-    def __init__(self, scene_manager, log_dir: str, ratio: float = 4.0, shift: list = [5, 4], device: str = 'cpu'):
+    def __init__(self, scene_manager, ratio: float = 4.0, shift: list = [5, 4], device: str = 'cpu'):
         """
         Инициализирует менеджер путей для загрузки путей из all_paths.json и преобразования координат.
 
@@ -18,7 +19,8 @@ class Path_manager:
         self.ratio = ratio
         self.shift = torch.tensor(shift, device=device, dtype=torch.float32)
         self.all_paths = {}
-        self.log_dir = log_dir
+        Asset_path_manager = Asset_paths()
+        log_dir = Asset_path_manager.log_usd_path
         self.paths_file = os.path.join(log_dir, "all_paths.json")
         self._load_paths()
         self.scene_manager = scene_manager

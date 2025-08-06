@@ -31,6 +31,7 @@ from .scene_manager import Scene_manager
 from .control_manager import Control_module
 from .path_manager import Path_manager
 from .memory_manager import Memory_manager
+from .asset_manager import Asset_paths
 import omni.kit.commands
 import omni.usd
 import datetime
@@ -41,6 +42,7 @@ import datetime
 from isaaclab_assets.robots.aloha import ALOHA_CFG
 from isaaclab.markers import CUBOID_MARKER_CFG
 from transformers import CLIPProcessor, CLIPModel
+Asset_paths_manager = Asset_paths()
 
 class WheeledRobotEnvWindow(BaseEnvWindow):
     def __init__(self, env: 'WheeledRobotEnv', window_name: str = "IsaacLab"):
@@ -115,7 +117,7 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
         height=224,
     )
     kitchen = sim_utils.UsdFileCfg(
-        usd_path="/home/xiso/Downloads/assets/assets/scenes/scenes_sber_kitchen_for_BBQ/kitchen_new_simple.usd",
+        usd_path=Asset_paths_manager.kitchen_usd_path,
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             disable_gravity=True,
             kinematic_enabled=True,
@@ -134,7 +136,7 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
     )
 
     # table = sim_utils.UsdFileCfg(
-    #     usd_path="/home/xiso/Downloads/assets/scenes/scenes_sber_kitchen_for_BBQ/table/table2.usd",
+    #     usd_path=Asset_paths_manager.table_usd_path,
     #     rigid_props=sim_utils.RigidBodyPropertiesCfg(
     #         disable_gravity=True,
     #         kinematic_enabled=True,
@@ -147,7 +149,7 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
 
     # Конфигурация миски (цели)
     bowl = sim_utils.UsdFileCfg(
-        usd_path="/home/xiso/Downloads/assets/assets/objects/bowl.usd",
+        usd_path=Asset_paths_manager.bowl_usd_path,
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             disable_gravity=True,
             kinematic_enabled=True,  # Миска неподвижна
@@ -183,9 +185,10 @@ class WheeledRobotEnv(DirectRLEnv):
         self.step_counter = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
 
         self.scene_manager = Scene_manager(self.num_envs, self.device, num_obstacles=3)
-        self.path_manager = Path_manager(scene_manager=self.scene_manager, log_dir="/home/xiso/Downloads/IsaacLab/logs", ratio=8.0, shift=[5, 4], device=self.device)
-        self.control_module = Control_module(num_envs=self.num_envs, device=self.device)
-        
+        self.use_controller = False
+        if self.use_controller:
+            self.path_manager = Path_manager(scene_manager=self.scene_manager, ratio=8.0, shift=[5, 4], device=self.device)
+            self.control_module = Control_module(num_envs=self.num_envs, device=self.device)
         self.memory_on = False
         if self.memory_on:
             self.memory_manager = Memory_manager(
@@ -206,12 +209,8 @@ class WheeledRobotEnv(DirectRLEnv):
         self.my_episode_step = 0
         self.my_episode_lenght = 256
         self.turn_off_controller_step = 0
-        self.use_controller = False
         self.use_obstacles = False
         self.imitation = False
-        self._screenshot_dir = "/home/xiso/Downloads/IsaacLab/logs/camera_images/screenshots"
-        os.makedirs(self._screenshot_dir, exist_ok=True)
-
         self.previous_distance_to_goal = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
 
         # Initialize ResNet18 for image embeddings
@@ -225,6 +224,7 @@ class WheeledRobotEnv(DirectRLEnv):
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
         ])
         self.success_rate = 0
+        self.sr_stack_capacity = 0
         self.episode_completion_history = torch.zeros((self.num_envs*4, self.num_envs), dtype=torch.bool, device=self.device)
         self.success_history = torch.zeros((self.num_envs*4, self.num_envs), dtype=torch.bool, device=self.device)
         self.history_index = 0
@@ -261,7 +261,7 @@ class WheeledRobotEnv(DirectRLEnv):
 
         # Инициализация стеков для хранения успехов (1 - успех, 0 - неуспех)
         self.success_stacks = [[] for _ in range(self.num_envs)]  # Список списков для каждой среды
-        self.max_stack_size = 10  # Максимальный размер стека
+        self.max_stack_size = 15  # Максимальный размер стека
         self.sr_stack_full = False
 
     def print_config_info(self):
@@ -345,7 +345,7 @@ class WheeledRobotEnv(DirectRLEnv):
             chair_cfg = RigidObjectCfg(
                 prim_path=f"/World/envs/env_.*/Chair_{i}",  # Уникальный путь для каждого стула в каждой среде
                 spawn=sim_utils.UsdFileCfg(
-                    usd_path="/home/xiso/Downloads/assets/scenes/obstacles/chair2.usd",
+                    usd_path=Asset_paths_manager.chair_usd_path,
                     rigid_props=sim_utils.RigidBodyPropertiesCfg(
                         rigid_body_enabled=True,
                         kinematic_enabled=True,
@@ -678,11 +678,12 @@ class WheeledRobotEnv(DirectRLEnv):
         
         # Вычисляем процент успеха
         # print("total_successes ", total_successes, total_elements)
+        self.sr_stack_capacity = total_elements
         if total_elements > 0:
             self.success_rate = (total_successes / total_elements) * 100.0
         else:
             self.success_rate = 0.0
-        if total_elements > self.num_envs * 5:
+        if total_elements > self.num_envs * self.max_stack_size * 0.8:
             self.sr_stack_full = True
         # print(success_rates, self.success_rate)
         return self.success_rate
@@ -838,7 +839,7 @@ class WheeledRobotEnv(DirectRLEnv):
                     old_mr = self.mean_radius
                     old_a = self.cur_angle_error
                     self.cur_angle_error += self.max_angle_error / 2
-                    print("sr: ", round(self.success_rate, 2))
+                    print("sr: ", round(self.success_rate, 2), self.sr_stack_capacity)
                     if self.cur_angle_error > self.max_angle_error:
                         self.cur_angle_error = 0
                         self.mean_radius += 0.3
@@ -857,7 +858,7 @@ class WheeledRobotEnv(DirectRLEnv):
                     self.mean_radius += -0.1
                     self.mean_radius = max(self.mean_radius, 0.1)
                     self._step_update_counter = 0
-                    print("sr: ", round(self.success_rate, 2))
+                    print("sr: ", round(self.success_rate, 2), self.sr_stack_capacity)
                     print(f"udate [ DOWN ] r: from {round(old_mr, 2)} to {round(self.mean_radius, 2)}, a: {round(self.cur_angle_error, 2)}")
                     self.update_sr_stack()
 

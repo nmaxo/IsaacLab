@@ -57,7 +57,7 @@ models:
 
 memory:
   class: RandomMemory
-  memory_size: 10000
+  memory_size: 12000
 
 agent:
   class: SAC
@@ -67,7 +67,7 @@ agent:
   discount_factor: 0.99
   polyak: 0.005
 
-  random_timesteps: 0
+  random_timesteps: 2048
   learning_starts: 2048
 
   grad_norm_clip: 0

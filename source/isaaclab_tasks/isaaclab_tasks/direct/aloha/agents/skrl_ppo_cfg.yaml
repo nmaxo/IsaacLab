@@ -29,7 +29,7 @@ models:
 
 # Rollout memory, configured to match rl_games horizon_length
 memory:
-  class: RandomMemory
+  class: RandomMemory 
   memory_size: 32  # matches rl_games config.horizon_length: 32
 
 # PPO agent configuration, mapped from rl_games config
@@ -63,8 +63,8 @@ agent:
   experiment:
     directory: "aloha"  # matches rl_games config.name: aloha
     experiment_name: ""
-    write_interval: 25  # matches rl_games config.save_frequency: 25
-    checkpoint_interval: 50  # matches rl_games config.save_best_after: 50
+    write_interval: 200  # matches rl_games config.save_frequency: 25
+    checkpoint_interval: 500  # matches rl_games config.save_best_after: 50
 
 # Sequential trainer, mapped from rl_games config
 trainer:
