@@ -489,7 +489,7 @@ class WheeledRobotEnv(DirectRLEnv):
         time_out = self.is_time_out(self.my_episode_lenght-1)
         time_out_penalty = -5 * time_out.float()
         
-        reward = (-0.05 + goal_reached_reward + contact_penalty + time_out_penalty)
+        reward = (-0.1 + goal_reached_reward + contact_penalty + time_out_penalty)
         if torch.any(has_contact) or torch.any(goal_reached) or torch.any(time_out):
             sr = self.update_success_rate()
             # print("sr: ", sr)

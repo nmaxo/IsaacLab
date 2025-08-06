@@ -174,7 +174,7 @@ class Scene_manager:
             max_radius = self.max_radius_values
 
         # Генерация радиусов из нормального распределения
-        radii = torch.normal(mean=mean_radius, std=mean_radius/1, size=(num_envs,), device=device)
+        radii = torch.normal(mean=mean_radius, std=mean_radius/5, size=(num_envs,), device=device)
         # print("radii ", radii)
         # Ограничение радиусов минимальным и глобальным максимальным значениями
         radii = torch.clamp(radii, min=min_radius, max=max_radius)
@@ -461,7 +461,7 @@ class Scene_manager:
 
         # Генерация угловых ошибок
         random_sign = torch.sign(torch.rand(num_envs, device=self.device) - 0.5)
-        angle_errors = torch.normal(mean=max_angle, std=max_angle/1, size=(num_envs,), device=self.device)
+        angle_errors = torch.normal(mean=max_angle, std=max_angle/5, size=(num_envs,), device=self.device)
         angle_errors = torch.clamp(angle_errors, min=0, max=max_angle)
         # Начальная ориентация робота
         goal_global_pos = self.shift_pos(env_ids, self.goal_local_pos, terrain_origins)
