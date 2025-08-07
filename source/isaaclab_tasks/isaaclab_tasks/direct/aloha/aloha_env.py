@@ -232,7 +232,7 @@ class WheeledRobotEnv(DirectRLEnv):
         self._step_update_counter = 0
         self.mean_radius = 1
         self.max_angle_error = torch.pi / 6
-        self.cur_angle_error = torch.pi / 10
+        self.cur_angle_error = 0 #torch.pi / 10
         self.warm = True
         self._obstacle_update_counter = 0
         self.has_contact = torch.full((self.num_envs,), True, dtype=torch.bool, device=self.device)
@@ -494,13 +494,13 @@ class WheeledRobotEnv(DirectRLEnv):
         vel_punish[mask] = 0
         reward = (-0.07 + goal_reached_reward + contact_penalty + time_out_penalty + vel_punish)
         if torch.any(has_contact) or torch.any(goal_reached) or torch.any(time_out):
-            sr = self.update_success_rate()
+            sr = self.update_success_rate(goal_reached)
 
-        #     print("sr: ", sr)
-        #     print("reward ", reward)
-        #     print("goal_reached ", goal_reached)
-        #     print("has_contact ", has_contact)
-        #     print("time_out ", time_out)
+            # print("sr: ", sr)
+            # print("reward ", reward)
+            # print("goal_reached ", goal_reached)
+            # print("has_contact ", has_contact)
+            # print("time_out ", time_out)
         check = {
             "moves":moves,
             "contact_penalty": contact_penalty,
@@ -627,7 +627,7 @@ class WheeledRobotEnv(DirectRLEnv):
         self.history_index = 0
         self.history_len = torch.zeros(self.num_envs, device=self.device)
 
-    def update_success_rate(self) -> torch.Tensor:
+    def update_success_rate(self, goal_reached=goal_reached) -> torch.Tensor:
         if self.turn_on_controller:
             return torch.tensor(self.success_rate, device=self.device)
         
@@ -651,22 +651,21 @@ class WheeledRobotEnv(DirectRLEnv):
             # print("completed ", completed)
             # print("_robot._ALL_INDICES[completed] ", self._robot._ALL_INDICES[completed])
             # print("relevant_completed ", relevant_completed)
-            if len(relevant_completed) > 0:
-                # Вычисляем успехи для релевантных завершенных сред
-                distance_to_goal = torch.linalg.norm(self._desired_pos_w[:, :2] - self._robot.data.root_pos_w[:, :2], dim=1)
-                # print("distance_to_goal ", distance_to_goal)
-                success = self.goal_reached(distance_to_goal)
-                # print("sucess, ", success)
-                # Обновляем стеки для релевантных завершенных сред
-                for env_id in self._robot._ALL_INDICES[completed]:
-                    env_id = env_id.item()
-                    if success[env_id] == False:
-                        self.success_stacks[env_id].append(0)
-                    elif env_id in relevant_completed:
-                        self.success_stacks[env_id].append(1)
-                    
-                    if len(self.success_stacks[env_id]) > self.max_stack_size:
-                        self.success_stacks[env_id].pop(0)
+            # Вычисляем успехи для релевантных завершенных сред
+            # distance_to_goal = torch.linalg.norm(self._desired_pos_w[:, :2] - self._robot.data.root_pos_w[:, :2], dim=1)
+            # print("distance_to_goal ", distance_to_goal)
+            success = goal_reached.clone() #self.goal_reached(distance_to_goal)
+            # print("sucess, ", success)
+            # Обновляем стеки для релевантных завершенных сред
+            for env_id in self._robot._ALL_INDICES[completed]:
+                env_id = env_id.item()
+                if not success[env_id]:
+                    self.success_stacks[env_id].append(0)
+                elif env_id in relevant_completed:
+                    self.success_stacks[env_id].append(1)
+                
+                if len(self.success_stacks[env_id]) > self.max_stack_size:
+                    self.success_stacks[env_id].pop(0)
             # print("self.success_stacks ", self.success_stacks)
         # Вычисляем процент успеха для всех сред с непустыми стеками
         # Подсчитываем общий процент успеха по всем релевантным средам
