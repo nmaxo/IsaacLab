@@ -135,17 +135,17 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
         filter_prim_paths_expr=["/World/envs/env_.*"],
     )
 
-    # table = sim_utils.UsdFileCfg(
-    #     usd_path=Asset_paths_manager.table_usd_path,
-    #     rigid_props=sim_utils.RigidBodyPropertiesCfg(
-    #         disable_gravity=True,
-    #         kinematic_enabled=True,
-    #         rigid_body_enabled=True,
-    #     ),
-    #     collision_props=sim_utils.CollisionPropertiesCfg(
-    #         collision_enabled=True,
-    #     ),
-    # )
+    table = sim_utils.UsdFileCfg(
+        usd_path=Asset_paths_manager.table_usd_path,
+        rigid_props=sim_utils.RigidBodyPropertiesCfg(
+            disable_gravity=True,
+            kinematic_enabled=True,
+            rigid_body_enabled=True,
+        ),
+        collision_props=sim_utils.CollisionPropertiesCfg(
+            collision_enabled=True,
+        ),
+    )
 
     # Конфигурация миски (цели)
     bowl = sim_utils.UsdFileCfg(
@@ -230,9 +230,9 @@ class WheeledRobotEnv(DirectRLEnv):
         self.history_index = 0
         self.history_len = torch.zeros(self.num_envs, device=self.device)
         self._step_update_counter = 0
-        self.mean_radius = 0.7
+        self.mean_radius = 1
         self.max_angle_error = torch.pi / 6
-        self.cur_angle_error = torch.pi / 6
+        self.cur_angle_error = torch.pi / 10
         self.warm = True
         self._obstacle_update_counter = 0
         self.has_contact = torch.full((self.num_envs,), True, dtype=torch.bool, device=self.device)
@@ -308,12 +308,12 @@ class WheeledRobotEnv(DirectRLEnv):
             orientation=(0.0, 0.0, 0.0, 1.0),
         )
         # Спавн стола
-        # spawn_from_usd(
-        #     prim_path="/World/envs/env_.*/Table",
-        #     cfg=self.cfg.table,
-        #     translation=(-4.5, 0.0, 0.0),  # Стол в центре локальной системы
-        #     orientation=(0.7071, 0.0, 0.0, 0.7071),
-        # )
+        spawn_from_usd(
+            prim_path="/World/envs/env_.*/Table",
+            cfg=self.cfg.table,
+            translation=(-4.5, 0.0, 0.0),  # Стол в центре локальной системы
+            orientation=(0.7071, 0.0, 0.0, 0.7071),
+        )
         goal_pos = (-4.5, 0, 0.65)  # z=0.8 для поверхности стола
         spawn_from_usd(
             prim_path="/World/envs/env_.*/Bowl",
@@ -326,7 +326,7 @@ class WheeledRobotEnv(DirectRLEnv):
         for env_id in range(self.cfg.scene.num_envs):
             for prim_path in [
                 f"/World/envs/env_{env_id}/Kitchen",
-                # f"/World/envs/env_{env_id}/Table",
+                f"/World/envs/env_{env_id}/Table",
                 f"/World/envs/env_{env_id}/Bowl",
             ]:
                 prim = stage.GetPrimAtPath(prim_path)
@@ -418,7 +418,7 @@ class WheeledRobotEnv(DirectRLEnv):
             self._actions[:, 1] = angular_speed / 2.5
         else:
             linear_speed = 0.5*(self._actions[:, 0] + 1.0) # [num_envs], всегда > 0
-            angular_speed = 2.5*self._actions[:, 1]  # [num_envs], оставляем как есть от RL
+            angular_speed = 2*self._actions[:, 1]  # [num_envs], оставляем как есть от RL
         # print("vel is: ", linear_speed, angular_speed)
         self._left_wheel_vel = (linear_speed - (angular_speed * L / 2)) / r
         self._right_wheel_vel = (linear_speed + (angular_speed * L / 2)) / r
@@ -436,9 +436,9 @@ class WheeledRobotEnv(DirectRLEnv):
 
     def _get_rewards(self) -> torch.Tensor:
         lin_vel = torch.norm(self._robot.data.root_lin_vel_w[:, :2], dim=1)
-        lin_vel_reward = lin_vel * 0.005
+        lin_vel_reward = lin_vel * 1
         ang_vel = torch.abs(self._robot.data.root_ang_vel_w[:, 2])
-        ang_vel_reward = ang_vel * 0.005
+        ang_vel_reward = ang_vel * 1
         root_pos_w = self._robot.data.root_pos_w[:, :2]
         # print("root_pos_w ", root_pos_w)
         distance_to_goal = torch.linalg.norm(self._desired_pos_w[:, :2] - root_pos_w, dim=1)
@@ -488,11 +488,15 @@ class WheeledRobotEnv(DirectRLEnv):
             IL_reward = 0.3
         time_out = self.is_time_out(self.my_episode_lenght-1)
         time_out_penalty = -5 * time_out.float()
-        
-        reward = (-0.1 + goal_reached_reward + contact_penalty + time_out_penalty)
+
+        vel_punish = -5 * (lin_vel_reward + ang_vel_reward)
+        mask = ~goal_reached
+        vel_punish[mask] = 0
+        reward = (-0.07 + goal_reached_reward + contact_penalty + time_out_penalty + vel_punish)
         if torch.any(has_contact) or torch.any(goal_reached) or torch.any(time_out):
             sr = self.update_success_rate()
-            # print("sr: ", sr)
+
+        #     print("sr: ", sr)
         #     print("reward ", reward)
         #     print("goal_reached ", goal_reached)
         #     print("has_contact ", has_contact)
@@ -775,7 +779,7 @@ class WheeledRobotEnv(DirectRLEnv):
         self._desired_pos_w[env_ids, 2] = 0.6
         if self.tensorboard_step > 500:
             self.tensorboard_step = 0
-            print("Custom/success_rate", self.success_rate)
+            print("Custom/success_rate", self.success_rate, self.sr_stack_capacity)
             print("Custom/counter", self._step_update_counter)
         # self.logger.record("Custom/sucess_rate", self.success_rate)
         # self.logger.record("Custom/radius", self.mean_radius)
@@ -824,11 +828,12 @@ class WheeledRobotEnv(DirectRLEnv):
         k = 2 if self.cur_angle_error >= self.max_angle_error and self.mean_radius > self.second_try else 1
         base = k*self.my_episode_lenght
         # print("self.success_rate ", self.success_rate)
-        if self.warm and self.cur_step >= 2048:
+        if self.warm and self.cur_step >= 1500:
             self.warm = False
-            self.mean_radius = 0.1
+            self.mean_radius = 0
             self.cur_angle_error = 0
             self._step_update_counter = 0
+            print(f"end worm stage r: {round(self.mean_radius, 2)}, a: {round(self.cur_angle_error, 2)}")
         elif not self.warm and self._step_update_counter >= base and not self.turn_on_controller and self.sr_stack_full:
             if self.success_rate >= 90:
                 self.success_ep_num += 1

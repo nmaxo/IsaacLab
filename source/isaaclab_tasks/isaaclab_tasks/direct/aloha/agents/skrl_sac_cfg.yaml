@@ -25,7 +25,7 @@ models:
       - name: net
         input: STATES_ACTIONS
         layers: [512]
-        activations: relu
+        activations: elu
     output: ONE
   critic_2:  # see deterministic_model parameters
     class: DeterministicMixin
@@ -33,7 +33,7 @@ models:
     network:
       - name: net
         input: STATES_ACTIONS
-        layers: [512, 256]
+        layers: [512]
         activations: elu
     output: ONE
   target_critic_1:  # see deterministic_model parameters
@@ -43,7 +43,7 @@ models:
       - name: net
         input: STATES_ACTIONS
         layers: [512]
-        activations: relu
+        activations: elu
     output: ONE
   target_critic_2:  # see deterministic_model parameters
     class: DeterministicMixin
@@ -51,13 +51,13 @@ models:
     network:
       - name: net
         input: STATES_ACTIONS
-        layers: [512, 256]
+        layers: [512]
         activations: elu
     output: ONE
 
 memory:
   class: RandomMemory
-  memory_size: 12000
+  memory_size: 10000
 
 agent:
   class: SAC
