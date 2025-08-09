@@ -10,6 +10,7 @@ from skrl.models.torch import DeterministicMixin, GaussianMixin, Model
 from skrl.resources.preprocessors.torch import RunningStandardScaler
 from skrl.trainers.torch import SequentialTrainer
 from skrl.utils import set_seed
+# ./isaaclab.sh -p scripts/demos/torch_ant_sac.py --enable_cameras
 
 
 # seed for reproducibility
@@ -50,14 +51,25 @@ class Critic(DeterministicMixin, Model):
 
 
 # load and wrap the Isaac Lab environment
-env = load_isaaclab_env(task_name="Isaac-Ant-v0", num_envs=64)
+env = load_isaaclab_env(
+    task_name="Isaac-Aloha-Direct-v0",
+    num_envs=1,
+    # headless=False,
+    cli_args=[
+        "--enable_cameras",
+    ],
+    # show_cfg=True
+)
+
+
+# env = load_isaaclab_env(task_name="Isaac-Aloha-Direct-v0", num_envs=64)
 env = wrap_env(env)
 
 device = env.device
 
 
 # instantiate a memory as rollout buffer (any memory can be used for this)
-memory = RandomMemory(memory_size=15625, num_envs=env.num_envs, device=device)
+memory = RandomMemory(memory_size=8000, num_envs=env.num_envs, device=device)
 
 
 # instantiate the agent's models (function approximators).
@@ -75,13 +87,13 @@ models["target_critic_2"] = Critic(env.observation_space, env.action_space, devi
 # https://skrl.readthedocs.io/en/latest/api/agents/sac.html#configuration-and-hyperparameters
 cfg = SAC_DEFAULT_CONFIG.copy()
 cfg["gradient_steps"] = 1
-cfg["batch_size"] = 4096
+cfg["batch_size"] = 256
 cfg["discount_factor"] = 0.99
 cfg["polyak"] = 0.005
 cfg["actor_learning_rate"] = 5e-4
 cfg["critic_learning_rate"] = 5e-4
-cfg["random_timesteps"] = 0
-cfg["learning_starts"] = 80
+cfg["random_timesteps"] = 1500
+cfg["learning_starts"] = 1500
 cfg["grad_norm_clip"] = 0
 cfg["learn_entropy"] = True
 cfg["entropy_learning_rate"] = 5e-3
@@ -89,9 +101,9 @@ cfg["initial_entropy_value"] = 1.0
 cfg["state_preprocessor"] = RunningStandardScaler
 cfg["state_preprocessor_kwargs"] = {"size": env.observation_space, "device": device}
 # logging to TensorBoard and write checkpoints (in timesteps)
-cfg["experiment"]["write_interval"] = 800
-cfg["experiment"]["checkpoint_interval"] = 8000
-cfg["experiment"]["directory"] = "runs/torch/Isaac-Ant-v0"
+cfg["experiment"]["write_interval"] = 200
+cfg["experiment"]["checkpoint_interval"] = 1000
+cfg["experiment"]["directory"] = "logs/skrl/aloha"
 
 agent = SAC(models=models,
             memory=memory,
@@ -102,12 +114,12 @@ agent = SAC(models=models,
 
 
 # configure and instantiate the RL trainer
-cfg_trainer = {"timesteps": 160000, "headless": True}
+cfg_trainer = {"timesteps": 160000, "headless": False}
 trainer = SequentialTrainer(cfg=cfg_trainer, env=env, agents=agent)
 if False:
     # start training
     trainer.train()
 else:
-    agent.load("/home/xiso/IsaacLab/runs/torch/Isaac-Ant-v0/25-07-30_20-28-18-843948_SAC/checkpoints/best_agent.pt")
+    agent.load("/home/xiso/IsaacLab/skrl/aloha/25-08-07_23-55-23-383231_SAC/checkpoints/agent_76000.pt")
     # start evaluation
     trainer.eval()

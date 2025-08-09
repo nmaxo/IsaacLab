@@ -37,12 +37,17 @@ class Scene_manager:
         
         # Границы комнаты в локальной системе координат
         self.room_bounds = {
-            'x_min': -5.0,
+            'x_min': -4.3,
             'x_max': 5,
             'y_min': -4,
             'y_max': 4
         }
-        
+        self.room_bounds = {
+            'x_min': -4.3,
+            'x_max': 2,
+            'y_min': -3,
+            'y_max': 3
+        }
         # Параметры для генерации расстояний цель-робот
         self.max_radius_values = 8
         self.radius_values = torch.zeros(num_envs, device=device)  
@@ -54,7 +59,7 @@ class Scene_manager:
         
         # Границы для проверки позиций с учётом радиусов
         self.robot_bounds = {
-            'x_min': self.room_bounds['x_min'] + self.robot_radius + 0.7,  # -3.5
+            'x_min': self.room_bounds['x_min'] + self.robot_radius + 0.5,  # -3.5
             'x_max': self.room_bounds['x_max'] - self.robot_radius - 0.5,  # 3.5
             'y_min': self.room_bounds['y_min'] + self.robot_radius + 1,  # -2.5
             'y_max': self.room_bounds['y_max'] - self.robot_radius - 1   # 2.5
@@ -92,7 +97,7 @@ class Scene_manager:
         self.selected_indices = {}
         self.active_indices = None
         self.mess = None
-        self.base_radius = 1
+        self.base_radius = 1.35
 
         self.config_env_episode = {
             "angle_error": torch.zeros(num_envs, device=device),
@@ -174,7 +179,7 @@ class Scene_manager:
             max_radius = self.max_radius_values
 
         # Генерация радиусов из нормального распределения
-        radii = torch.normal(mean=mean_radius, std=mean_radius/5, size=(num_envs,), device=device)
+        radii = torch.normal(mean=mean_radius, std=std_radius, size=(num_envs,), device=device)
         # print("radii ", radii)
         # Ограничение радиусов минимальным и глобальным максимальным значениями
         radii = torch.clamp(radii, min=min_radius, max=max_radius)
@@ -461,8 +466,8 @@ class Scene_manager:
 
         # Генерация угловых ошибок
         random_sign = torch.sign(torch.rand(num_envs, device=self.device) - 0.5)
-        angle_errors = torch.normal(mean=max_angle, std=max_angle/5, size=(num_envs,), device=self.device)
-        angle_errors = torch.clamp(angle_errors, min=0, max=max_angle)
+        angle_errors = torch.normal(mean=max_angle, std=max_angle/3, size=(num_envs,), device=self.device)
+        angle_errors = torch.clamp(angle_errors, min=0, max=torch.pi / 4)
         # Начальная ориентация робота
         goal_global_pos = self.shift_pos(env_ids, self.goal_local_pos, terrain_origins)
         direction_to_goal = goal_global_pos - self.robot_pos[env_ids]
