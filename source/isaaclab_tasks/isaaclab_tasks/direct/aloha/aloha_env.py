@@ -56,7 +56,7 @@ class WheeledRobotEnvWindow(BaseEnvWindow):
 @configclass
 class WheeledRobotEnvCfg(DirectRLEnvCfg):
     episode_length_s = 512.0
-    decimation = 4
+    decimation = 8
     action_space = gym.spaces.Box(
         low=np.array([-1.0, -1.0], dtype=np.float32),
         high=np.array([1.0, 1.0], dtype=np.float32),
@@ -67,7 +67,7 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
     observation_space = gym.spaces.Box(
         low=-float("inf"),
         high=float("inf"),
-        shape=(m * (512 + 2),),  # m * (embedding_size + action_size) + 2 (скорости)
+        shape=(m * (512 + 3),),  # m * (embedding_size + action_size) + 2 (скорости)
         dtype="float32"
     )
     state_space = 0
@@ -81,8 +81,8 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
         physics_material=sim_utils.RigidBodyMaterialCfg(
             friction_combine_mode="min",
             restitution_combine_mode="min",
-            static_friction=0.0,
-            dynamic_friction=0.0,
+            static_friction=0.2,
+            dynamic_friction=0.15,
             restitution=0.0,
         ),
     )
@@ -93,13 +93,13 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
         # physics_material=sim_utils.RigidBodyMaterialCfg(
         #     friction_combine_mode="min",
         #     restitution_combine_mode="min",
-        #     static_friction=0.05,
-        #     dynamic_friction=0.01,
+        #     static_friction=0.8,
+        #     dynamic_friction=0.6,
         #     restitution=0.0,
         # ),
         debug_vis=False,
     )
-    scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=32, env_spacing=15, replicate_physics=True)
+    scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=1, env_spacing=15, replicate_physics=True)
     robot: ArticulationCfg = ALOHA_CFG.replace(prim_path="/World/envs/env_.*/Robot")
     wheel_radius = 0.068
     wheel_distance = 0.34
@@ -170,7 +170,7 @@ class WheeledRobotEnv(DirectRLEnv):
         self._desired_pos_w = torch.zeros(self.num_envs, 3, device=self.device)
         self._episode_sums = {
             key: torch.zeros(self.num_envs, dtype=torch.float, device=self.device)
-            for key in ["moves", "contact_penalty"]
+            for key in ["moves"]
         }
         self._left_wheel_id = self._robot.find_joints("left_wheel")[0]
         self._right_wheel_id = self._robot.find_joints("right_wheel")[0]
@@ -196,6 +196,7 @@ class WheeledRobotEnv(DirectRLEnv):
                 history_length=25,  # n = 10, можно настроить
                 device=self.device
             )
+        self.delete = 1
         self.count = 0
         self._debug_log_enabled = True
         self._debug_envs_to_log = list(range(min(5, self.num_envs)))
@@ -209,8 +210,11 @@ class WheeledRobotEnv(DirectRLEnv):
         self.turn_off_controller_step = 0
         self.use_obstacles = False
         self.imitation = False
-        self.previous_distance_to_goal = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
-
+        self.previous_distance_error = torch.zeros(self.num_envs, dtype=torch.float, device=self.device)
+        self.previous_angle_error = torch.zeros(self.num_envs, dtype=torch.float, device=self.device)
+        self.previous_lin_vel = torch.zeros(self.num_envs, dtype=torch.float, device=self.device)
+        self.previous_ang_vel = torch.zeros(self.num_envs, dtype=torch.float, device=self.device)
+        self.angular_speed = torch.zeros(self.num_envs, dtype=torch.float, device=self.device)
         # Initialize ResNet18 for image embeddings
         # self.resnet18 = models.resnet18(pretrained=True).to(self.device)
         # self.resnet18.eval()  # Set to evaluation mode
@@ -228,10 +232,11 @@ class WheeledRobotEnv(DirectRLEnv):
         self.history_index = 0
         self.history_len = torch.zeros(self.num_envs, device=self.device)
         self._step_update_counter = 0
-        self.mean_radius = 0.5
+        self.mean_radius = 0.9
         self.max_angle_error = torch.pi / 5
-        self.cur_angle_error = 0
+        self.cur_angle_error = torch.pi / 12
         self.warm = True
+        self.warm_len = 800
         self._obstacle_update_counter = 0
         self.has_contact = torch.full((self.num_envs,), True, dtype=torch.bool, device=self.device)
         self.sim = SimulationContext.instance()
@@ -259,7 +264,7 @@ class WheeledRobotEnv(DirectRLEnv):
         self.foult_ep_num = 0
         # Инициализация стеков для хранения успехов (1 - успех, 0 - неуспех)
         self.success_stacks = [[] for _ in range(self.num_envs)]  # Список списков для каждой среды
-        self.max_stack_size = 15  # Максимальный размер стека
+        self.max_stack_size = max(10, math.ceil(100 / self.num_envs))  # Максимальный размер стека
         self.sr_stack_full = False
 
     def print_config_info(self):
@@ -275,12 +280,15 @@ class WheeledRobotEnv(DirectRLEnv):
         print(f"|")
         print(f"| Use memory: {self.memory_on}")
         print(f"|")
+        print(f"| Warm len: {self.warm_len}")
+        print(f"|")
         print(f"_______[ CONGIFG INFO CLOSE ]_______")
 
     def _setup_scene(self):
         from isaaclab.sensors import ContactSensor
         import time
         from pxr import Usd
+        
         self._robot = Articulation(self.cfg.robot)
         self.scene.articulations["robot"] = self._robot
         self.cfg.terrain.num_envs = self.scene.cfg.num_envs
@@ -292,6 +300,7 @@ class WheeledRobotEnv(DirectRLEnv):
         self.set_env()
         self._contact_sensor = ContactSensor(self.cfg.contact_sensor)
         self.scene.sensors["contact_sensor"] = self._contact_sensor
+
         # light_cfg = sim_utils.DomeLightCfg(intensity=300.0, color=(0.75, 0.75, 0.75))
         # light_cfg.func("/World/Light", light_cfg)
 
@@ -361,7 +370,8 @@ class WheeledRobotEnv(DirectRLEnv):
         self.tensorboard_step += 1
         self.cur_step += 1
         self.episode_lengths += 1
-        
+        import os
+        from PIL import Image, ImageDraw, ImageFont
         # Получение RGB изображений с камеры
         camera_data = self._tiled_camera.data.output["rgb"].clone()  # Shape: (num_envs, 224, 224, 3)
         
@@ -376,19 +386,41 @@ class WheeledRobotEnv(DirectRLEnv):
         # Получение эмбеддингов изображений
         with torch.no_grad():
             image_embeddings = self.clip_model.get_image_features(**inputs)  # Shape: (num_envs, 512)
+            image_embeddings = image_embeddings / (image_embeddings.norm(dim=1, keepdim=True) + 1e-9)
         
         # Получение скоростей робота
         root_lin_vel_w = torch.norm(self._robot.data.root_lin_vel_w[:, :2], dim=1).unsqueeze(-1)
         root_ang_vel_w = self._robot.data.root_ang_vel_w[:, 2].unsqueeze(-1)
         
         # Обновление памяти, если используется
-        if self.memory_on:
-            velocities = torch.cat([root_lin_vel_w, root_ang_vel_w], dim=-1)
-            self.memory_manager.update(image_embeddings, velocities)
-            memory_data = self.memory_manager.get_observations()  # Shape: (num_envs, m * (512 + 2))
-            obs = torch.cat([memory_data], dim=-1)
-        else:
-            obs = torch.cat([image_embeddings, root_lin_vel_w, root_ang_vel_w], dim=-1)
+        # if self.memory_on:
+        #     velocities = torch.cat([root_lin_vel_w, root_ang_vel_w], dim=-1)
+        #     self.memory_manager.update(image_embeddings, velocities)
+        #     memory_data = self.memory_manager.get_observations()  # Shape: (num_envs, m * (512 + 2))
+        #     obs = torch.cat([memory_data], dim=-1)
+        # else:
+        
+         # только в первом шаге
+        # if self.tensorboard_step % 50 == 0:
+        #     save_dir = "/home/xiso/Downloads/assets/tmp"
+        #     os.makedirs(save_dir, exist_ok=True)
+
+        #     for i in range(min(4, self.num_envs)):  # первые 4 среды
+        #         img_np = camera_data[i].cpu().numpy().astype(np.uint8)  # (H,W,3)
+        #         img_pil = Image.fromarray(img_np)
+        #         pos = self.to_local(self._robot.data.root_pos_w[:, :2])
+        #         # Добавим подпись с позициями
+        #         draw = ImageDraw.Draw(img_pil)
+        #         text = f"env {i}\nroot_pos_w: {pos[i, :2].cpu().numpy()}\n" \
+        #             f"goal_pos: {self._desired_pos_w[i, :2].cpu().numpy()}"
+        #         draw.text((5, 5), text, fill=(255, 255, 255))
+
+        #         img_pil.save(os.path.join(save_dir, f"env_{i}_step_{self.tensorboard_step}.png"))
+
+        #     print(f"[DEBUG] Saved first 4 env images with positions to {save_dir} {self.tensorboard_step}")
+
+        obs = torch.cat([image_embeddings, root_lin_vel_w*0.1, root_ang_vel_w*0.1, self.previous_ang_vel.unsqueeze(-1)*0.1], dim=-1)
+        self.previous_ang_vel = self.angular_speed
         # log_embedding_stats(image_embeddings)
         observations = {"policy": obs}
         return observations
@@ -418,79 +450,62 @@ class WheeledRobotEnv(DirectRLEnv):
         #     self._actions[:, 0] = (linear_speed / 0.5) - 1
         #     self._actions[:, 1] = angular_speed / 2.5
         # else:
-        linear_speed = 0.5*(self._actions[:, 0] + 1.0) # [num_envs], всегда > 0
-        angular_speed = 2*self._actions[:, 1]  # [num_envs], оставляем как есть от RL
+        linear_speed = 0.6*(self._actions[:, 0] + 1.0) # [num_envs], всегда > 0
+        angular_speed = 3*self._actions[:, 1]  # [num_envs], оставляем как есть от RL
+        # linear_speed = torch.tensor([0], device=self.device)
+        self.angular_speed = angular_speed
+        # if self.tensorboard_step % 4 ==0:
+        # self.delete = -1 * self.delete 
+        # angular_speed = torch.tensor([self.delete * 4], device=self.device)
         # print("vel is: ", linear_speed, angular_speed)
         self._left_wheel_vel = (linear_speed - (angular_speed * L / 2)) / r
         self._right_wheel_vel = (linear_speed + (angular_speed * L / 2)) / r
-        # self._left_wheel_vel = torch.zeros(1, device=self.device)
-        # self._right_wheel_vel = torch.zeros(1, device=self.device)
-        # return
-
-        # return self._actions
 
     def _apply_action(self):
-        wheel_velocities = torch.stack([self._left_wheel_vel, self._right_wheel_vel], dim=1).unsqueeze(-1)
-        # print("wheel_velocities: ", wheel_velocities)
-        # print("true wheel velocities: ", self._robot.data.joint_vel[:, 2:4])
+        wheel_velocities = torch.stack([self._left_wheel_vel, self._right_wheel_vel], dim=1).unsqueeze(-1).to(dtype=torch.float32)
         self._robot.set_joint_velocity_target(wheel_velocities, joint_ids=[self._left_wheel_id, self._right_wheel_id])
 
     def _get_rewards(self) -> torch.Tensor:
         lin_vel = torch.norm(self._robot.data.root_lin_vel_w[:, :2], dim=1)
+        
         lin_vel_reward = lin_vel * 1
-        ang_vel = torch.abs(self._robot.data.root_ang_vel_w[:, 2])
-        ang_vel_reward = ang_vel * 0.05
-        root_pos_w = self._robot.data.root_pos_w[:, :2]
-        # print("root_pos_w ", root_pos_w)
-        distance_to_goal = torch.linalg.norm(self._desired_pos_w[:, :2] - root_pos_w, dim=1)
-        out_of_bounds_penalty_scale = -15.0
-        out_of_bounds = distance_to_goal > 5.0
-        out_of_bounds_penalty = out_of_bounds.float() * out_of_bounds_penalty_scale
-        goal_reached, num_subs = self.goal_reached(distance_to_goal, get_num_subs=True)
-        goal_reached_reward_scale = 10.0
-        num_subs_scale = 0.03
-        goal_reached_reward = goal_reached.float() * goal_reached_reward_scale
-        moves = 5*(self.previous_distance_to_goal-distance_to_goal)
-        self.previous_distance_to_goal = distance_to_goal
+        ang_vel = self._robot.data.root_ang_vel_w[:, 2]
+        ang_vel_reward = torch.abs(ang_vel) * 0.05
+        a_penalty = 0.1 * torch.abs(self.angular_speed - self.previous_ang_vel) #+ torch.abs(lin_vel - self.previous_lin_vel))
+        # print("a_penalty ", -a_penalty, self.angular_speed, self.previous_ang_vel )
+        # self.previous_lin_vel = lin_vel
 
-        quat = self._robot.data.root_quat_w
-        siny_cosp = 2 * (quat[:, 0] * quat[:, 3] + quat[:, 1] * quat[:, 2])
-        cosy_cosp = 1 - 2 * (quat[:, 2] * quat[:, 2] + quat[:, 3] * quat[:, 3])
-        psi = torch.atan2(siny_cosp, cosy_cosp)
-        # Compute angle to goal (theta)
-        delta_pos = self._desired_pos_w[:, :2] - root_pos_w
-        theta = torch.atan2(delta_pos[:, 1], delta_pos[:, 0])
-        # Compute heading error (alpha = theta - psi)
-        alpha = theta - psi
-        # Normalize alpha to [-pi, pi]
-        alpha = torch.atan2(torch.sin(alpha), torch.cos(alpha))
+        goal_reached, num_subs, r_error, a_error = self.goal_reached(get_num_subs=True)
 
-  
-        #reward = (-1 + goal_reached_reward + lin_vel_reward + ang_vel_reward + out_of_bounds_penalty + moves)
+        moves = torch.clamp(5 * (self.previous_distance_error - r_error), min=0, max=1) + \
+                    torch.clamp(5 * (self.previous_angle_error - a_error), min=0, max=1)
+
+        moves_reward = moves * 0.1
+        self.previous_distance_error = r_error
+        self.previous_angle_error = a_error
+
         has_contact = self.get_contact()
-        # print("contact ", has_contact.long())
-        contact_penalty = -7 * has_contact.long()
-        num_subs_reward = num_subs * num_subs_scale
 
         time_out = self.is_time_out(self.my_episode_lenght-1)
         time_out_penalty = -5 * time_out.float()
 
-        vel_penalty = -1 * (lin_vel_reward + ang_vel_reward)
+        vel_penalty = -1 * (ang_vel_reward)
         mask = ~goal_reached
         vel_penalty[mask] = 0
-        reward = (-0.07 + goal_reached_reward + contact_penalty + time_out_penalty + vel_penalty - ang_vel_reward)
+        reward = - 0.1 - 0.01 * r_error + 7.0 * goal_reached.float() - 3 * has_contact.float() - a_penalty - ang_vel_reward #+ moves_reward 
         if torch.any(has_contact) or torch.any(goal_reached) or torch.any(time_out):
             sr = self.update_success_rate(goal_reached)
 
         # if torch.any(has_contact) or torch.any(goal_reached) or torch.any(time_out):
-            # print("sr: ", sr)
-            # print("reward ", reward)
-            # print("goal_reached ", goal_reached)
-            # print("has_contact ", has_contact)
-            # print("time_out ", time_out)
+        #     print("sr: ", sr)
+        #     print("reward ", reward)
+        #     print("goal_reached ", goal_reached)
+        #     print("has_contact ", has_contact)
+        #     print("time_out ", time_out)
+        # print("moves_reward ", moves_reward)
+        
         check = {
             "moves":moves,
-            "contact_penalty": contact_penalty,
         }
         for key, value in check.items():
             self._episode_sums[key] += value
@@ -529,16 +544,18 @@ class WheeledRobotEnv(DirectRLEnv):
         return torch.stack([rx_new, ry_new, rz_new], dim=1)
 
 
-    def goal_reached(self, distance_to_goal: torch.Tensor, angle_threshold: float = 15, get_num_subs=False) -> torch.Tensor:
+    def goal_reached(self, angle_threshold: float = 15, radius_threshold: float = 1.2, get_num_subs=False) -> torch.Tensor:
         """
         Проверяет достижение цели с учётом расстояния и направления взгляда робота.
         distance_to_goal: [N] расстояния до цели
         angle_threshold: максимально допустимый угол в радианах между направлением взгляда и вектором на цель
         Возвращает: [N] булев тензор, True если цель достигнута
         """
-
+        root_pos_w = self._robot.data.root_pos_w[:, :2]
+        # print("root_pos_w ", root_pos_w)
+        distance_to_goal = torch.linalg.norm(self._desired_pos_w[:, :2] - root_pos_w, dim=1)
         # Проверка по расстоянию (например, радиус достижения stored в self.radius)
-        close_enough = distance_to_goal <= 1.3
+        close_enough = distance_to_goal <= radius_threshold
 
         # Получаем ориентацию робота в виде кватерниона (w, x, y, z)
         root_quat_w = self._robot.data.root_quat_w  # shape [N, 4]
@@ -586,7 +603,7 @@ class WheeledRobotEnv(DirectRLEnv):
         # print("returns", returns)
         if get_num_subs == False:
             return returns
-        return returns, num_conditions_met
+        return returns, num_conditions_met, distance_to_goal, angle_degrees
 
     def get_contact(self):
         force_matrix = self.scene["contact_sensor"].data.net_forces_w
@@ -615,7 +632,7 @@ class WheeledRobotEnv(DirectRLEnv):
         self.history_index = 0
         self.history_len = torch.zeros(self.num_envs, device=self.device)
 
-    def update_success_rate(self, goal_reached=goal_reached) -> torch.Tensor:
+    def update_success_rate(self, goal_reached) -> torch.Tensor:
         if self.turn_on_controller:
             return torch.tensor(self.success_rate, device=self.device)
         
@@ -627,27 +644,12 @@ class WheeledRobotEnv(DirectRLEnv):
             # Получаем релевантные среды среди завершенных
             relevant_env_ids = self.scene_manager.get_relevant_env()
             # Фильтруем завершенные среды, оставляя только релевантные
-            # print("completed ", completed)
-            # print("relevant_env_ids ", relevant_env_ids)
-            # print("self._robot._ALL_INDICES ", self._robot._ALL_INDICES)
-            # print("self._robot._ALL_INDICES[completed] ", self._robot._ALL_INDICES[completed])
-            relevant_completed = relevant_env_ids[(relevant_env_ids.view(1, -1) == self._robot._ALL_INDICES[completed].view(-1, 1)).any(dim=0)] #torch.intersect1d(self._robot._ALL_INDICES[completed], relevant_env_ids)
-            # print("                      ")
-            # print("                      ")
-            # print("died", died)
-            # print("time_out", time_out)
-            # print("completed ", completed)
-            # print("_robot._ALL_INDICES[completed] ", self._robot._ALL_INDICES[completed])
-            # print("relevant_completed ", relevant_completed)
-            # Вычисляем успехи для релевантных завершенных сред
-            # distance_to_goal = torch.linalg.norm(self._desired_pos_w[:, :2] - self._robot.data.root_pos_w[:, :2], dim=1)
-            # print("distance_to_goal ", distance_to_goal)
-            success = goal_reached.clone() #self.goal_reached(distance_to_goal)
-            # print("sucess, ", success)
+            relevant_completed = relevant_env_ids[(relevant_env_ids.view(1, -1) == self._robot._ALL_INDICES[completed].view(-1, 1)).any(dim=0)]
+            success = goal_reached.clone()
             # Обновляем стеки для релевантных завершенных сред
             for env_id in self._robot._ALL_INDICES[completed]:
                 env_id = env_id.item()
-                if not success[env_id]:
+                if not success[env_id]:#here idia is colulate all fault and sucess only on relative envs
                     self.success_stacks[env_id].append(0)
                 elif env_id in relevant_completed:
                     self.success_stacks[env_id].append(1)
@@ -685,17 +687,15 @@ class WheeledRobotEnv(DirectRLEnv):
 
     def _get_dones(self, my_episode_lenght = 256, inner=False) -> tuple[torch.Tensor, torch.Tensor]:
         time_out = self.is_time_out(my_episode_lenght)
-        root_pos_w = self._robot.data.root_pos_w[:, :2]
-        distance_to_goal = torch.linalg.norm(self._desired_pos_w[:, :2] - root_pos_w, dim=1)
         
         has_contact = self.get_contact()
         self.has_contact = has_contact
         died = torch.logical_or(
-            torch.logical_or(self.goal_reached(distance_to_goal, get_num_subs=False), has_contact),
+            torch.logical_or(self.goal_reached(), has_contact),
             time_out,
         )
         if torch.any(died):
-            goal_reached = self.goal_reached(distance_to_goal)
+            goal_reached = self.goal_reached()
             self.episode_counter += died.long()
             self.success_counter += goal_reached.long()
             self.event_update_counter += torch.sum(died).item()
@@ -768,16 +768,6 @@ class WheeledRobotEnv(DirectRLEnv):
             self.tensorboard_step = 0
             print("Custom/success_rate", self.success_rate, self.sr_stack_capacity)
             print("Custom/counter", self._step_update_counter)
-        # self.logger.record("Custom/sucess_rate", self.success_rate)
-        # self.logger.record("Custom/radius", self.mean_radius)
-        # self.logger.record("Custom/angle", self.cur_angle_error)
-        # self.logger.record("Custom/counter", self.counter)
-        # extras["sucess_rate"] = self.success_rate
-        # extras["radius"] = self.mean_radius
-        # extras["angle"] = self.cur_angle_error
-        # extras["step update counter"] = self._step_update_counter
-        # print("self.extras ", self.extras)
-        # self.extras["Episode"].update(extras)
 
         joint_pos = self._robot.data.default_joint_pos[env_ids].clone()
         joint_vel = self._robot.data.default_joint_vel[env_ids].clone()
@@ -788,11 +778,6 @@ class WheeledRobotEnv(DirectRLEnv):
         self._robot.write_root_pose_to_sim(default_root_state[:, :7], env_ids)
         self._robot.write_root_velocity_to_sim(default_root_state[:, 7:], env_ids)
         self._robot.write_joint_state_to_sim(joint_pos, joint_vel, None, env_ids)
-        # self.tensorboard_writer.add_scalar("Metrics/Success_Rate", self.success_rate, self.tensorboard_step)
-        # self.tensorboard_writer.add_scalar("Metrics/Max_angle", self.max_angle, self.tensorboard_step)
-        # self.tensorboard_writer.add_scalar("Metrics/Mean_radius", self.mean_radius, self.tensorboard_step)
-        # self.tensorboard_writer.add_scalar("Metrics/Contact", torch.count_nonzero(self.has_contact).item(), self.tensorboard_step)
-        # self.tensorboard_writer.add_scalar("Metrics/Imitation", self.turn_on_controller, self.tensorboard_step)
         # Логируем длину эпизодов для сброшенных сред
         self.total_episode_length += torch.sum(self.episode_lengths[env_ids]).item()
         self.episode_count += len(env_ids)
@@ -800,22 +785,26 @@ class WheeledRobotEnv(DirectRLEnv):
         # self.tensorboard_writer.add_scalar("Metrics/Mean_episode_length", mean_episode_length, self.tensorboard_step)
         # Сбрасываем счетчик длины для сброшенных сред
         self.episode_lengths[env_ids] = 0
+        root_pos_w = self._robot.data.root_pos_w[:, :2]
+        # print("root_pos_w ", root_pos_w)
+        distance_to_goal = torch.linalg.norm(self._desired_pos_w[:, :2] - root_pos_w, dim=1)
+        # print("distance_to_goal ", distance_to_goal)
+        _, _, r_error, a_error = self.goal_reached(get_num_subs=True)
+        self.previous_distance_error[env_ids] = r_error[env_ids]
+        self.previous_angle_error[env_ids] = a_error[env_ids]
             
-    def to_local(self, pos, env_ids, env_origins=None):
+    def to_local(self, pos, env_ids=None, env_origins=None):
+        if env_ids is None:
+            env_ids = self._robot._ALL_INDICES
         if env_origins is None:
             env_origins = self._terrain.env_origins
-        # print("to local:")
-        # print("pos: ", pos)
-        # print("pos: ", env_ids)
-        # print("env_origins: ", env_origins)
-        # print("pos: ", env_origins[env_ids, :2])
         return pos[:, :2] - env_origins[env_ids, :2]
 
     def update_from_counters(self, env_ids: torch.Tensor):
-        k = 2 if self.cur_angle_error >= self.max_angle_error and self.mean_radius > self.second_try else 1
-        base = k*self.my_episode_lenght
+        k = 100 if self.cur_angle_error >= self.max_angle_error and self.mean_radius > self.second_try else 50
+        base = k #min(k/self.num_envs, self.num_envs)
         # print("self.success_rate ", self.success_rate)
-        if self.warm and self.cur_step >= 0*self.my_episode_lenght:
+        if self.warm and self.cur_step >= self.warm_len:
             self.warm = False
             self.mean_radius = 0
             self.cur_angle_error = 0
@@ -825,7 +814,7 @@ class WheeledRobotEnv(DirectRLEnv):
             if self.success_rate >= 90:
                 self.success_ep_num += 1
                 self.foult_ep_num = 0
-                if self.success_ep_num > 50:
+                if self.success_ep_num > self.my_episode_lenght:
                     self.second_try = max(self.mean_radius, self.second_try)
                     self.success_ep_num = 0
                     old_mr = self.mean_radius
@@ -840,9 +829,9 @@ class WheeledRobotEnv(DirectRLEnv):
                         print(f"udate [ UP ] r: {round(self.mean_radius, 2)} a: from {round(old_a, 2)} to {round(self.cur_angle_error, 2)}")
                     self._step_update_counter = 0
                     self.update_sr_stack()
-            elif self.success_rate <= 30 or self._step_update_counter >= 20 * self.my_episode_lenght:
+            elif self.success_rate <= 30 or self._step_update_counter >= 3*base:
                 self.foult_ep_num += 1
-                if self.foult_ep_num > 1 * self.my_episode_lenght:
+                if self.foult_ep_num > 4 * self.my_episode_lenght:
                     self.success_ep_num = 0
                     self.cur_angle_error = 0
                     self.foult_ep_num = 0

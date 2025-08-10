@@ -11,7 +11,7 @@ models:
     clip_log_std: True
     min_log_std: -20.0
     max_log_std: 2.0
-    initial_log_std: 0
+    initial_log_std: 0.2
     network:
       - name: net
         input: STATES
@@ -61,41 +61,33 @@ memory:
 
 agent:
   class: SAC
-  gradient_steps: 1
+  gradient_steps: 8
   batch_size: 256
 
   discount_factor: 0.99
   polyak: 0.005
 
-  random_timesteps: 1024
-  learning_starts: 512
-
+  random_timesteps: 0
+  learning_starts: 200
+  actor_learning_rate: 0.0003   # actor learning rate
+  critic_learning_rate: 0.0003  # critic learning rate
   grad_norm_clip: 0
 
   learn_entropy: True
-  initial_entropy_value: 1
+  initial_entropy_value: 0
   activate_contact_sensors: True
   # state_preprocessor: RunningStandardScaler
   # state_preprocessor_kwargs:
   #   size: auto
   #   device: "cuda:0"
-  target_entropy: -2.0
   mixed_precision: True
-  # rewards_shaper: 1
-  # exploration:
-  #   noise: GaussianNoise
-  #   noise_kwargs:
-  #     mean: 0.0
-  #     std: 0.1
-  #   initial_scale: 1.0
-  #   final_scale: 1.0e-3
-  #   timesteps: null
+
 
   experiment:
     directory:  'aloha'
     experiment_name: 'SAC'
     write_interval: 200
-    checkpoint_interval: 1000
+    checkpoint_interval: 500
 
 
 # Sequential trainer

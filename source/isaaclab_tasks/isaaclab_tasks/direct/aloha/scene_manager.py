@@ -97,7 +97,7 @@ class Scene_manager:
         self.selected_indices = {}
         self.active_indices = None
         self.mess = None
-        self.base_radius = 1.35
+        self.base_radius = 1.25 #1.35
 
         self.config_env_episode = {
             "angle_error": torch.zeros(num_envs, device=device),

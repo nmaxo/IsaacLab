@@ -29,7 +29,7 @@ damping_wheel_const = 10.6   # Демпфирование для управле�
 
 ALOHA_CFG = ArticulationCfg(
     spawn=sim_utils.UsdFileCfg(
-        usd_path=os.path.join(current_dir, "source/isaaclab_assets/data/aloha_assets", "aloha/ALOHA_with_sensor_02.usd"),
+        usd_path=os.path.join(current_dir, "source/isaaclab_assets/data/aloha_assets", "aloha/aloha.usd"),
         activate_contact_sensors=True,
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             rigid_body_enabled=True,
