@@ -16,7 +16,7 @@ class ObstacleGraph:
 
     def _initialize_nodes(self):
         """Инициализирует узлы с дефолтными позициями за сценой в тензорах."""
-        base_x = 10.0
+        base_x = 6.0
         y_pos = torch.linspace(-self.num_chairs / 2.0, self.num_chairs / 2.0, self.num_chairs, device=self.device)
         self.default_positions = torch.stack([torch.full((self.num_chairs,), base_x, device=self.device),
                                              y_pos,
@@ -88,6 +88,18 @@ class ObstacleGraph:
             'default_position': tuple(default_pos.tolist())
         } for name, radius, position, default_pos in zip(active_names, active_radii, active_positions, active_default_positions)]
         return active_nodes
+    
+    def graph_to_tensor(self):
+        """
+        Возвращает батч эмбеддингов для всех сред.
+        Shape: [num_envs, num_chairs * feature_dim]
+        feature_dim = 4 (x, y, z, radius)
+        """
+        pos = self.positions / 10.0  # нормировка
+        rad = self.radii.unsqueeze(-1)  # [num_envs, num_chairs, 1]
+
+        features = torch.cat([pos, rad], dim=-1)  # [num_envs, num_chairs, 5]
+        return features.flatten(start_dim=1)  # [num_envs, num_chairs * 5]
 
     def get_graph_info(self):
         """

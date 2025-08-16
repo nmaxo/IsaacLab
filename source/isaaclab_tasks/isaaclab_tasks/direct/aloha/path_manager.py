@@ -2,7 +2,6 @@ import json
 import torch
 import os
 from pathlib import Path
-from .asset_manager import Asset_paths
 
 class Path_manager:
     def __init__(self, scene_manager, ratio: float = 4.0, shift: list = [5, 4], device: str = 'cpu'):
@@ -19,9 +18,7 @@ class Path_manager:
         self.ratio = ratio
         self.shift = torch.tensor(shift, device=device, dtype=torch.float32)
         self.all_paths = {}
-        Asset_path_manager = Asset_paths()
-        log_dir = Asset_path_manager.log_usd_path
-        self.paths_file = os.path.join(log_dir, "all_paths.json")
+        self.paths_file = os.path.join("data", "all_paths.json")
         self._load_paths()
         self.scene_manager = scene_manager
 
@@ -106,7 +103,7 @@ class Path_manager:
         start_nodes = self.real_to_grid(start_positions)
         target_nodes = self.real_to_grid(target_positions)
         # print("target pos: ", target_positions, target_nodes)
-        max_path_length = 72
+        max_path_length = 15
         self.max_path_length = max_path_length
         paths = []
         for i, (config, start, target) in enumerate(zip(configs, start_nodes.tolist(), target_nodes.tolist())):
@@ -133,7 +130,7 @@ class Path_manager:
             paths.append(path)
 
         # Создаем тензор путей в сеточных координатах
-        path_tensor = torch.full((len(env_ids), max_path_length, 2), -666.0, device=device, dtype=torch.float32)
+        path_tensor = torch.full((len(env_ids), max_path_length, 2), -7777.0, device=device, dtype=torch.float32)
         for i, (env_id, path) in enumerate(zip(env_ids, paths)):
             if path:
                 path_length = len(path)

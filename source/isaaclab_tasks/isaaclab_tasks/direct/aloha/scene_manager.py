@@ -42,12 +42,6 @@ class Scene_manager:
             'y_min': -4,
             'y_max': 4
         }
-        self.room_bounds = {
-            'x_min': -4.3,
-            'x_max': 2,
-            'y_min': -3,
-            'y_max': 3
-        }
         # Параметры для генерации расстояний цель-робот
         self.max_radius_values = 8
         self.radius_values = torch.zeros(num_envs, device=device)  
@@ -60,9 +54,9 @@ class Scene_manager:
         # Границы для проверки позиций с учётом радиусов
         self.robot_bounds = {
             'x_min': self.room_bounds['x_min'] + self.robot_radius + 0.5,  # -3.5
-            'x_max': self.room_bounds['x_max'] - self.robot_radius - 0.5,  # 3.5
-            'y_min': self.room_bounds['y_min'] + self.robot_radius + 1,  # -2.5
-            'y_max': self.room_bounds['y_max'] - self.robot_radius - 1   # 2.5
+            'x_max': self.room_bounds['x_max'] - self.robot_radius - 1,  # 3.5
+            'y_min': self.room_bounds['y_min'] + self.robot_radius + 1.5,  # -2.5
+            'y_max': self.room_bounds['y_max'] - self.robot_radius - 1.5   # 2.5
         }
         self.goal_bounds = {
             'x_min': self.room_bounds['x_min'] + self.goal_radius,  # -3.7
@@ -97,12 +91,13 @@ class Scene_manager:
         self.selected_indices = {}
         self.active_indices = None
         self.mess = None
-        self.base_radius = 1.25 #1.35
+        self.base_radius = 1.35
 
         self.config_env_episode = {
             "angle_error": torch.zeros(num_envs, device=device),
             "dist_error": torch.zeros(num_envs, device=device),
-            "relevant": torch.zeros(num_envs,  device=device, dtype=torch.bool)
+            "relevant": torch.zeros(num_envs,  device=device, dtype=torch.bool),
+            "local_robots_start_position": torch.zeros(self.num_envs, 2, device=self.device)
         }
 
     def get_selected_indices(self, env_id=None):
@@ -221,7 +216,7 @@ class Scene_manager:
         radii = self.initialize_radii(
             num_envs=num_envs,
             mean_radius=mean_radius,
-            std_radius=(mean_radius-base_radius)*0.3,
+            std_radius=(mean_radius-base_radius)*0.1,
             max_radii=8,
             min_radius=min_radius,
             max_radius=self.max_radius_values,
@@ -349,12 +344,13 @@ class Scene_manager:
             None: Обновляет obj_pos для сред с коллизиями.
         """
         num_envs = len(env_ids)
-        env_ids = torch.tensor(range(num_envs), device=self.device)
+        
         safety_margin = 0.4
         max_iterations = 10  # Ограничение на итерации
         # print("i ", obj_pos)
         # Собираем активные препятствия
         obstacles_per_env = [self.graphs[env_id.item()].get_active_nodes() for env_id in env_ids]
+        env_ids = torch.tensor(range(num_envs), device=self.device)
         max_obstacles = max(len(obs) for obs in obstacles_per_env) if obstacles_per_env else 0
         if max_obstacles == 0:
             return obj_pos
@@ -427,7 +423,7 @@ class Scene_manager:
             near_zero = dists < 1e-6
             # print("near_zero", near_zero)
             if torch.any(near_zero):
-                used_directions[near_zero] = torch.randn((near_zero.sum(), 2), device=self.device)
+                # used_directions[near_zero] = torch.randn((near_zero.sum(), 2), device=self.device)
                 used_directions[near_zero] = used_directions[near_zero] / torch.norm(used_directions[near_zero], dim=1, keepdim=True)
 
             # Смещаем робота на границу препятствия в направлении used_directions
@@ -438,7 +434,7 @@ class Scene_manager:
             # print(f"self.robot_pos[{abs_env_ids}]", self.robot_pos[abs_env_ids])
         return obj_pos
 
-    def get_pos(self, env_ids, terrain_origins=None,mean_radius=2,min_radius=1.2):
+    def get_pos(self, env_ids, terrain_origins=None, mean_radius=2.0, min_radius=1.2):
         """Проверяет позиции роботов и целей, перегенерирует для недопустимых."""
         it_count = 0
         while True:
@@ -455,15 +451,27 @@ class Scene_manager:
             return obj_pos
         return obj_pos + terrain_origins[env_ids, :2]
 
-    def reset(self, env_ids, terrain_origins,mean_radius=1.3,min_radius=1.2,max_angle=0):
+    def print_start_info(self, env_ids):
+        for env_id in env_ids:
+            print(f"[ DEBUG ]: env: {env_id.item()}")
+            print("start position:")
+            print(self.config_env_episode["local_robots_start_position"][env_id.item()])
+            print("obstacles positions:")
+            print(self.graphs[env_id.item()].get_graph_info())
+        _, collisions = self.check_obstacles_collision(self.config_env_episode["local_robots_start_position"][env_ids], env_ids)
+        print("Collisions:")
+        print(collisions)
+
+    def reset(self, env_ids, terrain_origins, mean_radius=1.3,min_radius=1.2,max_angle=0):
         """Инициализация стартовых позиций и целей при сбросе."""
         num_envs = len(env_ids)       
         # Проверка и корректировка позиций
         self.goal_local_pos[env_ids] = self.generate_goal_positions_local(
             env_ids)
+        
         self.robot_pos[env_ids] = self.get_pos(
             env_ids, terrain_origins, mean_radius, min_radius)
-
+        self.config_env_episode["local_robots_start_position"][env_ids] = self.robot_pos[env_ids].clone()
         # Генерация угловых ошибок
         random_sign = torch.sign(torch.rand(num_envs, device=self.device) - 0.5)
         angle_errors = torch.normal(mean=max_angle, std=max_angle/3, size=(num_envs,), device=self.device)
@@ -666,6 +674,16 @@ class Scene_manager:
     def print_graph_info(self, env_ids=None):
         for env_id in env_ids:
             print(env_id, self.graphs[env_id.item()].get_graph_info())
+    
+    def get_scene_embedding(self, env_ids):
+        embeddings = []
+        for env_id in env_ids:
+            emb = self.graphs[env_id.item()].graph_to_tensor()
+            embeddings.append(emb)
+
+        # Склеиваем в тензор: [k, num_chairs * 5]
+        embeddings = torch.stack(embeddings, dim=0)
+        return embeddings.flatten(start_dim=1)
 
     def get_obstacles(self, env_id: int):
         """

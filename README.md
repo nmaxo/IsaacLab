@@ -26,11 +26,21 @@ If you want record video you should add:
 --video --video_length 512
 ```
 
+Imitation learning:
+For IL firsly you should get paths:
+```
+./isaaclab.sh -p path_generator.py
+```
+To generate paths via dijkstra algo (Check, that there no all_paths.json in data):
+```
+./isaaclab.sh -p source/isaaclab_tasks/isaaclab_tasks/direct/aloha/path_generator.py 
+```
+
 Asset directories should look like this:
 ```
 └── aloha_assets
     ├── aloha
-    │   ├── ALOHA_with_sensor_02.usd
+    │   ├── aloha.usd
     │   └── realsense.usd
     ├── objects
     │   └── bowl.usd

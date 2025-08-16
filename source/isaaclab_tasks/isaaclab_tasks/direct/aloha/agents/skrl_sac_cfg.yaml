@@ -68,7 +68,7 @@ agent:
   polyak: 0.005
 
   random_timesteps: 0
-  learning_starts: 200
+  learning_starts: 128
   actor_learning_rate: 0.0003   # actor learning rate
   critic_learning_rate: 0.0003  # critic learning rate
   grad_norm_clip: 0

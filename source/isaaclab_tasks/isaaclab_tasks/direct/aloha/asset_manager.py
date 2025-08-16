@@ -9,4 +9,4 @@ class Asset_paths:
         self.bowl_usd_path =  new_path = os.path.join(current_dir, "source/isaaclab_assets/data/aloha_assets", "objects/bowl.usd")
         # self.aloha_usd_path =  new_path = os.path.join(current_dir, "source/isaaclab_assets/data/aloha_assets", "aloha/aloha.usd")
         self.chair_usd_path =  new_path = os.path.join(current_dir, "source/isaaclab_assets/data/aloha_assets", "scenes/obstacles/chair2.usd")
-        self.log_usd_path =  new_path = os.path.join(current_dir, "logs"),
+        self.log_usd_path =  new_path = os.path.join(current_dir, "data"),

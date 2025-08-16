@@ -17,7 +17,7 @@ def import_class_from_path(module_path, class_name):
     print(f"[DEBUG] Successfully imported class: {class_obj}")
     return class_obj
 
-module_path = "/home/xiso/IsaacLab/source/isaaclab_tasks/isaaclab_tasks/direct/aloha/scene_manager.py"
+module_path = "source/isaaclab_tasks/isaaclab_tasks/direct/aloha/scene_manager.py"
 Scene_manager = import_class_from_path(module_path, "Scene_manager")
 
 class PathGenerator:
@@ -43,11 +43,11 @@ class PathGenerator:
         self.scene_manager = Scene_manager(num_envs=1, device=device, num_obstacles=num_obstacles)
         print(f"[DEBUG] Scene_manager created successfully")
         
-        self.log_dir = str(Path().resolve()) + "/logs/"
+        self.log_dir = "logs/aloha_data_graphs"#str(Path().resolve()) + "/logs/"
         print(f"[DEBUG] Log directory: {self.log_dir}")
         os.makedirs(self.log_dir, exist_ok=True)
         
-        self.paths_file = os.path.join(self.log_dir, "all_paths.json")
+        self.paths_file = os.path.join("data", "all_paths.json")
         self.graphs_dir = os.path.join(self.log_dir, "graphs")
         print(f"[DEBUG] Paths file: {self.paths_file}")
         print(f"[DEBUG] Graphs directory: {self.graphs_dir}")
@@ -146,7 +146,7 @@ class PathGenerator:
             # print("pos ", pos, point)
             distances = torch.norm(pos - point)
             # print(distances)
-            if distances < (0.5 + self.scene_manager.robot_radius + add_r):
+            if distances < (0.4 + self.scene_manager.robot_radius + add_r):
                 result = True
         # result = torch.any(distances < (obstacle_radii + self.scene_manager.robot_radius + add_r), dim=-1)
         return result
@@ -158,7 +158,7 @@ class PathGenerator:
         obstacle_positions = torch.tensor(obstacle_positions, device=self.device, dtype=torch.float32)
         obstacle_radii = torch.tensor(obstacle_radii, device=self.device, dtype=torch.float32)
         room_bounds = self.scene_manager.room_bounds
-        add_r = 1 / self.ratio + 0.2
+        add_r = 1 / self.ratio
 
         # print(f"[DEBUG] Initial graph: {len(G.nodes)} nodes, {len(G.edges)} edges")
         
@@ -168,7 +168,7 @@ class PathGenerator:
             # print(scaled_point)
             # print(1)
             if (self._check_intersection(scaled_point, obstacle_positions, obstacle_radii, add_r) or
-                scaled_point[0] < room_bounds['x_min'] + self.scene_manager.robot_radius + 1 or
+                scaled_point[0] < room_bounds['x_min'] + self.scene_manager.robot_radius + 0.3 or
                 scaled_point[0] > room_bounds['x_max'] - self.scene_manager.robot_radius or
                 scaled_point[1] < room_bounds['y_min'] + self.scene_manager.robot_radius or
                 scaled_point[1] > room_bounds['y_max'] - self.scene_manager.robot_radius):
@@ -179,7 +179,7 @@ class PathGenerator:
         
         boundary_nodes = self.find_boundary_nodes(G)
         expanded_boundary = [boundary_nodes]
-        levels = 3
+        levels = 2
         for i in range(levels):
             expanded_boundary.append(self.find_expanded_boundary(G, expanded_boundary[-1]))
         expanded_boundary.reverse()
@@ -457,7 +457,19 @@ class PathGenerator:
                 
                 target_paths = 0
                 
-                all_paths_to_target = nx.single_target_shortest_path(config_graph, target)
+                # all_paths_to_target = nx.single_target_shortest_path(config_graph, target)
+                all_paths_from_target  = nx.single_source_dijkstra_path(config_graph, target, weight="weight")
+                # all_paths_to_target = {node: list(reversed(path)) 
+                #        for node, path in all_paths_from_target.items()}
+                all_paths_to_target = {}
+                for node, path in all_paths_from_target.items():
+                    # Разворачиваем путь от старта к цели
+                    path = list(reversed(path))
+                    # Преобразуем в координаты
+                    # coords = [graph_nodes[p]["position"] for p in path]
+                    # Убираем лишние точки на прямых участках
+                    coords_simplified = _simplify_path(path)
+                    all_paths_to_target[node] = coords_simplified
                 print("colculate of path has ended")
                 for node_idx, node in enumerate(start_nodes):
                     if node in all_paths_to_target:
@@ -544,9 +556,49 @@ class PathGenerator:
         grid_y = int((y + self.shift[1]) * self.ratio)   # y_grid = (x - shift_x) * ratio
         return (grid_x, grid_y)
 
+import math
+
+def _simplify_path(points, tol=1e-5):
+    """Удаляет точки на прямых сегментах и 'ложные углы'"""
+    if len(points) <= 2:
+        return points
+
+    simplified = [points[0]]
+    for i in range(1, len(points) - 1):
+        prev = simplified[-1]  # Последняя оставленная точка
+        curr = points[i]
+        nxt = points[i + 1]
+
+        # Векторы
+        v1 = (curr[0] - prev[0], curr[1] - prev[1])
+        v2 = (nxt[0] - curr[0], nxt[1] - curr[1])
+
+        # -------------------------
+        # 1. Удаляем точки на прямых
+        len1 = math.hypot(*v1)
+        len2 = math.hypot(*v2)
+        if len1 >= tol and len2 >= tol:
+            v1n = (v1[0] / len1, v1[1] / len1)
+            v2n = (v2[0] / len2, v2[1] / len2)
+            if abs(v1n[0] - v2n[0]) < tol and abs(v1n[1] - v2n[1]) < tol:
+                continue
+
+        # -------------------------
+        # 2. Удаляем 'ложные углы'
+        dx1, dy1 = int(round(v1[0])), int(round(v1[1]))
+        dx2, dy2 = int(round(v2[0])), int(round(v2[1]))
+        if ((abs(dx1) == 1 and abs(dy1) == 1) and (abs(dx2) + abs(dy2) == 1)) or \
+           ((abs(dx2) == 1 and abs(dy2) == 1) and (abs(dx1) + abs(dy1) == 1)):
+            continue
+
+        simplified.append(curr)
+
+    simplified.append(points[-1])
+    return simplified
+
 
 if __name__ == "__main__":
     print("[DEBUG] Starting PathGenerator script...")
     generator = PathGenerator(num_obstacles=3, device='cuda:0', test_mode=False)
-    generator.generate_paths(n_save=1500, targets=[[-4.2, 0]])    #[[-4.2, -1],[-4.2, 0],[-4.2, 1]])
+    generator.generate_paths(n_save=1500, targets=[[-4.5, 0]])    #[[-4.2, -1],[-4.2, 0],[-4.2, 1]])
     print("[DEBUG] PathGenerator script complete!")
