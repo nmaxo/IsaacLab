@@ -37,10 +37,10 @@ class Scene_manager:
         
         # Границы комнаты в локальной системе координат
         self.room_bounds = {
-            'x_min': -4.3,
-            'x_max': 5,
-            'y_min': -4,
-            'y_max': 4
+            'x_min': -4.5,
+            'x_max': 2,
+            'y_min': -3,
+            'y_max': 3
         }
         # Параметры для генерации расстояний цель-робот
         self.max_radius_values = 8
@@ -53,7 +53,7 @@ class Scene_manager:
         
         # Границы для проверки позиций с учётом радиусов
         self.robot_bounds = {
-            'x_min': self.room_bounds['x_min'] + self.robot_radius + 0.5,  # -3.5
+            'x_min': self.room_bounds['x_min'] + 0.5,  # -3.5
             'x_max': self.room_bounds['x_max'] - self.robot_radius - 1,  # 3.5
             'y_min': self.room_bounds['y_min'] + self.robot_radius + 1.5,  # -2.5
             'y_max': self.room_bounds['y_max'] - self.robot_radius - 1.5   # 2.5
@@ -81,8 +81,8 @@ class Scene_manager:
         self.num_envs = num_envs
         self.device = device
         self.num_obstacles = num_obstacles
-        grid_x = [-1.5]  # Уровни по X для активных позиций
-        grid_y = [-1.0, 0.0, 1.0]  # Уровни по Y для активных позиций
+        grid_x = [-2.2]  # Уровни по X для активных позиций
+        grid_y = [-1.1, 0.0, 1.1]  # Уровни по Y для активных позиций
         self.possible_positions = [(x, y, 0.0) for x in grid_x for y in grid_y]  # 6 возможных позиций
         self.graphs = [ObstacleGraph(num_obstacles, device) for _ in range(num_envs)]
         self.obstacle_radii = [0.5] * num_obstacles
@@ -91,7 +91,7 @@ class Scene_manager:
         self.selected_indices = {}
         self.active_indices = None
         self.mess = None
-        self.base_radius = 1.35
+        self.base_radius = 1.25
 
         self.config_env_episode = {
             "angle_error": torch.zeros(num_envs, device=device),
@@ -103,19 +103,22 @@ class Scene_manager:
     def get_selected_indices(self, env_id=None):
         # print("[ SCENE MANAGER DEBUG ] selected_indices: ", self.selected_indices)
         # print("[ SCENE MANAGER DEBUG ] active_indices: ", self.active_indices)
-        
-        if env_id is not None and len(self.selected_indices) > 0:
-            # print("env_id: ", env_id.item())
-            # for key in sorted(self.selected_indices.keys()):
-            #     print(f"{key}: {self.selected_indices[key]}")
+        try:
+            if env_id is not None and len(self.selected_indices) > 0:
+                # print("env_id: ", env_id.item())
+                # for key in sorted(self.selected_indices.keys()):
+                #     print(f"{key}: {self.selected_indices[key]}")
 
-            num_ind = len(self.selected_indices[env_id.item()])
-            # if self.active_indices is not None:
-            #     num_ind = len(self.active_indices[env_id.item()])
-            # print(f"[ SCENE MANAGER DEBUG ] selected_indices[{env_id.item()}][:{num_ind}]: ", self.selected_indices[env_id.item()][:num_ind])
-            return self.selected_indices[env_id.item()][:num_ind].clone()
-        # print(self.selected_indices)
-        return self.selected_indices
+                num_ind = len(self.selected_indices[env_id.item()])
+                # if self.active_indices is not None:
+                #     num_ind = len(self.active_indices[env_id.item()])
+                # print(f"[ SCENE MANAGER DEBUG ] selected_indices[{env_id.item()}][:{num_ind}]: ", self.selected_indices[env_id.item()][:num_ind])
+                return self.selected_indices[env_id.item()][:num_ind].clone()
+            # print(self.selected_indices)
+            return self.selected_indices
+        except Exception as e:
+            print(f"[SCENE MANAGER ERROR] Exception: {e}")
+            return None
 
     def get_mess(self):
         return self.mess
@@ -324,7 +327,7 @@ class Scene_manager:
         distances = torch.norm(obj_pos[env_ids, None, :] - obstacle_positions, dim=2)
         # print("2 ", obj_pos)
         # print("distances", distances)
-        required_dists = self.robot_radius + 0.5 + safety_margin# obstacle_radii
+        required_dists = self.robot_radius + 0.51# obstacle_radii
         # print("required_dists", required_dists)
         collisions = (distances < required_dists) & valid_mask
         if torch.any(collisions):
@@ -680,10 +683,32 @@ class Scene_manager:
         for env_id in env_ids:
             emb = self.graphs[env_id.item()].graph_to_tensor()
             embeddings.append(emb)
-
-        # Склеиваем в тензор: [k, num_chairs * 5]
-        embeddings = torch.stack(embeddings, dim=0)
-        return embeddings.flatten(start_dim=1)
+        embeddings = torch.stack(embeddings, dim=0)  # Форма: [batch_size, num_chairs, 4]
+        
+        # Извлекаем x и y координаты
+        x_coords = embeddings[:, :, 0]  # [batch_size, num_chairs]
+        y_coords = embeddings[:, :, 1]  # [batch_size, num_chairs]
+        # Создаём бинарный эмбеддинг [batch_size, num_chairs]
+        num_chairs = embeddings.shape[1]  # Например, 3
+        binary_embedding = torch.zeros_like(x_coords, dtype=torch.float32, device=embeddings.device)  # [batch_size, num_chairs]
+        # Определяем занятость: x != 0 означает наличие стула
+        occupied = (x_coords < 0).float()  # 1, если стул есть, 0 — если нет
+        
+        # Определяем позиции на основе y:
+        # y == 0: центр (индекс 0), y < 0: слева (индекс 1), y > 0: справа (индекс 2)
+        center_mask = (y_coords == 0) & (occupied == 1)  # Позиция 0
+        left_mask = (y_coords < 0) & (occupied == 1)     # Позиция 1
+        right_mask = (y_coords > 0) & (occupied == 1)    # Позиция 2
+        
+        # Присваиваем 1 соответствующим позициям
+        # Предполагаем, что индексы стульев соответствуют позициям: 0 — центр, 1 — слева, 2 — справа
+        binary_embedding[center_mask] = 1.0
+        binary_embedding[left_mask] = 1.0
+        binary_embedding[right_mask] = 1.0
+        # print("binary_embedding ", binary_embedding)
+        # print("embeddings ", embeddings)
+        # print("binary_embedding ", embeddings.flatten(start_dim=1))
+        return binary_embedding # embeddings.flatten(start_dim=1)  # Форма: [batch_size, num_chairs]
 
     def get_obstacles(self, env_id: int):
         """

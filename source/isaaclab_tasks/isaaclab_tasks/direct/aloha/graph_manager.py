@@ -95,7 +95,7 @@ class ObstacleGraph:
         Shape: [num_envs, num_chairs * feature_dim]
         feature_dim = 4 (x, y, z, radius)
         """
-        pos = self.positions / 10.0  # нормировка
+        pos = self.positions / 50.0  # нормировка
         rad = self.radii.unsqueeze(-1)  # [num_envs, num_chairs, 1]
 
         features = torch.cat([pos, rad], dim=-1)  # [num_envs, num_chairs, 5]

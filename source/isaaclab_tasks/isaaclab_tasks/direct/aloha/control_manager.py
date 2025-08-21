@@ -2,7 +2,7 @@ import torch
 import math
 
 class VectorizedPurePursuit:
-    def __init__(self, num_envs, device='gpu', max_path_length=15, lookahead_distance=0.35, base_linear_velocity=1, max_angular_velocity=1.6, arrival_threshold=0.2):
+    def __init__(self, num_envs, device='gpu', max_path_length=15, lookahead_distance=0.35, base_linear_velocity=1, max_angular_velocity=1.8, arrival_threshold=0.2):
         """
         Vectorized Pure Pursuit controller for following paths in a vectorized environment.
         
@@ -154,7 +154,7 @@ class VectorizedPurePursuit:
         alphas = target_angles - ori
         alphas = (alphas + math.pi) % (2 * math.pi) - math.pi  # Normalize to [-pi, pi]
         curvatures = 2 * torch.sin(alphas) / self.lookahead_distance
-        ang_vels_active = curvatures * self.base_linear_velocity
+        ang_vels_active = (curvatures) * self.base_linear_velocity
         ang_vels_active = torch.clamp(ang_vels_active, -self.max_angular_velocity, self.max_angular_velocity)
         # Adjust linear velocity based on turning
         lin_vels_active = self.base_linear_velocity * (1 - torch.abs(ang_vels_active) / self.max_angular_velocity)

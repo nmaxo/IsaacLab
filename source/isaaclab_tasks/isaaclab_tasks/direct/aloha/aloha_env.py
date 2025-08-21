@@ -67,7 +67,7 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
     observation_space = gym.spaces.Box(
         low=-float("inf"),
         high=float("inf"),
-        shape=(m * (512 + 3 + 12),),  # m * (embedding_size + action_size) + 2 (скорости)
+        shape=(m * (512 + 3 + 3),),  # m * (embedding_size + action_size) + 2 (скорости)
         dtype="float32"
     )
     state_space = 0
@@ -99,7 +99,7 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
         # ),
         debug_vis=False,
     )
-    scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=1, env_spacing=13, replicate_physics=True)
+    scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=64, env_spacing=13, replicate_physics=True)
     robot: ArticulationCfg = ALOHA_CFG.replace(prim_path="/World/envs/env_.*/Robot")
     wheel_radius = 0.068
     wheel_distance = 0.34
@@ -184,7 +184,9 @@ class WheeledRobotEnv(DirectRLEnv):
 
         self.scene_manager = Scene_manager(self.num_envs, self.device, num_obstacles=3)
         self.use_controller = True
-        self.imitation = True
+        self.imitation = False
+        if self.imitation:
+            self.warm_len = 800
         if self.imitation:
             self.use_controller = True
         if self.use_controller:
@@ -213,6 +215,9 @@ class WheeledRobotEnv(DirectRLEnv):
         self.turn_off_controller_step = 0
         self.use_obstacles = True
         self.turn_on_obstacles = False
+        self.turn_on_obstacles_always = True
+        if self.use_obstacles:
+            self.use_obstacles = True
         self.previous_distance_error = torch.zeros(self.num_envs, dtype=torch.float, device=self.device)
         self.previous_angle_error = torch.zeros(self.num_envs, dtype=torch.float, device=self.device)
         self.previous_lin_vel = torch.zeros(self.num_envs, dtype=torch.float, device=self.device)
@@ -235,11 +240,11 @@ class WheeledRobotEnv(DirectRLEnv):
         self.history_index = 0
         self.history_len = torch.zeros(self.num_envs, device=self.device)
         self._step_update_counter = 0
-        self.mean_radius = 2.1
-        self.max_angle_error = torch.pi / 5
+        self.mean_radius = 2.3
+        self.max_angle_error = torch.pi / 6
         self.cur_angle_error = torch.pi / 12
         self.warm = True
-        self.warm_len = 800
+        self.warm_len = 256
         self._obstacle_update_counter = 0
         self.has_contact = torch.full((self.num_envs,), True, dtype=torch.bool, device=self.device)
         self.sim = SimulationContext.instance()
@@ -266,10 +271,20 @@ class WheeledRobotEnv(DirectRLEnv):
         self.foult_ep_num = 0
         # Инициализация стеков для хранения успехов (1 - успех, 0 - неуспех)
         self.success_stacks = [[] for _ in range(self.num_envs)]  # Список списков для каждой среды
-        self.max_stack_size = max(10, math.ceil(100 / self.num_envs))  # Максимальный размер стека
+        self.max_stack_size = 6  # Максимальный размер стека
         self.sr_stack_full = False
-        self.start_mean_radius = 2.1
-        self.min_level_radius = 0
+        self.start_mean_radius = 2
+        self.min_level_radius = 2.3
+
+        self.LOG = False
+        if self.LOG:
+            from comet_ml import start
+            from comet_ml.integration.pytorch import log_model
+            self.experiment = start(
+                api_key="DRYfW6B6VtUQr9llvf3jup57R",
+                project_name="general",
+                workspace="xisonik"
+            )
         self.print_config_info()
 
     def print_config_info(self):
@@ -290,6 +305,8 @@ class WheeledRobotEnv(DirectRLEnv):
         print(f"| Start radius: {self.start_mean_radius}, min: {self.min_level_radius}")
         print(f"|")
         print(f"| Warm len: {self.warm_len}")
+        print(f"|")
+        print(f"| Turn on obstacles always: {self.turn_on_obstacles_always}")
         print(f"|")
         print(f"_______[ CONGIFG INFO CLOSE ]_______")
 
@@ -438,7 +455,6 @@ class WheeledRobotEnv(DirectRLEnv):
         observations = {"policy": obs}
         return observations
 
-    # The rest of the methods (_pre_physics_step, _apply_action, _get_rewards, etc.) remain unchanged
     # as they are not affected by the observation space change.
 
     def _pre_physics_step(self, actions: torch.Tensor):
@@ -448,7 +464,7 @@ class WheeledRobotEnv(DirectRLEnv):
         # Получаем индексы элементов с NaN
         nan_indices = torch.nonzero(nan_mask, as_tuple=False)  # будет тензор с позициями
         if nan_indices.numel() > 0:
-            self.scene_manager.print_start_info(nan_indices)
+            # self.scene_manager.print_start_info(env_ids)
             raise RuntimeError(f"[ Error ]: we have nan actions!")
         r = self.cfg.wheel_radius
         L = self.cfg.wheel_distance
@@ -467,11 +483,12 @@ class WheeledRobotEnv(DirectRLEnv):
             )
             # angular_speed = -angular_speed 
             self._actions[:, 0] = (linear_speed / 0.6) - 1
-            self._actions[:, 1] = angular_speed / 3
-            actions.copy_(torch.zeros_like(self._actions.clamp(-1.0, 1.0)))
+            self._actions[:, 1] = angular_speed / 2
+            actions.copy_(self._actions.clamp(-1.0, 1.0))
         else:
+            self.turn_off_controller_step += 1
             linear_speed = 0.6*(self._actions[:, 0] + 1.0) # [num_envs], всегда > 0
-            angular_speed = 3*self._actions[:, 1]  # [num_envs], оставляем как есть от RL
+            angular_speed = 2*self._actions[:, 1]  # [num_envs], оставляем как есть от RL
         # linear_speed = torch.tensor([0], device=self.device)
         self.angular_speed = angular_speed
         # if self.tensorboard_step % 4 ==0:
@@ -488,9 +505,9 @@ class WheeledRobotEnv(DirectRLEnv):
     def _get_rewards(self) -> torch.Tensor:
         lin_vel = torch.norm(self._robot.data.root_lin_vel_w[:, :2], dim=1)
         
-        lin_vel_reward = lin_vel * 1
+        lin_vel_reward = lin_vel * 0.2
         ang_vel = self._robot.data.root_ang_vel_w[:, 2]
-        ang_vel_reward = torch.abs(ang_vel) * 0.05
+        ang_vel_reward = torch.abs(self.angular_speed) * 0.2
         a_penalty = 0.1 * torch.abs(self.angular_speed - self.previous_ang_vel) #+ torch.abs(lin_vel - self.previous_lin_vel))
         # print("a_penalty ", -a_penalty, self.angular_speed, self.previous_ang_vel )
         # self.previous_lin_vel = lin_vel
@@ -501,6 +518,9 @@ class WheeledRobotEnv(DirectRLEnv):
                     torch.clamp(5 * (self.previous_angle_error - a_error), min=0, max=1)
 
         moves_reward = moves * 0.1
+        IL_reward = 0
+        if self.turn_on_controller:
+            IL_reward = 0.1
         self.previous_distance_error = r_error
         self.previous_angle_error = a_error
 
@@ -512,16 +532,21 @@ class WheeledRobotEnv(DirectRLEnv):
         vel_penalty = -1 * (ang_vel_reward)
         mask = ~goal_reached
         vel_penalty[mask] = 0
-        reward = - 0.1 - 0.01 * r_error + 7.0 * goal_reached.float() - 5 * has_contact.float() - a_penalty #- ang_vel_reward + moves_reward 
+        
+        reward = 0.05 + 5.0 * goal_reached.float() - (5 + self.mean_radius + lin_vel_reward) * has_contact.float() - ang_vel_reward  / (3*self.mean_radius + 1) + lin_vel_reward #- a_penalty + moves_reward
+
         if torch.any(has_contact) or torch.any(goal_reached) or torch.any(time_out):
             sr = self.update_success_rate(goal_reached)
 
         # if torch.any(has_contact) or torch.any(goal_reached) or torch.any(time_out):
-        #     print("sr: ", sr)
+        # #     print("sr: ", sr)
+            
         #     print("reward ", reward)
         #     print("goal_reached ", goal_reached)
         #     print("has_contact ", has_contact)
-        #     print("time_out ", time_out)
+        # print(-ang_vel_reward, self.angular_speed)
+        # print(a_penalty)
+        # print("___________")
         # print("moves_reward ", moves_reward)
         
         check = {
@@ -564,7 +589,7 @@ class WheeledRobotEnv(DirectRLEnv):
         return torch.stack([rx_new, ry_new, rz_new], dim=1)
 
 
-    def goal_reached(self, angle_threshold: float = 15, radius_threshold: float = 1.33, get_num_subs=False) -> torch.Tensor:
+    def goal_reached(self, angle_threshold: float = 17, radius_threshold: float = 1.2, get_num_subs=False):
         """
         Проверяет достижение цели с учётом расстояния и направления взгляда робота.
         distance_to_goal: [N] расстояния до цели
@@ -652,7 +677,8 @@ class WheeledRobotEnv(DirectRLEnv):
         self.history_index = 0
         self.history_len = torch.zeros(self.num_envs, device=self.device)
 
-    def update_success_rate(self, goal_reached) -> torch.Tensor:
+    def update_success_rate(self, goal_reached):
+        
         if self.turn_on_controller:
             return torch.tensor(self.success_rate, device=self.device)
         
@@ -688,7 +714,7 @@ class WheeledRobotEnv(DirectRLEnv):
                 continue
             total_successes += sum(stack)
             total_elements += len(stack)
-        
+        # print("update ", self.success_stacks)
         # Вычисляем процент успеха
         # print("total_successes ", total_successes, total_elements)
         self.sr_stack_capacity = total_elements
@@ -696,7 +722,8 @@ class WheeledRobotEnv(DirectRLEnv):
             self.success_rate = (total_successes / total_elements) * 100.0
         else:
             self.success_rate = 0.0
-        if total_elements > self.num_envs * self.max_stack_size * 0.8:
+        # print(total_elements)
+        if total_elements >= self.num_envs * self.max_stack_size * 0.9:
             self.sr_stack_full = True
         # print(success_rates, self.success_rate)
         return self.success_rate
@@ -730,26 +757,34 @@ class WheeledRobotEnv(DirectRLEnv):
         return time_out
 
     def _reset_idx(self, env_ids: torch.Tensor | None):
+        super()._reset_idx(env_ids) #maybe this shuld be the first
         if self.first_ep:
             self._update_chairs()
+        self._update_chairs(env_ids=env_ids, all_defoult=True)
         if self.turn_on_controller_step > self.my_episode_lenght and self.turn_on_controller:
             self.turn_on_controller_step = 0
             self.turn_on_controller = False
-        if (self.mean_radius != 0) and self.use_controller and not self.turn_on_controller and self.my_episode_step > self.my_episode_lenght and self.turn_on_obstacles and not self.first_ep:
+        if not self.warm and self.sr_stack_full and (self.mean_radius != 0) and self.use_controller and not self.turn_on_controller and not self.first_ep and self.turn_off_controller_step > self.my_episode_lenght:
             self.my_episode_step = 0
             self.turn_on_controller_step = 0
             self.turn_off_controller_step = 0
             prob = lambda x: torch.rand(1).item() <= x
-            self.turn_on_controller = prob(0.01 * max(10, min(30, 100 - self.success_rate))) #torch.clamp(1 - self.success_rate, min=10.0, max=60.0)
+            self.turn_on_controller = prob(0.01 * max(10, min(40, 100 - self.success_rate))) #torch.clamp(1 - self.success_rate, min=10.0, max=60.0)
             print(f"turn controller: {self.turn_on_controller} with SR {self.success_rate}")
         if (env_ids is None or len(env_ids) == self.num_envs):# or (self.first_ep and self.turn_on_obstacles)
             env_ids = self._robot._ALL_INDICES.clone()
-        if self.mean_radius >= 1.7 and self.use_obstacles:
+        if (self.mean_radius >= 2 and self.use_obstacles and not self.warm) or self.turn_on_obstacles_always:
+            if self.turn_on_obstacles_always and self.cur_step > 300:
+                print("[ WARNING ] ostacles allways turn on")
+
             self.turn_on_obstacles = True
-            self.min_level_radius = max(1.7, self.mean_radius - 0.3)
+            if not self.turn_on_obstacles_always:
+                self.min_level_radius = max(2, self.mean_radius - 0.3)
         else:
             self.turn_on_obstacles = False
-
+        if self.cur_step > 300:
+            self.cur_step = 0
+            print("[ sr ]: ", round(self.success_rate, 2), self.sr_stack_capacity)
         if self.use_obstacles:
             self._update_chairs(env_ids)
         self.update_from_counters(env_ids)
@@ -759,7 +794,6 @@ class WheeledRobotEnv(DirectRLEnv):
             self._desired_pos_w[env_ids, :2] - self._robot.data.root_pos_w[env_ids, :2], dim=1
         ).mean()
         self._robot.reset(env_ids)
-        super()._reset_idx(env_ids) #maybe this shuld be the first
         if len(env_ids) == self.num_envs:
             self.episode_length_buf = torch.zeros_like(self.episode_length_buf) #, high=int(self.max_episode_length))
         self._actions[env_ids] = 0.0
@@ -769,6 +803,8 @@ class WheeledRobotEnv(DirectRLEnv):
         robot_pos, quaternion, goal_pos = self.scene_manager.reset(env_ids, self._terrain.env_origins, self.mean_radius, min_radius, self.cur_angle_error)
         # print("i'm in path_manager")
         if self.turn_on_controller or self.imitation:
+            if self.imitation:
+                print("[ WARNING ] imitation mode on")
             if self.turn_on_controller_step == 0:
                 env_ids_for_control = self._robot._ALL_INDICES.clone()
                 robot_pos_for_control = self._robot.data.default_root_state[env_ids_for_control, :2].clone()
@@ -779,12 +815,20 @@ class WheeledRobotEnv(DirectRLEnv):
                 env_ids_for_control = env_ids
                 robot_pos_for_control = robot_pos
                 goal_pos_for_control = goal_pos
-            paths = self.path_manager.get_paths(
-                env_ids=env_ids_for_control,
-                start_positions=self.to_local(robot_pos_for_control,env_ids_for_control),
-                target_positions=self.to_local(goal_pos_for_control,env_ids_for_control),
-                device=self.device
-            )
+            paths = None
+            possible_try_steps = 3
+            for i in range(possible_try_steps):
+                paths = self.path_manager.get_paths(
+                    env_ids=env_ids_for_control,
+                    start_positions=self.to_local(robot_pos_for_control,env_ids_for_control),
+                    target_positions=self.to_local(goal_pos_for_control,env_ids_for_control),
+                    device=self.device
+                )
+                if paths is None:
+                    print(f"[ ERROR ] GET NONE PATH {i + 1} times")
+                    self._update_chairs(sp=False)
+                else:
+                    break
             # print("out path_manager, paths: ", paths, self.turn_on_controller_step)
             self.control_module.update_paths(env_ids_for_control, paths, self.to_local(goal_pos_for_control,env_ids_for_control))
             # self.control_module.update_paths(self.to_local(robot_pos_for_control, env_ids_for_control), self.to_local(goal_pos_for_control, env_ids_for_control), paths, env_ids_for_control)
@@ -793,10 +837,6 @@ class WheeledRobotEnv(DirectRLEnv):
         # print("in reset robot pose ", robot_pos, goal_pos)
         self._desired_pos_w[env_ids, :2] = goal_pos
         self._desired_pos_w[env_ids, 2] = 0.7
-        if self.tensorboard_step > 500:
-            self.tensorboard_step = 0
-            print("Custom/success_rate", self.success_rate, self.sr_stack_capacity)
-            print("Custom/counter", self._step_update_counter)
 
         joint_pos = self._robot.data.default_joint_pos[env_ids].clone()
         joint_vel = self._robot.data.default_joint_vel[env_ids].clone()
@@ -821,8 +861,14 @@ class WheeledRobotEnv(DirectRLEnv):
         _, _, r_error, a_error = self.goal_reached(get_num_subs=True)
         self.previous_distance_error[env_ids] = r_error[env_ids]
         self.previous_angle_error[env_ids] = a_error[env_ids]
+        self._update_chairs(up=False)
         self.first_ep = False
-            
+        if self.LOG:
+            self.experiment.log_metric("success_rate", self.success_rate, step=self.tensorboard_step)
+            self.experiment.log_metric("mean_radius", self.mean_radius, step=self.tensorboard_step)
+            self.experiment.log_metric("max_angle", self.max_angle_error, step=self.tensorboard_step)
+            # self.experiment.log_metric("use obstacles", self.turn_on_obstacles.float(), step=self.tensorboard_step)
+
     def to_local(self, pos, env_ids=None, env_origins=None):
         if env_ids is None:
             env_ids = self._robot._ALL_INDICES.clone()
@@ -831,8 +877,6 @@ class WheeledRobotEnv(DirectRLEnv):
         return pos[:, :2] - env_origins[env_ids, :2]
 
     def update_from_counters(self, env_ids: torch.Tensor):
-        k = 100 if self.cur_angle_error >= self.max_angle_error and self.mean_radius > self.second_try else 50
-        base = k #min(k/self.num_envs, self.num_envs)
         # print("self.success_rate ", self.success_rate)
         if self.warm and self.cur_step >= self.warm_len:
             self.warm = False
@@ -840,17 +884,17 @@ class WheeledRobotEnv(DirectRLEnv):
             self.cur_angle_error = 0
             self._step_update_counter = 0
             print(f"end worm stage r: {round(self.mean_radius, 2)}, a: {round(self.cur_angle_error, 2)}")
-        elif not self.warm and self._step_update_counter >= base and not self.turn_on_controller and self.sr_stack_full:
-            if self.success_rate >= 90:
+        elif not self.warm and not self.turn_on_controller and self.sr_stack_full:
+            if self.success_rate >= 85:
                 self.success_ep_num += 1
                 self.foult_ep_num = 0
-                if self.success_ep_num > self.my_episode_lenght:
+                if self.success_ep_num > self.num_envs:
                     self.second_try = max(self.mean_radius, self.second_try)
                     self.success_ep_num = 0
                     old_mr = self.mean_radius
                     old_a = self.cur_angle_error
                     self.cur_angle_error += self.max_angle_error / 2
-                    print("sr: ", round(self.success_rate, 2), self.sr_stack_capacity)
+                    print("[ sr ]: ", round(self.success_rate, 2), self.sr_stack_capacity)
                     if self.cur_angle_error > self.max_angle_error:
                         self.cur_angle_error = 0
                         self.mean_radius += 0.3
@@ -859,9 +903,9 @@ class WheeledRobotEnv(DirectRLEnv):
                         print(f"udate [ UP ] r: {round(self.mean_radius, 2)} a: from {round(old_a, 2)} to {round(self.cur_angle_error, 2)}")
                     self._step_update_counter = 0
                     self.update_sr_stack()
-            elif self.success_rate <= 30 or self._step_update_counter >= 3*base:
+            elif self.success_rate <= 30 or (self._step_update_counter >= 1000 and self.success_rate <= 85):
                 self.foult_ep_num += 1
-                if self.foult_ep_num > 8 * self.my_episode_lenght:
+                if self.foult_ep_num > 5 * self.my_episode_lenght:
                     self.success_ep_num = 0
                     self.foult_ep_num = 0
                     old_mr = self.mean_radius
@@ -871,7 +915,7 @@ class WheeledRobotEnv(DirectRLEnv):
                     self.cur_angle_error = 0
                    
                     self._step_update_counter = 0
-                    print("sr: ", round(self.success_rate, 2), self.sr_stack_capacity)
+                    print("[ sr ]: ", round(self.success_rate, 2), self.sr_stack_capacity)
                     print(f"udate [ DOWN ] r: from {round(old_mr, 2)} to {round(self.mean_radius, 2)}, a: {round(self.cur_angle_error, 2)}")
                     self.update_sr_stack()
 
@@ -888,55 +932,57 @@ class WheeledRobotEnv(DirectRLEnv):
         # self.tensorboard_writer.close()
         super().close()
 
-    def _update_chairs(self, env_ids: torch.Tensor = None, mess=False):
+    def _update_chairs(self, env_ids: torch.Tensor = None, mess=False, all_defoult = False, up=True, sp=True):
         """
         Args:
             env_ids: torch.Tensor, индексы сред для обновления. Если None, обновляются все среды.
         """
         if env_ids is None:
             env_ids = self._robot._ALL_INDICES.clone()
-        if self.first_ep or not self.turn_on_obstacles:
-            min_num_active = 0
-            max_num_active = 0
-        else:
-            min_num_active=0
-            max_num_active=3
-            # selected_indices = {}
-            # for env_id in env_ids:
-            #     config_key = '012'
-            #     positions_for_obstacles = [int(ch) for ch in config_key] if config_key else []
-            #     selected_indices[env_id.item()] = positions_for_obstacles
-            #     print(f"[DEBUG] Env {env_id}: Obstacle positions indices: {positions_for_obstacles}")
-            
-            # print(f"[DEBUG] Generating obstacle positions for env_ids={env_ids.tolist()}...")
-            # self.scene_manager.generate_obstacle_positions(
-            #     mess=False,
-            #     env_ids=env_ids,
-            #     terrain_origins=torch.zeros((len(env_ids), 3), device=self.device),
-            #     min_num_active=len(positions_for_obstacles),  # Используем последнее значение или можно адаптировать
-            #     max_num_active=len(positions_for_obstacles),
-            #     selected_indices=selected_indices
-            # )
-        self.scene_manager.generate_obstacle_positions(mess=False, env_ids=env_ids,terrain_origins=self._terrain.env_origins,
-                                                        min_num_active=min_num_active,max_num_active=max_num_active)
-        # Обновляем позиции стульев для всех сред
-        # print("self.scene_manager.num_obstacles ", self.scene_manager.num_obstacles)
-        for i in range(self.scene_manager.num_obstacles):  # Для каждого стула
-            root_poses = torch.zeros((len(env_ids), 7), device=self.device)  # [num_envs, 7] (x, y, z, qw, qx, qy, qz)
-            for j, env_id in enumerate(env_ids):
-                # Получаем информацию о препятствии из obstacle_manager
-                node = self.scene_manager.graphs[env_id.item()].graph.nodes[i]
-                pos = node['position']
-                # Заполняем позицию и ориентацию
-                root_poses[j, 0] = pos[0]  # x
-                root_poses[j, 1] = pos[1]  # y
-                root_poses[j, 2] = pos[2]  # z
-                root_poses[j, 3] = 1.0  # qw
-                root_poses[j, 4:7] = 0.0  # qx, qy, qz
+        if up:
+            if self.first_ep or not self.turn_on_obstacles or all_defoult:
+                min_num_active = 0
+                max_num_active = 0
+            else:
+                min_num_active=0
+                max_num_active=3
+                # selected_indices = {}
+                # for env_id in env_ids:
+                #     config_key = '012'
+                #     positions_for_obstacles = [int(ch) for ch in config_key] if config_key else []
+                #     selected_indices[env_id.item()] = positions_for_obstacles
+                #     print(f"[DEBUG] Env {env_id}: Obstacle positions indices: {positions_for_obstacles}")
+                
+                # print(f"[DEBUG] Generating obstacle positions for env_ids={env_ids.tolist()}...")
+                # self.scene_manager.generate_obstacle_positions(
+                #     mess=False,
+                #     env_ids=env_ids,
+                #     terrain_origins=torch.zeros((len(env_ids), 3), device=self.device),
+                #     min_num_active=len(positions_for_obstacles),  # Используем последнее значение или можно адаптировать
+                #     max_num_active=len(positions_for_obstacles),
+                #     selected_indices=selected_indices
+                # )
+            self.scene_manager.generate_obstacle_positions(mess=False, env_ids=env_ids,terrain_origins=self._terrain.env_origins,
+                                                            min_num_active=min_num_active,max_num_active=max_num_active)
+        if sp:
+            # Обновляем позиции стульев для всех сред
+            # print("self.scene_manager.num_obstacles ", self.scene_manager.num_obstacles)
+            for i in range(self.scene_manager.num_obstacles):  # Для каждого стула
+                root_poses = torch.zeros((len(env_ids), 7), device=self.device)  # [num_envs, 7] (x, y, z, qw, qx, qy, qz)
+                for j, env_id in enumerate(env_ids):
+                    # Получаем информацию о препятствии из obstacle_manager
+                    node = self.scene_manager.graphs[env_id.item()].graph.nodes[i]
+                    pos = node['position']
+                    # Заполняем позицию и ориентацию
+                    root_poses[j, 0] = pos[0]  # x
+                    root_poses[j, 1] = pos[1]  # y
+                    root_poses[j, 2] = pos[2]  # z
+                    root_poses[j, 3] = 1.0  # qw
+                    root_poses[j, 4:7] = 0.0  # qx, qy, qz
 
-            # Добавляем смещение среды
-            root_poses[:, :2] += self._terrain.env_origins[env_ids, :2]
-            self.chair_objects[i].write_root_pose_to_sim(root_poses, env_ids=env_ids)
+                # Добавляем смещение среды
+                root_poses[:, :2] += self._terrain.env_origins[env_ids, :2]
+                self.chair_objects[i].write_root_pose_to_sim(root_poses, env_ids=env_ids)
 
 def log_embedding_stats(embedding):
     mean_val = embedding.mean().item()

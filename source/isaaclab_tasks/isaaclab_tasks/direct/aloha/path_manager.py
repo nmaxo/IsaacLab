@@ -94,6 +94,8 @@ class Path_manager:
         configs = []
         for env_id in env_ids:
             selected_indices = self.scene_manager.get_selected_indices(env_id)
+            if selected_indices is None:
+                return None
             # print("selected_indices ", selected_indices)
             if torch.is_tensor(selected_indices):
                 selected_indices = selected_indices.tolist()
