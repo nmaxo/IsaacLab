@@ -30,7 +30,7 @@ from isaaclab.sensors import TiledCamera, TiledCameraCfg, ContactSensor, Contact
 from .scene_manager import Scene_manager
 from .control_manager import VectorizedPurePursuit
 from .path_manager import Path_manager
-from .memory_manager import Memory_manager
+from .memory_manager import Memory_manager, PathTracker
 from .asset_manager import Asset_paths
 import omni.kit.commands
 import omni.usd
@@ -186,13 +186,12 @@ class WheeledRobotEnv(DirectRLEnv):
         self.use_controller = True
         self.imitation = False
         if self.imitation:
-            self.warm_len = 800
-        if self.imitation:
             self.use_controller = True
         if self.use_controller:
             self.path_manager = Path_manager(scene_manager=self.scene_manager, ratio=8.0, shift=[5, 4], device=self.device)
             self.control_module = VectorizedPurePursuit(num_envs=self.num_envs, device=self.device)
         self.memory_on = False
+        self.tracker = PathTracker(num_envs=self.num_envs, device=self.device)
         if self.memory_on:
             self.memory_manager = Memory_manager(
                 num_envs=self.num_envs,
@@ -210,12 +209,11 @@ class WheeledRobotEnv(DirectRLEnv):
         self._debug_log_frequency = 10
         self.turn_on_controller = False #it is not use or not use controller, it is flag for the first step
         self.turn_on_controller_step = 0
-        self.my_episode_step = 0
         self.my_episode_lenght = 256
         self.turn_off_controller_step = 0
         self.use_obstacles = True
         self.turn_on_obstacles = False
-        self.turn_on_obstacles_always = True
+        self.turn_on_obstacles_always = False
         if self.use_obstacles:
             self.use_obstacles = True
         self.previous_distance_error = torch.zeros(self.num_envs, dtype=torch.float, device=self.device)
@@ -244,7 +242,8 @@ class WheeledRobotEnv(DirectRLEnv):
         self.max_angle_error = torch.pi / 6
         self.cur_angle_error = torch.pi / 12
         self.warm = True
-        self.warm_len = 256
+        self.warm_len = 4096
+        self.without_imitation = self.warm_len / 2
         self._obstacle_update_counter = 0
         self.has_contact = torch.full((self.num_envs,), True, dtype=torch.bool, device=self.device)
         self.sim = SimulationContext.instance()
@@ -263,6 +262,7 @@ class WheeledRobotEnv(DirectRLEnv):
         # self.tensorboard_writer = SummaryWriter(log_dir=f"/home/xiso/IsaacLab/logs/tensorboard/navigation_rl_{name}_{timestamp}")
         self.tensorboard_step = 0
         self.cur_step = 0
+        self.velocities = torch.zeros((self.num_envs, 2), device=self.device, dtype=torch.float32)
         
         self.clip_model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").to(self.device)
         self.clip_processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
@@ -273,9 +273,9 @@ class WheeledRobotEnv(DirectRLEnv):
         self.success_stacks = [[] for _ in range(self.num_envs)]  # Список списков для каждой среды
         self.max_stack_size = 6  # Максимальный размер стека
         self.sr_stack_full = False
-        self.start_mean_radius = 2
-        self.min_level_radius = 2.3
-
+        self.start_mean_radius = 0
+        self.min_level_radius = 0
+        self.sr_treshhold = 85
         self.LOG = False
         if self.LOG:
             from comet_ml import start
@@ -468,7 +468,6 @@ class WheeledRobotEnv(DirectRLEnv):
             raise RuntimeError(f"[ Error ]: we have nan actions!")
         r = self.cfg.wheel_radius
         L = self.cfg.wheel_distance
-        self.my_episode_step += 1
         self._step_update_counter += 1
         if self.turn_on_controller or self.imitation:
             self.turn_on_controller_step += 1
@@ -491,6 +490,7 @@ class WheeledRobotEnv(DirectRLEnv):
             angular_speed = 2*self._actions[:, 1]  # [num_envs], оставляем как есть от RL
         # linear_speed = torch.tensor([0], device=self.device)
         self.angular_speed = angular_speed
+        self.velocities = torch.stack([linear_speed, angular_speed], dim=1)
         # if self.tensorboard_step % 4 ==0:
         # self.delete = -1 * self.delete 
         # angular_speed = torch.tensor([0], device=self.device)
@@ -505,9 +505,9 @@ class WheeledRobotEnv(DirectRLEnv):
     def _get_rewards(self) -> torch.Tensor:
         lin_vel = torch.norm(self._robot.data.root_lin_vel_w[:, :2], dim=1)
         
-        lin_vel_reward = lin_vel * 0.2
+        lin_vel_reward = lin_vel * 0.01
         ang_vel = self._robot.data.root_ang_vel_w[:, 2]
-        ang_vel_reward = torch.abs(self.angular_speed) * 0.2
+        ang_vel_reward = torch.abs(self.angular_speed) * 0.1
         a_penalty = 0.1 * torch.abs(self.angular_speed - self.previous_ang_vel) #+ torch.abs(lin_vel - self.previous_lin_vel))
         # print("a_penalty ", -a_penalty, self.angular_speed, self.previous_ang_vel )
         # self.previous_lin_vel = lin_vel
@@ -516,11 +516,15 @@ class WheeledRobotEnv(DirectRLEnv):
 
         moves = torch.clamp(5 * (self.previous_distance_error - r_error), min=0, max=1) + \
                     torch.clamp(5 * (self.previous_angle_error - a_error), min=0, max=1)
+        env_ids = self._robot._ALL_INDICES.clone()
+        root_pos_w = self._robot.data.root_pos_w[:, :2]
+        self.tracker.add_step(env_ids, self.to_local(root_pos_w, env_ids), self.velocities)
+        path_lengths = self.tracker.compute_path_lengths(env_ids)
 
         moves_reward = moves * 0.1
         IL_reward = 0
         if self.turn_on_controller:
-            IL_reward = 0.1
+            IL_reward = 0.01
         self.previous_distance_error = r_error
         self.previous_angle_error = a_error
 
@@ -529,26 +533,41 @@ class WheeledRobotEnv(DirectRLEnv):
         time_out = self.is_time_out(self.my_episode_lenght-1)
         time_out_penalty = -5 * time_out.float()
 
-        vel_penalty = -1 * (ang_vel_reward)
+        vel_penalty = -1 * (ang_vel_reward + lin_vel_reward)
         mask = ~goal_reached
         vel_penalty[mask] = 0
+        lin_vel_reward[goal_reached] = 0
         
-        reward = 0.05 + 5.0 * goal_reached.float() - (5 + self.mean_radius + lin_vel_reward) * has_contact.float() - ang_vel_reward  / (3*self.mean_radius + 1) + lin_vel_reward #- a_penalty + moves_reward
+        paths = self.tracker.get_paths(env_ids)
+        # jerk_counts = self.tracker.compute_jerk(env_ids, threshold=0.2)
+
+        
+        # print(jerk_counts)
+        reward = (
+            IL_reward * (r_error-1) * (r_error-0.8)
+            - 0.01 - 0.05 * (r_error-0.8)
+            + lin_vel_reward
+            + 5 * goal_reached.float() * (1 + self.mean_radius) / (1 + path_lengths)
+            - (3 + self.mean_radius + lin_vel_reward) * has_contact.float()
+            - ang_vel_reward / (3 * self.mean_radius + 1)
+        )
 
         if torch.any(has_contact) or torch.any(goal_reached) or torch.any(time_out):
             sr = self.update_success_rate(goal_reached)
 
         # if torch.any(has_contact) or torch.any(goal_reached) or torch.any(time_out):
-        # #     print("sr: ", sr)
+        #     print("path info")
+        #     print(path_lengths)
+        #     print(paths)
+        #     print("sr: ", sr)
             
-        #     print("reward ", reward)
-        #     print("goal_reached ", goal_reached)
-        #     print("has_contact ", has_contact)
+            # print("reward ", reward, mask)
+            # print("goal_reached ", goal_reached)
+            # print("has_contact ", has_contact)
         # print(-ang_vel_reward, self.angular_speed)
         # print(a_penalty)
         # print("___________")
         # print("moves_reward ", moves_reward)
-        
         check = {
             "moves":moves,
         }
@@ -678,7 +697,8 @@ class WheeledRobotEnv(DirectRLEnv):
         self.history_len = torch.zeros(self.num_envs, device=self.device)
 
     def update_success_rate(self, goal_reached):
-        
+        if self.cur_step % 300 == 0:
+            print("[ sr ]: ", round(self.success_rate, 2), self.sr_stack_capacity)
         if self.turn_on_controller:
             return torch.tensor(self.success_rate, device=self.device)
         
@@ -764,27 +784,39 @@ class WheeledRobotEnv(DirectRLEnv):
         if self.turn_on_controller_step > self.my_episode_lenght and self.turn_on_controller:
             self.turn_on_controller_step = 0
             self.turn_on_controller = False
-        if not self.warm and self.sr_stack_full and (self.mean_radius != 0) and self.use_controller and not self.turn_on_controller and not self.first_ep and self.turn_off_controller_step > self.my_episode_lenght:
-            self.my_episode_step = 0
+
+        cond_imitation = (
+            not self.warm and
+            self.sr_stack_full and
+            self.mean_radius != 0 and
+            self.use_controller and
+            not self.turn_on_controller and
+            not self.first_ep and
+            self.turn_off_controller_step > self.my_episode_lenght
+        )
+        if cond_imitation: 
             self.turn_on_controller_step = 0
             self.turn_off_controller_step = 0
             prob = lambda x: torch.rand(1).item() <= x
-            self.turn_on_controller = prob(0.01 * max(10, min(40, 100 - self.success_rate))) #torch.clamp(1 - self.success_rate, min=10.0, max=60.0)
+            self.turn_on_controller = prob(0.01 * max(10, min(40, 100 - self.success_rate)))
             print(f"turn controller: {self.turn_on_controller} with SR {self.success_rate}")
+        elif self.cur_step < self.warm_len:
+                if self.cur_step < self.without_imitation:
+                    self.turn_on_controller = False
+                else:
+                    self.turn_on_controller = True
+            
         if (env_ids is None or len(env_ids) == self.num_envs):# or (self.first_ep and self.turn_on_obstacles)
             env_ids = self._robot._ALL_INDICES.clone()
-        if (self.mean_radius >= 2 and self.use_obstacles and not self.warm) or self.turn_on_obstacles_always:
-            if self.turn_on_obstacles_always and self.cur_step > 300:
+        if (self.mean_radius >= 2.3 and self.use_obstacles and not self.warm) or self.turn_on_obstacles_always or self.warm:
+            if self.turn_on_obstacles_always and self.cur_step % 300:
                 print("[ WARNING ] ostacles allways turn on")
 
             self.turn_on_obstacles = True
             if not self.turn_on_obstacles_always:
-                self.min_level_radius = max(2, self.mean_radius - 0.3)
+                self.min_level_radius = max(2.3, self.mean_radius - 0.3)
         else:
             self.turn_on_obstacles = False
-        if self.cur_step > 300:
-            self.cur_step = 0
-            print("[ sr ]: ", round(self.success_rate, 2), self.sr_stack_capacity)
         if self.use_obstacles:
             self._update_chairs(env_ids)
         self.update_from_counters(env_ids)
@@ -863,6 +895,7 @@ class WheeledRobotEnv(DirectRLEnv):
         self.previous_angle_error[env_ids] = a_error[env_ids]
         self._update_chairs(up=False)
         self.first_ep = False
+        self.tracker.reset(env_ids)
         if self.LOG:
             self.experiment.log_metric("success_rate", self.success_rate, step=self.tensorboard_step)
             self.experiment.log_metric("mean_radius", self.mean_radius, step=self.tensorboard_step)
@@ -885,7 +918,7 @@ class WheeledRobotEnv(DirectRLEnv):
             self._step_update_counter = 0
             print(f"end worm stage r: {round(self.mean_radius, 2)}, a: {round(self.cur_angle_error, 2)}")
         elif not self.warm and not self.turn_on_controller and self.sr_stack_full:
-            if self.success_rate >= 85:
+            if self.success_rate >= self.sr_treshhold:
                 self.success_ep_num += 1
                 self.foult_ep_num = 0
                 if self.success_ep_num > self.num_envs:
@@ -897,15 +930,15 @@ class WheeledRobotEnv(DirectRLEnv):
                     print("[ sr ]: ", round(self.success_rate, 2), self.sr_stack_capacity)
                     if self.cur_angle_error > self.max_angle_error:
                         self.cur_angle_error = 0
-                        self.mean_radius += 0.3
+                        self.mean_radius += 0.3*(1 + self.mean_radius)
                         print(f"udate [ UP ] r: from {round(old_mr, 2)} to {round(self.mean_radius, 2)}")
                     else:
                         print(f"udate [ UP ] r: {round(self.mean_radius, 2)} a: from {round(old_a, 2)} to {round(self.cur_angle_error, 2)}")
                     self._step_update_counter = 0
                     self.update_sr_stack()
-            elif self.success_rate <= 30 or (self._step_update_counter >= 1000 and self.success_rate <= 85):
+            elif self.success_rate <= 30 or (self._step_update_counter >= 1000 and self.success_rate <= self.sr_treshhold):
                 self.foult_ep_num += 1
-                if self.foult_ep_num > 5 * self.my_episode_lenght:
+                if self.foult_ep_num > 5000:
                     self.success_ep_num = 0
                     self.foult_ep_num = 0
                     old_mr = self.mean_radius

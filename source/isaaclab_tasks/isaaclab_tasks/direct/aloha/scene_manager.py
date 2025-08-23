@@ -219,8 +219,8 @@ class Scene_manager:
         radii = self.initialize_radii(
             num_envs=num_envs,
             mean_radius=mean_radius,
-            std_radius=(mean_radius-base_radius)*0.1,
-            max_radii=8,
+            std_radius=(mean_radius-base_radius)*0.2,
+            max_radii=5,
             min_radius=min_radius,
             max_radius=self.max_radius_values,
             device=self.device

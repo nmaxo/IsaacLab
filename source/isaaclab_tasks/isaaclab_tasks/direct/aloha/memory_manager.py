@@ -76,3 +76,113 @@ class Memory_manager:
         Сброс стека для указанных сред или всех сред.
         """
         self.is_initialized = False
+
+class PathTracker:
+    def __init__(self, num_envs: int, T_max: int = 256, device: str = "cuda", pos_dim: int = 2):
+        """
+        Батчевый менеджер траекторий и управляющих воздействий.
+
+        Args:
+            num_envs (int): количество сред
+            T_max (int): максимальная длина траектории
+            device (str): устройство
+            pos_dim (int): размерность позиции (обычно 2 или 3)
+        """
+        self.num_envs = num_envs
+        self.T_max = T_max
+        self.device = device
+        self.pos_dim = pos_dim
+
+        # [num_envs, T_max, pos_dim]
+        self.positions = torch.zeros((num_envs, T_max, pos_dim), device=device, dtype=torch.float32)
+        # [num_envs, T_max, 2] (lin, ang)
+        self.velocities = torch.zeros((num_envs, T_max, 2), device=device, dtype=torch.float32)
+        # Счётчик длины траектории для каждой среды
+        self.lengths = torch.zeros(num_envs, device=device, dtype=torch.long)
+
+    @torch.no_grad()
+    def add_step(self, env_ids: torch.Tensor, positions: torch.Tensor, velocities: torch.Tensor):
+        """
+        Добавить позиции и управляющие воздействия в батчевом режиме.
+        Args:
+            env_ids (torch.Tensor): [K]
+            positions (torch.Tensor): [K, pos_dim]
+            velocities (torch.Tensor): [K, 2]
+        """
+        env_ids = env_ids.to(self.device)
+        idxs = self.lengths[env_ids]  # текущие индексы вставки
+        for i, env_id in enumerate(env_ids):
+            if idxs[i] < self.T_max:
+                self.positions[env_id, idxs[i]] = positions[i].to(self.device)
+                self.velocities[env_id, idxs[i]] = velocities[i].to(self.device)
+                self.lengths[env_id] += 1  # увеличиваем счётчик
+
+    def reset(self, env_ids: torch.Tensor):
+        """
+        Очистить траектории и управляющие воздействия для указанных сред.
+        """
+        env_ids = env_ids.to(self.device)
+        self.positions[env_ids] = 0.0
+        self.velocities[env_ids] = 0.0
+        self.lengths[env_ids] = 0
+
+    @torch.no_grad()
+    def compute_path_lengths(self, env_ids: torch.Tensor) -> torch.Tensor:
+        """
+        Подсчитать длину пути для агентов (евклидова сумма).
+        Returns: [K]
+        """
+        env_ids = env_ids.to(self.device)
+        pos = self.positions[env_ids]  # [K, T_max, pos_dim]
+        L = self.lengths[env_ids]      # [K]
+
+        # Считаем диффы вдоль оси T
+        diffs = pos[:, 1:] - pos[:, :-1]       # [K, T_max-1, pos_dim]
+        dist = torch.norm(diffs, dim=-1)       # [K, T_max-1]
+
+        # Маска по длине
+        mask = torch.arange(self.T_max-1, device=self.device).unsqueeze(0) < (L.unsqueeze(1)-1)
+        dist = dist * mask
+
+        return dist.sum(dim=1)
+
+    def get_paths(self, env_ids: torch.Tensor):
+        """
+        Вернуть пути агентов (с обрезкой до длины).
+        """
+        env_ids = env_ids.to(self.device)
+        out = {}
+        for i, env_id in enumerate(env_ids):
+            L = self.lengths[env_id].item()
+            out[env_id.item()] = self.positions[env_id, :L]
+        return out
+
+    def get_velocities(self, env_ids: torch.Tensor):
+        """
+        Вернуть последовательности управляющих воздействий.
+        """
+        env_ids = env_ids.to(self.device)
+        out = {}
+        for i, env_id in enumerate(env_ids):
+            L = self.lengths[env_id].item()
+            out[env_id.item()] = self.velocities[env_id, :L]
+        return out
+
+    @torch.no_grad()
+    def compute_jerk(self, env_ids: torch.Tensor, threshold: float = 0.1) -> torch.Tensor:
+        """
+        Подсчитать количество резких скачков скоростей.
+        Args:
+            threshold (float): порог
+        Returns: [K] количество скачков
+        """
+        env_ids = env_ids.to(self.device)
+        vels = self.velocities[env_ids]  # [K, T_max, 2]
+        L = self.lengths[env_ids]
+
+        diffs = torch.norm(vels[:, 1:] - vels[:, :-1], dim=-1)  # [K, T_max-1]
+
+        mask = torch.arange(self.T_max-1, device=self.device).unsqueeze(0) < (L.unsqueeze(1)-1)
+        diffs = diffs * mask
+
+        return (diffs > threshold).sum(dim=1).float()
