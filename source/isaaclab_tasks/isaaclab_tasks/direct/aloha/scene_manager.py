@@ -260,7 +260,7 @@ class Scene_manager:
 
     def get_checked_for_room_bounds_pos(self, env_ids, mean_radius, min_radius):
         invalid_env_ids = torch.tensor(range(len(env_ids)), device=self.device)
-        max_iterations = 100
+        max_iterations = 50
         iteration = 0
         obj_pos = self._generate_obj_positions(invalid_env_ids, self.goal_local_pos[invalid_env_ids], mean_radius, min_radius)
         # Проверяем коллизии
@@ -279,13 +279,16 @@ class Scene_manager:
             # print(valid_new, invalid_env_ids)
             invalid_env_ids = invalid_env_ids[~valid_new]
             iteration += 1
-            if iteration > max_iterations:
-                for i in range(len(self.graphs)):
-                    print(i, self.graphs[i].get_graph_info())
-                print(invalid_env_ids)
-                print(self.goal_local_pos[invalid_env_ids])
-                print(obj_pos)
-                print("error in getting correction position")
+            if (iteration + 1) % max_iterations == 0:
+                print("[ error ] in getting correction position, iteration: ", iteration)
+                for i in invalid_env_ids:
+                    print(f"graph for {i.item()} env: ", self.graphs[i.item()].get_graph_info())
+                print("invalid_env_ids: ", invalid_env_ids)
+                print("goal_local_pos: ", self.goal_local_pos[invalid_env_ids])
+                print("obj_pos: ", obj_pos)
+                print("[ error ] in getting correction position, end log")
+                print("___________________")
+                
 
         if len(invalid_env_ids) > 0:
             print(f"Warning: Could not generate valid positions for {len(invalid_env_ids)} environments")
@@ -509,6 +512,9 @@ class Scene_manager:
         
         return self.robot_pos[env_ids], quaternion, goal_global_pos
 
+    def get_start_dist_error(self):
+        return self.config_env_episode["dist_error"]
+
     def get_relevant_env(self):
         return torch.where(self.config_env_episode["relevant"])[0]
 
@@ -679,36 +685,22 @@ class Scene_manager:
             print(env_id, self.graphs[env_id.item()].get_graph_info())
     
     def get_scene_embedding(self, env_ids):
+        """
+        Формирует эмбеддинг сцены как конкатенацию координат препятствий (x, y)
+        и фиксированной цели [-4.5, 0].
+        """
         embeddings = []
         for env_id in env_ids:
-            emb = self.graphs[env_id.item()].graph_to_tensor()
-            embeddings.append(emb)
-        embeddings = torch.stack(embeddings, dim=0)  # Форма: [batch_size, num_chairs, 4]
-        
-        # Извлекаем x и y координаты
-        x_coords = embeddings[:, :, 0]  # [batch_size, num_chairs]
-        y_coords = embeddings[:, :, 1]  # [batch_size, num_chairs]
-        # Создаём бинарный эмбеддинг [batch_size, num_chairs]
-        num_chairs = embeddings.shape[1]  # Например, 3
-        binary_embedding = torch.zeros_like(x_coords, dtype=torch.float32, device=embeddings.device)  # [batch_size, num_chairs]
-        # Определяем занятость: x != 0 означает наличие стула
-        occupied = (x_coords < 0).float()  # 1, если стул есть, 0 — если нет
-        
-        # Определяем позиции на основе y:
-        # y == 0: центр (индекс 0), y < 0: слева (индекс 1), y > 0: справа (индекс 2)
-        center_mask = (y_coords == 0) & (occupied == 1)  # Позиция 0
-        left_mask = (y_coords < 0) & (occupied == 1)     # Позиция 1
-        right_mask = (y_coords > 0) & (occupied == 1)    # Позиция 2
-        
-        # Присваиваем 1 соответствующим позициям
-        # Предполагаем, что индексы стульев соответствуют позициям: 0 — центр, 1 — слева, 2 — справа
-        binary_embedding[center_mask] = 1.0
-        binary_embedding[left_mask] = 1.0
-        binary_embedding[right_mask] = 1.0
-        # print("binary_embedding ", binary_embedding)
-        # print("embeddings ", embeddings)
-        # print("binary_embedding ", embeddings.flatten(start_dim=1))
-        return binary_embedding # embeddings.flatten(start_dim=1)  # Форма: [batch_size, num_chairs]
+            emb = self.graphs[env_id.item()].graph_to_tensor()  # [num_chairs, 4] или [3, 4]
+            # Берём только первые 2 координаты (x, y)
+            chair_positions = emb[:, :2]  # [3, 2]
+            # Добавляем цель
+            goal_pos = torch.tensor([-4.5, 0.0], device=emb.device, dtype=emb.dtype).unsqueeze(0)  # [1, 2]
+            # Конкатенация
+            scene_vec = torch.cat([chair_positions.flatten(), goal_pos.flatten()])  # [3*2 + 2] = [8]
+            embeddings.append(scene_vec)
+
+        return torch.stack(embeddings, dim=0)  # [batch_size, 8]
 
     def get_obstacles(self, env_id: int):
         """

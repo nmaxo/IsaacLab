@@ -67,7 +67,7 @@ class ObstacleGraph:
         self.active[:] = False
         if active_indices:
             self.active[active_indices] = True
-            self.positions[active_indices] = torch.tensor(positions, device=self.device, dtype=torch.float32).clone().detach()
+            self.positions[active_indices] = torch.tensor(positions, device=self.device, dtype=torch.float32).detach().clone()
         self.positions[~self.active] = self.default_positions[~self.active]
         self._update_edges()
 
@@ -95,10 +95,14 @@ class ObstacleGraph:
         Shape: [num_envs, num_chairs * feature_dim]
         feature_dim = 4 (x, y, z, radius)
         """
-        pos = self.positions / 50.0  # нормировка
+        # pos = torch.zeros_like(self.positions) # нормировка
+        pos = self.positions /50# нормировка
+        # pos = torch.tensor([[ 0.1200, -0.0300,  0.0000],
+        #                     [ 0.1200,  0.0000,  0.0000],
+        #                     [ 0.1200,  0.0300,  0.0000]], device=self.device)
         rad = self.radii.unsqueeze(-1)  # [num_envs, num_chairs, 1]
 
-        features = torch.cat([pos, rad], dim=-1)  # [num_envs, num_chairs, 5]
+        features = pos #torch.cat([pos, rad], dim=-1)  # [num_envs, num_chairs, 5]
         return features.flatten(start_dim=1)  # [num_envs, num_chairs * 5]
 
     def get_graph_info(self):

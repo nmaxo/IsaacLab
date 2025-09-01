@@ -57,18 +57,18 @@ models:
 
 memory:
   class: RandomMemory
-  memory_size: 12000
+  memory_size: 20000
 
 agent:
   class: SAC
   gradient_steps: 2
-  batch_size: 1024
+  batch_size: 512
 
   discount_factor: 0.99
   polyak: 0.005
 
   random_timesteps: 0
-  learning_starts: 5000
+  learning_starts: 3000
   actor_learning_rate: 0.0003   # actor learning rate
   critic_learning_rate: 0.0003  # critic learning rate
   grad_norm_clip: 0
@@ -76,15 +76,15 @@ agent:
   learn_entropy: True
   initial_entropy_value: 0.5
   activate_contact_sensors: True
-  # state_preprocessor: RunningStandardScaler
-  # state_preprocessor_kwargs:
-  #   size: auto
-  #   device: "cuda:0"
+  state_preprocessor: RunningStandardScaler
+  state_preprocessor_kwargs:
+    size: auto
+    device: "cuda:0"
   mixed_precision: True
 
 
   experiment:
-    directory:  'aloha'
+    directory: 'aloha'
     experiment_name: 'SAC'
     write_interval: 200
     checkpoint_interval: 500
