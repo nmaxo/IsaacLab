@@ -600,5 +600,5 @@ def _simplify_path(points, tol=1e-5):
 if __name__ == "__main__":
     print("[DEBUG] Starting PathGenerator script...")
     generator = PathGenerator(num_obstacles=3, device='cuda:0', test_mode=False)
-    generator.generate_paths(n_save=1500, targets=[[-4.5, 0]])    #[[-4.2, -1],[-4.2, 0],[-4.2, 1]])
+    generator.generate_paths(n_save=1500, targets=[[-4.5, 0],[-4.5, -1],[-4.5, 1]])    #[[-4.2, -1],[-4.2, 0],[-4.2, 1]])
     print("[DEBUG] PathGenerator script complete!")

@@ -101,7 +101,7 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
         # ),
         debug_vis=False,
     )
-    scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=64, env_spacing=13, replicate_physics=True)
+    scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=64, env_spacing=15, replicate_physics=True)
     robot: ArticulationCfg = ALOHA_CFG.replace(prim_path="/World/envs/env_.*/Robot")
     wheel_radius = 0.068
     wheel_distance = 0.34
@@ -183,7 +183,7 @@ class WheeledRobotEnv(DirectRLEnv):
         self.episode_counter = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
         self.success_counter = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
         self.step_counter = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
-
+        self.possible_goal_position = []
         self.scene_manager = Scene_manager(self.num_envs, self.device, num_obstacles=3)
         self.use_controller = True
         self.imitation = False
@@ -334,65 +334,46 @@ class WheeledRobotEnv(DirectRLEnv):
 
     def set_env(self):
         from isaaclab.sim.spawners.from_files import spawn_from_usd
-        self.obstacle_positions = None
-        self.chair_prims = [[] for _ in range(self.cfg.scene.num_envs)]
+        import random
+
+        # Спавн кухни (как и было)
         spawn_from_usd(
             prim_path="/World/envs/env_.*/Kitchen",
             cfg=self.cfg.kitchen,
             translation=(5.0, 4.0, 0.0),
             orientation=(0.0, 0.0, 0.0, 1.0),
         )
-        # Спавн стола
-        spawn_from_usd(
-            prim_path="/World/envs/env_.*/Table",
-            cfg=self.cfg.table,
-            translation=(-4.5, 0.0, 0.0),  # Стол в центре локальной системы
-            orientation=(0.7071, 0.0, 0.0, 0.7071),
-        )
-        goal_pos = (-4.5, 0, 0.65)  # z=0.8 для поверхности стола
-        spawn_from_usd(
-            prim_path="/World/envs/env_.*/Bowl",
-            cfg=self.cfg.bowl,
-            translation=goal_pos,
-            orientation=(0.0, 0.0, 0.7071, 0.7071),
-        )
 
-        stage = omni.usd.get_context().get_stage()
-        for env_id in range(self.cfg.scene.num_envs):
-            for prim_path in [
-                f"/World/envs/env_{env_id}/Kitchen",
-                f"/World/envs/env_{env_id}/Table",
-                f"/World/envs/env_{env_id}/Bowl",
-            ]:
-                prim = stage.GetPrimAtPath(prim_path)
-                if not prim.IsValid():
-                    raise RuntimeError(f"Failed to create prim at {prim_path}")
-                # print(f"Created prim {prim_path}, Type: {prim.GetTypeName()}")
-        import random
-
-        self.chair_objects = [[] for _ in range(6)]
-        grid_x = [-2.0, -1.0]
-        grid_y = [-1.0, 0.0, 1.0]
-        initial_positions = [(-2.0, -1.0, 0.0), (-2.0, 0.0, 0.0), (-2.0, 1.0, 0.0),
-                            (-1.0, -1.0, 0.0), (-1.0, 0.0, 0.0), (-1.0, 1.0, 0.0)]  # Позиции для ключа [7, 7]
-        # for env_id in range(self.cfg.scene.num_envs):
-        for i in range(3):
-            chair_cfg = RigidObjectCfg(
-                prim_path=f"/World/envs/env_.*/Chair_{i}",  # Уникальный путь для каждого стула в каждой среде
-                spawn=sim_utils.UsdFileCfg(
-                    usd_path=Asset_paths_manager.chair_usd_path,
-                    rigid_props=sim_utils.RigidBodyPropertiesCfg(
-                        rigid_body_enabled=True,
-                        kinematic_enabled=True,
+        # ADDED: Динамический спавн всех объектов из JSON
+        self.scene_objects = {}
+        for obj_cfg in self.scene_manager.objects_config:
+            name = obj_cfg['name']
+            count = obj_cfg['count']
+            usd_paths = obj_cfg['usd_paths']
+            
+            self.scene_objects[name] = []
+            for i in range(count):
+                # Выбираем случайный USD из списка
+                random_usd_path = random.choice(usd_paths)
+                
+                # Создаем RigidObjectCfg для каждого экземпляра
+                instance_cfg = RigidObjectCfg(
+                    prim_path=f"/World/envs/env_.*/{name}_{i}",
+                    spawn=sim_utils.UsdFileCfg(
+                        usd_path=random_usd_path,
+                        rigid_props=sim_utils.RigidBodyPropertiesCfg(
+                            rigid_body_enabled=True,
+                            kinematic_enabled=True, # Все объекты пока что кинематические
+                        ),
+                        collision_props=sim_utils.CollisionPropertiesCfg(
+                            collision_enabled=True,
+                        ),
                     ),
-                    collision_props=sim_utils.CollisionPropertiesCfg(
-                        collision_enabled=True,
-                    ),
-                ),
-                init_state=RigidObjectCfg.InitialStateCfg(pos=(6.0 + initial_positions[i][0], initial_positions[i][1], 0.0)),
-            )
-            chair_object = RigidObject(cfg=chair_cfg)
-            self.chair_objects[i] = chair_object  # Добавляем в список для конкретной среды
+                    # Начальная позиция за сценой, будет обновлена менеджером
+                    init_state=RigidObjectCfg.InitialStateCfg(pos=(10.0 + i, 10.0, 0.0)),
+                )
+                obj_instance = RigidObject(cfg=instance_cfg)
+                self.scene_objects[name].append(obj_instance)
 
     def _get_observations(self) -> dict:
         self.tensorboard_step += 1
@@ -487,8 +468,6 @@ class WheeledRobotEnv(DirectRLEnv):
         nan_indices = torch.nonzero(nan_mask.any(dim=1), as_tuple=False).squeeze()  # env_ids где любой action NaN/inf
         if nan_indices.numel() > 0:
             print(f"[WARNING] NaN/Inf in actions for envs: {nan_indices.tolist()}. Attempting recovery...")
-            self._actions[nan_indices] = 0.0  # Заменить NaN на safe value (0), чтобы не крашить step
-            self.recover_corrupted_envs(nan_indices)  # Новый метод для recovery (см. ниже)
         r = self.cfg.wheel_radius
         L = self.cfg.wheel_distance
         self._step_update_counter += 1
@@ -805,11 +784,17 @@ class WheeledRobotEnv(DirectRLEnv):
         return time_out
 
     def _reset_idx(self, env_ids: torch.Tensor | None):
-        super()._reset_idx(env_ids) #maybe this shuld be the first
+        super()._reset_idx(env_ids)
         if self.first_ep or env_ids is None or len(env_ids) == self.num_envs:
             env_ids = self._robot._ALL_INDICES.clone()
-        self._update_chairs(env_ids=env_ids, all_defoult=True)
-        self._update_chairs(env_ids=env_ids, sp=False)
+        # Сначала размещаем все объекты
+        self.scene_manager.place_scene_objects(
+            env_ids=env_ids,
+            min_num_obstacles=0 if self.first_ep else 1,
+            max_num_obstacles=3,
+            min_num_goals=1,
+            max_num_goals=3
+        )
         if self.turn_on_controller_step > self.my_episode_lenght and self.turn_on_controller:
             self.turn_on_controller_step = 0
             self.turn_on_controller = False
@@ -845,7 +830,7 @@ class WheeledRobotEnv(DirectRLEnv):
                 self.min_level_radius = max(2.3, self.mean_radius - 0.3)
         else:
             self.turn_on_obstacles = False
-        self.update_from_counters(env_ids)
+        self.curriculum_learning_module(env_ids)
         env_ids = env_ids.to(dtype=torch.long)
 
         final_distance_to_goal = torch.linalg.norm(
@@ -856,8 +841,7 @@ class WheeledRobotEnv(DirectRLEnv):
             self.episode_length_buf = torch.zeros_like(self.episode_length_buf) #, high=int(self.max_episode_length))
         self._actions[env_ids] = 0.0
         self._desired_pos_w[env_ids, :2] = self._terrain.env_origins[env_ids, :2]
-        min_radius_x = torch.tensor([1.2])
-        min_radius = torch.sqrt(min_radius_x)[0]
+        min_radius = 1.2
         robot_pos, quaternion, goal_pos = self.scene_manager.reset(env_ids, self._terrain.env_origins, self.mean_radius, min_radius, self.cur_angle_error)
         # print("i'm in path_manager")
         if self.turn_on_controller or self.imitation:
@@ -884,7 +868,13 @@ class WheeledRobotEnv(DirectRLEnv):
                 )
                 if paths is None:
                     print(f"[ ERROR ] GET NONE PATH {i + 1} times")
-                    self._update_chairs(env_ids=env_ids, sp=False)
+                    self.scene_manager.place_scene_objects(
+                        env_ids=env_ids,
+                        min_num_obstacles=0 if self.first_ep else 1,
+                        max_num_obstacles=3,
+                        min_num_goals=1,
+                        max_num_goals=3
+                    )
                 else:
                     break
             # print("out path_manager, paths: ", paths, self.turn_on_controller_step)
@@ -937,7 +927,7 @@ class WheeledRobotEnv(DirectRLEnv):
             env_origins = self._terrain.env_origins
         return pos[:, :2] - env_origins[env_ids, :2]
 
-    def update_from_counters(self, env_ids: torch.Tensor):
+    def curriculum_learning_module(self, env_ids: torch.Tensor):
         # print("self.success_rate ", self.success_rate)
         if self.warm and self.cur_step >= self.warm_len:
             self.warm = False
@@ -996,121 +986,32 @@ class WheeledRobotEnv(DirectRLEnv):
         # self.tensorboard_writer.close()
         super().close()
 
-    def _update_chairs(self, env_ids: torch.Tensor = None, mess=False, all_defoult = False, up=True, sp=True):
+    def _update_scene_objects(self, env_ids: torch.Tensor = None, mess=False, all_defoult = False, up=True, sp=True):
         """
         Args:
             env_ids: torch.Tensor, индексы сред для обновления. Если None, обновляются все среды.
         """
-        if env_ids is None:
-            env_ids = self._robot._ALL_INDICES.clone()
-        if up:
-            if self.first_ep or not self.turn_on_obstacles or all_defoult:
-                min_num_active = 0
-                max_num_active = 0
-            else:
-                min_num_active=0
-                max_num_active=3
-                # selected_indices = {}
-                # for env_id in env_ids:
-                #     config_key = '012'
-                #     positions_for_obstacles = [int(ch) for ch in config_key] if config_key else []
-                #     selected_indices[env_id.item()] = positions_for_obstacles
-                #     print(f"[DEBUG] Env {env_id}: Obstacle positions indices: {positions_for_obstacles}")
+        # Проходим по всем объектам, определенным в менеджере
+        for name, indices in self.scene_manager.object_indices.items():
+            object_instances = self.scene_objects[name]
+            
+            # Обновляем каждый экземпляр (стул_0, стул_1, стол_0, и т.д.)
+            for i, node_idx in enumerate(indices):
+                instance = object_instances[i]
                 
-                # print(f"[DEBUG] Generating obstacle positions for env_ids={env_ids.tolist()}...")
-                # self.scene_manager.generate_obstacle_positions(
-                #     mess=False,
-                #     env_ids=env_ids,
-                #     terrain_origins=torch.zeros((len(env_ids), 3), device=self.device),
-                #     min_num_active=len(positions_for_obstacles),  # Используем последнее значение или можно адаптировать
-                #     max_num_active=len(positions_for_obstacles),
-                #     selected_indices=selected_indices
-                # )
-            self.scene_manager.generate_obstacle_positions(mess=False, env_ids=env_ids,terrain_origins=self._terrain.env_origins,
-                                                            min_num_active=min_num_active,max_num_active=max_num_active)
-        if sp:
-            # Обновляем позиции стульев для всех сред
-            # print("self.scene_manager.num_obstacles ", self.scene_manager.num_obstacles)
-            for i in range(self.scene_manager.num_obstacles):  # Для каждого стула
-                root_poses = torch.zeros((len(env_ids), 7), device=self.device)  # [num_envs, 7] (x, y, z, qw, qx, qy, qz)
+                # Собираем позы для всех сред для этого одного экземпляра
+                root_poses = torch.zeros((len(env_ids), 7), device=self.device)
                 for j, env_id in enumerate(env_ids):
-                    # Получаем информацию о препятствии из obstacle_manager
-                    node = self.scene_manager.graphs[env_id.item()].graph.nodes[i]
-                    pos = node['position']
-                    # Заполняем позицию и ориентацию
-                    root_poses[j, 0] = pos[0]  # x
-                    root_poses[j, 1] = pos[1]  # y
-                    root_poses[j, 2] = pos[2]  # z
-                    root_poses[j, 3] = 1.0  # qw
-                    root_poses[j, 4:7] = 0.0  # qx, qy, qz
-
+                    graph = self.scene_manager.graphs[env_id.item()]
+                    node_data = graph.graph.nodes[node_idx]
+                    pos = node_data['position']
+                    
+                    root_poses[j, 0:3] = torch.tensor(pos, device=self.device)
+                    root_poses[j, 3] = 1.0  # Ориентация по умолчанию (w=1)
+                
                 # Добавляем смещение среды
                 root_poses[:, :2] += self._terrain.env_origins[env_ids, :2]
-                self.chair_objects[i].write_root_pose_to_sim(root_poses, env_ids=env_ids)
-
-    def recover_corrupted_envs(self, env_ids: torch.Tensor):
-        if env_ids.numel() == 0:
-            return
-        env_ids = env_ids.to(dtype=torch.long).unique()  # Уникальные IDs
-        
-        # Шаг 1: Cleanup prims для corrupted envs (удалить и пересоздать USD-объекты)
-        stage = get_context().get_stage()
-        for env_id in env_ids:
-            env_path = f"/World/envs/env_{env_id.item()}"
-            print(f"[RECOVERY] Deleting corrupted prims at {env_path}...")
-            
-            # Удалить все sub-prims (Robot, Kitchen, Table, Bowl, Chairs)
-            sub_paths = [
-                f"{env_path}/Robot",
-                f"{env_path}/Kitchen",
-                f"{env_path}/Table",
-                f"{env_path}/Bowl",
-            ]
-            for i in range(self.scene_manager.num_obstacles):  # Chairs
-                sub_paths.append(f"{env_path}/Chair_{i}")
-            
-            for path in sub_paths:
-                if stage.GetPrimAtPath(path).IsValid():
-                    omni.kit.commands.execute("DeletePrims", paths=[path])
-        
-        # Шаг 2: Переспавнить объекты (вызов set_env для этих envs)
-        self.set_env()  # Ваш метод спавнит для всех, но поскольку cloned, он переспавнит по prim_path="/World/envs/env_.*/..."
-        # Если set_env не векторизован, сделайте его: передайте env_ids и спавните только для них
-        # Пример модификации set_env:
-        # def set_env(self, env_ids=None):
-        #     if env_ids is None: env_ids = self._robot._ALL_INDICES.clone()
-        #     # Затем в spawn_from_usd: prim_path=f"/World/envs/env_{{env_id}}/*" с loop по env_ids
-        
-        # Шаг 3: Вызов _reset_idx (стандартный reset)
-        self._reset_idx(env_ids)
-        
-        # Шаг 4: Force update physics (шаг симуляции, чтобы применить изменения)
-        self.sim.step()  # Или self.sim.render() если нужно
-        
-        # Шаг 5: Проверить, помогло ли (e.g., root_pos_w не NaN)
-        root_pos_w = self._robot.data.root_pos_w[env_ids, :2]
-        still_bad = torch.isnan(root_pos_w).any(dim=1) | torch.isinf(root_pos_w).any(dim=1)
-        if still_bad.any():
-            print(f"[WARNING] Targeted recovery failed for envs {env_ids[still_bad].tolist()}. Falling back to full sim reset...")
-            self.full_sim_reset()  # Fallback (см. ниже)
-        
-        # Лог (в tensorboard/comet)
-        if self.LOG:
-            self.experiment.log_metric("recovery_events", len(env_ids), step=self.tensorboard_step)
-    
-    def full_sim_reset(self):
-        print("[RECOVERY] Performing full simulation reset...")
-        self.sim.stop()  # Остановить симуляцию
-        self.sim.clear()  # Очистить буферы (если нужно; проверьте доки SimulationContext)
-        self.sim.play()   # Перезапустить
-        
-        # Переинициализировать сцену полностью
-        self._setup_scene()  # Ваш метод для спавна всего
-        self._reset_idx(None)  # Reset всех envs
-        
-        # Лог
-        if self.LOG:
-            self.experiment.log_metric("full_reset_events", 1, step=self.tensorboard_step)
+                instance.write_root_pose_to_sim(root_poses, env_ids=env_ids)
 
 def log_embedding_stats(embedding):
     mean_val = embedding.mean().item()

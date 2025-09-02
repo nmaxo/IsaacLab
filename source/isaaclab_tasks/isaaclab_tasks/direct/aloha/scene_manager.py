@@ -2,7 +2,10 @@ import torch
 import math
 from scipy.spatial import ConvexHull
 import random
+import json
+
 # from .graph_manager import ObstacleGraph
+# from .graph_manager import ObstacleGraph, ObjectType # Убедитесь, что ObjectType импортируется
 
 import importlib.util
 def import_class_from_path(module_path, class_name):
@@ -15,17 +18,40 @@ import os
 current_dir = os.getcwd()
 module_path = os.path.join(current_dir, "source/isaaclab_tasks/isaaclab_tasks/direct/aloha/graph_manager.py")
 ObstacleGraph = import_class_from_path(module_path, "ObstacleGraph")
+ObjectType = import_class_from_path(module_path, "ObjectType")
 
 class Scene_manager:
-    def __init__(self, num_envs=1, device='cuda:0', num_obstacles=6):
+    def __init__(self, num_envs=1, device='cuda:0', num_obstacles=6, num_goals=3):
         self.num_envs = num_envs
         self.device = device
-        
+        config_path='config.json'
+        with open(config_path, 'r') as f:
+            self.config = json.load(f)
+        self.objects_config = self.config['objects']
+
+        self.object_indices = {}
+        self.object_type_map = {}
+        start_idx = 0
+        for obj in self.objects_config:
+            name = obj['name']
+            count = obj['count']
+            end_idx = start_idx + count
+            indices = list(range(start_idx, end_idx))
+            self.object_indices[name] = indices
+            
+            # Сохраняем Enum значение типа для каждого индекса
+            type_enum = getattr(ObjectType, obj['type'].upper(), ObjectType.UNKNOWN)
+            for i in indices:
+                self.object_type_map[i] = type_enum
+            
+            start_idx = end_idx
+
         # Тензоры для хранения позиций и ориентаций
         self.robot_pos = torch.zeros((num_envs, 2), device=device)  # [x, y]
         self.robot_yaw = torch.zeros(num_envs, device=device)      # угол yaw
         self.goal_local_pos = torch.zeros((num_envs, 2), device=device)  # [x, y] цели
-        
+        self.active_goal_node_idx = torch.zeros(num_envs, dtype=torch.long, device=device) # Индекс узла цели
+
         # Параметры управления
         self.max_linear_speed = 1.0   # максимальная линейная скорость (м/с)
         self.max_angular_speed = 0.5  # максимальная угловая скорость (рад/с)
@@ -84,7 +110,8 @@ class Scene_manager:
         grid_x = [-2.2]  # Уровни по X для активных позиций
         grid_y = [-1.1, 0.0, 1.1]  # Уровни по Y для активных позиций
         self.possible_positions = [(x, y, 0.0) for x in grid_x for y in grid_y]  # 6 возможных позиций
-        self.graphs = [ObstacleGraph(num_obstacles, device) for _ in range(num_envs)]
+        self.graphs = [ObstacleGraph(self.objects_config, device) for _ in range(num_envs)]
+        self.goal_graphs = [ObstacleGraph(num_goals, device) for _ in range(num_envs)]
         self.obstacle_radii = [0.5] * num_obstacles
         for graph in self.graphs:
             graph.set_radii(self.obstacle_radii)
@@ -186,22 +213,34 @@ class Scene_manager:
         return radii
    
     def generate_goal_positions_local(self, env_ids):
-        """Генерирует случайные позиции для целей в пределах комнаты."""
+        """Выбирает случайную активную цель из графа для каждой среды."""
         num_envs = len(env_ids)
+        positions = torch.zeros((num_envs, 2), device=self.device)
         
-        sigma_x = (self.goal_bounds['x_max'] - self.goal_bounds['x_min']) / 4  # ~1/4 ширины
-        sigma_y = (self.goal_bounds['y_max'] - self.goal_bounds['y_min']) / 4  # ~1/4 высоты
-        x = torch.randn(num_envs, device=self.device) * sigma_x
-        y = torch.randn(num_envs, device=self.device) * sigma_y
-
-        # Ограничение координат в пределах goal_bounds
-        x = torch.clamp(x, self.goal_bounds['x_min'] + 0.5, self.goal_bounds['x_max'] - 0.5)
-        y = torch.clamp(y, self.goal_bounds['y_min'] + 0.5, self.goal_bounds['y_max'] - 0.5)
-        
-        # positions = torch.zeros((num_envs,2),  device=self.device) #+ torch.stack([x, y], dim=1)
-        positions = torch.tensor([[-4.5, 0.0]], device=self.device).repeat(num_envs, 1)
-        # # print("goal pos ", positions)
+        for i, env_id in enumerate(env_ids):
+            graph = self.graphs[env_id.item()]
+            
+            # Находим все активные узлы, которые являются целями
+            active_goal_indices = [
+                idx for idx, data in graph.graph.nodes(data=True)
+                if data['active'] and data['type'] == ObjectType.POSSIBLE_GOAL.value
+            ]
+            
+            if not active_goal_indices:
+                # Если активных целей нет, ставим дефолтную позицию (аварийный случай)
+                print(f"[WARNING] No active goals found for env {env_id.item()}. Using default goal.")
+                chosen_goal_pos = torch.tensor([-4.5, 0.0], device=self.device)
+                self.active_goal_node_idx[env_id] = -1 # Признак отсутствия цели
+            else:
+                # Выбираем случайную цель из активных
+                chosen_goal_node_idx = random.choice(active_goal_indices)
+                self.active_goal_node_idx[env_id] = chosen_goal_node_idx
+                chosen_goal_pos = torch.tensor(graph.graph.nodes[chosen_goal_node_idx]['position'][:2], device=self.device)
+            
+            positions[i] = chosen_goal_pos
+            
         return positions
+
     
     def shift_pos(self, env_ids, obj_pos, terrain_origins):
         return obj_pos[env_ids] + terrain_origins[env_ids, :2]
@@ -302,7 +341,15 @@ class Scene_manager:
             env_ids = torch.tensor(range(num_envs), device=self.device)
             # print("i ", obj_pos)
             # Собираем активные препятствия
-            obstacles_per_env = [self.graphs[env_id.item()].get_active_nodes() for env_id in env_ids]
+            obstacles_per_env = []
+            for env_id in env_ids:
+                graph = self.graphs[env_id.item()]
+                nodes_with_radius = [
+                    {'position': data['position'], 'radius': data['radius']}
+                    for _, data in graph.graph.nodes(data=True)
+                    if data['active'] and data['radius'] > 0
+                ]
+                obstacles_per_env.append(nodes_with_radius)
             max_obstacles = max(len(obs) for obs in obstacles_per_env) if obstacles_per_env else 0
             if max_obstacles == 0:
                 return False, None
@@ -355,7 +402,15 @@ class Scene_manager:
         max_iterations = 10  # Ограничение на итерации
         # print("i ", obj_pos)
         # Собираем активные препятствия
-        obstacles_per_env = [self.graphs[env_id.item()].get_active_nodes() for env_id in env_ids]
+        obstacles_per_env = []
+        for env_id in env_ids:
+            graph = self.graphs[env_id.item()]
+            nodes_with_radius = [
+                {'position': data['position'], 'radius': data['radius']}
+                for _, data in graph.graph.nodes(data=True)
+                if data['active'] and data['radius'] > 0
+            ]
+            obstacles_per_env.append(nodes_with_radius)
         env_ids = torch.tensor(range(num_envs), device=self.device)
         max_obstacles = max(len(obs) for obs in obstacles_per_env) if obstacles_per_env else 0
         if max_obstacles == 0:
@@ -468,7 +523,7 @@ class Scene_manager:
         print("Collisions:")
         print(collisions)
 
-    def reset(self, env_ids, terrain_origins, mean_radius=1.3,min_radius=1.2,max_angle=0):
+    def reset(self, env_ids, terrain_origins, mean_radius=1.3,min_radius=1.2,max_angle=0.0):
         """Инициализация стартовых позиций и целей при сбросе."""
         num_envs = len(env_ids)       
         # Проверка и корректировка позиций
@@ -519,165 +574,81 @@ class Scene_manager:
         return torch.where(self.config_env_episode["relevant"])[0]
 
 
-    def generate_obstacle_positions(self, mess=False, env_ids=None, terrain_origins=None, min_num_active=0, max_num_active=None, mean_obs_rad=4,selected_indices=None):
-        """
-        Выбирает активные стулья и распределяет им случайные позиции из сетки.
-        Неактивные стулья остаются на дефолтных позициях.
-        
-        Args:
-            env_ids (torch.Tensor, optional): Индексы сред для обновления. Если None, обновляются все среды.
-            terrain_origins (torch.Tensor, optional): Смещения локальных координат для каждой среды [num_envs, 3].
-        
-        Returns:
-            List[ObstacleGraph]: Список графов для каждой среды.
-        """
+    def place_scene_objects(self, mess=False, env_ids=None, min_num_obstacles=0, max_num_obstacles=None, min_num_goals=1, max_num_goals=None):
+        """Размещает все объекты на сцене согласно их типам и правилам."""
         if env_ids is None:
             env_ids = torch.arange(self.num_envs, device=self.device, dtype=torch.long)
         
-        if terrain_origins is None:
-            terrain_origins = torch.zeros((self.num_envs, 3), device=self.device)
-        
-        num_envs = len(env_ids)
-        max_attempts = 10
-        max_obstacles = self.num_obstacles
-        max_positions = len(self.possible_positions)
-        
-        # Инициализируем позиции для всех сред
-        positions = torch.stack([self.graphs[env_id.item()].default_positions 
-                                for env_id in env_ids], dim=0)  # [num_envs, num_obstacles, 3]
-        
-        valid_envs = None
-        for attempt in range(max_attempts):
-            # Генерируем количество активных узлов для каждой среды
-            if max_num_active == None:
-                max_num_active = min(max_obstacles, max_positions)
-            else:
-                max_num_active = min(max_obstacles, max_positions, max_num_active)
-            if selected_indices is not None:
-                num_active = torch.tensor([len(selected_indices[env_id.item()]) for env_id in env_ids], device=self.device)
-            else:
-                num_active = torch.randint(min_num_active, max_num_active + 1, 
-                                    size=(num_envs,), device=self.device)  # [num_envs]
-            
-            # Маска для сред с num_active == 0
-            zero_active_mask = num_active == 0
-            
-            # Обрабатываем среды с num_active == 0
-            if torch.any(zero_active_mask):
-                terrain_offset = terrain_origins[env_ids[zero_active_mask], :2]  # [num_zero_active, 2]
-                positions[zero_active_mask, :, :2] += terrain_offset[:, None, :]  # [num_zero_active, num_obstacles, 2]
-                for env_idx, env_id in enumerate(env_ids[zero_active_mask]):
-                    self.graphs[env_id.item()].update_positions([], positions[env_idx])
-            
-            # Обрабатываем среды с num_active > 0
-            active_mask = ~zero_active_mask
-            if not torch.any(active_mask):
-                continue
-            
-            active_env_ids = env_ids[active_mask]  # [num_active_envs]
-            active_num_active = num_active[active_mask]  # [num_active_envs]
-            # print("num_active ", active_num_active)
-            # Генерируем случайные индексы для активных узлов
-            indices = torch.randperm(max_obstacles, device=self.device)[:active_num_active.max()]  # [max(num_active)]
-            # if isinstance(indices, torch.Tensor):
-            #     indices = indices.clone().detach().to(dtype=torch.long, device=self.device)[:n_active]
-            # else:
-            #     indices = torch.tensor(indices, device=self.device, dtype=torch.long)[:n_active]
-            active_indices = [indices[:n].tolist() for n in active_num_active]  # Список списков для каждой среды
-            self.active_indices = active_indices
-            self.mess = mess
-            if mess:
-                max_num_env = active_num_active.max()
-                # Initialize selected_positions as a list of empty lists
-                selected_positions = [[] for _ in range(len(active_env_ids))]
-                
-                # Sequentially add obstacles up to max(active_num_active)
-                for step in range(active_num_active.max().item()):
-                    # Identify environments that need another obstacle
-                    need_obstacle = active_num_active > step  # [num_active_envs]
-                    if not torch.any(need_obstacle):
-                        break
-                    
-                    # Select environments that still need obstacles
-                    current_env_ids = active_env_ids[need_obstacle]  # [num_current_envs]
-                    
-                    # Generate one position per environment using get_pos
-                    new_positions = self.get_pos(
-                        env_ids=current_env_ids,
-                        mean_radius=mean_obs_rad,
-                        min_radius=3
-                    )  # [num_current_envs, 2]
-                    new_positions_3d = torch.cat([new_positions, torch.zeros((len(current_env_ids), 1), device=self.device)], dim=1)  # [num_current_envs, 3]
-                    
-                    # Update selected_positions and graphs for these environments
-                    for env_idx, env_id in enumerate(current_env_ids):
-                        local_env_idx = (active_env_ids == env_id).nonzero(as_tuple=True)[0].item()
-                        selected_positions[local_env_idx].append(new_positions_3d[env_idx:env_idx+1])
-                        # Temporarily update graph to include this obstacle
-                        self.graphs[env_id.item()].update_positions([active_indices[local_env_idx][step]], new_positions_3d[env_idx:env_idx+1])
-                
-                # Convert selected_positions to list of tensors
-                selected_positions = [torch.cat(pos_list, dim=0) if pos_list else torch.tensor([], device=self.device).reshape(0, 3) 
-                                    for pos_list in selected_positions]
-            else:
-                # Выбираем случайные позиции из possible_positions
-                possible_positions = torch.tensor(self.possible_positions, 
-                                                device=self.device, dtype=torch.float32)  # [num_positions, 3]
-                # print("possible_positions: ", possible_positions)
-                if selected_indices is None:
-                    selected_indices = {}
-                    for env_id in env_ids:
-                        selected_indices[env_id.item()] = torch.randperm(max_positions, device=self.device)[:active_num_active.max()]  # [max(num_active)]
-                # print("selected_indices: ", selected_indices)
-                # selected_positions = [possible_positions[indices[:n]] for n in active_num_active]  # Список тензоров [num_active_i, 3]
-                selected_positions = [possible_positions[selected_indices.get(env_id.item(), []).clone().detach()] for env_id in active_env_ids]
-                # print("env_ids: ", env_ids)
+        # Шаг 1: Размещаем стационарные объекты (столы)
+        for obj_cfg in self.objects_config:
+            if obj_cfg['type'] == 'fixed_obstacle':
+                indices = self.object_indices[obj_cfg['name']]
+                positions = torch.tensor(obj_cfg['placement_grid'], device=self.device, dtype=torch.float32)
                 for env_id in env_ids:
-                    self.selected_indices[env_id.item()] = selected_indices[env_id.item()]
-                # print("selected_indices: ", self.selected_indices)
-            # Обновляем позиции для активных узлов
-            for env_idx, (env_id, indices, sel_pos) in enumerate(zip(active_env_ids, active_indices, selected_positions)):
-                positions[env_idx, indices] = sel_pos[:len(indices)]  # Обновляем активные узлы
-                self.graphs[env_id.item()].update_positions(indices, sel_pos[:len(indices)])
-            
-            # Проверяем минимальное расстояние между активными узлами
-            valid_envs = torch.ones(num_envs, dtype=torch.bool, device=self.device)
-            for env_idx, env_id in enumerate(env_ids):
-                if zero_active_mask[env_idx]:
-                    continue
-                active_edges = [(u, v) for u, v, d in self.graphs[env_id.item()].graph.edges(data=True) 
-                                if d['weight'] != float('inf')]
-                if not active_edges:
-                    valid_envs[env_idx] = True
-                    continue
-                min_dist = min(self.graphs[env_id.item()].graph.edges[u, v]['weight'] for u, v in active_edges)
-                min_required = min(node['radius'] for node in self.graphs[env_id.item()].get_active_nodes()) * 2
-                valid_envs[env_idx] = min_dist >= min_required
-                # print("not all envsd vcalid: ", min_dist, min_required, active_edges)
-            
-            # Если все среды валидны, выходим
-            if torch.all(valid_envs):
-                break
-            # else:
-            #     print("not all envsd vcalid: ", valid_envs[env_idx], env_idx)
-        
-        # Для невалидных сред устанавливаем дефолтные позиции
-        if valid_envs is not None:
-            invalid_envs = ~valid_envs
+                    # Столы всегда активны и находятся на своих местах
+                    self.graphs[env_id.item()].update_positions(indices, positions)
 
-            if torch.any(invalid_envs):
-                invalid_env_ids = env_ids[invalid_envs]
-                positions[invalid_envs] = torch.stack([self.graphs[env_id.item()].default_positions 
-                                                    for env_id in invalid_env_ids], dim=0)
-                # terrain_offset = terrain_origins[invalid_env_ids, :2]
-                # positions[invalid_envs, :, :2] += terrain_offset[:, None, :]
-                for env_idx, env_id in enumerate(invalid_env_ids):
-                    self.graphs[env_id.item()].update_positions([], positions[env_idx])
+        # Шаг 2: Размещаем перемещаемые объекты (стулья)
+        chair_cfg = next((obj for obj in self.objects_config if obj['type'] == 'obstacle'), None)
+        if chair_cfg:
+            if max_num_obstacles is None:
+                max_num_obstacles = chair_cfg['count']
             
-        # # Обновляем active_nodes и выводим отладочную информацию
-        # for env_id in env_ids:
-        #     print(env_id, self.graphs[env_id.item()].get_graph_info())
+            num_active_chairs = torch.randint(min_num_obstacles, max_num_obstacles + 1, size=(len(env_ids),), device=self.device)
+            
+            chair_indices = self.object_indices[chair_cfg['name']]
+            possible_chair_pos = torch.tensor(chair_cfg['placement_grid'], device=self.device, dtype=torch.float32)
+
+            for i, env_id in enumerate(env_ids):
+                graph = self.graphs[env_id.item()]
+                num_active = num_active_chairs[i].item()
+                
+                # Выбираем случайные стулья для активации
+                active_chair_indices = random.sample(chair_indices, num_active)
+                # Выбираем случайные позиции для них
+                pos_indices = torch.randperm(len(possible_chair_pos), device=self.device)[:num_active]
+                
+                graph.positions[active_chair_indices] = possible_chair_pos[pos_indices]
+                graph.active[active_chair_indices] = True
+
+        # Шаг 3: Размещаем цели (миски) на столах
+        goal_cfg = next((obj for obj in self.objects_config if obj['type'] == 'possible_goal'), None)
+        table_cfg = next((obj for obj in self.objects_config if obj['type'] == 'fixed_obstacle'), None)
         
+        if goal_cfg and table_cfg:
+            if max_num_goals is None:
+                max_num_goals = goal_cfg['count']
+
+            num_active_goals = torch.randint(min_num_goals, max_num_goals + 1, size=(len(env_ids),), device=self.device)
+            goal_indices = self.object_indices[goal_cfg['name']]
+            table_indices = self.object_indices[table_cfg['name']]
+
+            for i, env_id in enumerate(env_ids):
+                graph = self.graphs[env_id.item()]
+                num_active = num_active_goals[i].item()
+                
+                # Выбираем случайные миски для активации
+                active_goal_indices = random.sample(goal_indices, num_active)
+                # Выбираем случайные столы для размещения мисок
+                target_table_indices = random.choices(table_indices, k=num_active)
+
+                for goal_idx, table_idx in zip(active_goal_indices, target_table_indices):
+                    table_pos = graph.positions[table_idx]
+                    table_size = graph.sizes[table_idx]
+                    
+                    # Генерируем случайную позицию на поверхности стола
+                    # Отступ от края 0.1
+                    rand_x = (torch.rand(1, device=self.device).item() - 0.5) * (table_size[0] - 0.2)
+                    rand_y = (torch.rand(1, device=self.device).item() - 0.5) * (table_size[1] - 0.2)
+                    
+                    goal_pos_z = table_pos[2] + table_size[2] # Поверхность стола
+                    graph.positions[goal_idx] = torch.tensor([table_pos[0] + rand_x, table_pos[1] + rand_y, goal_pos_z], device=self.device)
+                    graph.active[goal_idx] = True
+
+        # Шаг 4: Обновляем рёбра и состояние графов после всех размещений
+        for env_id in env_ids:
+            self.graphs[env_id.item()]._update_edges()
+
         return self.graphs
     
     def print_graph_info(self, env_ids=None):
@@ -715,348 +686,3 @@ class Scene_manager:
         active_nodes = self.graphs[env_id].get_active_nodes()
         obstacles_id = [i for i in range(self.num_obstacles) if self.graphs[env_id].active[i]]
         return None, None, obstacles_id
-
-
-'''
-### **Переменные класса `Scene_manager`**
-
-#### **Инициализация и основные параметры**
-
-13. **`max_radius_values`**:
-    - **Тип**: `float`
-    - **Назначение**: Глобальный максимальный радиус для расстояния между роботом и целью (по умолчанию 8).
-    - **Пример**: Ограничивает максимальное расстояние при генерации позиций.
-
-14. **`radius_values`**:
-    - **Тип**: `torch.Tensor` `[num_envs]`
-    - **Назначение**: Хранит радиусы (расстояния робот-цель) для каждой среды.
-    - **Пример**: `radius_values[0] = 2.0` — расстояние между роботом и целью в среде 0 равно 2 метра.
-
-15. **`angle_values`**:
-    - **Тип**: `torch.Tensor` `[1]`
-    - **Назначение**: Хранит угол (по умолчанию `[0]`), используется для инициализации.
-    - **Пример**: Не активно используется в коде, возможно, зарезервировано для будущих функций.
-
-16. **`max_radius`**:
-    - **Тип**: `float`
-    - **Назначение**: Максимально допустимое расстояние между роботом и целью, рассчитанное как диагональ комнаты минус радиусы робота, цели и отступ (0.2 м).
-    - **Пример**: Для комнаты 10x8 м с радиусами робота 0.5 м и цели 0.3 м: `max_radius ≈ 6.2 м`.
-
-17. **`robot_bounds`**:
-    - **Тип**: `dict`
-    - **Назначение**: Границы для позиций робота с учетом его радиуса и дополнительных отступов.
-    - **Пример**: `{'x_min': -3.5, 'x_max': 3.5, 'y_min': -2.5, 'y_max': 2.5}` — допустимая область для центра робота.
-
-18. **`goal_bounds`**:
-    - **Тип**: `dict`
-    - **Назначение**: Границы для позиций цели с учетом ее радиуса.
-    - **Пример**: `{'x_min': -3.7, 'x_max': 3.7, 'y_min': -2.7, 'y_max': 2.7}` — допустимая область для центра цели.
-
-19. **`room_vertices`**:
-    - **Тип**: `torch.Tensor` `[4, 2]`
-    - **Назначение**: Координаты углов комнаты с учетом радиусов робота и цели (для расчета допустимых радиусов).
-    - **Пример**: Углы комнаты с отступами: `[[-3.9, -2.9], [-3.9, 2.9], [3.9, -2.9], [3.9, 2.9]]`.
-
-20. **`n_angles`**:
-    - **Тип**: `int`
-    - **Назначение**: Количество шагов дискретизации углов (по умолчанию 36, шаг `π/36` ≈ 5 градусов).
-    - **Пример**: Используется для дискретизации углов при генерации позиций робота.
-
-21. **`num_angle_steps`**:
-    - **Тип**: `int`
-    - **Назначение**: Общее количество угловых шагов (по умолчанию `2 * n_angles = 72`, от 0 до 2π).
-    - **Пример**: Определяет, сколько углов проверяется для размещения робота.
-
-22. **`angle_step`**:
-    - **Тип**: `float`
-    - **Назначение**: Шаг угловой дискретизации (`π/n_angles`).
-    - **Пример**: Для `n_angles=36`, `angle_step ≈ 0.087 радиан (5 градусов)`.
-
-23. **`discrete_angles`**:
-    - **Тип**: `torch.Tensor` `[num_angle_steps]`
-    - **Назначение**: Тензор дискретных углов от 0 до 2π с шагом `angle_step`.
-    - **Пример**: `discrete_angles = [0, 0.087, 0.174, ..., 6.195]` — массив углов для генерации позиций.
-
-24. **`possible_positions`**:
-    - **Тип**: `list[tuple]`
-    - **Назначение**: Список возможных позиций для препятствий, заданных в виде сетки (x, y, z=0).
-    - **Пример**: `[(-1.5, -1.0, 0.0), (-1.5, 0.0, 0.0), (-1.5, 1.0, 0.0)]` — три возможные позиции для препятствий.
-
-25. **`graphs`**:
-    - **Тип**: `list[ObstacleGraph]`
-    - **Назначение**: Список объектов `ObstacleGraph` для каждой среды, управляющих препятствиями.
-    - **Пример**: Каждый граф хранит позиции, радиусы и связи препятствий в одной среде.
-
-26. **`obstacle_radii`**:
-    - **Тип**: `list[float]`
-    - **Назначение**: Список радиусов препятствий (по умолчанию `[0.5] * num_obstacles`).
-    - **Пример**: Все препятствия имеют радиус 0.5 м.
-
-27. **`selected_indices`**:
-    - **Тип**: `dict`
-    - **Назначение**: Словарь, хранящий индексы выбранных позиций для активных препятствий в каждой среде.
-    - **Пример**: `selected_indices[0] = [0, 2]` — в среде 0 активны препятствия с индексами 0 и 2.
-
-28. **`active_indices`**:
-    - **Тип**: `list[list[int]]` или `None`
-    - **Назначение**: Список индексов активных препятствий для каждой среды (используется временно в `generate_obstacle_positions`).
-    - **Пример**: `[[0, 1], [2], []]` — активные препятствия для трех сред.
-
-29. **`mess`**:
-    - **Тип**: `bool` или `None`
-    - **Назначение**: Флаг, указывающий, генерировать ли случайные позиции препятствий (`True`) или использовать фиксированную сетку (`False`).
-    - **Пример**: Если `mess=True`, препятствия размещаются случайно с помощью `get_pos`.
-
-30. **`base_radius`**:
-    - **Тип**: `float`
-    - **Назначение**: Базовый радиус для генерации позиций робота или препятствий (по умолчанию 1).
-    - **Пример**: Добавляется к `mean_radius` для смещения позиций.
-
-31. **`config_env_episode`**:
-    - **Тип**: `dict`
-    - **Назначение**: Словарь, хранящий информацию о текущем эпизоде для каждой среды:
-      - `angle_error`: Тензор `[num_envs]`, угол ошибки ориентации робота относительно цели.
-      - `dist_error`: Тензор `[num_envs]`, расстояние между роботом и целью.
-      - `relevant`: Булев тензор `[num_envs]`, указывающий, является ли конфигурация среды "релевантной" (в пределах допустимых порогов).
-    - **Пример**: `config_env_episode["dist_error"][0] = 2.0` — расстояние до цели в среде 0 равно 2 м.
-
----
-
-### **Методы класса `Scene_manager`**
-
-1. **`__init__(num_envs=1, device='cuda:0', num_obstacles=6)`**:
-   - **Назначение**: Инициализирует объект `Scene_manager`, задавая начальные параметры, тензоры и границы.
-   - **Параметры**:
-     - `num_envs`: Количество сред.
-     - `device`: Устройство для вычислений.
-     - `num_obstacles`: Количество препятствий.
-   - **Действия**:
-     - Инициализирует тензоры для позиций и ориентаций.
-     - Задает границы комнаты и объектов.
-     - Создает список объектов `ObstacleGraph` для каждой среды.
-     - Устанавливает радиусы препятствий.
-   - **Пример**: `Scene_manager(num_envs=64, device='cuda:0')` создает менеджер для 64 сред на GPU.
-
-2. **`get_selected_indices(env_id=None)`**:
-   - **Назначение**: Возвращает индексы выбранных позиций препятствий для указанной среды или всех сред.
-   - **Параметры**:
-     - `env_id`: Индекс среды (если `None`, возвращает весь словарь `selected_indices`).
-   - **Возвращает**: Тензор с индексами или словарь `selected_indices`.
-   - **Пример**: `get_selected_indices(0)` возвращает `[0, 2]` для среды 0.
-
-3. **`get_mess()`**:
-   - **Назначение**: Возвращает значение флага `mess`.
-   - **Возвращает**: `bool` или `None`.
-   - **Пример**: Если `mess=True`, указывает, что препятствия размещаются случайно.
-
-4. **`compute_max_radii(goal_pos)`**:
-   - **Назначение**: Вычисляет максимальный радиус для размещения робота относительно цели с учетом границ комнаты.
-   - **Параметры**:
-     - `goal_pos`: Тензор `[num_envs, 2]` с позициями целей.
-   - **Возвращает**: Тензор `[num_envs]` с максимальными радиусами.
-   - **Действия**:
-     - Рассчитывает расстояния от целей до углов комнаты.
-     - Вычитает радиусы робота и цели, а также отступ (0.2 м).
-     - Ограничивает радиус минимальным значением (0.5 м).
-   - **Пример**: Для цели в `[-4.5, 0]` возвращает радиус, ограниченный границами комнаты.
-
-5. **`_compute_valid_angles(goal_pos, radii)`**:
-   - **Назначение**: Определяет допустимые углы для размещения робота на заданном радиусе от цели.
-   - **Параметры**:
-     - `goal_pos`: Тензор `[num_envs, 2]` с позициями целей.
-     - `radii`: Тензор `[num_envs]` с радиусами.
-   - **Возвращает**: Булев тензор `[num_envs, num_angle_steps]`, где `True` — допустимый угол.
-   - **Действия**:
-     - Проверяет, попадают ли позиции робота (для каждого угла из `discrete_angles`) в границы `robot_bounds`.
-   - **Пример**: Для радиуса 2 м и цели `[0, 0]` проверяет 72 угла и возвращает маску допустимых.
-
-6. **`initialize_radii(num_envs, mean_radius, std_radius, max_radii=8, min_radius=1.2, max_radius=None, device='cuda')`**:
-   - **Назначение**: Генерирует радиусы для размещения робота с нормальным распределением.
-   - **Параметры**:
-     - `num_envs`: Количество сред.
-     - `mean_radius`: Среднее значение радиуса.
-     - `std_radius`: Стандартное отклонение радиуса.
-     - `max_radii`: Максимальный радиус (по умолчанию 8).
-     - `min_radius`: Минимальный радиус (по умолчанию 1.2).
-     - `max_radius`: Глобальный максимум (если `None`, используется `max_radius_values`).
-     - `device`: Устройство для тензоров.
-   - **Возвращает**: Тензор `[num_envs]` с радиусами.
-   - **Действия**:
-     - Генерирует радиусы с нормальным распределением.
-     - Ограничивает их между `min_radius` и минимальным из `max_radii`, `max_radius`.
-   - **Пример**: `initialize_radii(64, 2.0, 0.5)` возвращает 64 радиуса около 2 м.
-
-7. **`generate_goal_positions_local(env_ids)`**:
-   - **Назначение**: Генерирует случайные позиции целей в пределах `goal_bounds`.
-   - **Параметры**:
-     - `env_ids`: Тензор с индексами сред.
-   - **Возвращает**: Тензор `[num_envs, 2]` с позициями целей.
-   - **Действия**:
-     - Генерирует координаты x, y из нормального распределения с сигмой, равной 1/4 ширины/высоты области.
-     - Ограничивает координаты в пределах `goal_bounds`.
-     - В текущем коде возвращает фиксированную позицию `[-4.5, 0.0]` для всех сред.
-   - **Пример**: Для `env_ids=[0, 1]` возвращает `[[-4.5, 0.0], [-4.5, 0.0]]`.
-
-8. **`shift_pos(env_ids, obj_pos, terrain_origins)`**:
-   - **Назначение**: Смещает позиции объектов (например, цели) на величину `terrain_origins`.
-   - **Параметры**:
-     - `env_ids`: Тензор с индексами сред.
-     - `obj_pos`: Тензор с локальными позициями `[num_envs, 2]`.
-     - `terrain_origins`: Тензор с глобальными смещениями `[num_envs, 3]`.
-   - **Возвращает**: Тензор `[num_envs, 2]` с глобальными позициями.
-   - **Пример**: Для `obj_pos=[[0, 0]]`, `terrain_origins=[[1, 2, 0]]` возвращает `[[1, 2]]`.
-
-9. **`_generate_obj_positions(env_ids, goal_pos, mean_radius, min_radius, std_radius=0.1)`**:
-   - **Назначение**: Генерирует позиции робота на заданном расстоянии от цели.
-   - **Параметры**:
-     - `env_ids`: Тензор с индексами сред.
-     - `goal_pos`: Тензор `[num_envs, 2]` с позициями целей.
-     - `mean_radius`: Средний радиус для размещения.
-     - `min_radius`: Минимальный радиус.
-     - `std_radius`: Стандартное отклонение радиуса.
-   - **Возвращает**: Тензор `[num_envs, 2]` с позициями робота.
-   - **Действия**:
-     - Вычисляет максимальные радиусы с помощью `compute_max_radii`.
-     - Генерирует радиусы через `initialize_radii`.
-     - Определяет допустимые углы через `_compute_valid_angles`.
-     - Выбирает случайный допустимый угол и вычисляет позицию робота.
-   - **Пример**: Для цели `[0, 0]` и радиуса 2 м может вернуть `[2, 0]` (если угол 0).
-
-10. **`check_bouds(env_ids, new_obj_pos)`**:
-    - **Назначение**: Проверяет, находятся ли позиции робота в пределах `robot_bounds`.
-    - **Параметры**:
-      - `env_ids`: Тензор с индексами сред.
-      - `new_obj_pos`: Тензор `[num_envs, 2]` с позициями робота.
-    - **Возвращает**: Кортеж `(result, robot_valid)`:
-      - `result`: `bool`, `True`, если все позиции валидны.
-      - `robot_valid`: Булев тензор `[num_envs]`, указывающий валидность каждой позиции.
-    - **Пример**: Для `new_obj_pos=[[0, 0], [10, 0]]` возвращает `(False, [True, False])`.
-
-11. **`get_checked_for_room_bounds_pos(env_ids, mean_radius, min_radius)`**:
-    - **Назначение**: Генерирует позиции робота, проверяя их на соответствие `robot_bounds`.
-    - **Параметры**:
-      - `env_ids`: Тензор с индексами сред.
-      - `mean_radius`: Средний радиус.
-      - `min_radius`: Минимальный радиус.
-    - **Возвращает**: Тензор `[num_envs, 2]` с валидными позициями робота.
-    - **Действия**:
-      - Итеративно генерирует позиции через `_generate_obj_positions`.
-      - Проверяет их через `check_bouds`, перегенерируя для невалидных сред.
-      - Останавливается после `max_iterations` (100) или когда все позиции валидны.
-    - **Пример**: Возвращает позиции робота, не выходящие за границы комнаты.
-
-12. **`check_obstacles_collision(obj_pos, env_ids, obstacle_positions=None, valid_mask=None)`**:
-    - **Назначение**: Проверяет коллизии между роботом и препятствиями.
-    - **Параметры**:
-      - `obj_pos`: Тензор `[num_envs, 2]` с позициями робота.
-      - `env_ids`: Тензор с индексами сред.
-      - `obstacle_positions`: Тензор `[num_envs, max_obstacles, 2]` с позициями препятствий (если `None`, собирается из графов).
-      - `valid_mask`: Булев тензор `[num_envs, max_obstacles]`, указывающий активные препятствия (если `None`, собирается).
-    - **Возвращает**: Кортеж `(result, collisions)`:
-      - `result`: `bool`, `True`, если нет коллизий.
-      - `collisions`: Булев тензор `[num_envs, max_obstacles]`, указывающий наличие коллизий.
-    - **Действия**:
-      - Собирает позиции и радиусы активных препятствий, если они не переданы.
-      - Вычисляет расстояния между роботом и препятствиями.
-      - Проверяет, меньше ли расстояние суммы радиусов робота и препятствия плюс отступ (`safety_margin=0.3`).
-    - **Пример**: Для робота в `[0, 0]` и препятствия в `[0.5, 0]` с радиусами 0.5 м возвращает коллизию.
-
-13. **`get_checked_for_obstacles_rp(env_ids, obj_pos)`**:
-    - **Назначение**: Корректирует позиции робота для устранения коллизий с препятствиями.
-    - **Параметры**:
-      - `env_ids`: Тензор с индексами сред.
-      - `obj_pos`: Тензор `[num_envs, 2]` с позициями робота.
-    - **Возвращает**: Тензор `[num_envs, 2]` с откорректированными позициями.
-    - **Действия**:
-      - Собирает позиции и радиусы активных препятствий.
-      - Генерирует случайные направления для смещения.
-      - Итеративно смещает робота от ближайшего препятствия на безопасное расстояние.
-      - Проверяет коллизии через `check_obstacles_collision`.
-    - **Пример**: Если робот в `[0, 0]` сталкивается с препятствием в `[0.5, 0]`, смещает его, например, в `[1.3, 0]`.
-
-14. **`get_pos(env_ids, terrain_origins=None, mean_radius=2, min_radius=1.2)`**:
-    - **Назначение**: Генерирует валидные позиции робота с учетом границ комнаты и препятствий.
-    - **Параметры**:
-      - `env_ids`: Тензор с индексами сред.
-      - `terrain_origins`: Тензор `[num_envs, 3]` с глобальными смещениями (если `None`, смещение не применяется).
-      - `mean_radius`: Средний радиус.
-      - `min_radius`: Минимальный радиус.
-    - **Возвращает**: Тензор `[num_envs, 2]` с позициями робота.
-    - **Действия**:
-      - Вызывает `get_checked_for_room_bounds_pos` для проверки границ.
-      - Вызывает `get_checked_for_obstacles_rp` для устранения коллизий.
-      - Итеративно повторяет, пока позиции не станут валидными.
-    - **Пример**: Возвращает позиции робота, не пересекающиеся с препятствиями и границами.
-
-15. **`reset(env_ids, terrain_origins, mean_radius=1.3, min_radius=1.2, max_angle=0)`**:
-    - **Назначение**: Сбрасывает состояние среды, генерируя новые позиции и ориентации робота и цели.
-    - **Параметры**:
-      - `env_ids`: Тензор с индексами сред.
-      - `terrain_origins`: Тензор `[num_envs, 3]` с глобальными смещениями.
-      - `mean_radius`: Средний радиус для размещения робота.
-      - `min_radius`: Минимальный радиус.
-      - `max_angle`: Максимальный угол ошибки ориентации.
-    - **Возвращает**: Кортеж `(robot_pos, quaternion, goal_global_pos)`:
-      - `robot_pos`: Тензор `[num_envs, 2]` с позициями робота.
-      - `quaternion`: Тензор `[num_envs, 4]` с кватернионами ориентации робота.
-      - `goal_global_pos`: Тензор `[num_envs, 2]` с глобальными позициями целей.
-    - **Действия**:
-      - Генерирует позиции целей через `generate_goal_positions_local`.
-      - Генерирует позиции робота через `get_pos`.
-      - Вычисляет ориентацию робота (yaw) с учетом направления к цели и случайной ошибки угла.
-      - Рассчитывает ошибки расстояния и угла, определяет "релевантность" среды.
-      - Преобразует yaw в кватернион для ориентации.
-    - **Пример**: Для среды 0 может вернуть позицию робота `[2, 0]`, кватернион `[cos(0.5), 0, 0, sin(0.5)]`, цель `[-4.5, 0]`.
-
-16. **`get_relevant_env()`**:
-    - **Назначение**: Возвращает индексы сред, которые считаются "релевантными" (где ошибки угла и расстояния в пределах порогов).
-    - **Возвращает**: Тензор с индексами релевантных сред.
-    - **Пример**: Если `relevant=[True, False]`, возвращает `[0]`.
-
-17. **`generate_obstacle_positions(mess=False, env_ids=None, terrain_origins=None, min_num_active=0, max_num_active=None, mean_obs_rad=4, selected_indices=None)`**:
-    - **Назначение**: Генерирует позиции препятствий, либо из фиксированной сетки, либо случайно.
-    - **Параметры**:
-      - `mess`: Если `True`, препятствия размещаются случайно через `get_pos`.
-      - `env_ids`: Тензор с индексами сред (если `None`, все среды).
-      - `terrain_origins`: Тензор `[num_envs, 3]` с глобальными смещениями (если `None`, нули).
-      - `min_num_active`: Минимальное количество активных препятствий.
-      - `max_num_active`: Максимальное количество активных препятствий.
-      - `mean_obs_rad`: Средний радиус для случайного размещения препятствий.
-      - `selected_indices`: Словарь с индексами выбранных позиций (если `None`, генерируются случайно).
-    - **Возвращает**: Список объектов `ObstacleGraph` для каждой среды.
-    - **Действия**:
-      - Определяет количество активных препятствий для каждой среды.
-      - Для `mess=False` выбирает позиции из `possible_positions`.
-      - Для `mess=True` генерирует случайные позиции через `get_pos`.
-      - Проверяет минимальное расстояние между препятствиями.
-      - Обновляет графы препятствий (`graphs`) новыми позициями.
-    - **Пример**: Для `mess=False` выбирает позиции из сетки, например, `[-1.5, -1.0, 0]`.
-
-18. **`print_graph_info(env_ids=None)`**:
-    - **Назначение**: Выводит информацию о графе препятствий для указанных сред.
-    - **Параметры**:
-      - `env_ids`: Тензор с индексами сред.
-    - **Действия**: Вызывает метод `get_graph_info` для каждого графа.
-    - **Пример**: Выводит позиции и связи активных препятствий для среды 0.
-
-19. **`get_obstacles(env_id)`**:
-    - **Назначение**: Возвращает информацию о препятствиях для указанной среды.
-    - **Параметры**:
-      - `env_id`: Индекс среды (целочисленный).
-    - **Возвращает**: Кортеж `(None, None, obstacles_id)`:
-      - Первые два значения — заглушки для обратной совместимости.
-      - `obstacles_id`: Список индексов активных препятствий.
-    - **Пример**: Для среды 0 может вернуть `(None, None, [0, 2])`, если активны препятствия 0 и 2.
-
----
-
-### **Общее назначение класса**
-Класс `Scene_manager` управляет сценой в симуляции, где робот должен достигать цели, избегая препятствий. Он отвечает за:
-- Генерацию случайных позиций робота и цели с учетом границ комнаты и коллизий.
-- Управление препятствиями через объект `ObstacleGraph`.
-- Проверку и корректировку позиций для избежания коллизий.
-- Инициализацию и сброс состояния среды для новых эпизодов.
-- Хранение и предоставление данных о позициях, ориентациях и релевантности сред.
-
-Класс оптимизирован для параллельной обработки нескольких сред (`num_envs`) с использованием тензоров PyTorch, что делает его подходящим для обучения с подкреплением или симуляций в реальном времени.
-'''
