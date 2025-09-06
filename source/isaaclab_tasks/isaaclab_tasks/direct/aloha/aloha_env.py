@@ -27,11 +27,11 @@ from isaaclab.terrains import TerrainImporterCfg
 from isaaclab.utils import configclass
 from isaaclab.utils.math import subtract_frame_transforms
 from isaaclab.sensors import TiledCamera, TiledCameraCfg, ContactSensor, ContactSensorCfg
-from .scene_manager import Scene_manager
+from .scene_manager import SceneManager
 from .control_manager import VectorizedPurePursuit
 from .path_manager import Path_manager
 from .memory_manager import Memory_manager, PathTracker
-from .asset_manager import Asset_paths
+from .asset_manager import AssetManager
 import omni.kit.commands
 import omni.usd
 import datetime
@@ -42,7 +42,6 @@ import datetime
 from isaaclab_assets.robots.aloha import ALOHA_CFG
 from isaaclab.markers import CUBOID_MARKER_CFG
 from transformers import CLIPProcessor, CLIPModel
-Asset_paths_manager = Asset_paths()
 from PIL import Image
 import omni.kit.commands  # Уже импортировано в вашем коде
 from omni.usd import get_context  # Для доступа к stage
@@ -69,7 +68,7 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
     observation_space = gym.spaces.Box(
         low=-float("inf"),
         high=float("inf"),
-        shape=(m * (512 + 3 + 8),),  # m * (embedding_size + action_size) + 2 (скорости)
+        shape=(m * (512 + 3),),  # m * (embedding_size + action_size) + 2 (скорости)
         dtype="float32"
     )
     state_space = 0
@@ -101,7 +100,7 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
         # ),
         debug_vis=False,
     )
-    scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=64, env_spacing=15, replicate_physics=True)
+    scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=64, env_spacing=18, replicate_physics=True)
     robot: ArticulationCfg = ALOHA_CFG.replace(prim_path="/World/envs/env_.*/Robot")
     wheel_radius = 0.068
     wheel_distance = 0.34
@@ -116,8 +115,9 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
         width=224,
         height=224,
     )
+    current_dir = os.getcwd()
     kitchen = sim_utils.UsdFileCfg(
-        usd_path=Asset_paths_manager.kitchen_usd_path,
+        usd_path=os.path.join(current_dir, "source/isaaclab_assets/data/aloha_assets", "scenes/scenes_sber_kitchen_for_BBQ/kitchen_new_simple.usd"),
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             disable_gravity=True,
             kinematic_enabled=True,
@@ -135,36 +135,34 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
         filter_prim_paths_expr=["/World/envs/env_.*"],
     )
 
-    table = sim_utils.UsdFileCfg(
-        usd_path=Asset_paths_manager.table_usd_path,
-        rigid_props=sim_utils.RigidBodyPropertiesCfg(
-            disable_gravity=True,
-            kinematic_enabled=True,
-            rigid_body_enabled=True,
-        ),
-        collision_props=sim_utils.CollisionPropertiesCfg(
-            collision_enabled=True,
-        ),
-    )
-
-    # Конфигурация миски (цели)
-    bowl = sim_utils.UsdFileCfg(
-        usd_path=Asset_paths_manager.bowl_usd_path,
-        rigid_props=sim_utils.RigidBodyPropertiesCfg(
-            disable_gravity=True,
-            kinematic_enabled=True,  # Миска неподвижна
-            rigid_body_enabled=True,
-        ),
-        collision_props=sim_utils.CollisionPropertiesCfg(
-            collision_enabled=True,  # Отключаем коллизии
-        ),
-    )
-
 class WheeledRobotEnv(DirectRLEnv):
     cfg: WheeledRobotEnvCfg
 
     def __init__(self, cfg: WheeledRobotEnvCfg, render_mode: str | None = None, **kwargs):
+        self._super_init = True
+        self.config_path="/home/xiso/IsaacLab/source/isaaclab_tasks/isaaclab_tasks/direct/aloha/scene_items.json"
         super().__init__(cfg, render_mode, **kwargs)
+        self._super_init = False
+        
+        self.scene_manager = SceneManager(self.num_envs, self.config_path, self.device)
+        self.use_controller = True
+        self.imitation = False
+        if self.imitation:
+            self.use_controller = True
+        if self.use_controller:
+            self.path_manager = Path_manager(scene_manager=self.scene_manager, ratio=8.0, shift=[5, 4], device=self.device)
+            self.control_module = VectorizedPurePursuit(num_envs=self.num_envs, device=self.device)
+        self.memory_on = False
+        self.tracker = PathTracker(num_envs=self.num_envs, device=self.device)
+        if self.memory_on:
+            self.memory_manager = Memory_manager(
+                num_envs=self.num_envs,
+                embedding_size=512,  # Размер эмбеддинга ResNet18
+                action_size=2,      # Размер действия (линейная и угловая скорость)
+                history_length=25,  # n = 10, можно настроить
+                device=self.device
+            )
+
         self._actions = torch.zeros((self.num_envs, 2), device=self.device)
         self._actions[:, 1] = 0.0
         self._left_wheel_vel = torch.zeros(self.num_envs, device=self.device)
@@ -184,24 +182,7 @@ class WheeledRobotEnv(DirectRLEnv):
         self.success_counter = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
         self.step_counter = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
         self.possible_goal_position = []
-        self.scene_manager = Scene_manager(self.num_envs, self.device, num_obstacles=3)
-        self.use_controller = True
-        self.imitation = False
-        if self.imitation:
-            self.use_controller = True
-        if self.use_controller:
-            self.path_manager = Path_manager(scene_manager=self.scene_manager, ratio=8.0, shift=[5, 4], device=self.device)
-            self.control_module = VectorizedPurePursuit(num_envs=self.num_envs, device=self.device)
-        self.memory_on = False
-        self.tracker = PathTracker(num_envs=self.num_envs, device=self.device)
-        if self.memory_on:
-            self.memory_manager = Memory_manager(
-                num_envs=self.num_envs,
-                embedding_size=512,  # Размер эмбеддинга ResNet18
-                action_size=2,      # Размер действия (линейная и угловая скорость)
-                history_length=25,  # n = 10, можно настроить
-                device=self.device
-            )
+        
         self.delete = 1
         self.count = 0
         self._debug_log_enabled = True
@@ -279,6 +260,7 @@ class WheeledRobotEnv(DirectRLEnv):
         self.min_level_radius = 0
         self.sr_treshhold = 85
         self.LOG = False
+        
         if self.LOG:
             from comet_ml import start
             from comet_ml.integration.pytorch import log_model
@@ -288,6 +270,7 @@ class WheeledRobotEnv(DirectRLEnv):
                 workspace="xisonik"
             )
         self.print_config_info()
+        self._setup_scene()
 
     def print_config_info(self):
         print("__________[ CONGIFG INFO ]__________")
@@ -316,64 +299,32 @@ class WheeledRobotEnv(DirectRLEnv):
         from isaaclab.sensors import ContactSensor
         import time
         from pxr import Usd
-        
-        self._robot = Articulation(self.cfg.robot)
-        self.scene.articulations["robot"] = self._robot
-        self.cfg.terrain.num_envs = self.scene.cfg.num_envs
-        self.cfg.terrain.env_spacing = self.scene.cfg.env_spacing
-        self._terrain = self.cfg.terrain.class_type(self.cfg.terrain)
-        self.scene.clone_environments(copy_from_source=True)
-        self._tiled_camera = TiledCamera(self.cfg.tiled_camera)
-        self.scene.sensors["tiled_camera"] = self._tiled_camera
-        self.set_env()
-        self._contact_sensor = ContactSensor(self.cfg.contact_sensor)
-        self.scene.sensors["contact_sensor"] = self._contact_sensor
+        from isaaclab.sim.spawners.from_files import spawn_from_usd
+        import random
+        if self._super_init:
+            self._robot = Articulation(self.cfg.robot)
+            self.scene.articulations["robot"] = self._robot
+            self.cfg.terrain.num_envs = self.scene.cfg.num_envs
+            self.cfg.terrain.env_spacing = self.scene.cfg.env_spacing
+            self._terrain = self.cfg.terrain.class_type(self.cfg.terrain)
+            self.scene.clone_environments(copy_from_source=True)
+            self._tiled_camera = TiledCamera(self.cfg.tiled_camera)
+            self.scene.sensors["tiled_camera"] = self._tiled_camera
+            # Спавн кухни (статический элемент)
+            spawn_from_usd(
+                prim_path="/World/envs/env_.*/Kitchen",
+                cfg=self.cfg.kitchen,
+                translation=(5.0, 4.0, 0.0),
+                orientation=(0.0, 0.0, 0.0, 1.0),
+            )
+            self._contact_sensor = ContactSensor(self.cfg.contact_sensor)
+            self.scene.sensors["contact_sensor"] = self._contact_sensor
+            self.asset_manager = AssetManager(config_path=self.config_path)
+            self.scene_objects = self.asset_manager.spawn_assets_in_scene()
+            
 
         # light_cfg = sim_utils.DomeLightCfg(intensity=300.0, color=(0.75, 0.75, 0.75))
         # light_cfg.func("/World/Light", light_cfg)
-
-    def set_env(self):
-        from isaaclab.sim.spawners.from_files import spawn_from_usd
-        import random
-
-        # Спавн кухни (как и было)
-        spawn_from_usd(
-            prim_path="/World/envs/env_.*/Kitchen",
-            cfg=self.cfg.kitchen,
-            translation=(5.0, 4.0, 0.0),
-            orientation=(0.0, 0.0, 0.0, 1.0),
-        )
-
-        # ADDED: Динамический спавн всех объектов из JSON
-        self.scene_objects = {}
-        for obj_cfg in self.scene_manager.objects_config:
-            name = obj_cfg['name']
-            count = obj_cfg['count']
-            usd_paths = obj_cfg['usd_paths']
-            
-            self.scene_objects[name] = []
-            for i in range(count):
-                # Выбираем случайный USD из списка
-                random_usd_path = random.choice(usd_paths)
-                
-                # Создаем RigidObjectCfg для каждого экземпляра
-                instance_cfg = RigidObjectCfg(
-                    prim_path=f"/World/envs/env_.*/{name}_{i}",
-                    spawn=sim_utils.UsdFileCfg(
-                        usd_path=random_usd_path,
-                        rigid_props=sim_utils.RigidBodyPropertiesCfg(
-                            rigid_body_enabled=True,
-                            kinematic_enabled=True, # Все объекты пока что кинематические
-                        ),
-                        collision_props=sim_utils.CollisionPropertiesCfg(
-                            collision_enabled=True,
-                        ),
-                    ),
-                    # Начальная позиция за сценой, будет обновлена менеджером
-                    init_state=RigidObjectCfg.InitialStateCfg(pos=(10.0 + i, 10.0, 0.0)),
-                )
-                obj_instance = RigidObject(cfg=instance_cfg)
-                self.scene_objects[name].append(obj_instance)
 
     def _get_observations(self) -> dict:
         self.tensorboard_step += 1
@@ -427,17 +378,18 @@ class WheeledRobotEnv(DirectRLEnv):
         #         img_pil.save(os.path.join(save_dir, f"env_{i}_step_{self.tensorboard_step}.png"))
 
         #     print(f"[DEBUG] Saved first 4 env images with positions to {save_dir} {self.tensorboard_step}")
-        env_ids = self._robot._ALL_INDICES.clone()
-        scene_embeddings = self.scene_manager.get_scene_embedding(env_ids)
+            # Получаем полный эмбеддинг сцены из графа для каждой среды
+        # scene_embeddings = [self.scene_manager.graphs[i].graph_to_tensor() for i in range(self.num_envs)]
+        # scene_embeddings = torch.stack(scene_embeddings, dim=0)
         # print(image_embeddings.shape)
         
-        # obs = torch.cat([image_embeddings, root_lin_vel_w*0.1, root_ang_vel_w*0.1, self.previous_ang_vel.unsqueeze(-1)*0.1], dim=-1)
-        obs = torch.cat([image_embeddings, scene_embeddings, root_lin_vel_w*0.1, root_ang_vel_w*0.1, self.previous_ang_vel.unsqueeze(-1)*0.1], dim=-1)
+        obs = torch.cat([image_embeddings, root_lin_vel_w*0.1, root_ang_vel_w*0.1, self.previous_ang_vel.unsqueeze(-1)*0.1], dim=-1)
+        # obs = torch.cat([image_embeddings, scene_embeddings, root_lin_vel_w*0.1, root_ang_vel_w*0.1, self.previous_ang_vel.unsqueeze(-1)*0.1], dim=-1)
 
         self.previous_ang_vel = self.angular_speed
         # log_embedding_stats(image_embeddings)
         
-        observations = {"policy": obs}
+        observations = {"policy": obs}       
         return observations
 
     # as they are not affected by the observation space change.
@@ -507,6 +459,20 @@ class WheeledRobotEnv(DirectRLEnv):
         self._robot.set_joint_velocity_target(wheel_velocities, joint_ids=[self._left_wheel_id, self._right_wheel_id])
 
     def _get_rewards(self) -> torch.Tensor:
+        # env_ids = self._robot._ALL_INDICES.clone()
+        # # Сначала размещаем все объекты
+        # num_envs = len(env_ids)
+        # value = torch.tensor([0, 0], dtype=torch.float32, device=self.device)
+        # robot_pos = value.unsqueeze(0).repeat(num_envs, 1)
+        # joint_pos = self._robot.data.default_joint_pos[env_ids].clone()
+        # joint_vel = self._robot.data.default_joint_vel[env_ids].clone()
+        # default_root_state = self._robot.data.default_root_state[env_ids].clone()
+        # default_root_state[:, :2] = self.to_global(robot_pos, env_ids)
+        # default_root_state[:, 2] = 0.1
+        # self._robot.write_root_pose_to_sim(default_root_state[:, :7], env_ids)
+        # self._robot.write_root_velocity_to_sim(default_root_state[:, 7:], env_ids)
+        # self._robot.write_joint_state_to_sim(joint_pos, joint_vel, None, env_ids)
+
         lin_vel = torch.norm(self._robot.data.root_lin_vel_w[:, :2], dim=1)
         
         lin_vel_reward = torch.clamp(lin_vel*0.02, min=0, max=0.15)
@@ -557,7 +523,7 @@ class WheeledRobotEnv(DirectRLEnv):
             )
         reward = (
             IL_reward + punish #* r_error
-            + torch.clamp(goal_reached.float() * 7 * (1 + self.scene_manager.get_start_dist_error()) / (1 + path_lengths), min=0, max=15)
+            # + torch.clamp(goal_reached.float() * 7 * (1 + self.scene_manager.get_start_dist_error()) / (1 + path_lengths), min=0, max=15)
             - torch.clamp(has_contact.float() * (7 + lin_vel_reward), min=0, max=10)
         )
 
@@ -625,6 +591,7 @@ class WheeledRobotEnv(DirectRLEnv):
         Возвращает: [N] булев тензор, True если цель достигнута
         """
         root_pos_w = self._robot.data.root_pos_w[:, :2]
+        # print("root: ", self.to_local(root_pos_w))
         # print("root_pos_w ", root_pos_w)
         distance_to_goal = torch.linalg.norm(self._desired_pos_w[:, :2] - root_pos_w, dim=1)
         # Проверка по расстоянию (например, радиус достижения stored в self.radius)
@@ -715,7 +682,6 @@ class WheeledRobotEnv(DirectRLEnv):
         
         if torch.any(completed):
             # Получаем релевантные среды среди завершенных
-            relevant_env_ids = self.scene_manager.get_relevant_env()
             # Фильтруем завершенные среды, оставляя только релевантные
             relevant_completed = self._robot._ALL_INDICES[completed] #relevant_env_ids[(relevant_env_ids.view(1, -1) == self._robot._ALL_INDICES[completed].view(-1, 1)).any(dim=0)]
             success = goal_reached.clone()
@@ -785,16 +751,41 @@ class WheeledRobotEnv(DirectRLEnv):
 
     def _reset_idx(self, env_ids: torch.Tensor | None):
         super()._reset_idx(env_ids)
+        all_defoult = False
         if self.first_ep or env_ids is None or len(env_ids) == self.num_envs:
             env_ids = self._robot._ALL_INDICES.clone()
+            all_defoult = True
         # Сначала размещаем все объекты
-        self.scene_manager.place_scene_objects(
-            env_ids=env_ids,
-            min_num_obstacles=0 if self.first_ep else 1,
-            max_num_obstacles=3,
-            min_num_goals=1,
-            max_num_goals=3
+        if self.first_ep:
+            self.first_ep = False
+            return
+        num_envs = len(env_ids)
+        # value = torch.tensor([6, 0], dtype=torch.float32, device=self.device)
+        # robot_pos = value.unsqueeze(0).repeat(num_envs, 1)
+        # joint_pos = self._robot.data.default_joint_pos[env_ids].clone()
+        # joint_vel = self._robot.data.default_joint_vel[env_ids].clone()
+        # default_root_state = self._robot.data.default_root_state[env_ids].clone()
+        # default_root_state[:, :2] = self.to_global(robot_pos, env_ids)
+        # default_root_state[:, 2] = 0.1
+        # self._robot.write_root_pose_to_sim(default_root_state[:, :7], env_ids)
+        # self._robot.write_root_velocity_to_sim(default_root_state[:, 7:], env_ids)
+        # self._robot.write_joint_state_to_sim(joint_pos, joint_vel, None, env_ids)
+
+        self.scene_manager.randomize_scene(
+            env_ids,
+            mess=False, # или False, в зависимости от режима
+            use_obstacles=self.turn_on_obstacles,
+            all_defoult=True
         )
+        self._update_scene_objects(env_ids)
+        self.scene_manager.randomize_scene(
+            env_ids,
+            mess=False, # или False, в зависимости от режима
+            use_obstacles=self.turn_on_obstacles,
+            all_defoult=all_defoult
+        )
+        goal_pos = self.scene_manager.get_active_goal_state(env_ids)
+        
         if self.turn_on_controller_step > self.my_episode_lenght and self.turn_on_controller:
             self.turn_on_controller_step = 0
             self.turn_on_controller = False
@@ -821,7 +812,7 @@ class WheeledRobotEnv(DirectRLEnv):
                     self.turn_on_controller = True
             
         
-        if (self.mean_radius >= 2.3 and self.use_obstacles) or self.turn_on_obstacles_always or self.warm:
+        if (self.mean_radius >= 2.3 and self.use_obstacles) or self.turn_on_obstacles_always or self.warm and not self.first_ep:
             if self.turn_on_obstacles_always and self.cur_step % 300:
                 print("[ WARNING ] ostacles allways turn on")
 
@@ -842,7 +833,12 @@ class WheeledRobotEnv(DirectRLEnv):
         self._actions[env_ids] = 0.0
         self._desired_pos_w[env_ids, :2] = self._terrain.env_origins[env_ids, :2]
         min_radius = 1.2
-        robot_pos, quaternion, goal_pos = self.scene_manager.reset(env_ids, self._terrain.env_origins, self.mean_radius, min_radius, self.cur_angle_error)
+        robot_pos, quaternion = self.scene_manager.place_robot_for_goal(
+            env_ids, mean_dist=self.mean_radius, min_dist=1.2, max_dist=4, angle_error=self.cur_angle_error, max_attempts=50
+        )
+        robot_pos  = robot_pos
+        # print(robot_pos)
+        self._update_scene_objects(env_ids)
         # print("i'm in path_manager")
         if self.turn_on_controller or self.imitation:
             if self.imitation:
@@ -852,29 +848,28 @@ class WheeledRobotEnv(DirectRLEnv):
                 robot_pos_for_control = self._robot.data.default_root_state[env_ids_for_control, :2].clone()
                 robot_pos_for_control[env_ids, :2] = robot_pos
                 goal_pos_for_control = self._desired_pos_w[env_ids_for_control, :2].clone()
-                goal_pos_for_control[env_ids, :2] = goal_pos
+                goal_pos_for_control[env_ids, :2] = goal_pos[:, :2]
             else:
                 env_ids_for_control = env_ids
                 robot_pos_for_control = robot_pos
-                goal_pos_for_control = goal_pos
+                goal_pos_for_control = goal_pos[:, :2]
             paths = None
             possible_try_steps = 3
             for i in range(possible_try_steps):
                 paths = self.path_manager.get_paths(
                     env_ids=env_ids_for_control,
-                    start_positions=self.to_local(robot_pos_for_control,env_ids_for_control),
-                    target_positions=self.to_local(goal_pos_for_control,env_ids_for_control),
+                    start_positions=robot_pos_for_control,
+                    target_positions=goal_pos_for_control,
                     device=self.device
                 )
                 if paths is None:
                     print(f"[ ERROR ] GET NONE PATH {i + 1} times")
-                    self.scene_manager.place_scene_objects(
-                        env_ids=env_ids,
-                        min_num_obstacles=0 if self.first_ep else 1,
-                        max_num_obstacles=3,
-                        min_num_goals=1,
-                        max_num_goals=3
+                    self.scene_manager.randomize_scene(
+                        env_ids,
+                        mess=False, # или False, в зависимости от режима
+                        use_obstacles=self.turn_on_obstacles,
                     )
+                    goal_pos = self.scene_manager.get_active_goal_state(env_ids)
                 else:
                     break
             # print("out path_manager, paths: ", paths, self.turn_on_controller_step)
@@ -883,13 +878,15 @@ class WheeledRobotEnv(DirectRLEnv):
         if self.memory_on:
             self.memory_manager.reset()
         # print("in reset robot pose ", robot_pos, goal_pos)
-        self._desired_pos_w[env_ids, :2] = goal_pos
-        self._desired_pos_w[env_ids, 2] = 0.7
+        self._desired_pos_w[env_ids, :3] = goal_pos
+        self._desired_pos_w[env_ids, :2] = self.to_global(goal_pos, env_ids)
 
+        # value = torch.tensor([0, 0], dtype=torch.float32, device=self.device)
+        # robot_pos = value.unsqueeze(0).repeat(num_envs, 1)
         joint_pos = self._robot.data.default_joint_pos[env_ids].clone()
         joint_vel = self._robot.data.default_joint_vel[env_ids].clone()
         default_root_state = self._robot.data.default_root_state[env_ids].clone()
-        default_root_state[:, :2] = robot_pos
+        default_root_state[:, :2] = self.to_global(robot_pos, env_ids)
         default_root_state[:, 2] = 0.1
         default_root_state[:, 3:7] = quaternion
         self._robot.write_root_pose_to_sim(default_root_state[:, :7], env_ids)
@@ -909,11 +906,10 @@ class WheeledRobotEnv(DirectRLEnv):
         _, _, r_error, a_error = self.goal_reached(get_num_subs=True)
         self.previous_distance_error[env_ids] = r_error[env_ids]
         self.previous_angle_error[env_ids] = a_error[env_ids]
-        self._update_chairs(env_ids=env_ids, up=False)
         self.first_ep = False
         self.tracker.reset(env_ids)
         env_ids_for_scene_embeddings = self._robot._ALL_INDICES.clone()
-        scene_embeddings = self.scene_manager.get_scene_embedding(env_ids)
+        # scene_embeddings = self.scene_manager.get_scene_embedding(env_ids)
         if self.LOG:
             self.experiment.log_metric("success_rate", self.success_rate, step=self.tensorboard_step)
             self.experiment.log_metric("mean_radius", self.mean_radius, step=self.tensorboard_step)
@@ -926,6 +922,13 @@ class WheeledRobotEnv(DirectRLEnv):
         if env_origins is None:
             env_origins = self._terrain.env_origins
         return pos[:, :2] - env_origins[env_ids, :2]
+    
+    def to_global(self, pos, env_ids=None, env_origins=None):
+        if env_ids is None:
+            env_ids = self._robot._ALL_INDICES.clone()
+        if env_origins is None:
+            env_origins = self._terrain.env_origins
+        return pos[:, :2] + env_origins[env_ids, :2]
 
     def curriculum_learning_module(self, env_ids: torch.Tensor):
         # print("self.success_rate ", self.success_rate)
@@ -986,7 +989,7 @@ class WheeledRobotEnv(DirectRLEnv):
         # self.tensorboard_writer.close()
         super().close()
 
-    def _update_scene_objects(self, env_ids: torch.Tensor = None, mess=False, all_defoult = False, up=True, sp=True):
+    def _update_scene_objects(self, env_ids):
         """
         Args:
             env_ids: torch.Tensor, индексы сред для обновления. Если None, обновляются все среды.
@@ -1005,10 +1008,12 @@ class WheeledRobotEnv(DirectRLEnv):
                     graph = self.scene_manager.graphs[env_id.item()]
                     node_data = graph.graph.nodes[node_idx]
                     pos = node_data['position']
-                    
                     root_poses[j, 0:3] = torch.tensor(pos, device=self.device)
                     root_poses[j, 3] = 1.0  # Ориентация по умолчанию (w=1)
-                
+                    if name == "bowl":
+                        # Для миски используем Z-up ориентацию (кватернион [1, 0, 0, 0])
+                        root_poses[j, 3:7] = torch.tensor([0.0, 0.0, 0.7071, 0.7071])
+
                 # Добавляем смещение среды
                 root_poses[:, :2] += self._terrain.env_origins[env_ids, :2]
                 instance.write_root_pose_to_sim(root_poses, env_ids=env_ids)

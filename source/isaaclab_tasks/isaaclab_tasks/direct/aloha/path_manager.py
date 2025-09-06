@@ -77,7 +77,7 @@ class Path_manager:
         real_x = grid_point[..., 0] / self.ratio - self.shift[0]
         real_y = grid_point[..., 1] / self.ratio - self.shift[1]
         return torch.stack([real_x, real_y], dim=-1)
-
+    
     def get_paths(self, env_ids: torch.Tensor, start_positions: torch.Tensor, target_positions: torch.Tensor, device: str = 'cuda:0'):
         """
         Возвращает пути для заданных конфигураций, стартовых и целевых позиций в реальных координатах.
@@ -93,14 +93,10 @@ class Path_manager:
         """
         configs = []
         for env_id in env_ids:
-            selected_indices = self.scene_manager.get_selected_indices(env_id)
-            if selected_indices is None:
-                return None
-            # print("selected_indices ", selected_indices)
-            if torch.is_tensor(selected_indices):
-                selected_indices = selected_indices.tolist()
-            config = ''.join(str(x) for x in sorted(selected_indices))
+            active_pos = self.scene_manager.get_active_obstacle_positions(env_id)
+            config = ','.join([f"{x:.1f}_{y:.1f}_{z:.1f}" for x,y,z in sorted(active_pos)])
             configs.append(config)
+        # print("configs: ", configs)
         # Преобразуем реальные координаты в сеточные
         start_nodes = self.real_to_grid(start_positions)
         target_nodes = self.real_to_grid(target_positions)

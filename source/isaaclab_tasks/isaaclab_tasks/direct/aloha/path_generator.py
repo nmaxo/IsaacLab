@@ -18,10 +18,10 @@ def import_class_from_path(module_path, class_name):
     return class_obj
 
 module_path = "source/isaaclab_tasks/isaaclab_tasks/direct/aloha/scene_manager.py"
-Scene_manager = import_class_from_path(module_path, "Scene_manager")
+SceneManager = import_class_from_path(module_path, "SceneManager")
 
 class PathGenerator:
-    def __init__(self, num_obstacles=6, device='cuda:0', ratio=8, room_len_x=10, room_len_y=8, test_mode=False):
+    def __init__(self, num_obstacles=6, config_path="source/isaaclab_tasks/isaaclab_tasks/direct/aloha/scene_items.json", device='cuda:0', ratio=8, room_len_x=10, room_len_y=8, test_mode=False):
         print(f"[DEBUG] Initializing PathGenerator with:")
         print(f"  - num_obstacles: {num_obstacles}")
         print(f"  - device: {device}")
@@ -40,7 +40,7 @@ class PathGenerator:
         self.shift = [5, 4]  # Смещение для локальных координат
         
         print(f"[DEBUG] Creating Scene_manager with num_envs=1, device={device}, num_obstacles={num_obstacles}")
-        self.scene_manager = Scene_manager(num_envs=1, device=device, num_obstacles=num_obstacles)
+        self.scene_manager = SceneManager(num_envs=1, config_path=config_path, device=device)  # Новый вызов
         print(f"[DEBUG] Scene_manager created successfully")
         
         self.log_dir = "logs/aloha_data_graphs"#str(Path().resolve()) + "/logs/"
@@ -146,7 +146,7 @@ class PathGenerator:
             # print("pos ", pos, point)
             distances = torch.norm(pos - point)
             # print(distances)
-            if distances < (0.4 + self.scene_manager.robot_radius + add_r):
+            if distances < (0.35 + self.scene_manager.robot_radius + add_r):
                 result = True
         # result = torch.any(distances < (obstacle_radii + self.scene_manager.robot_radius + add_r), dim=-1)
         return result
@@ -168,7 +168,7 @@ class PathGenerator:
             # print(scaled_point)
             # print(1)
             if (self._check_intersection(scaled_point, obstacle_positions, obstacle_radii, add_r) or
-                scaled_point[0] < room_bounds['x_min'] + self.scene_manager.robot_radius + 0.3 or
+                scaled_point[0] < room_bounds['x_min'] + 0.2 or
                 scaled_point[0] > room_bounds['x_max'] - self.scene_manager.robot_radius or
                 scaled_point[1] < room_bounds['y_min'] + self.scene_manager.robot_radius or
                 scaled_point[1] > room_bounds['y_max'] - self.scene_manager.robot_radius):
@@ -179,7 +179,7 @@ class PathGenerator:
         
         boundary_nodes = self.find_boundary_nodes(G)
         expanded_boundary = [boundary_nodes]
-        levels = 2
+        levels = 1
         for i in range(levels):
             expanded_boundary.append(self.find_expanded_boundary(G, expanded_boundary[-1]))
         expanded_boundary.reverse()
@@ -309,211 +309,142 @@ class PathGenerator:
         plt.close()
         print(f"[DEBUG] Graph image saved successfully")
 
-    def generate_paths(self, n_save=1000, targets=[[-4.2, 0]]):
-        print(f"[DEBUG] Starting path generation with n_save={n_save}, test_mode={self.test_mode}, targets={targets}")
+    def generate_paths(self, n_save=1500, targets=[[-4.5, 0]]):
+        """
+        Генерирует и сохраняет пути для всех возможных комбинаций координат препятствий.
+        Логика:
+        - Извлекаем grid_coords для movable_obstacle из конфига (self.scene_manager.config).
+        - Для каждого k (от 1 до len(grid_coords)): Генерируем combinations(grid_coords, k) — подмножества позиций.
+        - Для каждой комбо позиций: 
+        - Создаем config_str как ','.join(sorted([f"{x:.1f}_{y:.1f}_{z:.1f}" for x,y,z in combo])).
+        - Устанавливаем эти позиции для активных movable_obstacle nodes с помощью set_obstacle_positions (первые k nodes активны, остальным — default).
+        - Для каждой цели в targets: Устанавливаем позицию цели с set_goal_position (учитывая surface_only: на surface_provider с margin=0 для фикса).
+        - Строим граф, удаляем intersecting nodes, вычисляем пути как раньше.
+        - Сохраняем в all_paths.json после n_save конфигураций или в конце.
+        """
+        print(f"[DEBUG] Starting path generation for {n_save} saves, targets={targets}")
         
-        # Генерируем все возможные конфигурации препятствий
-        arr = range(self.num_obstacles)
-        all_configs = []
+        # Шаг 1: Извлекаем grid_coords для movable_obstacle из конфига
+        movable_grid_coords = []
+        for obj_cfg in self.scene_manager.config:
+            if "movable_obstacle" in obj_cfg['type']:
+                placement = obj_cfg.get('placement', [])
+                if placement and placement[0]['strategy'] == 'grid':
+                    movable_grid_coords = placement[0]['grid_coordinates']  # [[x,y,z], ...]
+                    num_movable = obj_cfg['count']  # 3 для chairs
+                    break
+        if not movable_grid_coords:
+            raise ValueError("[ERROR] No movable_obstacle with grid strategy found in config")
         
-        print(f"[DEBUG] Generating all configurations for {self.num_obstacles} obstacles")
-        for r in range(self.num_obstacles + 1):
-            configs_for_r = list(combinations(arr, r))
-            print(f"[DEBUG] Configurations with {r} obstacles: {len(configs_for_r)}")
-            for combo in configs_for_r:
-                config_str = ''.join(str(x) for x in sorted(combo))
-                all_configs.append(config_str)
+        print(f"[DEBUG] Movable obstacle grid_coords: {movable_grid_coords}, count={num_movable}")
         
-        if not all_configs:
-            all_configs.append('')
+        # Шаг 2: Извлекаем возможные цели (targets уже даны, но проверяем possible_goal)
+        goal_surfaces = []
+        for obj_cfg in self.scene_manager.config:
+            if "possible_goal" in obj_cfg['type']:
+                placement = obj_cfg.get('placement', [])
+                if "surface_only" in obj_cfg['type'] and placement and placement[0]['strategy'] == 'on_surface':
+                    # Находим surface_provider grid_coords
+                    surface_types = placement[0]['surface_types']
+                    for surf_cfg in self.scene_manager.config:
+                        if any(t in surf_cfg['type'] for t in surface_types):
+                            surf_placement = surf_cfg.get('placement', [])
+                            if surf_placement and surf_placement[0]['strategy'] == 'grid':
+                                goal_surfaces.extend(surf_placement[0]['grid_coordinates'])
+        if goal_surfaces:
+            print(f"[DEBUG] Goal possible positions from surfaces: {goal_surfaces}")
+            targets = goal_surfaces
+            # Но используем targets как фиксированные, можно расширить targets += goal_surfaces если нужно
         
-        print(f"[DEBUG] Total configurations: {len(all_configs)}")
-        print(f"[DEBUG] Sample configurations: {all_configs[:10]}...")
-        all_configs = ['', '0','1', '2', '01', '02', '12', '012']
-        print("all_configs ", all_configs)
-        # Загружаем существующие пути, если есть
-        if os.path.exists(self.paths_file):
-            print(f"[DEBUG] Loading existing paths from: {self.paths_file}")
-            with open(self.paths_file, 'r') as f:
-                json_paths = json.load(f)
-            
-            print(f"[DEBUG] Loaded {len(json_paths)} existing configurations")
-            
-            for config_key, targets_data in json_paths.items():
-                self.all_paths[config_key] = {}
-                for target_str, nodes in targets_data.items():
-                    target = tuple(map(int, target_str.split(',')))
-                    self.all_paths[config_key][target] = {}
-                    for node_str, path in nodes.items():
-                        node = tuple(map(int, node_str.split(',')))
-                        self.all_paths[config_key][target][node] = [tuple(p) for p in path]
-            
-            print(f"[DEBUG] Parsed existing paths for {len(self.all_paths)} configurations")
-        else:
-            print(f"[DEBUG] No existing paths file found at: {self.paths_file}")
-
-        # Обрабатываем только отсутствующие конфигурации
-        missing_configs = [c for c in all_configs if c not in self.all_paths]
-        print(f"[DEBUG] Missing configurations: {len(missing_configs)}")
-        print(f"[DEBUG] Sample missing configs: {missing_configs[:10]}...")
+        # Шаг 3: Генерация комбинаций подмножеств координат (subsets)
+        from itertools import combinations
+        grid = self._create_grid_with_diagonals(self.room_len_x * self.ratio, self.room_len_y * self.ratio)
+        print(f"[DEBUG] Base grid created with {len(grid.nodes)} nodes")
         
-        for config_idx, config_key in enumerate(missing_configs):
-            print(f"\n[DEBUG] ===== Processing configuration {config_idx + 1}/{len(missing_configs)}: '{config_key}' =====")
-            
-            positions_for_obstacles = [int(ch) for ch in config_key] if config_key else []
-            print(f"[DEBUG] Obstacle positions indices: {positions_for_obstacles}")
-            
-            print(f"[DEBUG] Generating obstacle positions...")
-            self.scene_manager.generate_obstacle_positions(
-                mess=False, 
-                env_ids=torch.tensor([0], device=self.device),
-                terrain_origins=torch.zeros((1, 3), device=self.device),
-                min_num_active=len(positions_for_obstacles),
-                max_num_active=len(positions_for_obstacles),
-                selected_indices={0: torch.tensor(positions_for_obstacles, device=self.device)}
-            )
-            # self.scene_manager.print_graph_info()
-            active_nodes = self.scene_manager.graphs[0].get_active_nodes()
-            print(f"[DEBUG] Active nodes: {len(active_nodes)}")
-            
-            obstacle_positions = [node['position'][:2] for node in active_nodes]
-            obstacle_radii = [node['radius'] for node in active_nodes]
-            
-            print(f"[DEBUG] Extracted obstacle data:")
-            print(f"  - Positions: {obstacle_positions}")
-            print(f"  - Radii: {obstacle_radii}")
-
-            # Создаем граф сетки
-            # print(f"[DEBUG] Creating scene grid...")
-            config_graph = self.get_scene_grid(obstacle_positions, obstacle_radii)
-
-            # Преобразуем цели в координаты сетки
-            print(f"[DEBUG] Converting targets to grid...")
-            obstacle_positions = torch.tensor(obstacle_positions, device=self.device, dtype=torch.float32)
-            obstacle_radii = torch.tensor(obstacle_radii, device=self.device, dtype=torch.float32)
-            grid_targets = self.get_grid_targets(
-                targets=targets,  # Используем заданные цели
-                obstacle_positions=obstacle_positions,
-                obstacle_radii=obstacle_radii,
-                config_graph=config_graph
-            )
-            
-            print(f"[DEBUG] Valid targets: {len(grid_targets)}")
-            print(f"[DEBUG] Sample targets: {grid_targets}...")
-
-            # Выбираем стартовые узлы
-            print(f"[DEBUG] Selecting start nodes...")
-            if self.test_mode:
-                # В тестовом режиме выбираем до max_start_nodes случайных узлов
-                valid_nodes = [
-                    node for node in config_graph.nodes
-                    if len(list(config_graph.neighbors(node))) > 0
-                ]
-                print(f"[DEBUG] Found {len(valid_nodes)} valid nodes in graph")
+        num_processed = 0
+        for k in range(0, len(movable_grid_coords) + 1):  # k=1 to 3
+            for comb in combinations(movable_grid_coords, k):  # comb = tuple of [x,y,z] lists
+                # Создаем config_str: sorted string of positions
+                sorted_comb = sorted(comb, key=lambda p: (p[0], p[1], p[2]))  # Sort by x,y,z
+                config_str = ','.join([f"{p[0]:.1f}_{p[1]:.1f}_{p[2]:.1f}" for p in sorted_comb])
+                print(f"[DEBUG] Processing config {config_str} with {k} obstacles")
                 
-                num_start_nodes = min(self.max_start_nodes, len(valid_nodes))
-                if num_start_nodes == 0:
-                    print(f"[DEBUG] No valid nodes available for start nodes in config: {config_key}")
-                    start_nodes = []
-                else:
-                    start_nodes = random.sample(valid_nodes, num_start_nodes)
-                    print(f"[DEBUG] Selected {num_start_nodes} random start nodes: {start_nodes}")
+                # Шаг 4: Устанавливаем позиции препятствий детерминировано
+                env_ids = torch.tensor([0], device=self.device)
+                self.scene_manager.set_obstacle_positions(env_ids, list(comb))  # Новая функция, см. пункт 2
                 
-                # Проверяем, что стартовые узлы не пересекаются с препятствиями
-                valid_start_nodes = []
-                for node in start_nodes:
-                    scaled_point = self.grid_to_real(node)
-                    print(2)
-                    if not self._check_intersection(scaled_point, obstacle_positions, obstacle_radii):
-                        valid_start_nodes.append(node)
-                    else:
-                        print(f"[DEBUG] Start node {node} intersects with obstacles, searching for nearest reachable")
-                        nearest_node = self.find_nearest_reachable_node(config_graph, node)
-                        if nearest_node is not None:
-                            valid_start_nodes.append(nearest_node)
-                        else:
-                            print(f"[DEBUG] No reachable node found for {node}")
+                # Извлекаем positions/radii для активных movable_obstacle
+                graph = self.scene_manager.graphs[0]
+                obstacle_indices = graph.get_nodes_by_type("movable_obstacle", only_active=True)
+                obstacle_positions = graph.positions[obstacle_indices, :2]  # [num_active, 2]
+                obstacle_radii = graph.radii[obstacle_indices]  # [num_active]
                 
-                start_nodes = valid_start_nodes
-            else:
-                # В обычном режиме используем все узлы графа
-                start_nodes = [
-                    node for node in config_graph.nodes
-                    if len(list(config_graph.neighbors(node))) > 0
-                ]
-            
-            print(f"[DEBUG] Valid start nodes: {len(start_nodes)}")
-            print(f"[DEBUG] Sample start nodes: {start_nodes[:10]}...")
-
-            # Вычисляем пути для всех пар старт-цель
-            print(f"[DEBUG] Computing paths for all start-target pairs...")
-            self.all_paths[config_key] = {target: {} for target in grid_targets}
-            
-            total_paths = 0
-            failed_paths = 0
-            
-            for target_idx, target in enumerate(grid_targets):
-                print(f"[DEBUG] Processing target {target_idx + 1}/{len(grid_targets)}: {target}")
+                # Шаг 5: Строим граф сцены (удаляем intersections)
+                config_graph = self.get_scene_grid(obstacle_positions, obstacle_radii)
+                print(f"[DEBUG] Config graph for {config_str}: {len(config_graph.nodes)} nodes")
                 
-                target_paths = 0
-                
-                # all_paths_to_target = nx.single_target_shortest_path(config_graph, target)
-                all_paths_from_target  = nx.single_source_dijkstra_path(config_graph, target, weight="weight")
-                # all_paths_to_target = {node: list(reversed(path)) 
-                #        for node, path in all_paths_from_target.items()}
-                all_paths_to_target = {}
-                for node, path in all_paths_from_target.items():
-                    # Разворачиваем путь от старта к цели
-                    path = list(reversed(path))
-                    # Преобразуем в координаты
-                    # coords = [graph_nodes[p]["position"] for p in path]
-                    # Убираем лишние точки на прямых участках
-                    coords_simplified = _simplify_path(path)
-                    all_paths_to_target[node] = coords_simplified
-                print("colculate of path has ended")
-                for node_idx, node in enumerate(start_nodes):
-                    if node in all_paths_to_target:
-                        path = all_paths_to_target[node]
-                        self.all_paths[config_key][target][node] = path
-                        
-                        # Сохраняем изображение для каждого n_save-го пути
-                        if (config_idx * len(grid_targets) * len(start_nodes) + target_idx * len(start_nodes) + node_idx) % n_save == 0:
-                            print(f"[DEBUG] Saving graph image for path {total_paths}")
-                            self.save_graph_image(config_graph, path, config_key)
-                    else:
-                        failed_paths += 1
-                
-                print(f"[DEBUG] Target {target} has {target_paths} valid paths")
-            
-            print(f"[DEBUG] Configuration '{config_key}' complete:")
-            print(f"  - Total paths: {total_paths}")
-            print(f"  - Failed paths: {failed_paths}")
-
-            # Сохраняем пути в JSON
-            print(f"[DEBUG] Saving paths to JSON...")
-            json_paths = {}
-            
-            for config_key_inner, targets_inner in self.all_paths.items():
-                config_str = f"{config_key_inner}"
-                json_paths[config_str] = {}
-                
-                for target, nodes in targets_inner.items():
-                    target_str = f"{target[0]},{target[1]}"
-                    json_paths[config_str][target_str] = {}
+                # Шаг 6: Для каждой цели в targets
+                for target in targets:
+                    # Устанавливаем позицию цели (с учетом surface_only)
+                    self.scene_manager.set_goal_position(env_ids, target)  # Новая функция, см. пункт 2
                     
-                    for node, path in nodes.items():
-                        node_str = f"{node[0]},{node[1]}"
-                        json_paths[config_str][target_str][node_str] = [list(p) for p in path]
-
-            with open(self.paths_file, 'w') as f:
-                json.dump(json_paths, f, indent=4)
+                    # Конвертируем target в grid (теперь target — реальная, после set)
+                    goal_pos = self.scene_manager.goal_positions[0, :3].cpu().tolist()  # После set
+                    grid_targets = self.get_grid_targets([goal_pos], obstacle_positions, obstacle_radii, config_graph)
+                    
+                    for grid_target in grid_targets:
+                        print(f"[DEBUG] Computing paths for target {grid_target}")
+                        
+                        # Вычисляем shortest paths (как раньше)
+                        try:
+                            paths_from_target = nx.single_source_dijkstra_path(config_graph, grid_target)
+                        except nx.NodeNotFound:
+                            print(f"[WARNING] Target {grid_target} not in graph, skipping")
+                            continue
+                        
+                        # Обрабатываем пути (reverse, simplify)
+                        start_nodes = list(paths_from_target.keys())
+                        if self.test_mode:
+                            start_nodes = random.sample(start_nodes, min(self.max_start_nodes, len(start_nodes)))
+                        
+                        for start in start_nodes:
+                            path = paths_from_target[start][::-1]  # Reverse
+                            simplified_path = _simplify_path(path)
+                            num_processed += 1
+                            # if num_processed % n_save == 0:
+                            #     self.save_graph_image(config_graph, simplified_path, config_str)
+                            if len(simplified_path) > 1:
+                                self.all_paths.setdefault(config_str, {}).setdefault(str(grid_target), {})[str(start)] = simplified_path
+                        self.save_graph_image(config_graph, path, config_key=15)
+                        print(f"[DEBUG] Processed {len(start_nodes)} start nodes for target {grid_target}")
+                
+                
             
-            print(f"[DEBUG] Saved {len(self.all_paths)} configurations to {self.paths_file}")
-            print(f"[DEBUG] JSON file size: {os.path.getsize(self.paths_file)} bytes")
-
+        self._save_paths()
         print(f"\n[DEBUG] ===== PATH GENERATION COMPLETE =====")
         print(f"[DEBUG] Total configurations processed: {len(self.all_paths)}")
-        print(f"[DEBUG] Final paths file: {self.paths_file}")
+
+    def _save_paths(self):
+        import re
+        json_paths = {}
+        print("all paths: ", self.all_paths)
+        for config_str, targets_inner in self.all_paths.items():
+            print("config_str: ", config_str)
+            json_paths[config_str] = {}
+            for target, nodes in targets_inner.items():
+                print("target: ", target)
+                target_str = re.sub(r"[()]", "", target)  # str(grid_target) уже tuple, но на str
+                json_paths[config_str][target_str] = {}
+                print(config_str, target_str)
+                for node, path in nodes.items():
+                    print("node", node)
+                    print("path", path)
+                    node_str = re.sub(r"[()]", "", node)
+                    json_paths[config_str][target_str][node_str] = [list(p) for p in path]
+        with open(self.paths_file, 'w') as f:
+            json.dump(json_paths, f, indent=4)
+        print(f"[DEBUG] Saved {len(self.all_paths)} configurations to {self.paths_file}")
+        print(f"[DEBUG] JSON file size: {os.path.getsize(self.paths_file)} bytes")
 
     def get_grid_targets(self, targets, obstacle_positions, obstacle_radii, config_graph):
         print(f"[DEBUG] Converting targets to grid: {targets}")
@@ -551,7 +482,7 @@ class PathGenerator:
 
     def real_to_grid(self, real_point):
         """Преобразует реальные координаты (x, y) в сеточные с поворотом на 90 градусов по часовой стрелке."""
-        x, y = real_point
+        x, y, _ = real_point
         grid_x = int((x + self.shift[0]) * self.ratio)  # x_grid = (-y + shift_y) * ratio
         grid_y = int((y + self.shift[1]) * self.ratio)   # y_grid = (x - shift_x) * ratio
         return (grid_x, grid_y)
@@ -600,5 +531,5 @@ def _simplify_path(points, tol=1e-5):
 if __name__ == "__main__":
     print("[DEBUG] Starting PathGenerator script...")
     generator = PathGenerator(num_obstacles=3, device='cuda:0', test_mode=False)
-    generator.generate_paths(n_save=1500, targets=[[-4.5, 0],[-4.5, -1],[-4.5, 1]])    #[[-4.2, -1],[-4.2, 0],[-4.2, 1]])
+    generator.generate_paths(n_save=500000, targets=[[-4.5, 0],[-4.5, -1],[-4.5, 1]])    #[[-4.2, -1],[-4.2, 0],[-4.2, 1]])
     print("[DEBUG] PathGenerator script complete!")

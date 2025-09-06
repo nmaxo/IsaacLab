@@ -1,163 +1,149 @@
 import torch
 import networkx as nx
-from enum import Enum
-import random
-
-# ADDED: Enum для кодирования типов объектов
-class ObjectType(Enum):
-    OBSTACLE = 0        # Перемещаемые препятствия (стулья)
-    FIXED_OBSTACLE = 1  # Стационарные препятствия (столы)
-    POSSIBLE_GOAL = 2   # Потенциальные цели (миски)
-    STUFF = 3           # Декоративные объекты (коробки)
-    UNKNOWN = 4
+import math
+from tabulate import tabulate
 
 class ObstacleGraph:
-    # CHANGED: Инициализация теперь принимает полную конфигурацию
     def __init__(self, objects_config: list, device='cuda:0'):
-        """
-        Args:
-            objects_config (list): Список словарей с конфигурацией для каждого объекта из JSON.
-            device (str or torch.device): Устройство для тензоров (cuda или cpu).
-        """
         self.device = device
         self.graph = nx.Graph()
-        
-        # CHANGED: Считаем общее количество узлов и храним конфиг
         self.objects_config = objects_config
         self.num_nodes = sum(obj['count'] for obj in self.objects_config)
-
         self._initialize_nodes()
 
     def _initialize_nodes(self):
-        """Инициализирует узлы с дефолтными позициями и атрибутами из конфига."""
-        self.default_positions = torch.zeros(self.num_nodes, 3, device=self.device)
+        # Атрибуты узлов
         self.positions = torch.zeros(self.num_nodes, 3, device=self.device)
         self.radii = torch.zeros(self.num_nodes, device=self.device)
         self.sizes = torch.zeros(self.num_nodes, 3, device=self.device)
-        self.types = torch.full((self.num_nodes,), ObjectType.UNKNOWN.value, dtype=torch.long, device=self.device)
         self.active = torch.zeros(self.num_nodes, dtype=torch.bool, device=self.device)
-        self.names = [''] * self.num_nodes
-
-        # Отображение строки типа в Enum
-        type_map = {
-            "obstacle": ObjectType.OBSTACLE,
-            "fixed_obstacle": ObjectType.FIXED_OBSTACLE,
-            "possible_goal": ObjectType.POSSIBLE_GOAL,
-            "stuff": ObjectType.STUFF,
-        }
-
-        # Заполняем атрибуты для каждого объекта из конфига
+        
+        # Иерархия поверхностей
+        self.on_surface_idx = torch.full((self.num_nodes,), -1, dtype=torch.long, device=self.device)  # -1 означает пол
+        self.surface_level = torch.zeros(self.num_nodes, dtype=torch.long, device=self.device)  # 0 означает пол
+        
+        # Параметры сетки
+        max_per_row = 4  # Максимум объектов в строке
+        spacing = 1.0    # Расстояние между объектами (1 метр)
+        start_x = 3.0    # Начало сетки по X (за пределами x_max=2.0)
+        start_y = 4.0    # Начало сетки по Y (за пределами y_max=3.0)
+        
+        # Рассчитываем количество строк
+        num_rows = (self.num_nodes + max_per_row - 1) // max_per_row
+        
+        # Инициализация позиций в сетке
+        node_idx = 0
+        for row in range(num_rows):
+            for col in range(min(max_per_row, self.num_nodes - row * max_per_row)):
+                self.positions[node_idx, 0] = start_x + col * spacing
+                self.positions[node_idx, 1] = start_y + row * spacing
+                self.positions[node_idx, 2] = 0.0  # На полу
+                node_idx += 1
+        
         node_idx = 0
         for obj_cfg in self.objects_config:
             count = obj_cfg['count']
-            
-            # Дефолтные позиции за сценой
-            base_x = 10.0 + node_idx * 2.0
-            y_pos = torch.linspace(-count / 2.0, count / 2.0, count, device=self.device)
-            
+            size_tensor = torch.tensor(obj_cfg['size'], device=self.device)
+            # Автоматический расчет радиуса
+            radius = math.sqrt((size_tensor[0] / 2)**2 + (size_tensor[1] / 2)**2)
+
             for i in range(count):
-                self.names[node_idx] = obj_cfg['name']
-                self.types[node_idx] = type_map.get(obj_cfg['type'], ObjectType.UNKNOWN).value
-                self.sizes[node_idx] = torch.tensor(obj_cfg['size'], device=self.device)
-                self.radii[node_idx] = obj_cfg.get('radius', 0.0) # Используем .get для 'stuff'
-                self.default_positions[node_idx] = torch.tensor([base_x, y_pos[i], 0.0], device=self.device)
+                self.sizes[node_idx] = size_tensor
+                self.radii[node_idx] = radius
+                
+                # Инициализация узла в графе NetworkX
+                self.graph.add_node(
+                    node_idx,
+                    name=obj_cfg['name'],
+                    types=set(obj_cfg['type']),
+                    size=tuple(size_tensor.tolist()),
+                    radius=radius,
+                    active=False,
+                    on_surface_idx=-1,
+                    surface_level=0
+                )
                 node_idx += 1
-
-        self.positions = self.default_positions.clone()
         
-        # Инициализируем NetworkX граф
-        for i in range(self.num_nodes):
-            self.graph.add_node(i, 
-                                name=self.names[i], 
-                                radius=self.radii[i].item(),
-                                size=tuple(self.sizes[i].tolist()),
-                                type=self.types[i].item(),
-                                position=tuple(self.positions[i].tolist()),
-                                default_position=tuple(self.default_positions[i].tolist()),
-                                active=self.active[i].item())
-        self._update_edges()
+        self.default_positions = self.positions.clone()
+        self.update_graph_state()
 
-    def _update_edges(self):
-        """Обновляет рёбра на основе текущих позиций узлов."""
-        self.graph.remove_edges_from(list(self.graph.edges))
-        dists = torch.cdist(self.positions[:, :2], self.positions[:, :2])
-        active_pairs = self.active[:, None] & self.active[None, :]
-        dists = torch.where(active_pairs, dists, torch.tensor(float('inf'), device=self.device))
-        
+    def get_nodes_by_type(self, type_str: str, only_active: bool = False) -> list[int]:
+        """Возвращает список индексов узлов с указанным типом."""
+        nodes = []
+        for i, data in self.graph.nodes(data=True):
+            if type_str in data['types']:
+                if not only_active or data['active']:
+                    nodes.append(i)
+        return nodes
+
+    def get_objects_on_surface(self, surface_node_idx: int) -> list[int]:
+        """Возвращает объекты, находящиеся на указанной поверхности."""
+        return [
+            i for i, idx in enumerate(self.on_surface_idx) if idx == surface_node_idx
+        ]
+
+    def update_graph_state(self):
+        """Синхронизирует данные из тензоров в атрибуты узлов графа NetworkX."""
         for i in range(self.num_nodes):
-            # Синхронизируем атрибуты узла в графе
             node_data = self.graph.nodes[i]
             node_data['position'] = tuple(self.positions[i].tolist())
             node_data['active'] = self.active[i].item()
-            node_data['radius'] = self.radii[i].item()
-            node_data['size'] = tuple(self.sizes[i].tolist())
-            node_data['type'] = self.types[i].item()
-            node_data['name'] = self.names[i]
-            for j in range(i + 1, self.num_nodes):
-                self.graph.add_edge(i, j, weight=dists[i, j].item())
+            node_data['on_surface_idx'] = self.on_surface_idx[i].item()
+            node_data['surface_level'] = self.surface_level[i].item()
 
-    # REMOVED: set_radii (теперь все устанавливается при инициализации)
-
-    def update_positions(self, active_indices, new_positions):
-        """Обновляет позиции активных узлов и рёбра."""
-        self.active[:] = False
-        if active_indices and new_positions.numel() > 0:
-            active_indices_tensor = torch.tensor(active_indices, device=self.device, dtype=torch.long)
-            self.active[active_indices_tensor] = True
-            self.positions[active_indices_tensor] = new_positions.clone().detach()
-            
-        # Сбрасываем неактивные узлы на дефолтные позиции
-        self.positions[~self.active] = self.default_positions[~self.active]
-        self._update_edges()
-
-    def get_active_nodes(self):
-        """Возвращает список словарей с данными активных узлов."""
-        active_mask = self.active
-        active_indices = torch.where(active_mask)[0]
+    def print_graph_info(self, add_info=None):
+        """Prints detailed and formatted information about the ObstacleGraph."""
+        print("\n=== ObstacleGraph Information ===")
         
-        active_nodes_data = []
-        for i in active_indices:
-            active_nodes_data.append({
-                'name': self.names[i],
-                'radius': self.radii[i].item(),
-                'size': tuple(self.sizes[i].tolist()),
-                'type': self.types[i].item(),
-                'position': tuple(self.positions[i].tolist()),
-                'active': True,
-                'default_position': tuple(self.default_positions[i].tolist())
-            })
-        return active_nodes_data
-    
-    def graph_to_tensor(self):
-        """Преобразует состояние графа в тензор для RL агента."""
-        # Нормируем позиции и размеры для стабильности сети
-        norm_positions = self.positions / 10.0 
-        norm_sizes = self.sizes / 2.0
-        # Кодируем тип one-hot вектором
-        type_one_hot = torch.nn.functional.one_hot(self.types, num_classes=len(ObjectType)).float()
+        # Graph Summary
+        active_nodes = self.active.sum().item()
+        print("\nGraph Summary:")
+        if add_info is not None:
+            print(add_info)
+        print(f"  Total Nodes: {self.num_nodes}")
+        print(f"  Active Nodes: {active_nodes}")
+        print(f"  Device: {self.device}")
         
-        # Конкатенируем все признаки: [x, y, z, size_x, size_y, size_z, type_0, ..., type_N]
-        features = torch.cat([norm_positions, norm_sizes, self.radii.unsqueeze(-1), type_one_hot], dim=-1)
-        return features.flatten() # Возвращаем плоский вектор
-
-    def get_graph_info(self):
-        """Возвращает отформатированную информацию о графе для отладки."""
-        info = f"ObstacleGraph with {self.num_nodes} nodes:\n"
-        info += "Nodes:\n"
+        # Object Type Counts
+        type_counts = {}
+        for obj_cfg in self.objects_config:
+            type_counts[obj_cfg['name']] = obj_cfg['count']
+        print("\nObject Types and Counts:")
+        for name, count in type_counts.items():
+            print(f"  {name.capitalize()}: {count}")
+        
+        # Node Details Table
+        table_data = []
+        for i, data in self.graph.nodes(data=True):
+            pos = data['position']
+            types = ", ".join(data['types'])
+            size = data['size']
+            row = [
+                i,
+                data['name'],
+                types,
+                f"({pos[0]:.2f}, {pos[1]:.2f}, {pos[2]:.2f})",
+                f"{data['radius']:.2f}",
+                f"({size[0]:.2f}, {size[1]:.2f}, {size[2]:.2f})",
+                str(data['active']),
+                data['on_surface_idx'],
+                data['surface_level']
+            ]
+            table_data.append(row)
+        
+        headers = ["ID", "Name", "Types", "Position", "Radius", "Size", "Active", "On Surface", "Surface Level"]
+        print("\nNode Details:")
+        print(tabulate(table_data, headers=headers, tablefmt="grid"))
+        
+        # Surface Hierarchy
+        print("\nSurface Hierarchy:")
+        print(self.graph.nodes)
         for i in range(self.num_nodes):
-            info += f"  Node {i} ({self.names[i]}):\n"
-            info += f"    Type: {ObjectType(self.types[i].item()).name}\n"
-            info += f"    Radius: {self.radii[i]:.2f}\n"
-            info += f"    Size: ({self.sizes[i, 0]:.2f}, {self.sizes[i, 1]:.2f}, {self.sizes[i, 2]:.2f})\n"
-            info += f"    Position: ({self.positions[i, 0]:.2f}, {self.positions[i, 1]:.2f}, {self.positions[i, 2]:.2f})\n"
-            info += f"    Active: {self.active[i]}\n"
-        
-        active_edges = [(u, v, d) for u, v, d in self.graph.edges(data=True) if d['weight'] != float('inf')]
-        info += f"\nEdges ({len(active_edges)} active):\n"
-        if not active_edges:
-            info += "  No active edges.\n"
-        else:
-            for u, v, data in active_edges:
-                info += f"  Edge ({u}, {v}): Weight = {data['weight']:.2f}\n"
-        
-        return info
+            if self.on_surface_idx[i] != -1:
+                obj_name = self.graph.nodes[i]['name']
+                print(self.graph.nodes[i]['name'], self.graph.nodes[i], i)
+                print(self.on_surface_idx)
+                surface_name = self.graph.nodes[self.on_surface_idx[i].item()]['name']
+                print(f"  Node {i} ({obj_name}) is on surface Node {self.on_surface_idx[i]} ({surface_name})")
+            elif self.graph.nodes[i]['active']:
+                print(f"  Node {i} ({self.graph.nodes[i]['name']}) is on floor")
