@@ -48,7 +48,7 @@ ALOHA_CFG = ArticulationCfg(
         ),
     ),
     init_state=ArticulationCfg.InitialStateCfg(
-        pos=(3.0, 0.0, 0.1), joint_pos={".*": 0.0}
+        pos=(1.0, 0.0, 0.1), joint_pos={".*": 0.0}
     ),
     actuators={
         # Актуатор для колес (управление скоростью)

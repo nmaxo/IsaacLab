@@ -266,7 +266,7 @@ class SceneManager:
         # final_robot_positions = torch.zeros(num_envs, 2, device=self.device)
         return final_robot_positions, robot_quats
     
-    def _resolve_collisions_iteratively(self, robot_pos, obs_pos, obs_radii, obs_mask, max_iter=10, safety_margin=0.1):
+    def _resolve_collisions_iteratively(self, robot_pos, obs_pos, obs_radii, obs_mask, max_iter=15, safety_margin=0.1):
         """Итеративно отодвигает робота от препятствий, проверяя границы области."""
         # Вычисляем начальные расстояния до препятствий
         robot_pos = self._clamp_to_room_bounds(robot_pos)
@@ -286,7 +286,7 @@ class SceneManager:
             # Проверяем, нет ли коллизий
             if not torch.any(collisions):
                 # Проверяем границы комнаты
-                print("rp: ", robot_pos)
+                # print("rp: ", robot_pos)
                 return robot_pos, False  # Нет коллизий, позиция скорректирована
 
             # Находим ближайшее препятствие с коллизией
@@ -302,7 +302,7 @@ class SceneManager:
             move_dist = required[closest_idx] - vec_norm
             
             # Сдвигаем робота
-            if vec_norm > 1e-6 and step < max(3,max_iter-5):
+            if vec_norm > 1e-6 and step < 3:
                 robot_pos += (vec_to_robot / vec_norm) * move_dist
             else:  # Робот в центре препятствия — случайный сдвиг
                 robot_pos += torch.randn(2, device=self.device) * move_dist
@@ -312,12 +312,10 @@ class SceneManager:
                 step = 0
                 istep += 1
                 print(f"[DEBUG] COLLISION IN _resolve_collisions_iteratively after {istep} iterations")
-                print(f"pos start: {pos_start}")
-                print(f"old robot pos: {old_robot_pos}")
-                print(f"robot pos: {robot_pos}")
-                print(f"dist for obs: {dists}")
-                print(f"obs: {obs_pos}")
-                print(f"required dist: {required}")
+                print(f"old robot pos: {old_robot_pos} obs: {obs_pos}")
+                print(f"dist for obs: {dists} required: {required}")
+
+
 
                 return robot_pos, True  # Нет коллизий, позиция скорректирована
         return robot_pos, False  # Нет коллизий, позиция скорректирована

@@ -517,9 +517,9 @@ class WheeledRobotEnv(DirectRLEnv):
         else:
             IL_reward = 0
             punish = (
-                - 0.1 * (r_error * 0.2 + 1)
-                - ang_vel_reward / (1 + self.mean_radius)
-                + lin_vel_reward / (1 + self.mean_radius)
+                - 0.1
+                - ang_vel_reward / (1 + 2 * self.mean_radius)
+                + lin_vel_reward / (1 + 2 * self.mean_radius)
             )
         reward = (
             IL_reward + punish #* r_error
@@ -785,7 +785,8 @@ class WheeledRobotEnv(DirectRLEnv):
             all_defoult=all_defoult
         )
         goal_pos = self.scene_manager.get_active_goal_state(env_ids)
-        
+        self._desired_pos_w[env_ids, :3] = goal_pos
+        self._desired_pos_w[env_ids, :2] = self.to_global(goal_pos, env_ids)
         if self.turn_on_controller_step > self.my_episode_lenght and self.turn_on_controller:
             self.turn_on_controller_step = 0
             self.turn_on_controller = False
@@ -831,7 +832,6 @@ class WheeledRobotEnv(DirectRLEnv):
         if len(env_ids) == self.num_envs:
             self.episode_length_buf = torch.zeros_like(self.episode_length_buf) #, high=int(self.max_episode_length))
         self._actions[env_ids] = 0.0
-        self._desired_pos_w[env_ids, :2] = self._terrain.env_origins[env_ids, :2]
         min_radius = 1.2
         robot_pos, quaternion = self.scene_manager.place_robot_for_goal(
             env_ids, mean_dist=self.mean_radius, min_dist=1.2, max_dist=4, angle_error=self.cur_angle_error, max_attempts=50
@@ -870,6 +870,8 @@ class WheeledRobotEnv(DirectRLEnv):
                         use_obstacles=self.turn_on_obstacles,
                     )
                     goal_pos = self.scene_manager.get_active_goal_state(env_ids)
+                    self._desired_pos_w[env_ids, :3] = goal_pos
+                    self._desired_pos_w[env_ids, :2] = self.to_global(goal_pos, env_ids)
                 else:
                     break
             # print("out path_manager, paths: ", paths, self.turn_on_controller_step)
@@ -878,8 +880,7 @@ class WheeledRobotEnv(DirectRLEnv):
         if self.memory_on:
             self.memory_manager.reset()
         # print("in reset robot pose ", robot_pos, goal_pos)
-        self._desired_pos_w[env_ids, :3] = goal_pos
-        self._desired_pos_w[env_ids, :2] = self.to_global(goal_pos, env_ids)
+        
 
         # value = torch.tensor([0, 0], dtype=torch.float32, device=self.device)
         # robot_pos = value.unsqueeze(0).repeat(num_envs, 1)
