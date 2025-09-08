@@ -382,7 +382,8 @@ class WheeledRobotEnv(DirectRLEnv):
         # scene_embeddings = [self.scene_manager.graphs[i].graph_to_tensor() for i in range(self.num_envs)]
         # scene_embeddings = torch.stack(scene_embeddings, dim=0)
         # print(image_embeddings.shape)
-        
+        scene_embeddings = self.scene_manager.get_graph_embedding(self._robot._ALL_INDICES.clone())
+
         obs = torch.cat([image_embeddings, root_lin_vel_w*0.1, root_ang_vel_w*0.1, self.previous_ang_vel.unsqueeze(-1)*0.1], dim=-1)
         # obs = torch.cat([image_embeddings, scene_embeddings, root_lin_vel_w*0.1, root_ang_vel_w*0.1, self.previous_ang_vel.unsqueeze(-1)*0.1], dim=-1)
 
@@ -399,22 +400,6 @@ class WheeledRobotEnv(DirectRLEnv):
             print("[ sr ]: ", round(self.success_rate, 2), self.sr_stack_capacity)
         env_ids = self._robot._ALL_INDICES.clone()
         self._actions = actions.clone().clamp(-1.0, 1.0)
-        # nan_mask = torch.isnan(self._actions)
-        # # Получаем индексы элементов с NaN
-        # nan_indices = torch.nonzero(nan_mask, as_tuple=False)  # будет тензор с позициями
-        # nan_mask = torch.isnan(self._actions).any(dim=1)   # [num_envs]
-        # if nan_mask.any():
-        #     bad_envs = torch.nonzero(nan_mask, as_tuple=False).squeeze(-1)
-        #     print(f"[ WARNING ] NaN actions detected in envs {bad_envs.tolist()} — resetting them.")
-            
-        #     # Обнулить действия, чтобы симулятор не упал
-        #     self._actions[bad_envs] = 0.0
-        #     actions[bad_envs] = 0.0
-
-        #     # Сбросить только испорченные среды
-        #     self._reset_idx(bad_envs)
-
-        #     return
 
         nan_mask = torch.isnan(self._actions) | torch.isinf(self._actions)
         nan_indices = torch.nonzero(nan_mask.any(dim=1), as_tuple=False).squeeze()  # env_ids где любой action NaN/inf
@@ -751,42 +736,34 @@ class WheeledRobotEnv(DirectRLEnv):
 
     def _reset_idx(self, env_ids: torch.Tensor | None):
         super()._reset_idx(env_ids)
-        all_defoult = False
         if self.first_ep or env_ids is None or len(env_ids) == self.num_envs:
             env_ids = self._robot._ALL_INDICES.clone()
-            all_defoult = True
         # Сначала размещаем все объекты
         if self.first_ep:
             self.first_ep = False
+            self.scene_manager.randomize_scene(
+                env_ids,
+                mess=False, # или False, в зависимости от режима
+                use_obstacles=self.turn_on_obstacles,
+                all_defoult=True
+            )
             return
         num_envs = len(env_ids)
-        # value = torch.tensor([6, 0], dtype=torch.float32, device=self.device)
-        # robot_pos = value.unsqueeze(0).repeat(num_envs, 1)
-        # joint_pos = self._robot.data.default_joint_pos[env_ids].clone()
-        # joint_vel = self._robot.data.default_joint_vel[env_ids].clone()
-        # default_root_state = self._robot.data.default_root_state[env_ids].clone()
-        # default_root_state[:, :2] = self.to_global(robot_pos, env_ids)
-        # default_root_state[:, 2] = 0.1
-        # self._robot.write_root_pose_to_sim(default_root_state[:, :7], env_ids)
-        # self._robot.write_root_velocity_to_sim(default_root_state[:, 7:], env_ids)
-        # self._robot.write_joint_state_to_sim(joint_pos, joint_vel, None, env_ids)
 
         self.scene_manager.randomize_scene(
             env_ids,
             mess=False, # или False, в зависимости от режима
             use_obstacles=self.turn_on_obstacles,
-            all_defoult=True
+            all_defoult=False
         )
-        self._update_scene_objects(env_ids)
-        self.scene_manager.randomize_scene(
-            env_ids,
-            mess=False, # или False, в зависимости от режима
-            use_obstacles=self.turn_on_obstacles,
-            all_defoult=all_defoult
-        )
-        goal_pos = self.scene_manager.get_active_goal_state(env_ids)
-        self._desired_pos_w[env_ids, :3] = goal_pos
-        self._desired_pos_w[env_ids, :2] = self.to_global(goal_pos, env_ids)
+        self.scene_manager.get_graph_embedding(self._robot._ALL_INDICES.clone())
+        goal_pos_local  = self.scene_manager.get_active_goal_state(env_ids)
+        self._desired_pos_w[env_ids, :3] = goal_pos_local 
+        self._desired_pos_w[env_ids, :2] = self.to_global(goal_pos_local , env_ids)
+        # бновляем все объекты на сцене одним махом
+        self._update_scene_objects(self._robot._ALL_INDICES.clone())
+        self.curriculum_learning_module(env_ids) 
+
         if self.turn_on_controller_step > self.my_episode_lenght and self.turn_on_controller:
             self.turn_on_controller_step = 0
             self.turn_on_controller = False
@@ -822,7 +799,6 @@ class WheeledRobotEnv(DirectRLEnv):
                 self.min_level_radius = max(2.3, self.mean_radius - 0.3)
         else:
             self.turn_on_obstacles = False
-        self.curriculum_learning_module(env_ids)
         env_ids = env_ids.to(dtype=torch.long)
 
         final_distance_to_goal = torch.linalg.norm(
@@ -833,12 +809,17 @@ class WheeledRobotEnv(DirectRLEnv):
             self.episode_length_buf = torch.zeros_like(self.episode_length_buf) #, high=int(self.max_episode_length))
         self._actions[env_ids] = 0.0
         min_radius = 1.2
-        robot_pos, quaternion = self.scene_manager.place_robot_for_goal(
-            env_ids, mean_dist=self.mean_radius, min_dist=1.2, max_dist=4, angle_error=self.cur_angle_error, max_attempts=50
+        robot_pos_local, robot_quats = self.scene_manager.place_robot_for_goal(
+            env_ids,
+            mean_dist=self.mean_radius,
+            min_dist=1.2,
+            max_dist=4.0,
+            angle_error=self.cur_angle_error,
         )
-        robot_pos  = robot_pos
+        robot_pos  = robot_pos_local
         # print(robot_pos)
         self._update_scene_objects(env_ids)
+        goal_pos = self.scene_manager.get_active_goal_state(env_ids)
         # print("i'm in path_manager")
         if self.turn_on_controller or self.imitation:
             if self.imitation:
@@ -855,28 +836,31 @@ class WheeledRobotEnv(DirectRLEnv):
                 goal_pos_for_control = goal_pos[:, :2]
             paths = None
             possible_try_steps = 3
+            obstacle_positions_list = self.scene_manager.get_active_obstacle_positions_for_path_planning(env_ids)
+
             for i in range(possible_try_steps):
-                paths = self.path_manager.get_paths(
+                paths = self.path_manager.get_paths( # Используем старый get_paths
                     env_ids=env_ids_for_control,
-                    start_positions=robot_pos_for_control,
-                    target_positions=goal_pos_for_control,
-                    device=self.device
+                    # Передаем данные для генерации ключа
+                    active_obstacle_positions_list=obstacle_positions_list,
+                    start_positions=robot_pos_local,
+                    target_positions=goal_pos_local[:, :2]
                 )
                 if paths is None:
                     print(f"[ ERROR ] GET NONE PATH {i + 1} times")
                     self.scene_manager.randomize_scene(
-                        env_ids,
+                        env_ids_for_control,
                         mess=False, # или False, в зависимости от режима
                         use_obstacles=self.turn_on_obstacles,
                     )
-                    goal_pos = self.scene_manager.get_active_goal_state(env_ids)
-                    self._desired_pos_w[env_ids, :3] = goal_pos
-                    self._desired_pos_w[env_ids, :2] = self.to_global(goal_pos, env_ids)
+                    goal_pos = self.scene_manager.get_active_goal_state(env_ids_for_control)
+                    self._desired_pos_w[env_ids_for_control, :3] = goal_pos
+                    self._desired_pos_w[env_ids_for_control, :2] = self.to_global(goal_pos, env_ids_for_control)
                 else:
                     break
             # print("out path_manager, paths: ", paths, self.turn_on_controller_step)
-            self.control_module.update_paths(env_ids_for_control, paths, self.to_local(goal_pos_for_control,env_ids_for_control))
-            # self.control_module.update_paths(self.to_local(robot_pos_for_control, env_ids_for_control), self.to_local(goal_pos_for_control, env_ids_for_control), paths, env_ids_for_control)
+            # print(len(paths), len(env_ids_for_control), len(goal_pos_for_control))
+            self.control_module.update_paths(env_ids_for_control, paths, goal_pos_for_control)
         if self.memory_on:
             self.memory_manager.reset()
         # print("in reset robot pose ", robot_pos, goal_pos)
@@ -889,7 +873,7 @@ class WheeledRobotEnv(DirectRLEnv):
         default_root_state = self._robot.data.default_root_state[env_ids].clone()
         default_root_state[:, :2] = self.to_global(robot_pos, env_ids)
         default_root_state[:, 2] = 0.1
-        default_root_state[:, 3:7] = quaternion
+        default_root_state[:, 3:7] = robot_quats
         self._robot.write_root_pose_to_sim(default_root_state[:, :7], env_ids)
         self._robot.write_root_velocity_to_sim(default_root_state[:, 7:], env_ids)
         self._robot.write_joint_state_to_sim(joint_pos, joint_vel, None, env_ids)
@@ -990,34 +974,60 @@ class WheeledRobotEnv(DirectRLEnv):
         # self.tensorboard_writer.close()
         super().close()
 
-    def _update_scene_objects(self, env_ids):
-        """
-        Args:
-            env_ids: torch.Tensor, индексы сред для обновления. Если None, обновляются все среды.
-        """
-        # Проходим по всем объектам, определенным в менеджере
-        for name, indices in self.scene_manager.object_indices.items():
-            object_instances = self.scene_objects[name]
-            
-            # Обновляем каждый экземпляр (стул_0, стул_1, стол_0, и т.д.)
-            for i, node_idx in enumerate(indices):
-                instance = object_instances[i]
-                
-                # Собираем позы для всех сред для этого одного экземпляра
-                root_poses = torch.zeros((len(env_ids), 7), device=self.device)
-                for j, env_id in enumerate(env_ids):
-                    graph = self.scene_manager.graphs[env_id.item()]
-                    node_data = graph.graph.nodes[node_idx]
-                    pos = node_data['position']
-                    root_poses[j, 0:3] = torch.tensor(pos, device=self.device)
-                    root_poses[j, 3] = 1.0  # Ориентация по умолчанию (w=1)
-                    if name == "bowl":
-                        # Для миски используем Z-up ориентацию (кватернион [1, 0, 0, 0])
-                        root_poses[j, 3:7] = torch.tensor([0.0, 0.0, 0.7071, 0.7071])
+    def _update_scene_objects(self, env_ids: torch.Tensor):
+        """Векторизованное обновление позиций всех объектов в симуляторе."""
+        if env_ids is None:
+            env_ids = self._robot._ALL_INDICES.clone()
 
-                # Добавляем смещение среды
-                root_poses[:, :2] += self._terrain.env_origins[env_ids, :2]
-                instance.write_root_pose_to_sim(root_poses, env_ids=env_ids)
+        # Получаем все локальные позиции из scene_manager'а
+        all_local_positions = self.scene_manager.positions
+        
+        # Конвертируем в глобальные координаты
+        # Это может быть медленно, лучше делать это только для нужных env_ids
+        env_origins_expanded = self._terrain.env_origins.unsqueeze(1).expand_as(all_local_positions)
+        all_global_positions = all_local_positions + env_origins_expanded
+        
+        # Создаем тензор для ориентации (по умолчанию Y-up: w=1)
+        all_quats = torch.zeros(self.num_envs, self.scene_manager.num_total_objects, 4, device=self.device)
+        all_quats[..., 0] = 1.0
+        
+        # Собираем полные состояния (поза + ориентация)
+        all_root_states = torch.cat([all_global_positions, all_quats], dim=-1)
+
+        # Итерируемся по объектам, управляемым симулятором
+        for name, object_instances in self.scene_objects.items():
+            # Используем новый атрибут 'object_map'
+            if name not in self.scene_manager.object_map:
+                continue
+            
+            # Получаем индексы для данного типа объектов из object_map
+            indices = self.scene_manager.object_map[name]['indices']
+            
+            # Собираем состояния только для этих объектов
+            object_root_states = all_root_states[:, indices, :]
+            
+            # Обновляем каждый экземпляр этого типа (например, chair_0, chair_1, ...)
+            for i, instance in enumerate(object_instances):
+                # Выбираем срез для i-го экземпляра по всем окружениям
+                instance_states = object_root_states[:, i, :]
+                
+                # Применяем маску: неактивные объекты перемещаем далеко
+                active_mask = self.scene_manager.active[:, indices[i]]
+                inactive_pos = torch.tensor([20.0 + indices[i], 20.0, 0.0], device=self.device)
+                
+                # Используем torch.where для векторизованного обновления позиций
+                final_positions = torch.where(
+                    active_mask.unsqueeze(-1), 
+                    instance_states[:, :3], 
+                    inactive_pos
+                )
+                instance_states[:, :3] = final_positions
+                if name == "bowl":
+                    # Для миски используем Z-up ориентацию (кватернион [1, 0, 0, 0])
+                    rot = torch.tensor([0.0, 0.0, 0.7071, 0.7071],device=self.device).expand(self.num_envs, -1)
+                    instance_states[:, 3:7] = rot
+                # Записываем состояния в симулятор для всех окружений сразу
+                instance.write_root_pose_to_sim(instance_states, env_ids=self._robot._ALL_INDICES.clone())
 
 def log_embedding_stats(embedding):
     mean_val = embedding.mean().item()

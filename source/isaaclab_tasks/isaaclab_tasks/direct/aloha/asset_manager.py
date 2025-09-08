@@ -24,6 +24,10 @@ class AssetManager:
             for i in range(count):
                 random_usd_path = random.choice(usd_paths)
                 usd_path = os.path.join(current_dir, "source/isaaclab_assets/data/aloha_assets", random_usd_path)
+                rot = (1.0, 0.0, 0.0, 0.0) 
+                if name == "bowl":
+                    # Для миски используем Z-up ориентацию (кватернион [1, 0, 0, 0])
+                    rot = (0.0, 0.7071, 0.0, 0.7071)
                 instance_cfg = RigidObjectCfg(
                     prim_path=f"/World/envs/env_.*/{name}_{i}",
                     spawn=sim_utils.UsdFileCfg(
@@ -40,8 +44,8 @@ class AssetManager:
                         ),
                     ),
                     init_state=RigidObjectCfg.InitialStateCfg(
-                        pos=(20.0 + i, 20.0, 0.0),  # Начальная позиция
-                        rot=(1.0, 0.0, 0.0, 0.0)    # Кватернион для Z-up ориентации
+                        pos=(4.0 + i, 6.0, 0.0),  # Начальная позиция
+                        rot=rot    # Кватернион для Z-up ориентации
                     ),
                 )
                 obj_instance = RigidObject(cfg=instance_cfg)

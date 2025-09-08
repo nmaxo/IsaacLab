@@ -78,29 +78,34 @@ class Path_manager:
         real_y = grid_point[..., 1] / self.ratio - self.shift[1]
         return torch.stack([real_x, real_y], dim=-1)
     
-    def get_paths(self, env_ids: torch.Tensor, start_positions: torch.Tensor, target_positions: torch.Tensor, device: str = 'cuda:0'):
+    def get_paths(self, env_ids: torch.Tensor, start_positions: torch.Tensor, target_positions: torch.Tensor, active_obstacle_positions_list: list, device: str = 'cuda:0'):
         """
         Возвращает пути для заданных конфигураций, стартовых и целевых позиций в реальных координатах.
+        Теперь принимает готовый список позиций препятствий.
 
         Args:
             env_ids (torch.Tensor): Индексы сред [num_envs].
             start_positions (torch.Tensor): Стартовые позиции в реальных координатах [num_envs, 2].
             target_positions (torch.Tensor): Целевые позиции в реальных координатах [num_envs, 2].
+            active_obstacle_positions_list (list): Список списков с позициями активных препятствий 
+                                                     для каждой среды. Формат: [[(x,y,z), ...], [...]]
             device (str): Устройство для возвращаемых тензоров.
 
         Returns:
-            torch.Tensor: Пути в реальных координатах [num_envs, 50, 2].
+            torch.Tensor: Пути в реальных координатах [num_envs, max_path_length, 2].
         """
+        # Создаем ключи конфигураций из предоставленного списка
         configs = []
-        for env_id in env_ids:
-            active_pos = self.scene_manager.get_active_obstacle_positions(env_id)
-            config = ','.join([f"{x:.1f}_{y:.1f}_{z:.1f}" for x,y,z in sorted(active_pos)])
+        for active_pos in active_obstacle_positions_list:
+            # `active_pos` уже отсортирован и округлен в scene_manager
+            config = ','.join([f"{p[0]:.1f}_{p[1]:.1f}_{p[2]:.1f}" for p in active_pos]) if active_pos else ''
             configs.append(config)
-        # print("configs: ", configs)
+        # --- Остальная часть функции остается без изменений ---
+
         # Преобразуем реальные координаты в сеточные
         start_nodes = self.real_to_grid(start_positions)
         target_nodes = self.real_to_grid(target_positions)
-        # print("target pos: ", target_positions, target_nodes)
+        
         max_path_length = 15
         self.max_path_length = max_path_length
         paths = []
@@ -108,23 +113,18 @@ class Path_manager:
             start = tuple(start)
             target = tuple(target)
             path = self.all_paths.get(config, {}).get(target, {}).get(start, [])
-            # print(f"[ PATH MANAGER DEBUG ] start: {start}, target: {target}, cinfig: {config}")
+            
             # Если путь не найден, ищем ближайшие узлы
             if not path:
-                # print(f"No exact path for env {env_ids[i]}, config {config}, start {start}, target {target}")
-                # Ищем ближайший целевой узел
                 target_dict = self.all_paths.get(config, {})
                 if target_dict:
                     nearest_target = self.find_nearest_node(target, set(target_dict.keys()))
                     if nearest_target:
-                        # Ищем ближайший стартовый узел для найденного целевого
                         start_dict = target_dict.get(nearest_target, {})
                         if start_dict:
                             nearest_start = self.find_nearest_node(start, set(start_dict.keys()))
                             if nearest_start:
                                 path = target_dict[nearest_target].get(nearest_start, [])
-                                # print(f"Using nearest path: start {nearest_start}, target {nearest_target}")
-            # print(f"[ PATH MANAGER DEBUG ] path: ", path)
             paths.append(path)
 
         # Создаем тензор путей в сеточных координатах
@@ -137,15 +137,12 @@ class Path_manager:
                     path = path[-max_path_length:]  # Берем последние max_path_length точек
                 path_tensor[i, -len(path):] = torch.tensor(path, device=device, dtype=torch.float32)
             else:
-                print(f"No path found for env {env_id}, config {configs[i]}, start {start_nodes[i].tolist()}, target {target_nodes[i].tolist()}")
+                # print(f"No path found for env {env_id}, config {configs[i]}, start {start_nodes[i].tolist()}, target {target_nodes[i].tolist()}")
                 # Заполняем последнюю точку стартовой позицией
                 path_tensor[i, -1] = start_nodes[i].to(device=device, dtype=torch.float32)
 
         # Преобразуем пути в реальные координаты
-        # print(f"[ PATH MANAGER DEBUG ] path before grid to real: ", path_tensor)
         path_tensor = self.grid_to_real(path_tensor.to(device=device))
-        # print(f"[ PATH MANAGER DEBUG ] path after grid to real: ", path_tensor)
-        # print(f"[ PATH MANAGER DEBUG ] PathManager.get_paths: env_ids={env_ids.tolist()}, paths shape={path_tensor.shape}")
         return path_tensor
 
     def find_nearest_node(self, target: tuple, nodes: set) -> tuple:

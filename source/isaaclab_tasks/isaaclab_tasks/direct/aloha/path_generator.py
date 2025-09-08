@@ -17,7 +17,7 @@ def import_class_from_path(module_path, class_name):
     print(f"[DEBUG] Successfully imported class: {class_obj}")
     return class_obj
 
-module_path = "source/isaaclab_tasks/isaaclab_tasks/direct/aloha/scene_manager.py"
+module_path = "source/isaaclab_tasks/isaaclab_tasks/direct/aloha/scene_manager_for_pg.py"
 SceneManager = import_class_from_path(module_path, "SceneManager")
 
 class PathGenerator:
