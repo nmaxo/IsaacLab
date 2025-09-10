@@ -255,7 +255,7 @@ class SceneManager:
         num_features = 9
         embedding = torch.zeros(len(env_ids), self.num_total_objects, num_features, device=self.device)
         # print("bbbb ", len(embedding[0]))
-        env_positions = self.positions[env_ids]
+        env_positions = self.positions[env_ids] + 5
         env_active = self.active[env_ids].float().unsqueeze(-1)
         env_sizes = self.sizes.expand(len(env_ids), -1, -1)
         env_radii = self.radii.expand(len(env_ids), -1).unsqueeze(-1)
@@ -273,7 +273,6 @@ class SceneManager:
         embedding[..., 7:8] /= 2.0  # Радиусы
         embedding[..., 8:9] /= 3.0  # Нормализация ID (максимум 3 для chair)
         # Возвращаем "плоский" тензор
-        # print(embedding)
         return embedding.view(len(env_ids), -1)
 
     def print_graph_info(self, env_id: int):

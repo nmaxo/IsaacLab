@@ -147,7 +147,7 @@ class WheeledRobotEnv(DirectRLEnv):
         
         self.scene_manager = SceneManager(self.num_envs, self.config_path, self.device)
         self.use_controller = True
-        self.imitation = True
+        self.imitation = False
         if self.imitation:
             self.use_controller = True
         if self.use_controller:
@@ -661,7 +661,7 @@ class WheeledRobotEnv(DirectRLEnv):
                 
                 if len(self.success_stacks[env_id]) > self.max_stack_size:
                     self.success_stacks[env_id].pop(0)
-            print("self.success_stacks ", self.success_stacks)
+            # print("self.success_stacks ", self.success_stacks)
         # Вычисляем процент успеха для всех сред с непустыми стеками
         # Подсчитываем общий процент успеха по всем релевантным средам
         total_successes = 0
