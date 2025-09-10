@@ -69,7 +69,7 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
     observation_space = gym.spaces.Box(
         low=-float("inf"),
         high=float("inf"),
-        shape=(m * (512 + 512 + 3),),  # m * (embedding_size + action_size) + 2 (скорости)
+        shape=(m * (512 + 3 + 63),),  # m * (embedding_size + action_size) + 2 (скорости)
         dtype="float32"
     )
     state_space = 0
@@ -360,11 +360,13 @@ class WheeledRobotEnv(DirectRLEnv):
         root_lin_vel_w = torch.norm(self._robot.data.root_lin_vel_w[:, :2], dim=1).unsqueeze(-1)
         root_ang_vel_w = self._robot.data.root_ang_vel_w[:, 2].unsqueeze(-1)
         
-        # scene_embeddings = self.scene_manager.get_graph_embedding(self._robot._ALL_INDICES.clone())
+        scene_embeddings = self.scene_manager.get_graph_embedding(self._robot._ALL_INDICES.clone())
 
-        text_embeddings = self.text_embeddings
-        obs = torch.cat([image_embeddings, text_embeddings, root_lin_vel_w*0.1, root_ang_vel_w*0.1, self.previous_ang_vel.unsqueeze(-1)*0.1], dim=-1)
-        # obs = torch.cat([image_embeddings, scene_embeddings, root_lin_vel_w*0.1, root_ang_vel_w*0.1, self.previous_ang_vel.unsqueeze(-1)*0.1], dim=-1)
+        # text_embeddings = self.text_embeddings
+        # print("aaa")
+        # print(len(scene_embeddings[0]))
+        # obs = torch.cat([image_embeddings, scene_embeddings, text_embeddings, root_lin_vel_w*0.1, root_ang_vel_w*0.1, self.previous_ang_vel.unsqueeze(-1)*0.1], dim=-1)
+        obs = torch.cat([image_embeddings, scene_embeddings, root_lin_vel_w*0.1, root_ang_vel_w*0.1, self.previous_ang_vel.unsqueeze(-1)*0.1], dim=-1)
 
         self.previous_ang_vel = self.angular_speed
         # log_embedding_stats(image_embeddings)
@@ -743,14 +745,16 @@ class WheeledRobotEnv(DirectRLEnv):
         goal_pos_local  = self.scene_manager.get_active_goal_state(env_ids)
         colors = ["red" if x.item() > 0 else "green" for x in goal_pos_local[:, 0]]
         text_prompts = [f"move to bowl near {c} wall" for c in colors]
+        
+        # BLOCK TEXT_EMB
+        # text_inputs = self.clip_processor(
+        #     text=text_prompts, return_tensors="pt", padding=True
+        # ).to(self.device)
+        # with torch.no_grad():
+        #     text_embeddings = self.clip_model.get_text_features(**text_inputs)
+        #     text_embeddings = text_embeddings / (text_embeddings.norm(dim=1, keepdim=True) + 1e-9)
+        # self.text_embeddings[env_ids] = text_embeddings
 
-        text_inputs = self.clip_processor(
-            text=text_prompts, return_tensors="pt", padding=True
-        ).to(self.device)
-        with torch.no_grad():
-            text_embeddings = self.clip_model.get_text_features(**text_inputs)
-            text_embeddings = text_embeddings / (text_embeddings.norm(dim=1, keepdim=True) + 1e-9)
-        self.text_embeddings[env_ids] = text_embeddings
         # print("goal_pos_local ", goal_pos_local)
         self._desired_pos_w[env_ids, :3] = goal_pos_local 
         self._desired_pos_w[env_ids, :2] = self.to_global(goal_pos_local , env_ids)
@@ -763,6 +767,7 @@ class WheeledRobotEnv(DirectRLEnv):
 
         cond_imitation = (
             not self.warm and
+            self.mean_radius >= 3.3 and
             self.sr_stack_full and
             self.mean_radius != 0 and
             self.use_controller and
@@ -910,8 +915,8 @@ class WheeledRobotEnv(DirectRLEnv):
 
     def curriculum_learning_module(self, env_ids: torch.Tensor):
         # print("self.success_rate ", self.success_rate)
-        if self.mean_radius > 3.3:
-            max_angle_error = torch.pi * 0.8
+        # if self.mean_radius > 3.3:
+        #     max_angle_error = torch.pi * 0.8
         if self.warm and self.cur_step >= self.warm_len:
             self.warm = False
             self.mean_radius = self.start_mean_radius

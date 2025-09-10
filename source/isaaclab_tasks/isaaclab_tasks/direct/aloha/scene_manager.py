@@ -36,7 +36,7 @@ class SceneManager:
                     }
         # --- Начало: Векторизованная структура данных ---
         self.num_total_objects = sum(obj['count'] for obj in self.config)
-        
+        self.object_ids = torch.zeros(1, self.num_total_objects, device=self.device)
         # Словари для быстрого доступа к метаданным
         self.object_map = {} # {name: {'indices': tensor, 'types': set, 'count': int}}
         self.type_map = defaultdict(list) # {type_str: [indices...]}
@@ -65,6 +65,8 @@ class SceneManager:
         angle_step = 2 * math.pi / n_angles
         self.discrete_angles = torch.arange(0, 2 * math.pi, angle_step, device=self.device)
         self.candidate_vectors = torch.stack([torch.cos(self.discrete_angles), torch.sin(self.discrete_angles)], dim=1)
+        # Assign object IDs based on name
+
     
     def update_prims(self):
         pass
@@ -123,7 +125,10 @@ class SceneManager:
         # --- Исправленная последовательность ---
         # 1. Присваиваем правильно созданные "кладбищенские" позиции
         self.default_positions = default_pos_tensor.expand(self.num_envs, -1, -1)
-        
+        id_map = {"table": 1, "bowl": 2, "chair": 3}
+        for name, data in self.object_map.items():
+            obj_id = id_map.get(name, 0)  # Default to 0 for unmapped objects
+            self.object_ids[0, data['indices']] = obj_id
         # 2. Инициализируем текущие позиции из дефолтных
         self.positions = self.default_positions.clone()
 
@@ -245,27 +250,30 @@ class SceneManager:
 
     def get_graph_embedding(self, env_ids: torch.Tensor) -> torch.Tensor:
         """Создает тензорный эмбеддинг фиксированного размера для текущего состояния сцены."""
-        # [is_active, pos_x, pos_y, pos_z, size_x, size_y, size_z, radius]
-        # Размер фичи: 1 + 3 + 3 + 1 = 8
-        num_features = 8
+        # [is_active, pos_x, pos_y, pos_z, size_x, size_y, size_z, radius, object_id]
+        # Размер фичи: 1 + 3 + 3 + 1 + 1 = 9
+        num_features = 9
         embedding = torch.zeros(len(env_ids), self.num_total_objects, num_features, device=self.device)
-        
+        # print("bbbb ", len(embedding[0]))
         env_positions = self.positions[env_ids]
         env_active = self.active[env_ids].float().unsqueeze(-1)
         env_sizes = self.sizes.expand(len(env_ids), -1, -1)
         env_radii = self.radii.expand(len(env_ids), -1).unsqueeze(-1)
-        
+        env_object_ids = self.object_ids.expand(len(env_ids), -1).unsqueeze(-1)
+
         embedding[..., 0:1] = env_active
-        embedding[..., 1:4] = env_positions
-        embedding[..., 4:7] = env_sizes
-        embedding[..., 7:8] = env_radii
+        embedding[..., 1:4] = env_positions * env_active
+        embedding[..., 4:7] = env_sizes * env_active
+        embedding[..., 7:8] = env_radii * env_active
+        embedding[..., 8:9] = env_object_ids * env_active
 
-        # Нормализация для лучшего обучения
-        embedding[..., 1:4] /= 5.0 # Делим позиции на примерный масштаб комнаты
-        embedding[..., 4:7] /= 1.0 # Размеры уже примерно в этом диапазоне
-        embedding[..., 7:8] /= 2.0 # Радиусы
-
+        # Нормализация для лучшего обучения (применяется ко всем, но неактивные останутся 0)
+        embedding[..., 1:4] /= 5.0  # Делим позиции на примерный масштаб комнаты
+        embedding[..., 4:7] /= 1.0  # Размеры уже примерно в этом диапазоне
+        embedding[..., 7:8] /= 2.0  # Радиусы
+        embedding[..., 8:9] /= 3.0  # Нормализация ID (максимум 3 для chair)
         # Возвращаем "плоский" тензор
+        # print(embedding)
         return embedding.view(len(env_ids), -1)
 
     def print_graph_info(self, env_id: int):
