@@ -893,7 +893,7 @@ class WheeledRobotEnv(DirectRLEnv):
         self.tracker.reset(env_ids)
         env_ids_for_scene_embeddings = self._robot._ALL_INDICES.clone()
         # scene_embeddings = self.scene_manager.get_scene_embedding(env_ids)
-        if self.LOG:
+        if self.LOG and self.sr_stack_full:
             self.experiment.log_metric("success_rate", self.success_rate, step=self.tensorboard_step)
             self.experiment.log_metric("mean_radius", self.mean_radius, step=self.tensorboard_step)
             self.experiment.log_metric("max_angle", self.max_angle_error, step=self.tensorboard_step)
