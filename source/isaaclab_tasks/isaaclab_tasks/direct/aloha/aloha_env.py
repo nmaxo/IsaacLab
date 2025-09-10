@@ -45,6 +45,7 @@ from transformers import CLIPProcessor, CLIPModel
 from PIL import Image
 import omni.kit.commands  # Уже импортировано в вашем коде
 from omni.usd import get_context  # Для доступа к stage
+from pxr import Gf
 
 class WheeledRobotEnvWindow(BaseEnvWindow):
     def __init__(self, env: 'WheeledRobotEnv', window_name: str = "IsaacLab"):
@@ -68,7 +69,7 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
     observation_space = gym.spaces.Box(
         low=-float("inf"),
         high=float("inf"),
-        shape=(m * (512 + 3),),  # m * (embedding_size + action_size) + 2 (скорости)
+        shape=(m * (512 + 512 + 3),),  # m * (embedding_size + action_size) + 2 (скорости)
         dtype="float32"
     )
     state_space = 0
@@ -100,7 +101,7 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
         # ),
         debug_vis=False,
     )
-    scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=64, env_spacing=18, replicate_physics=True)
+    scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=32, env_spacing=18, replicate_physics=True)
     robot: ArticulationCfg = ALOHA_CFG.replace(prim_path="/World/envs/env_.*/Robot")
     wheel_radius = 0.068
     wheel_distance = 0.34
@@ -146,7 +147,7 @@ class WheeledRobotEnv(DirectRLEnv):
         
         self.scene_manager = SceneManager(self.num_envs, self.config_path, self.device)
         self.use_controller = True
-        self.imitation = False
+        self.imitation = True
         if self.imitation:
             self.use_controller = True
         if self.use_controller:
@@ -234,7 +235,7 @@ class WheeledRobotEnv(DirectRLEnv):
         self.key = None
         self.success_ep_num = 0
         # self.run = wandb.init(project="aloha_direct")
-        self.first_ep = True
+        self.first_ep = [True, True]
         self.first_ep_step = 0
         self.second_ep = True
         timestamp = datetime.datetime.now().strftime("%m_%d_%H_%M")
@@ -260,7 +261,7 @@ class WheeledRobotEnv(DirectRLEnv):
         self.min_level_radius = 0
         self.sr_treshhold = 85
         self.LOG = False
-        
+        self.text_embeddings = torch.zeros((self.num_envs, 512), device=self.device)
         if self.LOG:
             from comet_ml import start
             from comet_ml.integration.pytorch import log_model
@@ -271,6 +272,11 @@ class WheeledRobotEnv(DirectRLEnv):
             )
         self.print_config_info()
         self._setup_scene()
+        self.prim_paths = self.asset_manager.all_prim_paths
+        # сразу после создания scene_manager
+        self._material_cache = {}        # key -> material prim path (строка), key = "r_g_b"
+        self._applied_color_map = {}     # obj_index (int) -> color_key (str), чтобы не биндим повторно
+
 
     def print_config_info(self):
         print("__________[ CONGIFG INFO ]__________")
@@ -322,6 +328,8 @@ class WheeledRobotEnv(DirectRLEnv):
             self.asset_manager = AssetManager(config_path=self.config_path)
             self.scene_objects = self.asset_manager.spawn_assets_in_scene()
             
+            # self.scene_manager.update_prims(prim_path)
+            
 
         # light_cfg = sim_utils.DomeLightCfg(intensity=300.0, color=(0.75, 0.75, 0.75))
         # light_cfg.func("/World/Light", light_cfg)
@@ -352,39 +360,10 @@ class WheeledRobotEnv(DirectRLEnv):
         root_lin_vel_w = torch.norm(self._robot.data.root_lin_vel_w[:, :2], dim=1).unsqueeze(-1)
         root_ang_vel_w = self._robot.data.root_ang_vel_w[:, 2].unsqueeze(-1)
         
-        # Обновление памяти, если используется
-        # if self.memory_on:
-        #     velocities = torch.cat([root_lin_vel_w, root_ang_vel_w], dim=-1)
-        #     self.memory_manager.update(image_embeddings, velocities)
-        #     memory_data = self.memory_manager.get_observations() 
-        #     obs = torch.cat([memory_data], dim=-1)
-        # else:
-        
-         # только в первом шаге
-        # if self.tensorboard_step % 50 == 0:
-        #     save_dir = "/home/xiso/Downloads/assets/tmp"
-        #     os.makedirs(save_dir, exist_ok=True)
+        # scene_embeddings = self.scene_manager.get_graph_embedding(self._robot._ALL_INDICES.clone())
 
-        #     for i in range(min(4, self.num_envs)):  # первые 4 среды
-        #         img_np = camera_data[i].cpu().numpy().astype(np.uint8)  # (H,W,3)
-        #         img_pil = Image.fromarray(img_np)
-        #         pos = self.to_local(self._robot.data.root_pos_w[:, :2])
-        #         # Добавим подпись с позициями
-        #         draw = ImageDraw.Draw(img_pil)
-        #         text = f"env {i}\nroot_pos_w: {pos[i, :2].cpu().numpy()}\n" \
-        #             f"goal_pos: {self._desired_pos_w[i, :2].cpu().numpy()}"
-        #         draw.text((5, 5), text, fill=(255, 255, 255))
-
-        #         img_pil.save(os.path.join(save_dir, f"env_{i}_step_{self.tensorboard_step}.png"))
-
-        #     print(f"[DEBUG] Saved first 4 env images with positions to {save_dir} {self.tensorboard_step}")
-            # Получаем полный эмбеддинг сцены из графа для каждой среды
-        # scene_embeddings = [self.scene_manager.graphs[i].graph_to_tensor() for i in range(self.num_envs)]
-        # scene_embeddings = torch.stack(scene_embeddings, dim=0)
-        # print(image_embeddings.shape)
-        scene_embeddings = self.scene_manager.get_graph_embedding(self._robot._ALL_INDICES.clone())
-
-        obs = torch.cat([image_embeddings, root_lin_vel_w*0.1, root_ang_vel_w*0.1, self.previous_ang_vel.unsqueeze(-1)*0.1], dim=-1)
+        text_embeddings = self.text_embeddings
+        obs = torch.cat([image_embeddings, text_embeddings, root_lin_vel_w*0.1, root_ang_vel_w*0.1, self.previous_ang_vel.unsqueeze(-1)*0.1], dim=-1)
         # obs = torch.cat([image_embeddings, scene_embeddings, root_lin_vel_w*0.1, root_ang_vel_w*0.1, self.previous_ang_vel.unsqueeze(-1)*0.1], dim=-1)
 
         self.previous_ang_vel = self.angular_speed
@@ -568,7 +547,7 @@ class WheeledRobotEnv(DirectRLEnv):
         return torch.stack([rx_new, ry_new, rz_new], dim=1)
 
 
-    def goal_reached(self, angle_threshold: float = 17, radius_threshold: float = 1.2, get_num_subs=False):
+    def goal_reached(self, angle_threshold: float = 17, radius_threshold: float = 1.3, get_num_subs=False):
         """
         Проверяет достижение цели с учётом расстояния и направления взгляда робота.
         distance_to_goal: [N] расстояния до цели
@@ -680,7 +659,7 @@ class WheeledRobotEnv(DirectRLEnv):
                 
                 if len(self.success_stacks[env_id]) > self.max_stack_size:
                     self.success_stacks[env_id].pop(0)
-            # print("self.success_stacks ", self.success_stacks)
+            print("self.success_stacks ", self.success_stacks)
         # Вычисляем процент успеха для всех сред с непустыми стеками
         # Подсчитываем общий процент успеха по всем релевантным средам
         total_successes = 0
@@ -731,23 +710,27 @@ class WheeledRobotEnv(DirectRLEnv):
         return died, time_out
     
     def is_time_out(self, max_episode_length=256):
+        if self.first_ep[1]:
+            self.first_ep[1] = False
+            max_episode_length = 2
         time_out = self.episode_length_buf >= max_episode_length
         return time_out
 
     def _reset_idx(self, env_ids: torch.Tensor | None):
         super()._reset_idx(env_ids)
-        if self.first_ep or env_ids is None or len(env_ids) == self.num_envs:
+        if self.first_ep[0] or env_ids is None or len(env_ids) == self.num_envs:
             env_ids = self._robot._ALL_INDICES.clone()
-        # Сначала размещаем все объекты
-        if self.first_ep:
-            self.first_ep = False
-            self.scene_manager.randomize_scene(
-                env_ids,
-                mess=False, # или False, в зависимости от режима
-                use_obstacles=self.turn_on_obstacles,
-                all_defoult=True
-            )
-            return
+        # # Сначала размещаем все объекты
+        # if self.first_ep[0]:
+        #     self.first_ep[0] = False
+        #     self.scene_manager.randomize_scene(
+        #         env_ids,
+        #         mess=False, # или False, в зависимости от режима
+        #         use_obstacles=self.turn_on_obstacles,
+        #         all_defoult=True
+        #     )
+        #     self._update_scene_objects(env_ids)
+        #     return
         num_envs = len(env_ids)
 
         self.scene_manager.randomize_scene(
@@ -758,10 +741,20 @@ class WheeledRobotEnv(DirectRLEnv):
         )
         self.scene_manager.get_graph_embedding(self._robot._ALL_INDICES.clone())
         goal_pos_local  = self.scene_manager.get_active_goal_state(env_ids)
+        colors = ["red" if x.item() > 0 else "green" for x in goal_pos_local[:, 0]]
+        text_prompts = [f"move to bowl near {c} wall" for c in colors]
+
+        text_inputs = self.clip_processor(
+            text=text_prompts, return_tensors="pt", padding=True
+        ).to(self.device)
+        with torch.no_grad():
+            text_embeddings = self.clip_model.get_text_features(**text_inputs)
+            text_embeddings = text_embeddings / (text_embeddings.norm(dim=1, keepdim=True) + 1e-9)
+        self.text_embeddings[env_ids] = text_embeddings
+        # print("goal_pos_local ", goal_pos_local)
         self._desired_pos_w[env_ids, :3] = goal_pos_local 
         self._desired_pos_w[env_ids, :2] = self.to_global(goal_pos_local , env_ids)
         # бновляем все объекты на сцене одним махом
-        self._update_scene_objects(self._robot._ALL_INDICES.clone())
         self.curriculum_learning_module(env_ids) 
 
         if self.turn_on_controller_step > self.my_episode_lenght and self.turn_on_controller:
@@ -774,7 +767,7 @@ class WheeledRobotEnv(DirectRLEnv):
             self.mean_radius != 0 and
             self.use_controller and
             not self.turn_on_controller and
-            not self.first_ep and
+            not self.first_ep[0] and
             self.turn_off_controller_step > self.my_episode_lenght
         )
         if cond_imitation: 
@@ -784,19 +777,20 @@ class WheeledRobotEnv(DirectRLEnv):
             self.turn_on_controller = prob(0.01 * max(10, min(40, 100 - self.success_rate)))
             print(f"turn controller: {self.turn_on_controller} with SR {self.success_rate}")
         elif self.cur_step < self.warm_len:
-                if self.cur_step < self.without_imitation:
-                    self.turn_on_controller = False
-                else:
-                    self.turn_on_controller = True
+            if self.cur_step < self.without_imitation:
+                self.turn_on_controller = False
+            else:
+                self.turn_on_controller = True
             
         
-        if (self.mean_radius >= 2.3 and self.use_obstacles) or self.turn_on_obstacles_always or self.warm and not self.first_ep:
+        if (self.mean_radius >= 3.3 and self.use_obstacles) or self.turn_on_obstacles_always or self.warm and not self.first_ep[0]:
+        # if self.use_obstacles or self.turn_on_obstacles_always or self.warm and not self.first_ep[0]:
             if self.turn_on_obstacles_always and self.cur_step % 300:
                 print("[ WARNING ] ostacles allways turn on")
 
             self.turn_on_obstacles = True
             if not self.turn_on_obstacles_always:
-                self.min_level_radius = max(2.3, self.mean_radius - 0.3)
+                self.min_level_radius = max(3.3, self.mean_radius - 0.3)
         else:
             self.turn_on_obstacles = False
         env_ids = env_ids.to(dtype=torch.long)
@@ -817,9 +811,8 @@ class WheeledRobotEnv(DirectRLEnv):
             angle_error=self.cur_angle_error,
         )
         robot_pos  = robot_pos_local
-        # print(robot_pos)
-        self._update_scene_objects(env_ids)
-        goal_pos = self.scene_manager.get_active_goal_state(env_ids)
+        # print("robot_pos_local ", robot_pos_local)
+        # print("bounds ", self.scene_manager.room_bounds)
         # print("i'm in path_manager")
         if self.turn_on_controller or self.imitation:
             if self.imitation:
@@ -829,11 +822,11 @@ class WheeledRobotEnv(DirectRLEnv):
                 robot_pos_for_control = self._robot.data.default_root_state[env_ids_for_control, :2].clone()
                 robot_pos_for_control[env_ids, :2] = robot_pos
                 goal_pos_for_control = self._desired_pos_w[env_ids_for_control, :2].clone()
-                goal_pos_for_control[env_ids, :2] = goal_pos[:, :2]
+                goal_pos_for_control[env_ids, :2] = goal_pos_local[:, :2]
             else:
                 env_ids_for_control = env_ids
                 robot_pos_for_control = robot_pos
-                goal_pos_for_control = goal_pos[:, :2]
+                goal_pos_for_control = goal_pos_local[:, :2]
             paths = None
             possible_try_steps = 3
             obstacle_positions_list = self.scene_manager.get_active_obstacle_positions_for_path_planning(env_ids)
@@ -853,9 +846,9 @@ class WheeledRobotEnv(DirectRLEnv):
                         mess=False, # или False, в зависимости от режима
                         use_obstacles=self.turn_on_obstacles,
                     )
-                    goal_pos = self.scene_manager.get_active_goal_state(env_ids_for_control)
-                    self._desired_pos_w[env_ids_for_control, :3] = goal_pos
-                    self._desired_pos_w[env_ids_for_control, :2] = self.to_global(goal_pos, env_ids_for_control)
+                    goal_pos_local = self.scene_manager.get_active_goal_state(env_ids_for_control)
+                    self._desired_pos_w[env_ids_for_control, :3] = goal_pos_local
+                    self._desired_pos_w[env_ids_for_control, :2] = self.to_global(goal_pos_local, env_ids_for_control)
                 else:
                     break
             # print("out path_manager, paths: ", paths, self.turn_on_controller_step)
@@ -865,7 +858,7 @@ class WheeledRobotEnv(DirectRLEnv):
             self.memory_manager.reset()
         # print("in reset robot pose ", robot_pos, goal_pos)
         
-
+        self._update_scene_objects(env_ids) #self._robot._ALL_INDICES.clone())
         # value = torch.tensor([0, 0], dtype=torch.float32, device=self.device)
         # robot_pos = value.unsqueeze(0).repeat(num_envs, 1)
         joint_pos = self._robot.data.default_joint_pos[env_ids].clone()
@@ -891,7 +884,7 @@ class WheeledRobotEnv(DirectRLEnv):
         _, _, r_error, a_error = self.goal_reached(get_num_subs=True)
         self.previous_distance_error[env_ids] = r_error[env_ids]
         self.previous_angle_error[env_ids] = a_error[env_ids]
-        self.first_ep = False
+        self.first_ep[0] = False
         self.tracker.reset(env_ids)
         env_ids_for_scene_embeddings = self._robot._ALL_INDICES.clone()
         # scene_embeddings = self.scene_manager.get_scene_embedding(env_ids)
@@ -917,6 +910,8 @@ class WheeledRobotEnv(DirectRLEnv):
 
     def curriculum_learning_module(self, env_ids: torch.Tensor):
         # print("self.success_rate ", self.success_rate)
+        if self.mean_radius > 3.3:
+            max_angle_error = torch.pi * 0.8
         if self.warm and self.cur_step >= self.warm_len:
             self.warm = False
             self.mean_radius = self.start_mean_radius
@@ -1010,7 +1005,6 @@ class WheeledRobotEnv(DirectRLEnv):
             for i, instance in enumerate(object_instances):
                 # Выбираем срез для i-го экземпляра по всем окружениям
                 instance_states = object_root_states[:, i, :]
-                
                 # Применяем маску: неактивные объекты перемещаем далеко
                 active_mask = self.scene_manager.active[:, indices[i]]
                 inactive_pos = torch.tensor([20.0 + indices[i], 20.0, 0.0], device=self.device)
@@ -1028,6 +1022,117 @@ class WheeledRobotEnv(DirectRLEnv):
                     instance_states[:, 3:7] = rot
                 # Записываем состояния в симулятор для всех окружений сразу
                 instance.write_root_pose_to_sim(instance_states, env_ids=self._robot._ALL_INDICES.clone())
+                # changeable_indices = self.scene_manager.type_map.get("changeable_color", torch.tensor([], dtype=torch.long))
+                # if len(changeable_indices) > 0:
+                #     obj_global_idx = indices[i].item()  # глобальный индекс объекта
+                #     if len(changeable_indices) > 0:
+                #         obj_global_idx = indices[i].item()
+                #         is_changeable = bool(((changeable_indices == obj_global_idx).any()).item())
+                #         if is_changeable:
+                #             color_vec = self.scene_manager.colors[0, obj_global_idx].cpu().tolist()
+                #             prim_path_template = self.asset_manager.all_prim_paths[obj_global_idx]
+
+                #             # Преобразуем шаблон env_.* -> env_{idx}
+                #             for env_id in env_ids.tolist():
+                #                 prim_path = prim_path_template.replace("env_.*", f"env_{env_id}")
+                #                 if prim_path is None:
+                #                     continue
+                #                 self._set_object_color(prim_path, obj_global_idx, color_vec)
+
+    def _prepare_color_material(self, color_vec: list[float]):
+        """Создаёт OmniPBR-материал для цвета и сохраняет в кеш (если ещё нет)."""
+        from pxr import Gf
+        color_key = f"{color_vec[0]:.3f}_{color_vec[1]:.3f}_{color_vec[2]:.3f}"
+        if color_key in self._material_cache:
+            return self._material_cache[color_key]
+
+        mtl_created = []
+        omni.kit.commands.execute(
+            "CreateAndBindMdlMaterialFromLibrary",
+            mdl_name="OmniPBR.mdl",
+            mtl_name=f"mat_{color_key}",
+            mtl_created_list=mtl_created
+        )
+        if not mtl_created:
+            return None
+
+        mtl_path = mtl_created[0]
+        stage = omni.usd.get_context().get_stage()
+        shader = stage.GetPrimAtPath(mtl_path + "/Shader")
+        try:
+            shader.GetAttribute("inputs:diffuse_color_constant").Set(Gf.Vec3f(*color_vec))
+        except Exception:
+            try:
+                shader.GetAttribute("inputs:base_color").Set(Gf.Vec3f(*color_vec))
+            except Exception:
+                pass
+
+        self._material_cache[color_key] = mtl_path
+        return mtl_path
+
+    def _set_object_color(self, prim_path: str, obj_idx: int, color_vec: list[float]):
+        """Назначает цвет объекту (только если он изменился)."""
+        color_key = f"{color_vec[0]:.3f}_{color_vec[1]:.3f}_{color_vec[2]:.3f}"
+        prev_key = self._applied_color_map.get(obj_idx)
+        if prev_key == color_key:
+            return  # цвет уже установлен
+
+        mtl_path = self._prepare_color_material(color_vec)
+        if mtl_path is None:
+            return
+
+        omni.kit.commands.execute(
+            "BindMaterial",
+            prim_path=prim_path,
+            material_path=mtl_path
+        )
+        self._applied_color_map[obj_idx] = color_key
+
+
+    def _apply_color_to_prim(self, prim_path: str, color_vec: list[float]):
+        """
+        Создаёт (или берёт из кеша) материал OmniPBR для указанного цвета и привязывает его к prim_path.
+        color_vec — список/кортеж из 3 чисел [r,g,b] (0..1).
+        """
+        if prim_path is None:
+            return
+
+        color_key = f"{color_vec[0]:.3f}_{color_vec[1]:.3f}_{color_vec[2]:.3f}"
+        # если уже применён к этому объекту — пропускаем
+        # (в _update_scene_objects мы будем сравнивать с self._applied_color_map[obj_idx])
+        print("material cache: ", self._material_cache)
+        if color_key not in self._material_cache:
+            mtl_created = []
+            omni.kit.commands.execute(
+                "CreateAndBindMdlMaterialFromLibrary",
+                mdl_name="OmniPBR.mdl",
+                mtl_name=f"mat_{color_key}",
+                mtl_created_list=mtl_created
+            )
+            if len(mtl_created) == 0:
+                # если по какой-то причине не создалось — выходим
+                return
+            mtl_path = mtl_created[0]
+            # попытка поменять параметр цвета внутри шейдера
+            stage = omni.usd.get_context().get_stage()
+            shader = stage.GetPrimAtPath(mtl_path + "/Shader")
+            try:
+                shader.GetAttribute("inputs:diffuse_color_constant").Set(Gf.Vec3f(*color_vec))
+            except Exception:
+                # у разных материалов имя порта может отличаться
+                try:
+                    shader.GetAttribute("inputs:base_color").Set(Gf.Vec3f(*color_vec))
+                except Exception:
+                    pass
+            self._material_cache[color_key] = mtl_path
+
+        # Привязываем материал (bind) к приму
+        omni.kit.commands.execute(
+            "BindMaterial",
+            prim_path=prim_path,
+            material_path=self._material_cache[color_key]
+        )
+
 
 def log_embedding_stats(embedding):
     mean_val = embedding.mean().item()

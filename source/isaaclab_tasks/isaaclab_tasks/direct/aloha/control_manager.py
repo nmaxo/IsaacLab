@@ -2,7 +2,7 @@ import torch
 import math
 
 class VectorizedPurePursuit:
-    def __init__(self, num_envs, device='gpu', max_path_length=15, lookahead_distance=0.35, base_linear_velocity=1, max_angular_velocity=1.8, arrival_threshold=0.2):
+    def __init__(self, num_envs, device='cuda', max_path_length=15, lookahead_distance=0.35, base_linear_velocity=1, max_angular_velocity=1.8, arrival_threshold=0.2):
         """
         Vectorized Pure Pursuit controller for following paths in a vectorized environment.
         

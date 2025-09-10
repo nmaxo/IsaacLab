@@ -27,7 +27,13 @@ class SceneManager:
         self.device = device
         with open(config_path, 'r') as f:
             self.config = json.load(f)['objects']
-
+        self.colors_dict = {
+                        "green": [0.0, 1.0, 0.0],
+                        "blue": [0.0, 0.0, 1.0],
+                        "yellow": [1.0, 1.0, 0.0],
+                        "gray": [0.5, 0.5, 0.5],
+                        "red": [1.0, 0.0, 0.0]
+                    }
         # --- Начало: Векторизованная структура данных ---
         self.num_total_objects = sum(obj['count'] for obj in self.config)
         
@@ -39,6 +45,7 @@ class SceneManager:
         self.positions = torch.zeros(self.num_envs, self.num_total_objects, 3, device=self.device)
         self.sizes = torch.zeros(1, self.num_total_objects, 3, device=self.device)
         self.radii = torch.zeros(1, self.num_total_objects, device=self.device)
+        self.colors = torch.ones(1, self.num_total_objects, 3, device=self.device)  # По умолчанию белый для не-changeable
         self.names = [] # Список имен для print_graph_info
         self.active = torch.zeros(self.num_envs, self.num_total_objects, dtype=torch.bool, device=self.device)
         self.on_surface_idx = torch.full((self.num_envs, self.num_total_objects), -1, dtype=torch.long, device=self.device)
@@ -51,7 +58,7 @@ class SceneManager:
         self.placement_strategies = self._initialize_strategies()
 
         self.robot_radius = 0.5
-        self.room_bounds = {'x_min': -4, 'x_max': 2.0, 'y_min': -3.0, 'y_max': 3.0}
+        self.room_bounds = {'x_min': -4, 'x_max': 4.0, 'y_min': -2.7, 'y_max': 2.7}
         self.goal_positions = torch.zeros((num_envs, 3), device=self.device)
 
         n_angles = 36
@@ -59,56 +66,66 @@ class SceneManager:
         self.discrete_angles = torch.arange(0, 2 * math.pi, angle_step, device=self.device)
         self.candidate_vectors = torch.stack([torch.cos(self.discrete_angles), torch.sin(self.discrete_angles)], dim=1)
     
+    def update_prims(self):
+        pass
+    
     def get_scene_data_dict(self):
         return {"positions": self.positions, "sizes": self.sizes.expand(self.num_envs, -1, -1), "radii": self.radii.expand(self.num_envs, -1), "active": self.active, "on_surface_idx": self.on_surface_idx, "surface_level": self.surface_level}
 
     def _initialize_object_data(self):
-            """Заполняет метаданные об объектах и их начальные/дефолтные состояния."""
-            start_idx = 0
+        """Заполняет метаданные об объектах и их начальные/дефолтные состояния."""
+        start_idx = 0
+        
+        # Создаем временный тензор для дефолтных позиций
+        default_pos_tensor = torch.zeros(1, self.num_total_objects, 3, device=self.device)
+        
+        # --- Начало: Логика создания "кладбища" ---
+        graveyard_start_x = 4.0
+        graveyard_start_y = 4.0
+        spacing = 1.0 # Расстояние между объектами на кладбище
+        max_per_row = 4 # Сколько объектов в ряду на кладбище
+
+        for i in range(self.num_total_objects):
+            row = i // max_per_row
+            col = i % max_per_row
+            default_pos_tensor[0, i, 0] = graveyard_start_x + col * spacing
+            default_pos_tensor[0, i, 1] = graveyard_start_y + row * spacing
+            default_pos_tensor[0, i, 2] = 0.0
+        # --- Конец: Логика создания "кладбища" ---
+
+        for obj_cfg in self.config:
+            name = obj_cfg['name']
+            count = obj_cfg['count']
+            indices = torch.arange(start_idx, start_idx + count, device=self.device, dtype=torch.long)
+            types = set(obj_cfg['type'])
+
+            if "changeable_color" in types:
+                colors_dict = self.colors_dict
+                color_names = list(colors_dict.keys())
+                for idx in indices:
+                    color_name = random.choice(color_names)
+                    self.colors[0, idx] = torch.tensor(colors_dict[color_name], device=self.device)
+
+            self.object_map[name] = {'indices': indices, 'types': types, 'count': count}
+            for type_str in types:
+                self.type_map[type_str].extend(indices.tolist())
             
-            # Создаем временный тензор для дефолтных позиций
-            default_pos_tensor = torch.zeros(1, self.num_total_objects, 3, device=self.device)
+            self.names.extend([f"{name}_{i}" for i in range(count)])
             
-            # --- Начало: Логика создания "кладбища" ---
-            graveyard_start_x = 4.0
-            graveyard_start_y = 4.0
-            spacing = 1.0 # Расстояние между объектами на кладбище
-            max_per_row = 4 # Сколько объектов в ряду на кладбище
+            size_tensor = torch.tensor(obj_cfg['size'], device=self.device)
+            self.sizes[0, indices] = size_tensor
+            self.radii[0, indices] = torch.norm(size_tensor[:2] / 2)
+            start_idx += count
 
-            for i in range(self.num_total_objects):
-                row = i // max_per_row
-                col = i % max_per_row
-                default_pos_tensor[0, i, 0] = graveyard_start_x + col * spacing
-                default_pos_tensor[0, i, 1] = graveyard_start_y + row * spacing
-                default_pos_tensor[0, i, 2] = 0.0
-            # --- Конец: Логика создания "кладбища" ---
+        for type_str, indices in self.type_map.items():
+            self.type_map[type_str] = torch.tensor(sorted(indices), device=self.device, dtype=torch.long)
 
-            for obj_cfg in self.config:
-                name = obj_cfg['name']
-                count = obj_cfg['count']
-                indices = torch.arange(start_idx, start_idx + count, device=self.device, dtype=torch.long)
-                types = set(obj_cfg['type'])
-                
-                self.object_map[name] = {'indices': indices, 'types': types, 'count': count}
-                for type_str in types:
-                    self.type_map[type_str].extend(indices.tolist())
-                
-                self.names.extend([f"{name}_{i}" for i in range(count)])
-                
-                size_tensor = torch.tensor(obj_cfg['size'], device=self.device)
-                self.sizes[0, indices] = size_tensor
-                self.radii[0, indices] = torch.norm(size_tensor[:2] / 2)
-                start_idx += count
-
-            for type_str, indices in self.type_map.items():
-                self.type_map[type_str] = torch.tensor(sorted(indices), device=self.device, dtype=torch.long)
-
-            # --- Исправленная последовательность ---
-            # 1. Присваиваем правильно созданные "кладбищенские" позиции
-            self.default_positions = default_pos_tensor.expand(self.num_envs, -1, -1)
-            
-            # 2. Инициализируем текущие позиции из дефолтных
-            self.positions = self.default_positions.clone()
+        # --- Исправленная последовательность ---
+        # 1. Присваиваем правильно созданные "кладбищенские" позиции
+        self.default_positions = default_pos_tensor.expand(self.num_envs, -1, -1)
+        
+        # 2. Инициализируем текущие позиции из дефолтных
+        self.positions = self.default_positions.clone()
 
     def _initialize_strategies(self):
         strategies = {}
@@ -327,11 +344,12 @@ class SceneManager:
 
         obstacle_pos = torch.where(is_floor_obstacle.unsqueeze(-1), obstacle_pos_all, inf_pos)
         # Этап 6: Генерация радиусов для размещения робота
-        radii = torch.normal(mean=mean_dist, std=mean_dist * 0.2, size=(num_envs, 1), device=self.device).clamp_(min_dist, max_dist)
+        mean_dist_with_shift = mean_dist + 1.31
+        radii = torch.normal(mean=mean_dist_with_shift, std=mean_dist * 0.1, size=(num_envs, 1), device=self.device).clamp_(min_dist, max_dist)
         # Этап 7: Генерация кандидатов для позиций робота
-        candidate_vectors = self.candidate_vectors.clone()
-        candidates = goal_pos[:, None, :2] + radii.unsqueeze(1) * candidate_vectors
+        candidates = goal_pos[:, None, :2] + radii.unsqueeze(1) * self.candidate_vectors
         # Этап 8: Проверка границ комнаты
+        # Этап 8: Проверка границ комнаты (только границы, без коллизий)
         bounds = self.room_bounds
         in_bounds_mask = (
             (candidates[..., 0] >= bounds['x_min'] + self.robot_radius) &
@@ -339,25 +357,22 @@ class SceneManager:
             (candidates[..., 1] >= bounds['y_min'] + self.robot_radius) &
             (candidates[..., 1] <= bounds['y_max'] - self.robot_radius)
         )
-        # Этап 9: Проверка коллизий с препятствиями
-        dists = torch.norm(candidates.unsqueeze(2) - obstacle_pos.unsqueeze(1), dim=3)
-        required_dists = self.robot_radius + obstacle_radii_all.unsqueeze(1)
-        no_collision_mask = ~torch.any(dists < required_dists, dim=2)
-        # Этап 10: Объединение условий для валидных позиций
-        valid_angle_mask = in_bounds_mask & no_collision_mask
-        # Этап 11: Выбор углов для позиций робота
-        valid_angle_mask_float = valid_angle_mask.float() + 1e-9
-        chosen_angle_idx = torch.multinomial(valid_angle_mask_float, 1).squeeze(-1)
-        # Этап 12: Выбор финальных позиций робота
+        # print(candidates)
+        # print(in_bounds_mask)
+        # Этап 9: Выбор углов только по границам
+        in_bounds_mask_float = in_bounds_mask.float() + 1e-9
+        chosen_angle_idx = torch.multinomial(in_bounds_mask_float, 1).squeeze(-1)
+        # print(chosen_angle_idx)
+        # Этап 10: Выбор финальных позиций робота
         batch_indices = torch.arange(num_envs, device=self.device)
         final_robot_positions = candidates[batch_indices, chosen_angle_idx]
-        # Этап 13: Проверка на отсутствие валидных позиций
-        no_valid_pos_mask = ~valid_angle_mask.any(dim=1)
-        # Этап 14: Обработка fallback для сред без валидных позиций
+
+        # Этап 11: fallback если ни одна позиция не в границах
+        no_valid_pos_mask = ~in_bounds_mask.any(dim=1)
         if torch.any(no_valid_pos_mask):
-            fallback_pos = goal_pos[:, :2] + torch.tensor([max_dist, 0.0], device=self.device)
+            fallback_pos = goal_pos[:, :2] + torch.tensor([max_dist, 0.0], device=self.device) # 0.0!
             final_robot_positions[no_valid_pos_mask] = fallback_pos[no_valid_pos_mask]
-            print("final_robot_positions ", final_robot_positions)
+
         # Этап 15: Вычисление ориентации робота (yaw)
         direction_to_goal = goal_pos[:, :2] - final_robot_positions
         base_yaw = torch.atan2(direction_to_goal[:, 1], direction_to_goal[:, 0])
@@ -368,4 +383,63 @@ class SceneManager:
         robot_quats[:, 0] = torch.cos(final_yaw / 2.0)
         robot_quats[:, 3] = torch.sin(final_yaw / 2.0)
         # Этап 17: Возврат результатов
+        # Проверяем пересечения с препятствиями
+        self.remove_colliding_obstacles(env_ids, final_robot_positions)
+
         return final_robot_positions, robot_quats
+    
+
+    def remove_colliding_obstacles(self, env_ids: torch.Tensor, robot_positions: torch.Tensor):
+        """Ставит в дефолт все препятствия, пересекающиеся с роботом."""
+        # TODO There can be obstacles with suface providing and we should delete alse items on that
+        obs_indices = self.type_map.get("movable_obstacle", torch.tensor([], dtype=torch.long))
+        if len(obs_indices) == 0:
+            return
+
+        # позиции и радиусы препятствий
+        obs_pos = self.positions[env_ids][:, obs_indices, :2]
+        obs_r = self.radii.expand(len(env_ids), -1)[:, obs_indices]
+
+        # расстояния от робота до препятствий
+        dists = torch.norm(obs_pos - robot_positions[:, None, :2], dim=2)
+        
+        coll_mask = dists < (self.robot_radius + obs_r + 0.2)
+        if coll_mask.any():
+            # print("coll_mask: ",  coll_mask)
+            # for i in env_ids:
+            #     self.print_graph_info(i)
+            # переносим такие препятствия в дефолт
+            default_pos = self.default_positions[env_ids][:, obs_indices]
+            batch_idx, obs_idx = torch.where(coll_mask)                 # индексы элементов с коллизией
+            env_batch_idx = env_ids[batch_idx]                           # индексы env_ids для batch
+            obs_indices_sel = obs_indices[obs_idx]                       # индексы obstacles
+
+            # Присваиваем значения дефолтных позиций в исходный тензор
+            self.positions[env_batch_idx, obs_indices_sel] = default_pos[batch_idx, obs_idx]
+
+            # print(self.positions[env_ids][:, obs_indices][coll_mask])
+            # print(default_pos[coll_mask])
+            
+            # self.positions[env_ids][:, obs_indices][coll_mask] = default_pos[coll_mask]
+            # print(self.positions[env_ids][:, obs_indices][coll_mask])
+
+            # деактивируем их
+            # print(self.active[env_ids][:, obs_indices][coll_mask] )
+            self.active[env_batch_idx, obs_indices_sel] = False
+
+            # print(self.active[env_ids][:, obs_indices][coll_mask] )
+
+        obs_pos = self.positions[env_ids][:, obs_indices, :2]
+        obs_r = self.radii.expand(len(env_ids), -1)[:, obs_indices]
+
+        # расстояния от робота до препятствий
+        dists = torch.norm(obs_pos - robot_positions[:, None, :2], dim=2)
+        
+        coll_mask = dists < (self.robot_radius + obs_r)
+        if coll_mask.any():
+            
+            # print("coll_mask 2: ",  coll_mask)
+            
+            for i in env_ids:
+                self.print_graph_info(i)
+

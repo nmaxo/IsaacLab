@@ -415,7 +415,7 @@ class PathGenerator:
                             #     self.save_graph_image(config_graph, simplified_path, config_str)
                             if len(simplified_path) > 1:
                                 self.all_paths.setdefault(config_str, {}).setdefault(str(grid_target), {})[str(start)] = simplified_path
-                        self.save_graph_image(config_graph, path, config_key=15)
+                        # self.save_graph_image(config_graph, path, config_key=15, n_save=500000000)
                         print(f"[DEBUG] Processed {len(start_nodes)} start nodes for target {grid_target}")
                 
                 

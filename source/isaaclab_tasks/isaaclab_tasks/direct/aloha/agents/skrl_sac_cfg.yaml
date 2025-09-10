@@ -57,7 +57,7 @@ models:
 
 memory:
   class: RandomMemory
-  memory_size: 20000
+  memory_size: 10000
 
 agent:
   class: SAC
@@ -94,5 +94,5 @@ agent:
 # https://skrl.readthedocs.io/en/latest/api/trainers/sequential.html
 trainer:
   class: SequentialTrainer
-  timesteps: 100000
+  timesteps: 70000
   environment_info: log

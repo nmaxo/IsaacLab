@@ -38,7 +38,7 @@ class SceneManager:
 
         # Параметры робота и комнаты
         self.robot_radius = 0.5
-        self.room_bounds = {'x_min': -4, 'x_max': 2.0, 'y_min': -3.0, 'y_max': 3.0}
+        self.room_bounds = {'x_min': -4, 'x_max': 4.0, 'y_min': -3.0, 'y_max': 3.0}
         self.robot_placement_bounds = {
             'x_min': self.room_bounds['x_min'] + self.robot_radius,
             'x_max': self.room_bounds['x_max'] - self.robot_radius,

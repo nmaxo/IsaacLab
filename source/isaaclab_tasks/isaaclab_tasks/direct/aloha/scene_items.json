@@ -2,7 +2,12 @@
   "objects": [
     {
       "name": "table",
-      "type": ["static_obstacle", "surface_provider"],
+      "info": {
+          "color": "",
+          "add_info": [],
+          "position": []
+        },
+      "type": ["static_obstacle", "surface_provider", "changeable_color"],
       "count": 3,
       "size": [0.5, 0.5, 0.75],
       "usd_paths": ["scenes/scenes_sber_kitchen_for_BBQ/table/table.usd"],
@@ -19,6 +24,11 @@
     },
     {
       "name": "chair",
+      "info": {
+          "color": "",
+          "add_info": [],
+          "position": []
+        },
       "type": ["movable_obstacle"],
       "count": 3,
       "size": [0.4, 0.4, 0.9],
@@ -36,6 +46,11 @@
     },
     {
       "name": "bowl",
+      "info": {
+          "color": "",
+          "add_info": [],
+          "position": []
+        },
       "type": ["possible_goal", "surface_only"],
       "count": 1,
       "size": [0.15, 0.15, 0.05],
