@@ -478,7 +478,7 @@ class WheeledRobotEnv(DirectRLEnv):
         # print(jerk_counts)
         if self.turn_on_controller:
             
-            IL_reward = 0.5 if (ang_vel_reward + lin_vel_reward) > 0.08 else 0
+            IL_reward = 0.5
             punish = - 0.05
         else:
             IL_reward = 0
