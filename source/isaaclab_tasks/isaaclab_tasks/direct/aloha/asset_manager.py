@@ -58,7 +58,7 @@ class AssetManager:
                         ),
                     ),
                     init_state=RigidObjectCfg.InitialStateCfg(
-                        pos=(4.0 + i, 6.0, 0.0),  # Начальная позиция (кладбище)
+                        pos=(5.0 + i, 6.0, 0.0),  # Начальная позиция (кладбище)
                         rot=rot
                     ),
                 )

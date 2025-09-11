@@ -82,10 +82,10 @@ class SceneManager:
         default_pos_tensor = torch.zeros(1, self.num_total_objects, 3, device=self.device)
         
         # --- Начало: Логика создания "кладбища" ---
-        graveyard_start_x = 4.0
-        graveyard_start_y = 4.0
+        graveyard_start_x = 0.0
+        graveyard_start_y = 6.0
         spacing = 1.0 # Расстояние между объектами на кладбище
-        max_per_row = 4 # Сколько объектов в ряду на кладбище
+        max_per_row = 5 # Сколько объектов в ряду на кладбище
 
         for i in range(self.num_total_objects):
             row = i // max_per_row
@@ -125,7 +125,7 @@ class SceneManager:
         # --- Исправленная последовательность ---
         # 1. Присваиваем правильно созданные "кладбищенские" позиции
         self.default_positions = default_pos_tensor.expand(self.num_envs, -1, -1)
-        id_map = {"table": 1, "bowl": 2, "chair": 3}
+        id_map = {"table": 1, "bowl": 2, "chair": 3, "cabinet": 4}
         for name, data in self.object_map.items():
             obj_id = id_map.get(name, 0)  # Default to 0 for unmapped objects
             self.object_ids[0, data['indices']] = obj_id

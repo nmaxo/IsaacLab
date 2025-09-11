@@ -179,7 +179,7 @@ class PathGenerator:
         
         boundary_nodes = self.find_boundary_nodes(G)
         expanded_boundary = [boundary_nodes]
-        levels = 1
+        levels = 2
         for i in range(levels):
             expanded_boundary.append(self.find_expanded_boundary(G, expanded_boundary[-1]))
         expanded_boundary.reverse()

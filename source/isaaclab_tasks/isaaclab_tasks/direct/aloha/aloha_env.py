@@ -69,7 +69,7 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
     observation_space = gym.spaces.Box(
         low=-float("inf"),
         high=float("inf"),
-        shape=(m * (512 + 3 + 63),),  # m * (embedding_size + action_size) + 2 (скорости)
+        shape=(m * (512 + 3 + 90),),  # m * (embedding_size + action_size) + 2 (скорости)
         dtype="float32"
     )
     state_space = 0
@@ -148,7 +148,7 @@ class WheeledRobotEnv(DirectRLEnv):
         
         self.scene_manager = SceneManager(self.num_envs, self.config_path, self.device)
         self.use_controller = True
-        self.imitation = True
+        self.imitation = False
         if self.imitation:
             self.use_controller = True
         if self.use_controller:
@@ -475,12 +475,11 @@ class WheeledRobotEnv(DirectRLEnv):
 
         paths = self.tracker.get_paths(env_ids)
         # jerk_counts = self.tracker.compute_jerk(env_ids, threshold=0.2)
-
         # print(jerk_counts)
-        
         if self.turn_on_controller:
-            IL_reward = 0.5
-            punish = 0
+            
+            IL_reward = 0.5 if (ang_vel_reward + lin_vel_reward) > 0.1 else 0
+            punish = - 0.05
         else:
             IL_reward = 0
             punish = (
@@ -857,12 +856,12 @@ class WheeledRobotEnv(DirectRLEnv):
                     self._desired_pos_w[env_ids_for_control, :2] = self.to_global(goal_pos_local, env_ids_for_control)
                 else:
                     break
-            # print("out path_manager, paths: ", paths, self.turn_on_controller_step)
+            # print("out path_manager, paths: ", paths)
             # print(len(paths), len(env_ids_for_control), len(goal_pos_for_control))
             self.control_module.update_paths(env_ids_for_control, paths, goal_pos_for_control)
         if self.memory_on:
             self.memory_manager.reset()
-        # print("in reset robot pose ", robot_pos, goal_pos_local)
+        # print(f"in reset envs: {env_ids} goals:", goal_pos_local[:, :2])
         
         self._update_scene_objects(env_ids) #self._robot._ALL_INDICES.clone())
         # value = torch.tensor([0, 0], dtype=torch.float32, device=self.device)
@@ -1013,7 +1012,7 @@ class WheeledRobotEnv(DirectRLEnv):
                 instance_states = object_root_states[:, i, :]
                 # Применяем маску: неактивные объекты перемещаем далеко
                 active_mask = self.scene_manager.active[:, indices[i]]
-                inactive_pos = torch.tensor([20.0 + indices[i], 20.0, 0.0], device=self.device)
+                inactive_pos = torch.tensor([-5.0 + indices[i], 6.0, 0.0], device=self.device)
                 
                 # Используем torch.where для векторизованного обновления позиций
                 final_positions = torch.where(
@@ -1025,6 +1024,10 @@ class WheeledRobotEnv(DirectRLEnv):
                 if name == "bowl":
                     # Для миски используем Z-up ориентацию (кватернион [1, 0, 0, 0])
                     rot = torch.tensor([0.0, 0.0, 0.7071, 0.7071],device=self.device).expand(self.num_envs, -1)
+                    instance_states[:, 3:7] = rot
+                if name == "cabinet":
+                    # Для миски используем Z-up ориентацию (кватернион [1, 0, 0, 0])
+                    rot = torch.tensor([0.7071, 0.0, 0.0, 0.7071],device=self.device).expand(self.num_envs, -1)
                     instance_states[:, 3:7] = rot
                 # Записываем состояния в симулятор для всех окружений сразу
                 instance.write_root_pose_to_sim(instance_states, env_ids=self._robot._ALL_INDICES.clone())

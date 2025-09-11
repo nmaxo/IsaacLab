@@ -45,6 +45,31 @@
       ]
     },
     {
+      "name": "cabinet",
+      "info": {
+          "color": "",
+          "add_info": [],
+          "position": []
+        },
+      "type": ["movable_obstacle"],
+      "count": 3,
+      "size": [0.4, 0.4, 0.9],
+      "usd_paths": ["scenes/obstacles/cabinet.usd"],
+      "placement": [
+        {
+          "strategy": "grid",
+          "grid_coordinates": [
+            [-0.5, -3.2, 0.0],
+            [-2, -3.2, 0.0],
+            [-3.5, -3.2, 0.0],
+            [-0.5, 3.2, 0.0],
+            [-2, 3.2, 0.0],
+            [-3.5, 3.2, 0.0]
+          ]
+        }
+      ]
+    },
+    {
       "name": "bowl",
       "info": {
           "color": "",
