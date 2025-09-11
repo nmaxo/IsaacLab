@@ -13,6 +13,27 @@ class PlacementStrategy(ABC):
         # scene_data будет словарем с тензорами: 'positions', 'active' и т.д.
         pass
 
+class FixedPlacement(PlacementStrategy):
+    def __init__(self, device: str, positions_dict: dict):
+        super().__init__(device)
+        self.positions_dict = positions_dict  # { "chair": [[x,y,z], ...], "table": [...], ... }
+
+    def apply(self, env_ids: torch.Tensor, obj_indices: torch.Tensor, scene_data: dict, mess: bool):
+        # obj_indices: (num_envs, num_to_place) — индексы объектов, которые нужно разместить
+        # Для фиксированного размещения мы просто берём позиции из словаря
+        for env_i, env_id in enumerate(env_ids.tolist()):
+            for j, obj_idx in enumerate(obj_indices[env_i].tolist()):
+                # Определяем имя по индексу (scene_manager.names[obj_idx])
+                obj_name = scene_data["names"][obj_idx] if "names" in scene_data else f"obj_{obj_idx}"
+                if obj_name.split("_")[0] in self.positions_dict:
+                    pos_list = self.positions_dict[obj_name.split("_")[0]]
+                    if j < len(pos_list):
+                        scene_data["positions"][env_id, obj_idx] = torch.tensor(pos_list[j], device=self.device)
+                        scene_data["active"][env_id, obj_idx] = True
+                        scene_data["on_surface_idx"][env_id, obj_idx] = -1
+                        scene_data["surface_level"][env_id, obj_idx] = 0
+
+
 class GridPlacement(PlacementStrategy):
     def __init__(self, device: str, grid_coordinates: list[list[float]]):
         super().__init__(device)

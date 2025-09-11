@@ -73,6 +73,37 @@ class SceneManager:
     
     def get_scene_data_dict(self):
         return {"positions": self.positions, "sizes": self.sizes.expand(self.num_envs, -1, -1), "radii": self.radii.expand(self.num_envs, -1), "active": self.active, "on_surface_idx": self.on_surface_idx, "surface_level": self.surface_level}
+    
+    def apply_fixed_positions(self, env_ids: torch.Tensor, positions_config: list[dict]):
+        """
+        positions_config: список словарей по числу сред.
+        Каждый словарь: { "chair": [[x,y,z], ...], "table": [...], ... }
+        """
+        self.active[env_ids] = False
+        self.positions[env_ids] = self.default_positions[env_ids]
+        self.on_surface_idx[env_ids] = -1
+        self.surface_level[env_ids] = 0
+        scene_data = self.get_scene_data_dict()
+        for env_id in env_ids:
+            env_dict = positions_config[env_id.item()]
+            for obj_name, pos_list in env_dict.items():
+                if obj_name not in self.object_map:
+                    continue
+                indices = self.object_map[obj_name]["indices"]
+                # print(indices)
+                for i, pos in enumerate(pos_list):
+                    if i >= len(indices):
+                        print("errror")
+                        break
+                    scene_data["positions"][env_id.item(), indices[i]] = torch.tensor(pos, device=self.device)
+                    scene_data["active"][env_id.item(), indices[i]] = True
+                    scene_data["on_surface_idx"][env_id.item(), indices[i]] = -1
+                    scene_data["surface_level"][env_id.item(), indices[i]] = 0
+
+        # for i in env_ids:
+        #     self.print_graph_info(i)
+        self.chose_active_goal_state(env_ids)
+
 
     def _initialize_object_data(self):
         """Заполняет метаданные об объектах и их начальные/дефолтные состояния."""

@@ -28,6 +28,7 @@ from isaaclab.utils import configclass
 from isaaclab.utils.math import subtract_frame_transforms
 from isaaclab.sensors import TiledCamera, TiledCameraCfg, ContactSensor, ContactSensorCfg
 from .scene_manager import SceneManager
+from .evaluation_manager import EvaluationManager
 from .control_manager import VectorizedPurePursuit
 from .path_manager import Path_manager
 from .memory_manager import Memory_manager, PathTracker
@@ -141,12 +142,22 @@ class WheeledRobotEnv(DirectRLEnv):
 
     def __init__(self, cfg: WheeledRobotEnvCfg, render_mode: str | None = None, **kwargs):
         self._super_init = True
-        current_dir = os.getcwd()
-        self.config_path=os.path.join(current_dir, "source/isaaclab_tasks/isaaclab_tasks/direct/aloha/scene_items.json")
+        self.current_dir = os.getcwd()
+        self.config_path=os.path.join(self.current_dir, "source/isaaclab_tasks/isaaclab_tasks/direct/aloha/scene_items.json")
         super().__init__(cfg, render_mode, **kwargs)
         self._super_init = False
-        
+        self.eval = False
+        self.eval_name = "CIG_base"
+
+        self.eval_printed = False
         self.scene_manager = SceneManager(self.num_envs, self.config_path, self.device)
+        self.eval_manager = EvaluationManager(self.num_envs)
+        self.eval_manager.set_task_lists(
+            robot_positions=[[0.0, -1.0, 0.0], [0.0, 0.0, 0.0]], #, [0.0, 1.0, 0.0],
+                            #  [1.0, -1.0, 0.0], [1.0, 0.0, 0.0], [1.0, 1.0, 0.0],
+                            #  [2.0, -1.0, 0.0], [2.0, 0.0, 0.0], [2.0, 1.0, 0.0]],  # список стартовых позиций
+            angle_errors=[torch.pi] #, torch.pi*0.9, torch.pi*0.8]                         # список ошибок угла
+        )
         self.use_controller = True
         self.imitation = False
         if self.imitation:
@@ -700,12 +711,54 @@ class WheeledRobotEnv(DirectRLEnv):
             torch.logical_or(self.goal_reached(), has_contact),
             time_out,
         )
+        env_ids = self._robot._ALL_INDICES[died]
         if torch.any(died):
             goal_reached = self.goal_reached()
-            self.episode_counter += died.long()
-            self.success_counter += goal_reached.long()
-            self.event_update_counter += torch.sum(died).item()
-        
+            # === EVAL LOGGING ===
+            envs_finished = torch.where(died)[0]  # индексы завершившихся эпизодов
+            # успехи конкретно для них
+            successes = goal_reached[envs_finished].float()
+            traj_lens = self.tracker.compute_path_lengths(envs_finished)  # [K]
+            durations = self.tracker.lengths[envs_finished].float()       # [K]
+            start_dists = self.eval_manager.get_start_dists(envs_finished) # [K]
+            # логируем (ВАЖНО: log_results -> ДО next_episode)
+            self.eval_manager.log_results(envs_finished, successes, traj_lens, start_dists, durations)
+            self.eval_manager.next_episode(envs_finished)
+
+            if self.eval_manager.is_all_done() and not self.eval_printed:
+                import pandas as pd
+                df, global_stats, pos_stats = self.eval_manager.summarize()
+                print("=== FINAL EVAL SUMMARY ===")
+                print(global_stats)
+                self.eval_printed = True
+
+                # создаём директорию logs если её нет
+                log_dir = os.path.join(self.current_dir, "logs/skrl/results")
+                os.makedirs(log_dir, exist_ok=True)
+
+                # 1. Сохраняем сырые результаты
+                save_path = os.path.join(log_dir, f"eval_results_{self.eval_name}.csv")
+                df.to_csv(save_path, index=False)
+
+                # 2. Сохраняем агрегированную информацию
+                summary_path = os.path.join(log_dir, f"eval_summary_{self.eval_name}.csv")
+
+                # превращаем global_stats и pos_stats в один DataFrame
+                summary_df = pos_stats.copy()
+                summary_df["position_idx"] = summary_df.index
+                summary_df.reset_index(drop=True, inplace=True)
+
+                # добавляем глобальные метрики как отдельную строку
+                global_row = global_stats.to_dict()
+                global_row["position_idx"] = "ALL"
+                summary_df = pd.concat([summary_df, pd.DataFrame([global_row])], ignore_index=True)
+
+                summary_df.to_csv(summary_path, index=False)
+
+                print(f"[EVAL] Results saved to {save_path}")
+                print(f"[EVAL] Summary saved to {summary_path}")
+
+                
         if not inner:
             self.episode_length_buf[died] = 0
         # print("died ", time_out, self.episode_length_buf)
@@ -734,13 +787,16 @@ class WheeledRobotEnv(DirectRLEnv):
         #     self._update_scene_objects(env_ids)
         #     return
         num_envs = len(env_ids)
-
-        self.scene_manager.randomize_scene(
-            env_ids,
-            mess=False, # или False, в зависимости от режима
-            use_obstacles=self.turn_on_obstacles,
-            all_defoult=False
-        )
+        if self.eval:
+            positions = self.eval_manager.get_positions()
+            self.scene_manager.apply_fixed_positions(env_ids, positions)
+        else:
+            self.scene_manager.randomize_scene(
+                env_ids,
+                mess=False, # или False, в зависимости от режима
+                use_obstacles=self.turn_on_obstacles,
+                all_defoult=False
+            )
         self.scene_manager.get_graph_embedding(self._robot._ALL_INDICES.clone())
         goal_pos_local  = self.scene_manager.get_active_goal_state(env_ids)
         colors = ["red" if x.item() > 0 else "green" for x in goal_pos_local[:, 0]]
@@ -764,29 +820,30 @@ class WheeledRobotEnv(DirectRLEnv):
         if self.turn_on_controller_step > self.my_episode_lenght and self.turn_on_controller:
             self.turn_on_controller_step = 0
             self.turn_on_controller = False
-
-        cond_imitation = (
-            not self.warm and
-            self.mean_radius >= 3.3 and
-            self.sr_stack_full and
-            self.mean_radius != 0 and
-            self.use_controller and
-            not self.turn_on_controller and
-            not self.first_ep[0] and
-            self.turn_off_controller_step > self.my_episode_lenght
-        )
-        if cond_imitation: 
-            self.turn_on_controller_step = 0
-            self.turn_off_controller_step = 0
-            prob = lambda x: torch.rand(1).item() <= x
-            self.turn_on_controller = prob(0.01 * max(10, min(40, 100 - self.success_rate)))
-            print(f"turn controller: {self.turn_on_controller} with SR {self.success_rate}")
-        elif self.cur_step < self.warm_len:
-            if self.cur_step < self.without_imitation:
-                self.turn_on_controller = False
-            else:
-                self.turn_on_controller = True
-            
+        
+        if not self.eval:
+            cond_imitation = (
+                not self.warm and
+                self.mean_radius >= 3.3 and
+                self.sr_stack_full and
+                self.mean_radius != 0 and
+                self.use_controller and
+                not self.turn_on_controller and
+                not self.first_ep[0] and
+                self.turn_off_controller_step > self.my_episode_lenght
+            )
+            if cond_imitation: 
+                self.turn_on_controller_step = 0
+                self.turn_off_controller_step = 0
+                prob = lambda x: torch.rand(1).item() <= x
+                self.turn_on_controller = prob(0.01 * max(10, min(40, 100 - self.success_rate)))
+                print(f"turn controller: {self.turn_on_controller} with SR {self.success_rate}")
+            elif self.cur_step < self.warm_len:
+                if self.cur_step < self.without_imitation:
+                    self.turn_on_controller = False
+                else:
+                    self.turn_on_controller = True
+                
         
         if (self.mean_radius >= 3.3 and self.use_obstacles) or self.turn_on_obstacles_always or self.warm and not self.first_ep[0]:
         # if self.use_obstacles or self.turn_on_obstacles_always or self.warm and not self.first_ep[0]:
@@ -808,13 +865,21 @@ class WheeledRobotEnv(DirectRLEnv):
             self.episode_length_buf = torch.zeros_like(self.episode_length_buf) #, high=int(self.max_episode_length))
         self._actions[env_ids] = 0.0
         min_radius = 1.2
-        robot_pos_local, robot_quats = self.scene_manager.place_robot_for_goal(
-            env_ids,
-            mean_dist=self.mean_radius,
-            min_dist=1.2,
-            max_dist=4.0,
-            angle_error=self.cur_angle_error,
-        )
+        if self.eval:
+            robot_pos_local, robot_quats = self.eval_manager.get_current_tasks(env_ids)
+            # здесь angle_errors можно применить для ориентации робота
+            # вычислим стартовую евклидову дистанцию в локальных координатах
+            start_dists_local = torch.linalg.norm(goal_pos_local[:, :2] - robot_pos_local[:, :2], dim=1)
+            # сохраним стартовые дистанции в eval_manager
+            self.eval_manager.set_start_dists(env_ids, start_dists_local)
+        else:
+            robot_pos_local, robot_quats = self.scene_manager.place_robot_for_goal(
+                env_ids,
+                mean_dist=self.mean_radius,
+                min_dist=1.2,
+                max_dist=4.0,
+                angle_error=self.cur_angle_error,
+            )
         robot_pos  = robot_pos_local
         # print("robot_pos_local ", robot_pos_local)
         # print("bounds ", self.scene_manager.room_bounds)
