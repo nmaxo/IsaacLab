@@ -153,10 +153,10 @@ class WheeledRobotEnv(DirectRLEnv):
         self.scene_manager = SceneManager(self.num_envs, self.config_path, self.device)
         self.eval_manager = EvaluationManager(self.num_envs)
         self.eval_manager.set_task_lists(
-            robot_positions=[[0.0, -1.0, 0.0], [0.0, 0.0, 0.0]], #, [0.0, 1.0, 0.0],
-                            #  [1.0, -1.0, 0.0], [1.0, 0.0, 0.0], [1.0, 1.0, 0.0],
-                            #  [2.0, -1.0, 0.0], [2.0, 0.0, 0.0], [2.0, 1.0, 0.0]],  # список стартовых позиций
-            angle_errors=[torch.pi] #, torch.pi*0.9, torch.pi*0.8]                         # список ошибок угла
+            robot_positions=[[0.0, -1.0, 0.0], [0.0, 0.0, 0.0], [0.0, 1.0, 0.0],
+                             [1.0, -1.0, 0.0], [1.0, 0.0, 0.0], [1.0, 1.0, 0.0],
+                             [2.0, -1.0, 0.0], [2.0, 0.0, 0.0], [2.0, 1.0, 0.0]],  # список стартовых позиций
+            angle_errors=[torch.pi, torch.pi*0.9, torch.pi*0.8]                         # список ошибок угла
         )
         self.use_controller = True
         self.imitation = False
