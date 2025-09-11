@@ -141,13 +141,14 @@ class WheeledRobotEnv(DirectRLEnv):
 
     def __init__(self, cfg: WheeledRobotEnvCfg, render_mode: str | None = None, **kwargs):
         self._super_init = True
-        self.config_path="/home/xiso/IsaacLab/source/isaaclab_tasks/isaaclab_tasks/direct/aloha/scene_items.json"
+        current_dir = os.getcwd()
+        self.config_path=os.path.join(current_dir, "source/isaaclab_tasks/isaaclab_tasks/direct/aloha/scene_items.json")
         super().__init__(cfg, render_mode, **kwargs)
         self._super_init = False
         
         self.scene_manager = SceneManager(self.num_envs, self.config_path, self.device)
         self.use_controller = True
-        self.imitation = False
+        self.imitation = True
         if self.imitation:
             self.use_controller = True
         if self.use_controller:
@@ -861,7 +862,7 @@ class WheeledRobotEnv(DirectRLEnv):
             self.control_module.update_paths(env_ids_for_control, paths, goal_pos_for_control)
         if self.memory_on:
             self.memory_manager.reset()
-        # print("in reset robot pose ", robot_pos, goal_pos)
+        # print("in reset robot pose ", robot_pos, goal_pos_local)
         
         self._update_scene_objects(env_ids) #self._robot._ALL_INDICES.clone())
         # value = torch.tensor([0, 0], dtype=torch.float32, device=self.device)
