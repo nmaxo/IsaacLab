@@ -55,10 +55,10 @@ class GridPlacement(PlacementStrategy):
         # Генерируем случайные перестановки позиций на сетке для каждого окружения
         # torch.rand(...).argsort() - эффективный способ получить батч перестановок
         pos_indices = torch.rand(len(env_ids), num_grid_points, device=self.device).argsort(dim=1)[:, :num_to_place]
-        
+        # print("pos_indices ", pos_indices)
         # Выбираем позиции из сетки согласно сгенерированным индексам
         selected_positions = self.grid[pos_indices] # Форма: (num_envs, num_to_place, 3)
-
+        # print("selected_positions ", selected_positions)
         # Обновляем глобальные тензоры позиций и состояний
         # Используем scatter_ для эффективного обновления по индексам
         env_idx_tensor = env_ids.view(-1, 1).expand_as(obj_indices_to_place)
@@ -87,18 +87,19 @@ class OnSurfacePlacement(PlacementStrategy):
         num_envs_to_process = len(env_ids)
 
         # 1. Находим все активные поверхности в нужных окружениях
+        # print("scene_data ", scene_data)
         active_mask = scene_data['active'][env_ids][:, self.surface_indices] # (num_envs, num_surfaces)
         
         # 2. Для каждого окружения выбираем случайную активную поверхность
         # Используем torch.multinomial для векторизованного выбора
-        # Добавляем малые значения для стабильности, если нет активных поверхностей
-        probs = active_mask.float() + 1e-9
-        chosen_surface_rel_idx = torch.multinomial(probs, num_to_place, replacement=True) # (num_envs, num_to_place)
+        probs = active_mask.float()
+        chosen_surface_rel_idx = torch.multinomial(probs, num_to_place, replacement=False) # (num_envs, num_to_place)
         target_surface_idx = self.surface_indices[chosen_surface_rel_idx] # (num_envs, num_to_place)
-
+        # print("chosen_surface_rel_idx:  ", target_surface_idx)
         # 3. Собираем данные о выбранных поверхностях
         env_idx_tensor = env_ids.view(-1, 1).expand_as(target_surface_idx)
         surface_pos = scene_data['positions'][env_idx_tensor, target_surface_idx]
+        # print("positions:  ", surface_pos)
         surface_size = scene_data['sizes'][env_idx_tensor, target_surface_idx]
         
         # Собираем размеры размещаемых объектов
@@ -106,7 +107,9 @@ class OnSurfacePlacement(PlacementStrategy):
 
         # 4. Вычисляем новые позиции объектов
         rand_xy = torch.zeros(num_envs_to_process, num_to_place, 2, device=self.device)
+        # print("rand_xy:  ", rand_xy)
         if mess:
+            print("mess")
             # Генерируем случайные смещения сразу для всех
             margin_tensor = torch.tensor([self.margin * 2, self.margin * 2], device=self.device)
             max_offsets = (surface_size[..., :2] - margin_tensor)
@@ -114,7 +117,7 @@ class OnSurfacePlacement(PlacementStrategy):
         
         pos_z = surface_pos[..., 2] + surface_size[..., 2] + obj_size[..., 2] / 2.0
         new_pos_xy = surface_pos[..., :2] + rand_xy
-        
+        # print("new_pos_xy: ", new_pos_xy)
         # 5. Обновляем глобальные тензоры
         scene_data['positions'][env_idx_tensor, obj_indices_to_place] = torch.cat([new_pos_xy, pos_z.unsqueeze(-1)], dim=-1)
         scene_data['active'][env_idx_tensor, obj_indices_to_place] = True

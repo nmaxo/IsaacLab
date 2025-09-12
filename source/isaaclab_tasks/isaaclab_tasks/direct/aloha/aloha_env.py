@@ -775,17 +775,7 @@ class WheeledRobotEnv(DirectRLEnv):
         super()._reset_idx(env_ids)
         if self.first_ep[0] or env_ids is None or len(env_ids) == self.num_envs:
             env_ids = self._robot._ALL_INDICES.clone()
-        # # Сначала размещаем все объекты
-        # if self.first_ep[0]:
-        #     self.first_ep[0] = False
-        #     self.scene_manager.randomize_scene(
-        #         env_ids,
-        #         mess=False, # или False, в зависимости от режима
-        #         use_obstacles=self.turn_on_obstacles,
-        #         all_defoult=True
-        #     )
-        #     self._update_scene_objects(env_ids)
-        #     return
+
         num_envs = len(env_ids)
         if self.eval:
             positions = self.eval_manager.get_positions()
@@ -799,10 +789,10 @@ class WheeledRobotEnv(DirectRLEnv):
             )
         self.scene_manager.get_graph_embedding(self._robot._ALL_INDICES.clone())
         goal_pos_local  = self.scene_manager.get_active_goal_state(env_ids)
-        colors = ["red" if x.item() > 0 else "green" for x in goal_pos_local[:, 0]]
-        text_prompts = [f"move to bowl near {c} wall" for c in colors]
-        
         # BLOCK TEXT_EMB
+        # colors = ["red" if x.item() > 0 else "green" for x in goal_pos_local[:, 0]]
+        # text_prompts = [f"move to bowl near {c} wall" for c in colors]
+
         # text_inputs = self.clip_processor(
         #     text=text_prompts, return_tensors="pt", padding=True
         # ).to(self.device)
@@ -814,7 +804,7 @@ class WheeledRobotEnv(DirectRLEnv):
         # print("goal_pos_local ", goal_pos_local)
         self._desired_pos_w[env_ids, :3] = goal_pos_local 
         self._desired_pos_w[env_ids, :2] = self.to_global(goal_pos_local , env_ids)
-        # бновляем все объекты на сцене одним махом
+
         self.curriculum_learning_module(env_ids) 
 
         if self.turn_on_controller_step > self.my_episode_lenght and self.turn_on_controller:
@@ -958,6 +948,8 @@ class WheeledRobotEnv(DirectRLEnv):
         self.tracker.reset(env_ids)
         env_ids_for_scene_embeddings = self._robot._ALL_INDICES.clone()
         # scene_embeddings = self.scene_manager.get_scene_embedding(env_ids)
+        # for i in env_ids_for_scene_embeddings:
+        #     self.scene_manager.print_graph_info(i)
         if self.LOG and self.sr_stack_full:
             self.experiment.log_metric("success_rate", self.success_rate, step=self.tensorboard_step)
             self.experiment.log_metric("mean_radius", self.mean_radius, step=self.tensorboard_step)

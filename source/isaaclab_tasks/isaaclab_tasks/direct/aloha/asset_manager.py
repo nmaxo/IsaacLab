@@ -17,7 +17,9 @@ class AssetManager:
     def spawn_assets_in_scene(self):
         """Создает все объекты из конфига в симуляторе Isaac Lab."""
         current_dir = os.getcwd()
+        j = 0
         for obj_cfg in self.config:
+            j += 1
             name = obj_cfg['name']
             types = obj_cfg['type']
             if "info" in types:
@@ -39,6 +41,9 @@ class AssetManager:
                 if name == "bowl":
                     # Для миски используем Z-up ориентацию (кватернион [0, 0.7071, 0, 0.7071])
                     rot = (0.0, 0.7071, 0.0, 0.7071)
+                if name == "bowl":
+                    # Для миски используем Z-up ориентацию (кватернион [0, 0.7071, 0, 0.7071])
+                    rot = (0.7071, 0.0, 0.0, 0.7071)
 
                 prim_path = f"/World/envs/env_.*/{name}_{i}"
 
@@ -58,7 +63,7 @@ class AssetManager:
                         ),
                     ),
                     init_state=RigidObjectCfg.InitialStateCfg(
-                        pos=(5.0 + i, 6.0, 0.0),  # Начальная позиция (кладбище)
+                        pos=(5.0 + i, 6.0 + j, 0.0),  # Начальная позиция (кладбище)
                         rot=rot
                     ),
                 )

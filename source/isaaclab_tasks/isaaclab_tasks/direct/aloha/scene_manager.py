@@ -167,6 +167,7 @@ class SceneManager:
         strategies = {}
         for obj_cfg in self.config:
             name = obj_cfg['name']
+            print("name: ", name)
             placement_cfg_list = obj_cfg.get('placement')
             if not placement_cfg_list: continue
             placement_cfg = placement_cfg_list[0]
@@ -194,6 +195,7 @@ class SceneManager:
         num_surface_only = len(self.type_map.get("surface_only", []))
         num_providers = len(self.type_map.get("surface_provider", []))
         num_floor_obs = len(self.type_map.get("movable_obstacle", [])) - num_surface_only
+        num_static_floor_obs = len(self.type_map.get("staff_obstacle", [])) - num_surface_only
 
         num_surface_only_to_place = torch.randint(1, num_surface_only + 1, (num_to_randomize,), device=self.device) if num_surface_only > 0 else torch.zeros(num_to_randomize, dtype=torch.long, device=self.device)
         
@@ -212,16 +214,18 @@ class SceneManager:
         else:
             num_providers_to_place = torch.zeros(num_to_randomize, dtype=torch.long, device=self.device)
         num_floor_obstacles_to_place = torch.randint(0, num_floor_obs + 1, (num_to_randomize,), device=self.device) if use_obstacles and num_floor_obs > 0 else torch.zeros(num_to_randomize, dtype=torch.long, device=self.device)
+        num_static_floor_obstacles_to_place = torch.randint(0, num_static_floor_obs + 1, (num_to_randomize,), device=self.device) if use_obstacles and num_static_floor_obs > 0 else torch.zeros(num_to_randomize, dtype=torch.long, device=self.device)
 
         # 3. Применение стратегий в правильном порядке (сначала поверхности)
         scene_data = self.get_scene_data_dict()
-        placement_order = ["surface_provider", "movable_obstacle", "surface_only"]
+        placement_order = ["surface_provider", "movable_obstacle", "surface_only", "staff_obstacle"]
         
         # Определяем, сколько объектов какого типа нужно разместить
         counts_by_type = {
             "surface_provider": num_providers_to_place,
             "movable_obstacle": num_floor_obstacles_to_place,
             "surface_only": num_surface_only_to_place,
+            "staff_obstacle": num_static_floor_obstacles_to_place,
         }
         
         for p_type in placement_order:
@@ -252,7 +256,7 @@ class SceneManager:
                     if len(active_env_ids) == 0: continue
 
                     active_indices_to_place = indices_to_place[valid_envs_mask]
-                    
+                    # print("active_indices_to_place ", active_indices_to_place)
                     self.placement_strategies[name].apply(active_env_ids, active_indices_to_place, scene_data, mess)
 
         self.chose_active_goal_state(env_ids)

@@ -100,6 +100,7 @@ class Path_manager:
             # `active_pos` уже отсортирован и округлен в scene_manager
             config = ','.join([f"{p[0]:.1f}_{p[1]:.1f}_{p[2]:.1f}" for p in active_pos]) if active_pos else ''
             configs.append(config)
+        # print("configs: ", configs)
         # --- Остальная часть функции остается без изменений ---
 
         # Преобразуем реальные координаты в сеточные
