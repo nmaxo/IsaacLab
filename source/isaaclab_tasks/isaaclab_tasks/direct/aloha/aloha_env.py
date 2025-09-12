@@ -1035,12 +1035,10 @@ class WheeledRobotEnv(DirectRLEnv):
         """Векторизованное обновление позиций всех объектов в симуляторе."""
         if env_ids is None:
             env_ids = self._robot._ALL_INDICES.clone()
-
         # Получаем все локальные позиции из scene_manager'а
         all_local_positions = self.scene_manager.positions
         
         # Конвертируем в глобальные координаты
-        # Это может быть медленно, лучше делать это только для нужных env_ids
         env_origins_expanded = self._terrain.env_origins.unsqueeze(1).expand_as(all_local_positions)
         all_global_positions = all_local_positions + env_origins_expanded
         
@@ -1050,43 +1048,43 @@ class WheeledRobotEnv(DirectRLEnv):
         
         # Собираем полные состояния (поза + ориентация)
         all_root_states = torch.cat([all_global_positions, all_quats], dim=-1)
-
+        
         # Итерируемся по объектам, управляемым симулятором
         for name, object_instances in self.scene_objects.items():
-            # Используем новый атрибут 'object_map'
             if name not in self.scene_manager.object_map:
                 continue
             
-            # Получаем индексы для данного типа объектов из object_map
+            # Получаем индексы для данного типа объектов
             indices = self.scene_manager.object_map[name]['indices']
             
             # Собираем состояния только для этих объектов
             object_root_states = all_root_states[:, indices, :]
             
-            # Обновляем каждый экземпляр этого типа (например, chair_0, chair_1, ...)
+            # Обновляем каждый экземпляр этого типа
             for i, instance in enumerate(object_instances):
                 # Выбираем срез для i-го экземпляра по всем окружениям
                 instance_states = object_root_states[:, i, :]
-                # Применяем маску: неактивные объекты перемещаем далеко
+                # Применяем маску: неактивные объекты берём из default_positions
                 active_mask = self.scene_manager.active[:, indices[i]]
-                inactive_pos = torch.tensor([-5.0 + indices[i], 6.0, 0.0], device=self.device)
-                
-                # Используем torch.where для векторизованного обновления позиций
+                # Используем дефолтные позиции из SceneManager
+                inactive_pos = self.scene_manager.default_positions[0, indices[i]]  # (3,)
+                inactive_pos = inactive_pos.expand(self.num_envs, -1)  # (num_envs, 3)
+                # Конвертируем в глобальные координаты
+                inactive_pos_global = inactive_pos + env_origins_expanded[:, indices[i], :]
+                # Векторизованное обновление позиций
                 final_positions = torch.where(
-                    active_mask.unsqueeze(-1), 
-                    instance_states[:, :3], 
-                    inactive_pos
+                    active_mask.unsqueeze(-1),
+                    instance_states[:, :3],
+                    inactive_pos_global
                 )
                 instance_states[:, :3] = final_positions
                 if name == "bowl":
-                    # Для миски используем Z-up ориентацию (кватернион [1, 0, 0, 0])
-                    rot = torch.tensor([0.0, 0.0, 0.7071, 0.7071],device=self.device).expand(self.num_envs, -1)
+                    rot = torch.tensor([0.0, 0.0, 0.7071, 0.7071], device=self.device).expand(self.num_envs, -1)
                     instance_states[:, 3:7] = rot
                 if name == "cabinet":
-                    # Для миски используем Z-up ориентацию (кватернион [1, 0, 0, 0])
-                    rot = torch.tensor([0.7071, 0.0, 0.0, 0.7071],device=self.device).expand(self.num_envs, -1)
+                    rot = torch.tensor([0.7071, 0.0, 0.0, 0.7071], device=self.device).expand(self.num_envs, -1)
                     instance_states[:, 3:7] = rot
-                # Записываем состояния в симулятор для всех окружений сразу
+                # Записываем состояния в симулятор
                 instance.write_root_pose_to_sim(instance_states, env_ids=self._robot._ALL_INDICES.clone())
                 # changeable_indices = self.scene_manager.type_map.get("changeable_color", torch.tensor([], dtype=torch.long))
                 # if len(changeable_indices) > 0:
