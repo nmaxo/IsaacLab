@@ -67,12 +67,22 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
     )
     # Observation space is now the ResNet18 embedding size (512)
     m = 1  # Например, 3 эмбеддинга и действия
-    observation_space = gym.spaces.Box(
-        low=-float("inf"),
-        high=float("inf"),
-        shape=(m * (512 + 3 + 90),),  # m * (embedding_size + action_size) + 2 (скорости)
-        dtype="float32"
-    )
+    # observation_space = gym.spaces.Box(
+    #     low=-float("inf"),
+    #     high=float("inf"),
+    #     shape=(m * (512 + 3),),  # m * (embedding_size + action_size) + 2 (скорости)
+    #     dtype="float32"
+    # )
+    # TODO automat compute num_total_objects
+    num_total_objects = 10
+
+    observation_space = gym.spaces.Dict({
+        "img": gym.spaces.Box(low=-float("inf"), high=float("inf"), shape=(512 + 3,), dtype=np.float32),
+        "graph": gym.spaces.Dict({
+            "node_features": gym.spaces.Box(low=-float("inf"), high=float("inf"), shape=(num_total_objects, 14), dtype=np.float32),
+            "edge_features": gym.spaces.Box(low=-float("inf"), high=float("inf"), shape=(num_total_objects, 6), dtype=np.float32),
+        })
+    })
     state_space = 0
     debug_vis = False
 
@@ -102,7 +112,7 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
         # ),
         debug_vis=False,
     )
-    scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=32, env_spacing=18, replicate_physics=True)
+    scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=64, env_spacing=18, replicate_physics=True)
     robot: ArticulationCfg = ALOHA_CFG.replace(prim_path="/World/envs/env_.*/Robot")
     wheel_radius = 0.068
     wheel_distance = 0.34
@@ -147,7 +157,7 @@ class WheeledRobotEnv(DirectRLEnv):
         super().__init__(cfg, render_mode, **kwargs)
         self._super_init = False
         self.eval = False
-        self.eval_name = "CIG_base"
+        self.eval_name = "CI"
 
         self.eval_printed = False
         self.scene_manager = SceneManager(self.num_envs, self.config_path, self.device)
@@ -238,7 +248,7 @@ class WheeledRobotEnv(DirectRLEnv):
         self.max_angle_error = torch.pi / 6
         self.cur_angle_error = torch.pi / 12
         self.warm = True
-        self.warm_len = 2048
+        self.warm_len = 2500
         self.without_imitation = self.warm_len / 2
         self._obstacle_update_counter = 0
         self.has_contact = torch.full((self.num_envs,), True, dtype=torch.bool, device=self.device)
@@ -373,13 +383,13 @@ class WheeledRobotEnv(DirectRLEnv):
         root_ang_vel_w = self._robot.data.root_ang_vel_w[:, 2].unsqueeze(-1)
         
         scene_embeddings = self.scene_manager.get_graph_embedding(self._robot._ALL_INDICES.clone())
-
-        # text_embeddings = self.text_embeddings
-        # print("aaa")
-        # print(len(scene_embeddings[0]))
+        
         # obs = torch.cat([image_embeddings, scene_embeddings, text_embeddings, root_lin_vel_w*0.1, root_ang_vel_w*0.1, self.previous_ang_vel.unsqueeze(-1)*0.1], dim=-1)
-        obs = torch.cat([image_embeddings, scene_embeddings, root_lin_vel_w*0.1, root_ang_vel_w*0.1, self.previous_ang_vel.unsqueeze(-1)*0.1], dim=-1)
-
+        obs_img = torch.cat([image_embeddings, root_lin_vel_w*0.1, root_ang_vel_w*0.1, self.previous_ang_vel.unsqueeze(-1)*0.1], dim=-1)
+        obs = {
+            "img": obs_img,
+            "graph": scene_embeddings_dict
+        }
         self.previous_ang_vel = self.angular_speed
         # log_embedding_stats(image_embeddings)
         
@@ -438,7 +448,6 @@ class WheeledRobotEnv(DirectRLEnv):
 
     def _get_rewards(self) -> torch.Tensor:
         # env_ids = self._robot._ALL_INDICES.clone()
-        # # Сначала размещаем все объекты
         # num_envs = len(env_ids)
         # value = torch.tensor([0, 0], dtype=torch.float32, device=self.device)
         # robot_pos = value.unsqueeze(0).repeat(num_envs, 1)
@@ -487,8 +496,8 @@ class WheeledRobotEnv(DirectRLEnv):
         paths = self.tracker.get_paths(env_ids)
         # jerk_counts = self.tracker.compute_jerk(env_ids, threshold=0.2)
         # print(jerk_counts)
+        start_dists = self.eval_manager.get_start_dists(env_ids)
         if self.turn_on_controller:
-            
             IL_reward = 0.5
             punish = - 0.05
         else:
@@ -500,8 +509,8 @@ class WheeledRobotEnv(DirectRLEnv):
             )
         reward = (
             IL_reward + punish #* r_error
-            # + torch.clamp(goal_reached.float() * 7 * (1 + self.scene_manager.get_start_dist_error()) / (1 + path_lengths), min=0, max=15)
-            - torch.clamp(has_contact.float() * (7 + lin_vel_reward), min=0, max=10)
+            + torch.clamp(goal_reached.float() * 7, min=0, max=15) #* (1 + start_dists) / (1 + path_lengths)
+            - torch.clamp(has_contact.float() * (5 + lin_vel_reward), min=0, max=10)
         )
 
         if torch.any(has_contact) or torch.any(goal_reached) or torch.any(time_out):
@@ -714,49 +723,50 @@ class WheeledRobotEnv(DirectRLEnv):
         env_ids = self._robot._ALL_INDICES[died]
         if torch.any(died):
             goal_reached = self.goal_reached()
-            # === EVAL LOGGING ===
-            envs_finished = torch.where(died)[0]  # индексы завершившихся эпизодов
-            # успехи конкретно для них
-            successes = goal_reached[envs_finished].float()
-            traj_lens = self.tracker.compute_path_lengths(envs_finished)  # [K]
-            durations = self.tracker.lengths[envs_finished].float()       # [K]
-            start_dists = self.eval_manager.get_start_dists(envs_finished) # [K]
-            # логируем (ВАЖНО: log_results -> ДО next_episode)
-            self.eval_manager.log_results(envs_finished, successes, traj_lens, start_dists, durations)
-            self.eval_manager.next_episode(envs_finished)
+            if self.eval:
+                # === EVAL LOGGING ===
+                envs_finished = torch.where(died)[0]  # индексы завершившихся эпизодов
+                # успехи конкретно для них
+                successes = goal_reached[envs_finished].float()
+                traj_lens = self.tracker.compute_path_lengths(envs_finished)  # [K]
+                durations = self.tracker.lengths[envs_finished].float()       # [K]
+                start_dists = self.eval_manager.get_start_dists(envs_finished) # [K]
+                # логируем (ВАЖНО: log_results -> ДО next_episode)
+                self.eval_manager.log_results(envs_finished, successes, traj_lens, start_dists, durations)
+                self.eval_manager.next_episode(envs_finished)
 
-            if self.eval_manager.is_all_done() and not self.eval_printed:
-                import pandas as pd
-                df, global_stats, pos_stats = self.eval_manager.summarize()
-                print("=== FINAL EVAL SUMMARY ===")
-                print(global_stats)
-                self.eval_printed = True
+                if self.eval_manager.is_all_done() and not self.eval_printed:
+                    import pandas as pd
+                    df, global_stats, pos_stats = self.eval_manager.summarize()
+                    print("=== FINAL EVAL SUMMARY ===")
+                    print(global_stats)
+                    self.eval_printed = True
 
-                # создаём директорию logs если её нет
-                log_dir = os.path.join(self.current_dir, "logs/skrl/results")
-                os.makedirs(log_dir, exist_ok=True)
+                    # создаём директорию logs если её нет
+                    log_dir = os.path.join(self.current_dir, "logs/skrl/results")
+                    os.makedirs(log_dir, exist_ok=True)
 
-                # 1. Сохраняем сырые результаты
-                save_path = os.path.join(log_dir, f"eval_results_{self.eval_name}.csv")
-                df.to_csv(save_path, index=False)
+                    # 1. Сохраняем сырые результаты
+                    save_path = os.path.join(log_dir, f"eval_results_{self.eval_name}.csv")
+                    df.to_csv(save_path, index=False)
 
-                # 2. Сохраняем агрегированную информацию
-                summary_path = os.path.join(log_dir, f"eval_summary_{self.eval_name}.csv")
+                    # 2. Сохраняем агрегированную информацию
+                    summary_path = os.path.join(log_dir, f"eval_summary_{self.eval_name}.csv")
 
-                # превращаем global_stats и pos_stats в один DataFrame
-                summary_df = pos_stats.copy()
-                summary_df["position_idx"] = summary_df.index
-                summary_df.reset_index(drop=True, inplace=True)
+                    # превращаем global_stats и pos_stats в один DataFrame
+                    summary_df = pos_stats.copy()
+                    summary_df["position_idx"] = summary_df.index
+                    summary_df.reset_index(drop=True, inplace=True)
 
-                # добавляем глобальные метрики как отдельную строку
-                global_row = global_stats.to_dict()
-                global_row["position_idx"] = "ALL"
-                summary_df = pd.concat([summary_df, pd.DataFrame([global_row])], ignore_index=True)
+                    # добавляем глобальные метрики как отдельную строку
+                    global_row = global_stats.to_dict()
+                    global_row["position_idx"] = "ALL"
+                    summary_df = pd.concat([summary_df, pd.DataFrame([global_row])], ignore_index=True)
 
-                summary_df.to_csv(summary_path, index=False)
+                    summary_df.to_csv(summary_path, index=False)
 
-                print(f"[EVAL] Results saved to {save_path}")
-                print(f"[EVAL] Summary saved to {summary_path}")
+                    print(f"[EVAL] Results saved to {save_path}")
+                    print(f"[EVAL] Summary saved to {summary_path}")
 
                 
         if not inner:
@@ -814,7 +824,7 @@ class WheeledRobotEnv(DirectRLEnv):
         if not self.eval:
             cond_imitation = (
                 not self.warm and
-                self.mean_radius >= 3.3 and
+                # self.mean_radius >= 3.3 and
                 self.sr_stack_full and
                 self.mean_radius != 0 and
                 self.use_controller and
@@ -841,8 +851,9 @@ class WheeledRobotEnv(DirectRLEnv):
                 print("[ WARNING ] ostacles allways turn on")
 
             self.turn_on_obstacles = True
-            if not self.turn_on_obstacles_always:
-                self.min_level_radius = max(3.3, self.mean_radius - 0.3)
+            if not self.turn_on_obstacles_always and not self.warm and self.min_level_radius < 3.3:
+                print("level_up min_level_radius to: ", 3.3)
+                self.min_level_radius = 3.3
         else:
             self.turn_on_obstacles = False
         env_ids = env_ids.to(dtype=torch.long)
@@ -880,7 +891,7 @@ class WheeledRobotEnv(DirectRLEnv):
             if self.turn_on_controller_step == 0:
                 env_ids_for_control = self._robot._ALL_INDICES.clone()
                 robot_pos_for_control = self._robot.data.default_root_state[env_ids_for_control, :2].clone()
-                robot_pos_for_control[env_ids, :2] = robot_pos
+                robot_pos_for_control[env_ids, :2] = robot_pos[:, :2]
                 goal_pos_for_control = self._desired_pos_w[env_ids_for_control, :2].clone()
                 goal_pos_for_control[env_ids, :2] = goal_pos_local[:, :2]
             else:

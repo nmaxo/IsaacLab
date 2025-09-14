@@ -387,7 +387,7 @@ class SceneManager:
         obstacle_pos = torch.where(is_floor_obstacle.unsqueeze(-1), obstacle_pos_all, inf_pos)
         # Этап 6: Генерация радиусов для размещения робота
         mean_dist_with_shift = mean_dist + 1.31
-        radii = torch.normal(mean=mean_dist_with_shift, std=mean_dist * 0.1, size=(num_envs, 1), device=self.device).clamp_(min_dist, max_dist)
+        radii = torch.normal(mean=mean_dist_with_shift, std=(mean_dist-1.31) * 0.1, size=(num_envs, 1), device=self.device).clamp_(min_dist, max_dist)
         # Этап 7: Генерация кандидатов для позиций робота
         candidates = goal_pos[:, None, :2] + radii.unsqueeze(1) * self.candidate_vectors
         # Этап 8: Проверка границ комнаты
@@ -485,3 +485,65 @@ class SceneManager:
             for i in env_ids:
                 self.print_graph_info(i)
 
+    def get_graph_obs(self, env_ids=None) -> dict[str, torch.Tensor]:
+        """Returns a dictionary with full tensorized graph representation for observations.
+        
+        - node_features: tensor (num_envs, num_objects, 14) - per object: [pos(3), size(3), radius(1), color(3), id(1), active(1), parent_id(1), level(1)].
+        - edge_features: tensor (num_envs, num_objects, 6) - per possible edge (from child to parent): [exists(1), z_diff(1), level_diff(1), dist(1), color_diff_norm(1), id_diff(1)]; 0 if no edge.
+        """
+        if env_ids is None:
+            env_ids = torch.arange(self.num_envs, device=self.device)
+        num_selected = len(env_ids)
+        
+        # Select data for env_ids
+        positions = self.positions[env_ids]/10  # (num_selected, num_objects, 3)
+        sizes = self.sizes.expand(num_selected, -1, -1)/10  # (num_selected, num_objects, 3)
+        radii = self.radii.expand(num_selected, -1).unsqueeze(-1)/10  # (num_selected, num_objects, 1)
+        colors = self.colors.expand(num_selected, -1, -1)/10  # (num_selected, num_objects, 3)
+        object_ids = self.object_ids.expand(num_selected, -1).unsqueeze(-1).float()/10  # (num_selected, num_objects, 1)
+        active = self.active[env_ids].unsqueeze(-1).float()/10  # (num_selected, num_objects, 1)
+        parents = self.on_surface_idx[env_ids].unsqueeze(-1).float()/10  # (num_selected, num_objects, 1); -1 for no parent
+        levels = self.surface_level[env_ids].unsqueeze(-1).float()/10  # (num_selected, num_objects, 1)
+        
+        # Node features: concat all per object
+        node_features = torch.cat([
+            positions, sizes, radii, colors, object_ids, active, parents, levels
+        ], dim=-1)  # (num_selected, num_objects, 14)
+        
+        # Edge features: per object (potential edge to parent)
+        edge_exists = (parents >= 0).float()  # (num_selected, num_objects, 1)
+        
+        # For valid parents: z_diff = child_z - parent_z
+        valid_mask = (parents >= 0).squeeze(-1)  # (num_selected, num_objects)
+        z_diff = torch.zeros(num_selected, self.num_total_objects, 1, device=self.device)
+        batch_idx = torch.arange(num_selected, device=self.device)[:, None].expand(-1, self.num_total_objects)[valid_mask]
+        obj_idx = torch.arange(self.num_total_objects, device=self.device)[None, :].expand(num_selected, -1)[valid_mask]
+        parent_idx = parents.squeeze(-1)[valid_mask].long()
+        z_diff[valid_mask] = positions[batch_idx, obj_idx, 2:3] - positions[batch_idx, parent_idx, 2:3]
+        
+        # level_diff = child_level - parent_level (should be 1 usually)
+        level_diff = torch.zeros_like(z_diff)
+        level_diff[valid_mask] = levels[batch_idx, obj_idx] - levels[batch_idx, parent_idx]
+        
+        # dist = norm(child_pos_xy - parent_pos_xy)
+        dist = torch.zeros_like(z_diff)
+        child_xy = positions[batch_idx, obj_idx, :2]
+        parent_xy = positions[batch_idx, parent_idx, :2]
+        dist[valid_mask] = torch.norm(child_xy - parent_xy, dim=-1, keepdim=True)
+        
+        # color_diff_norm = norm(child_color - parent_color)
+        color_diff_norm = torch.zeros_like(z_diff)
+        child_color = colors[batch_idx, obj_idx]
+        parent_color = colors[batch_idx, parent_idx]
+        color_diff_norm[valid_mask] = torch.norm(child_color - parent_color, dim=-1, keepdim=True)
+        
+        # id_diff = child_id - parent_id
+        id_diff = torch.zeros_like(z_diff)
+        child_id = object_ids[batch_idx, obj_idx]
+        parent_id = object_ids[batch_idx, parent_idx]
+        id_diff[valid_mask] = child_id - parent_id
+        
+        # Edge features: [exists, z_diff, level_diff, dist, color_diff_norm, id_diff]
+        edge_features = torch.cat([edge_exists, z_diff, level_diff, dist, color_diff_norm, id_diff], dim=-1)  # (num_selected, num_objects, 6)
+        
+        return {"node_features": node_features, "edge_features": edge_features}

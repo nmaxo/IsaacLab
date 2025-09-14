@@ -16,7 +16,8 @@ from isaaclab.terrains import TerrainImporterCfg
 from isaaclab.utils import configclass
 
 from isaaclab_tasks.direct.locomotion.locomotion_env import LocomotionEnv
-
+import gymnasium as gym
+import torch
 
 @configclass
 class AntEnvCfg(DirectRLEnvCfg):
@@ -25,7 +26,15 @@ class AntEnvCfg(DirectRLEnvCfg):
     decimation = 2
     action_scale = 0.5
     action_space = 8
-    observation_space = 36
+    # observation_space = 36
+    # observation_space = gym.spaces.Box(low=-float("inf"), high=float("inf"), shape=(36,), dtype=float)
+    observation_space=gym.spaces.Dict({
+        "img": gym.spaces.Box(low=-float("inf"), high=float("inf"), shape=(36,), dtype=float),
+        "graph": gym.spaces.Dict({
+            "node_features": gym.spaces.Box(-float("inf"), float("inf"), (10,)),
+            "edge_features": gym.spaces.Box(-float("inf"), float("inf"), (6,)),
+        })
+    }),
     state_space = 0
 
     # simulation
@@ -71,3 +80,27 @@ class AntEnv(LocomotionEnv):
 
     def __init__(self, cfg: AntEnvCfg, render_mode: str | None = None, **kwargs):
         super().__init__(cfg, render_mode, **kwargs)
+    
+    def _get_observations(self) -> dict:
+        base_obs = super()._get_observations()  # {"policy": torch.Tensor(num_envs, 36)}
+        policy_obs = base_obs["policy"]
+        # Для теста: создаём заглушку для graph
+        graph_obs = {
+            "node_features": torch.zeros(self.num_envs, 10, device=self.device),  # (num_envs, 10)
+            "edge_features": torch.zeros(self.num_envs, 6, device=self.device),  # (num_envs, 5)
+        }
+        obs = {
+            "img": policy_obs,
+            "graph": graph_obs
+        }
+        # Если есть SceneManager:
+        # env_ids = torch.arange(self.num_envs, device=self.device)
+        # graph_embedding = self.scene_manager.get_graph_embedding(env_ids)  # Предположительно (num_envs, 36)
+        # graph_obs = {
+        #     "node_features": graph_embedding[:, :10],
+        #     "edge_features": graph_embedding[:, 10:15],
+        #     "graph_id": graph_embedding[:, 15:16].long()
+        # }
+        return {
+            "policy": obs
+        }
