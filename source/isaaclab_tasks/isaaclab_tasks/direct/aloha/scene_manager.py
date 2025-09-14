@@ -387,7 +387,7 @@ class SceneManager:
         obstacle_pos = torch.where(is_floor_obstacle.unsqueeze(-1), obstacle_pos_all, inf_pos)
         # Этап 6: Генерация радиусов для размещения робота
         mean_dist_with_shift = mean_dist + 1.31
-        radii = torch.normal(mean=mean_dist_with_shift, std=(mean_dist-1.31) * 0.1, size=(num_envs, 1), device=self.device).clamp_(min_dist, max_dist)
+        radii = torch.normal(mean=mean_dist_with_shift, std=mean_dist * 0.1, size=(num_envs, 1), device=self.device).clamp_(min_dist, max_dist)
         # Этап 7: Генерация кандидатов для позиций робота
         candidates = goal_pos[:, None, :2] + radii.unsqueeze(1) * self.candidate_vectors
         # Этап 8: Проверка границ комнаты

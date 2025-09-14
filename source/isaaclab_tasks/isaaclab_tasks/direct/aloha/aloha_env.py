@@ -383,7 +383,7 @@ class WheeledRobotEnv(DirectRLEnv):
         root_ang_vel_w = self._robot.data.root_ang_vel_w[:, 2].unsqueeze(-1)
         
         scene_embeddings = self.scene_manager.get_graph_embedding(self._robot._ALL_INDICES.clone())
-        
+        scene_embeddings_dict = self.scene_manager.get_graph_obs(self._robot._ALL_INDICES.clone())
         # obs = torch.cat([image_embeddings, scene_embeddings, text_embeddings, root_lin_vel_w*0.1, root_ang_vel_w*0.1, self.previous_ang_vel.unsqueeze(-1)*0.1], dim=-1)
         obs_img = torch.cat([image_embeddings, root_lin_vel_w*0.1, root_ang_vel_w*0.1, self.previous_ang_vel.unsqueeze(-1)*0.1], dim=-1)
         obs = {
