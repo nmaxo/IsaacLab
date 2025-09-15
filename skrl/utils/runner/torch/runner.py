@@ -77,8 +77,7 @@ class Runner:
                 from importlib import import_module
                 import os
                 current_dir = os.getcwd()
-                model_path  = os.path.join(current_dir, "models/")
-                sys.path.insert(0, model_path)
+                sys.path.insert(0, current_dir)
                 module_path, class_name = name.rsplit(".", 1)
                 module = import_module(module_path)
                 component = getattr(module, class_name)

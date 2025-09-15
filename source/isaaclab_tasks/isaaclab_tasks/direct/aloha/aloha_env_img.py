@@ -79,8 +79,10 @@ class WheeledRobotEnvCfg(DirectRLEnvCfg):
     observation_space = gym.spaces.Dict({
         "img": gym.spaces.Box(low=-float("inf"), high=float("inf"), shape=(512 + 3,), dtype=np.float32),
         "graph": gym.spaces.Dict({
-            "node_features": gym.spaces.Box(low=-float("inf"), high=float("inf"), shape=(num_total_objects, 14), dtype=np.float32),
-            "edge_features": gym.spaces.Box(low=-float("inf"), high=float("inf"), shape=(num_total_objects, 6), dtype=np.float32),
+            "node_clip": gym.spaces.Box(low=-float("inf"), high=float("inf"), shape=(num_total_objects, 1), dtype=np.float32),
+            "node_center": gym.spaces.Box(low=-float("inf"), high=float("inf"), shape=(num_total_objects, 3), dtype=np.float32),
+            "node_extent": gym.spaces.Box(low=-float("inf"), high=float("inf"), shape=(num_total_objects, 3), dtype=np.float32),
+            "rel_ids": gym.spaces.Box(low=0, high=25, shape=(num_total_objects, num_total_objects), dtype=np.int64),
         })
     })
     state_space = 0
@@ -156,8 +158,8 @@ class WheeledRobotEnv(DirectRLEnv):
         self.config_path=os.path.join(self.current_dir, "source/isaaclab_tasks/isaaclab_tasks/direct/aloha/scene_items.json")
         super().__init__(cfg, render_mode, **kwargs)
         self._super_init = False
-        self.eval = False
-        self.eval_name = "CI"
+        self.eval = True
+        self.eval_name = "baka"
 
         self.eval_printed = False
         self.scene_manager = SceneManager(self.num_envs, self.config_path, self.device)
@@ -244,7 +246,7 @@ class WheeledRobotEnv(DirectRLEnv):
         self.history_index = 0
         self.history_len = torch.zeros(self.num_envs, device=self.device)
         self._step_update_counter = 0
-        self.mean_radius = 4.3
+        self.mean_radius = 3.3
         self.max_angle_error = torch.pi / 6
         self.cur_angle_error = torch.pi / 12
         self.warm = True
@@ -298,10 +300,12 @@ class WheeledRobotEnv(DirectRLEnv):
         # сразу после создания scene_manager
         self._material_cache = {}        # key -> material prim path (строка), key = "r_g_b"
         self._applied_color_map = {}     # obj_index (int) -> color_key (str), чтобы не биндим повторно
-
+        self.scene_manager.init_graph_descriptor(self.clip_processor, self.clip_model)
 
     def print_config_info(self):
         print("__________[ CONGIFG INFO ]__________")
+        print(f"|")
+        print(f"| EVAL : {self.eval}")
         print(f"|")
         print(f"| Start mean radius is: {self.mean_radius}")
         print(f"|")
@@ -383,8 +387,13 @@ class WheeledRobotEnv(DirectRLEnv):
         root_ang_vel_w = self._robot.data.root_ang_vel_w[:, 2].unsqueeze(-1)
         
         scene_embeddings = self.scene_manager.get_graph_embedding(self._robot._ALL_INDICES.clone())
-        scene_embeddings_dict = self.scene_manager.get_graph_obs(self._robot._ALL_INDICES.clone())
+        scene_embeddings_list = self.scene_manager.get_graph_obs(self._robot._ALL_INDICES.clone())
+        # print(scene_embeddings_list[0])
+        scene_embeddings_noize = self.scene_manager.add_noise_to_graph_obs(scene_embeddings_list)
+        # print(scene_embeddings_noize[0])
+        scene_embeddings_dict = self.scene_manager.tensorize_graph_obs(scene_embeddings_noize)
         # obs = torch.cat([image_embeddings, scene_embeddings, text_embeddings, root_lin_vel_w*0.1, root_ang_vel_w*0.1, self.previous_ang_vel.unsqueeze(-1)*0.1], dim=-1)
+        # print(scene_embeddings_dict)
         obs_img = torch.cat([image_embeddings, root_lin_vel_w*0.1, root_ang_vel_w*0.1, self.previous_ang_vel.unsqueeze(-1)*0.1], dim=-1)
         obs = {
             "img": obs_img,
