@@ -854,13 +854,13 @@ class WheeledRobotEnv(DirectRLEnv):
                     self.turn_on_controller = True
                 
         
-        if (self.mean_radius >= 3.3 and self.use_obstacles) or self.turn_on_obstacles_always or self.warm and not self.first_ep[0]:
+        if (self.mean_radius >= 3.3 or self.mean_radius <= 0.3 and self.use_obstacles) or self.turn_on_obstacles_always or self.warm and not self.first_ep[0]:
         # if self.use_obstacles or self.turn_on_obstacles_always or self.warm and not self.first_ep[0]:
             if self.turn_on_obstacles_always and self.cur_step % 300:
                 print("[ WARNING ] ostacles allways turn on")
 
             self.turn_on_obstacles = True
-            if not self.turn_on_obstacles_always and not self.warm and self.min_level_radius < 3.3:
+            if not self.turn_on_obstacles_always and not self.warm and self.min_level_radius < 3.3 and self.mean_radius == 3.3:
                 print("level_up min_level_radius to: ", 3.3)
                 self.min_level_radius = 3.3
         else:

@@ -63,11 +63,11 @@ class CustomActor(GaussianMixin, Model):
         ).to(device)
         mlp_in = self.img_dim + gnn_out
         self.net = nn.Sequential(
-            nn.Linear(mlp_in, 512),
+            nn.Linear(mlp_in, 1024),
             nn.ReLU(),
-            nn.Linear(512, 256),
+            nn.Linear(1024, 512),
             nn.ReLU(),
-            nn.Linear(256, self.num_actions),
+            nn.Linear(512, self.num_actions),
             nn.Tanh()
         ).to(device)
         self.log_std_parameter = nn.Parameter(torch.full((self.num_actions,), 0.2, device=device))
@@ -113,11 +113,11 @@ class CustomCritic(DeterministicMixin, Model):
         ).to(device)
         mlp_in = self.img_dim + gnn_out + self.num_actions
         self.net = nn.Sequential(
-            nn.Linear(mlp_in, 256),
+            nn.Linear(mlp_in, 1024),
             nn.ELU(),
-            nn.Linear(256, 128),
+            nn.Linear(1024, 512),
             nn.ELU(),
-            nn.Linear(128, 1)
+            nn.Linear(512, 1)
         ).to(device)
 
     def compute(self, inputs, role=""):
