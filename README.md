@@ -2,7 +2,7 @@
 
 
 ## Getting Started
-The installation process fully complies with the official Isaac Lab documentation, with the exception that you need to clone the current pipeline, and not from the official Isaac Lab repository.
+The installation process fully complies with the official Isaac Lab documentation, with the exception that you need to clone the current pipeline, and not from the official Isaac Lab repository with Isaac sim 4.5
 
 - [Installation steps](https://isaac-sim.github.io/IsaacLab/main/source/setup/installation/index.html#local-installation)
 - [Reinforcement learning](https://isaac-sim.github.io/IsaacLab/main/source/overview/reinforcement-learning/rl_existing_scripts.html)
@@ -35,7 +35,6 @@ To generate paths via dijkstra algo (Check, that there no all_paths.json in data
 ```
 ./isaaclab.sh -p source/isaaclab_tasks/isaaclab_tasks/direct/aloha/path_generator.py 
 ```
-
 Asset directories should look like this:
 ```
 └── aloha_assets
