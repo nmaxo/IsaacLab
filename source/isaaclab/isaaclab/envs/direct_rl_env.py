@@ -341,7 +341,6 @@ class DirectRLEnv(gym.Env):
 
         # process actions
         self._pre_physics_step(action)
-
         # check if we need to do rendering within the physics loop
         # note: checked here once to avoid multiple checks within the loop
         is_rendering = self.sim.has_gui() or self.sim.has_rtx_sensors()
