@@ -40,16 +40,16 @@ class ReachSceneCfg(InteractiveSceneCfg):
     ground = AssetBaseCfg(
         prim_path="/World/ground",
         spawn=sim_utils.GroundPlaneCfg(),
-        init_state=AssetBaseCfg.InitialStateCfg(pos=(0.0, 0.0, -1.05)),
+        init_state=AssetBaseCfg.InitialStateCfg(pos=(0.0, 0.0, 0.0)),
     )
 
-    table = AssetBaseCfg(
-        prim_path="{ENV_REGEX_NS}/Table",
-        spawn=sim_utils.UsdFileCfg(
-            usd_path=f"{ISAAC_NUCLEUS_DIR}/Props/Mounts/SeattleLabTable/table_instanceable.usd",
-        ),
-        init_state=AssetBaseCfg.InitialStateCfg(pos=(0.55, 0.0, 0.0), rot=(0.70711, 0.0, 0.0, 0.70711)),
-    )
+    # table = AssetBaseCfg(
+    #     prim_path="{ENV_REGEX_NS}/Table",
+    #     spawn=sim_utils.UsdFileCfg(
+    #         usd_path=f"{ISAAC_NUCLEUS_DIR}/Props/Mounts/SeattleLabTable/table_instanceable.usd",
+    #     ),
+    #     init_state=AssetBaseCfg.InitialStateCfg(pos=(0.55, 0.0, 0.0), rot=(0.70711, 0.0, 0.0, 0.70711)),
+    # )
 
     # robots
     robot: ArticulationCfg = MISSING
@@ -76,12 +76,12 @@ class CommandsCfg:
         resampling_time_range=(4.0, 4.0),
         debug_vis=True,
         ranges=mdp.UniformPoseCommandCfg.Ranges(
-            pos_x=(0.35, 0.65),
+            pos_x=(0.8,0.9),
             pos_y=(-0.2, 0.2),
-            pos_z=(0.15, 0.5),
+            pos_z=(0.7, 0.8),
             roll=(0.0, 0.0),
             pitch=MISSING,  # depends on end-effector axis
-            yaw=(-3.14, 3.14),
+            yaw=(0, 0),
         ),
     )
 
@@ -116,6 +116,27 @@ class ObservationsCfg:
     policy: PolicyCfg = PolicyCfg()
 
 
+# @configclass
+# class EventCfg:
+#     """Configuration for events."""
+
+#     reset_robot_joints = EventTerm(
+#         func=mdp.reset_root_state_uniform,
+#         mode="reset",
+#         params={
+#             "pose_range": {
+#                 "x": (0.1, 0.1),      
+#                 "y": (0.1, 0.1), 
+#                 "z": (0.2, 0.2)
+#                 # "roll":(3.14/2,3.14/2)     
+
+#         },
+#         "velocity_range": {
+#         "x": (0.0, 0.0),      # линейная скорость по X (м/с)
+#         "y": (0.0, 0.0),      # линейная скорость по Y (м/с)
+#         "z": (0.0, 0.0),      # линейная скорость по Z (м/с)
+#     }}
+#     )
 @configclass
 class EventCfg:
     """Configuration for events."""
@@ -129,7 +150,6 @@ class EventCfg:
         },
     )
 
-
 @configclass
 class RewardsCfg:
     """Reward terms for the MDP."""
@@ -137,17 +157,17 @@ class RewardsCfg:
     # task terms
     end_effector_position_tracking = RewTerm(
         func=mdp.position_command_error,
-        weight=-0.2,
+        weight=-0.15,
         params={"asset_cfg": SceneEntityCfg("robot", body_names=MISSING), "command_name": "ee_pose"},
     )
     end_effector_position_tracking_fine_grained = RewTerm(
         func=mdp.position_command_error_tanh,
-        weight=0.1,
-        params={"asset_cfg": SceneEntityCfg("robot", body_names=MISSING), "std": 0.1, "command_name": "ee_pose"},
+        weight=0.15,
+        params={"asset_cfg": SceneEntityCfg("robot", body_names=MISSING), "std": 0.3, "command_name": "ee_pose"},
     )
     end_effector_orientation_tracking = RewTerm(
         func=mdp.orientation_command_error,
-        weight=-0.1,
+        weight=-0.3,
         params={"asset_cfg": SceneEntityCfg("robot", body_names=MISSING), "command_name": "ee_pose"},
     )
 
@@ -155,7 +175,7 @@ class RewardsCfg:
     action_rate = RewTerm(func=mdp.action_rate_l2, weight=-0.0001)
     joint_vel = RewTerm(
         func=mdp.joint_vel_l2,
-        weight=-0.0001,
+        weight=-0.001,
         params={"asset_cfg": SceneEntityCfg("robot")},
     )
 
@@ -170,13 +190,12 @@ class TerminationsCfg:
 @configclass
 class CurriculumCfg:
     """Curriculum terms for the MDP."""
-
     action_rate = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.005, "num_steps": 4500}
+        func=mdp.modify_reward_weight, params={"term_name": "action_rate", "weight": -0.05, "num_steps": 4000}
     )
 
     joint_vel = CurrTerm(
-        func=mdp.modify_reward_weight, params={"term_name": "joint_vel", "weight": -0.001, "num_steps": 4500}
+        func=mdp.modify_reward_weight, params={"term_name": "joint_vel", "weight": -0.01, "num_steps": 4000}
     )
 
 
@@ -206,24 +225,24 @@ class ReachEnvCfg(ManagerBasedRLEnvCfg):
         # general settings
         self.decimation = 2
         self.sim.render_interval = self.decimation
-        self.episode_length_s = 12.0
+        self.episode_length_s = 4.0
         self.viewer.eye = (3.5, 3.5, 3.5)
         # simulation settings
         self.sim.dt = 1.0 / 60.0
 
-        self.teleop_devices = DevicesCfg(
-            devices={
-                "keyboard": Se3KeyboardCfg(
-                    gripper_term=False,
-                    sim_device=self.sim.device,
-                ),
-                "gamepad": Se3GamepadCfg(
-                    gripper_term=False,
-                    sim_device=self.sim.device,
-                ),
-                "spacemouse": Se3SpaceMouseCfg(
-                    gripper_term=False,
-                    sim_device=self.sim.device,
-                ),
-            },
-        )
+        # self.teleop_devices = DevicesCfg(
+        #     devices={
+        #         "keyboard": Se3KeyboardCfg(
+        #             gripper_term=False,
+        #             sim_device=self.sim.device,
+        #         ),
+        #         "gamepad": Se3GamepadCfg(
+        #             gripper_term=False,
+        #             sim_device=self.sim.device,
+        #         ),
+        #         "spacemouse": Se3SpaceMouseCfg(
+        #             gripper_term=False,
+        #             sim_device=self.sim.device,
+        #         ),
+        #     },
+        # )

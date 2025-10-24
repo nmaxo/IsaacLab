@@ -84,5 +84,5 @@ ALOHA_CFG = ArticulationCfg(
             },
         ),
     },
-)
+)   
 """Configuration for the Aloha robot with velocity-driven wheels."""

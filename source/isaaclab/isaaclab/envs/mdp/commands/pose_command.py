@@ -54,10 +54,28 @@ class UniformPoseCommand(CommandTerm):
         # initialize the base class
         super().__init__(cfg, env)
 
+
+
         # extract the robot and body index for which the command is generated
         self.robot: Articulation = env.scene[cfg.asset_name]
-        self.body_idx = self.robot.find_bodies(cfg.body_name)[0][0]
 
+        
+            # ========== LIST ALL AVAILABLE LINKS ==========
+        print("\n" + "="*70)
+        print("ALL AVAILABLE LINKS")
+        print("="*70)
+        
+        print(f"\nTotal links: {len(self.robot.body_names)}\n")
+        
+        for i, link_name in enumerate(self.robot.body_names):
+            link_pos = self.robot.data.body_link_pose_w[:, i, :3]
+            print(f"[{i:2d}] {link_name:<30} pos: {link_pos}")
+        
+        print("\n" + "="*70 + "\n")
+        # ========== END LIST ==========
+
+
+        self.body_idx = self.robot.find_bodies(cfg.body_name)[0][0]
         # create buffers
         # -- commands: (x, y, z, qw, qx, qy, qz) in root frame
         self.pose_command_b = torch.zeros(self.num_envs, 7, device=self.device)

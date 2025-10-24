@@ -1,0 +1,128 @@
+--- git status ---
+On branch main
+Your branch is ahead of 'origin/main' by 44 commits.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   source/isaaclab/isaaclab/envs/__pycache__/common.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/__pycache__/direct_rl_env.cpython-311.pyc
+	modified:   source/isaaclab_assets/isaaclab_assets/robots/__pycache__/__init__.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/direct/ant/__pycache__/__init__.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/direct/cartpole/__pycache__/__init__.cpython-311.pyc
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	data/data/
+	logs/rsl_rl/digit_loco_manip/
+	logs/skrl/
+	models/__init__.py
+	models/__pycache__/__init__.cpython-311.pyc
+	models/__pycache__/custom_gmodel.cpython-311.pyc
+	outputs/2025-09-17/20-22-02/
+	outputs/2025-09-17/20-30-12/
+	outputs/2025-09-17/20-39-54/
+	outputs/2025-09-17/20-53-40/
+	outputs/2025-09-17/20-57-18/
+	outputs/2025-09-17/21-23-57/
+	outputs/2025-09-18/
+	skrl/__pycache__/__init__.cpython-311.pyc
+	skrl/agents/__pycache__/__init__.cpython-311.pyc
+	skrl/agents/torch/__pycache__/__init__.cpython-311.pyc
+	skrl/agents/torch/__pycache__/base.cpython-311.pyc
+	skrl/envs/__pycache__/__init__.cpython-311.pyc
+	skrl/envs/wrappers/__pycache__/__init__.cpython-311.pyc
+	skrl/envs/wrappers/torch/__pycache__/__init__.cpython-311.pyc
+	skrl/envs/wrappers/torch/__pycache__/base.cpython-311.pyc
+	skrl/envs/wrappers/torch/__pycache__/bidexhands_envs.cpython-311.pyc
+	skrl/envs/wrappers/torch/__pycache__/brax_envs.cpython-311.pyc
+	skrl/envs/wrappers/torch/__pycache__/deepmind_envs.cpython-311.pyc
+	skrl/envs/wrappers/torch/__pycache__/gym_envs.cpython-311.pyc
+	skrl/envs/wrappers/torch/__pycache__/gymnasium_envs.cpython-311.pyc
+	skrl/envs/wrappers/torch/__pycache__/isaacgym_envs.cpython-311.pyc
+	skrl/envs/wrappers/torch/__pycache__/isaaclab_envs.cpython-311.pyc
+	skrl/envs/wrappers/torch/__pycache__/omniverse_isaacgym_envs.cpython-311.pyc
+	skrl/envs/wrappers/torch/__pycache__/pettingzoo_envs.cpython-311.pyc
+	skrl/envs/wrappers/torch/__pycache__/robosuite_envs.cpython-311.pyc
+	skrl/memories/__pycache__/__init__.cpython-311.pyc
+	skrl/memories/torch/__pycache__/__init__.cpython-311.pyc
+	skrl/memories/torch/__pycache__/base.cpython-311.pyc
+	skrl/memories/torch/__pycache__/random.cpython-311.pyc
+	skrl/models/__pycache__/__init__.cpython-311.pyc
+	skrl/models/torch/__pycache__/__init__.cpython-311.pyc
+	skrl/models/torch/__pycache__/base.cpython-311.pyc
+	skrl/models/torch/__pycache__/categorical.cpython-311.pyc
+	skrl/models/torch/__pycache__/deterministic.cpython-311.pyc
+	skrl/models/torch/__pycache__/gaussian.cpython-311.pyc
+	skrl/models/torch/__pycache__/multicategorical.cpython-311.pyc
+	skrl/models/torch/__pycache__/multivariate_gaussian.cpython-311.pyc
+	skrl/models/torch/__pycache__/tabular.cpython-311.pyc
+	skrl/resources/__pycache__/__init__.cpython-311.pyc
+	skrl/resources/noises/__pycache__/__init__.cpython-311.pyc
+	skrl/resources/noises/torch/__pycache__/__init__.cpython-311.pyc
+	skrl/resources/noises/torch/__pycache__/base.cpython-311.pyc
+	skrl/resources/noises/torch/__pycache__/gaussian.cpython-311.pyc
+	skrl/resources/noises/torch/__pycache__/ornstein_uhlenbeck.cpython-311.pyc
+	skrl/resources/preprocessors/__pycache__/__init__.cpython-311.pyc
+	skrl/resources/preprocessors/torch/__pycache__/__init__.cpython-311.pyc
+	skrl/resources/preprocessors/torch/__pycache__/running_standard_scaler.cpython-311.pyc
+	skrl/resources/schedulers/__pycache__/__init__.cpython-311.pyc
+	skrl/resources/schedulers/torch/__pycache__/__init__.cpython-311.pyc
+	skrl/resources/schedulers/torch/__pycache__/kl_adaptive.cpython-311.pyc
+	skrl/trainers/__pycache__/__init__.cpython-311.pyc
+	skrl/trainers/torch/__pycache__/__init__.cpython-311.pyc
+	skrl/trainers/torch/__pycache__/base.cpython-311.pyc
+	skrl/trainers/torch/__pycache__/parallel.cpython-311.pyc
+	skrl/trainers/torch/__pycache__/sequential.cpython-311.pyc
+	skrl/trainers/torch/__pycache__/step.cpython-311.pyc
+	skrl/utils/__pycache__/__init__.cpython-311.pyc
+	skrl/utils/runner/__pycache__/__init__.cpython-311.pyc
+	skrl/utils/runner/torch/__pycache__/__init__.cpython-311.pyc
+	skrl/utils/runner/torch/__pycache__/runner.cpython-311.pyc
+	skrl/utils/spaces/__pycache__/__init__.cpython-311.pyc
+	skrl/utils/spaces/torch/__pycache__/__init__.cpython-311.pyc
+	skrl/utils/spaces/torch/__pycache__/spaces.cpython-311.pyc
+	source/isaaclab/isaaclab/terrains/config/__pycache__/
+	source/isaaclab_assets/data/aloha_assets/
+	source/isaaclab_assets/isaaclab_assets/robots/__pycache__/agility.cpython-311.pyc
+	source/isaaclab_assets/isaaclab_assets/robots/__pycache__/aloha.cpython-311.pyc
+	source/isaaclab_rl/isaaclab_rl/__pycache__/skrl.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/direct/aloha/__pycache__/__init__.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/direct/aloha/__pycache__/aloha_env.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/direct/aloha/__pycache__/asset_manager.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/direct/aloha/__pycache__/control_manager.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/direct/aloha/__pycache__/evaluation_manager.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/direct/aloha/__pycache__/memory_manager.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/direct/aloha/__pycache__/path_manager.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/direct/aloha/__pycache__/placement_strategies.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/direct/aloha/__pycache__/scene_manager.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/direct/aloha/agents/__pycache__/__init__.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/loco_manipulation/tracking/config/digit/__pycache__/loco_manip_env_cfg.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/loco_manipulation/tracking/config/digit/agents/__pycache__/rsl_rl_ppo_cfg.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/__pycache__/velocity_env_cfg.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/digit/__pycache__/rough_env_cfg.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__pycache__/
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/lift/mdp/__pycache__/
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/mdp/__pycache__/__init__.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/mdp/__pycache__/rewards.cpython-311.pyc
+
+no changes added to commit (use "git add" and/or "git commit -a") 
+
+
+--- git diff ---
+diff --git a/source/isaaclab/isaaclab/envs/__pycache__/common.cpython-311.pyc b/source/isaaclab/isaaclab/envs/__pycache__/common.cpython-311.pyc
+index 67209c1fd6..4fad9a8321 100644
+Binary files a/source/isaaclab/isaaclab/envs/__pycache__/common.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/__pycache__/common.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/__pycache__/direct_rl_env.cpython-311.pyc b/source/isaaclab/isaaclab/envs/__pycache__/direct_rl_env.cpython-311.pyc
+index 24424c86f6..9f01988934 100644
+Binary files a/source/isaaclab/isaaclab/envs/__pycache__/direct_rl_env.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/__pycache__/direct_rl_env.cpython-311.pyc differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/__init__.cpython-311.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/__init__.cpython-311.pyc
+index 6aee332840..c23d9db85a 100644
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/__init__.cpython-311.pyc and b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/__init__.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/direct/ant/__pycache__/__init__.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/direct/ant/__pycache__/__init__.cpython-311.pyc
+index d6dc6c4350..21e4e64b19 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/direct/ant/__pycache__/__init__.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/direct/ant/__pycache__/__init__.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/direct/cartpole/__pycache__/__init__.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/direct/cartpole/__pycache__/__init__.cpython-311.pyc
+index 97c946c54a..674d0c9dd3 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/direct/cartpole/__pycache__/__init__.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/direct/cartpole/__pycache__/__init__.cpython-311.pyc differ

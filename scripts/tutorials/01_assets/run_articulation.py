@@ -117,7 +117,6 @@ def run_simulator(sim: sim_utils.SimulationContext, entities: dict[str, Articula
         # Update buffers
         robot.update(sim_dt)
 
-
 def main():
     """Main function."""
     # Load kit helper
