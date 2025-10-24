@@ -2,7 +2,15 @@
 
 
 ## Getting Started
+<<<<<<< HEAD
 The installation process fully complies with the official Isaac Lab documentation, with the exception that you need to clone the current pipeline, and not from the official Isaac Lab repository with Isaac sim 4.5
+=======
+
+### Documentation
+
+Our [documentation page](https://isaac-sim.github.io/IsaacLab) provides everything you need to get started, including
+detailed tutorials and step-by-step guides. Follow these links to learn more about:
+>>>>>>> 1103a0f38f0ca480ff739944cf829c989f5cb8cf
 
 - [Installation steps](https://isaac-sim.github.io/IsaacLab/main/source/setup/installation/index.html#local-installation)
 - [Reinforcement learning](https://isaac-sim.github.io/IsaacLab/main/source/overview/reinforcement-learning/rl_existing_scripts.html)
