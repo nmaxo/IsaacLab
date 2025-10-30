@@ -31,7 +31,7 @@ UR5M_CFG = ArticulationCfg(
         ),
     ),
     init_state=ArticulationCfg.InitialStateCfg(
-        pos=(0.0, 0.0, 0.0),
+        pos=(0.0, 0.0, 0.1),
         joint_pos={
             "shoulder_pan_joint": math.radians(-7.0),             # 132.0°
             "shoulder_lift_joint": math.radians(-85.0),           # -8.9°

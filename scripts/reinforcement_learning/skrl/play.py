@@ -116,17 +116,17 @@ from isaaclab_tasks.utils.hydra import hydra_task_config
 # PLACEHOLDER: Extension template (do not remove this comment)
 
 # config shortcuts
-<<<<<<< HEAD
-algorithm = args_cli.algorithm.lower()
-agent_cfg_entry_point = "skrl_cfg_entry_point" if algorithm in ["ppo", "sac"] else f"skrl_{algorithm}_cfg_entry_point"
-=======
+# <<<<<<< HEAD
+# algorithm = args_cli.algorithm.lower()
+# agent_cfg_entry_point = "skrl_cfg_entry_point" if algorithm in ["ppo", "sac"] else f"skrl_{algorithm}_cfg_entry_point"
+# =======
 if args_cli.agent is None:
     algorithm = args_cli.algorithm.lower()
     agent_cfg_entry_point = "skrl_cfg_entry_point" if algorithm in ["ppo"] else f"skrl_{algorithm}_cfg_entry_point"
 else:
     agent_cfg_entry_point = args_cli.agent
     algorithm = agent_cfg_entry_point.split("_cfg")[0].split("skrl_")[-1].lower()
->>>>>>> 1103a0f38f0ca480ff739944cf829c989f5cb8cf
+
 
 
 @hydra_task_config(args_cli.task, agent_cfg_entry_point)

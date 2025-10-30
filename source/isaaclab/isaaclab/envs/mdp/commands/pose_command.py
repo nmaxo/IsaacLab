@@ -15,11 +15,12 @@ from isaaclab.assets import Articulation
 from isaaclab.managers import CommandTerm
 from isaaclab.markers import VisualizationMarkers
 from isaaclab.utils.math import combine_frame_transforms, compute_pose_error, quat_from_euler_xyz, quat_unique
-
+from isaaclab.utils.math import combine_frame_transforms
+from isaaclab.utils.math import quat_apply_inverse, quat_conjugate, quat_mul
 if TYPE_CHECKING:
     from isaaclab.envs import ManagerBasedEnv
 
-    from .commands_cfg import UniformPoseCommandCfg
+    from .commands_cfg import UniformPoseCommandCfg,UniformPoseFixedCommandCfg
 
 
 class UniformPoseCommand(CommandTerm):
@@ -163,6 +164,108 @@ class UniformPoseCommand(CommandTerm):
     def _debug_vis_callback(self, event):
         # check if robot is initialized
         # note: this is needed in-case the robot is de-initialized. we can't access the data
+        if not self.robot.is_initialized:
+            return
+        # update the markers
+        # -- goal pose
+        self.goal_pose_visualizer.visualize(self.pose_command_w[:, :3], self.pose_command_w[:, 3:])
+        # -- current body pose
+        body_link_pose_w = self.robot.data.body_link_pose_w[:, self.body_idx]
+        self.current_pose_visualizer.visualize(body_link_pose_w[:, :3], body_link_pose_w[:, 3:7])
+
+
+
+class UniformPoseFixedCommand(CommandTerm):
+    """Command generator that generates 3D pose commands (x, y, z, quaternion).
+
+    The command generator samples target poses uniformly relative to each environment's origin.
+    The commands are converted to the BASE frame of the robot for control purposes.
+    """
+
+    cfg: UniformPoseFixedCommandCfg
+
+    def __init__(self, cfg: UniformPoseCommandCfg, env: ManagerBasedEnv):
+        super().__init__(cfg, env)
+        self.robot: Articulation = env.scene[cfg.asset_name]
+        
+        # extract body index for visualization
+        self.body_idx = self.robot.find_bodies(cfg.body_name)[0][0]
+
+        # --- Buffers ---
+        # world frame commands
+        self.pose_command_w = torch.zeros(self.num_envs, 7, device=self.device)
+        self.pose_command_w[:, 3] = 1.0  # identity orientation
+        # base frame commands
+        self.pose_command_b = torch.zeros_like(self.pose_command_w)
+        # metrics
+        self.metrics["position_error"] = torch.zeros(self.num_envs, device=self.device)
+        self.metrics["orientation_error"] = torch.zeros(self.num_envs, device=self.device)
+
+    @property
+    def command(self) -> torch.Tensor:
+        """Desired pose command in BASE frame. Shape: (num_envs, 7)."""
+        return self.pose_command_b
+
+    def _resample_command(self, env_ids: Sequence[int]):
+        """Sample new target poses in the WORLD frame relative to each environment's origin."""
+        # Получаем origin каждой среды
+        env_origins = self._env.scene.env_origins[env_ids]
+        
+        r = torch.empty(len(env_ids), device=self.device)
+
+        # --- Position относительно origin своей среды ---
+        self.pose_command_w[env_ids, 0] = env_origins[:, 0] + r.uniform_(*self.cfg.ranges.pos_x)
+        self.pose_command_w[env_ids, 1] = env_origins[:, 1] + r.uniform_(*self.cfg.ranges.pos_y)
+        self.pose_command_w[env_ids, 2] = env_origins[:, 2] + r.uniform_(*self.cfg.ranges.pos_z)
+
+        # --- Orientation ---
+        euler_angles = torch.zeros(len(env_ids), 3, device=self.device)
+        euler_angles[:, 0].uniform_(*self.cfg.ranges.roll)
+        euler_angles[:, 1].uniform_(*self.cfg.ranges.pitch)
+        euler_angles[:, 2].uniform_(*self.cfg.ranges.yaw)
+        quat = quat_from_euler_xyz(euler_angles[:, 0], euler_angles[:, 1], euler_angles[:, 2])
+        self.pose_command_w[env_ids, 3:] = quat_unique(quat) if self.cfg.make_quat_unique else quat
+
+    def _update_command(self):
+        """Convert world frame command to base frame (for controller)."""
+        # position: expressed in robot base frame
+        world_to_base_pos = self.pose_command_w[:, :3] - self.robot.data.root_pos_w
+        self.pose_command_b[:, :3] = quat_apply_inverse(self.robot.data.root_quat_w, world_to_base_pos)
+
+        # orientation: conjugate(root) * target
+        root_quat_conj = quat_conjugate(self.robot.data.root_quat_w)
+        self.pose_command_b[:, 3:] = quat_mul(root_quat_conj, self.pose_command_w[:, 3:])
+
+    def _update_metrics(self):
+        """Compute tracking error in WORLD frame."""
+        pos_error, rot_error = compute_pose_error(
+            self.pose_command_w[:, :3],
+            self.pose_command_w[:, 3:],
+            self.robot.data.root_pos_w,
+            self.robot.data.root_quat_w,
+        )
+        self.metrics["position_error"] = torch.norm(pos_error, dim=-1)
+        self.metrics["orientation_error"] = torch.norm(rot_error, dim=-1)
+
+    def _set_debug_vis_impl(self, debug_vis: bool):
+        """Toggle visualization of goal poses and current body pose."""
+        if debug_vis:
+            if not hasattr(self, "goal_pose_visualizer"):
+                # -- goal pose
+                self.goal_pose_visualizer = VisualizationMarkers(self.cfg.goal_pose_visualizer_cfg)
+                # -- current body pose
+                self.current_pose_visualizer = VisualizationMarkers(self.cfg.current_pose_visualizer_cfg)
+            # set their visibility to true
+            self.goal_pose_visualizer.set_visibility(True)
+            self.current_pose_visualizer.set_visibility(True)
+        else:
+            if hasattr(self, "goal_pose_visualizer"):
+                self.goal_pose_visualizer.set_visibility(False)
+                self.current_pose_visualizer.set_visibility(False)
+
+    def _debug_vis_callback(self, event):
+        """Visualize target pose and current body pose in WORLD coordinates."""
+        # check if robot is initialized
         if not self.robot.is_initialized:
             return
         # update the markers

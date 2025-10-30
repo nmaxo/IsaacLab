@@ -20,9 +20,10 @@ from isaaclab.utils.assets import ISAACLAB_NUCLEUS_DIR
 
 import isaaclab_tasks.manager_based.navigation.mdp as mdp
 from isaaclab_tasks.manager_based.navigation.mdp.custom_mdp import DiffDriveVelocityAction, DiffDriveVelocityActionCfg
-
-
 from isaaclab_assets.robots import ur5_husky # isort: skip
+
+
+
 UR5M_CFG = ur5_husky.UR5M_CFG
 
 
@@ -104,20 +105,69 @@ class RewardsCfg:
     termination_penalty = RewTerm(func=mdp.is_terminated, weight=-400.0)
     position_tracking = RewTerm(
         func=mdp.position_command_error_tanh,
-        weight=0.5,
-        params={"std": 2.0, "command_name": "pose_command"},
+        weight=0.8,
+        params={"std": 1.5, "command_name": "pose_command"},
     )
     position_tracking_fine_grained = RewTerm(
         func=mdp.position_command_error_tanh,
-        weight=0.5,
-        params={"std": 0.2, "command_name": "pose_command"},
+        weight=1.0,
+        params={"std": 0.1, "command_name": "pose_command"},
     )
     orientation_tracking = RewTerm(
         func=mdp.heading_command_error_abs,
         weight=-0.2,
         params={"command_name": "pose_command"},
     )
+    stability_at_goal = RewTerm(
+        func=mdp.stability_reward,
+        weight=0.3,
+        params={
+            "command_name": "pose_command",
+            "position_threshold": 0.2,
+            "orientation_threshold": 0.4,
+            "lin_velocity_threshold": 0.2,
+            "ang_velocity_threshold": 0.2
+        }
+    )
+    vel_pen = RewTerm(func = mdp.distance_based_velocity_penalty, 
+                      weight = -0.15, params={"command_name": "pose_command"})
 
+# @configclass
+# class RewardsCfg:
+#     """Reward terms for the MDP."""
+
+#     termination_penalty = RewTerm(func=mdp.is_terminated, weight=-400.0)
+    
+#     # ВСЁ КАК БЫЛО (ваша рабочая конфигурация)
+#     position_tracking = RewTerm(
+#         func=mdp.position_command_error_tanh,
+#         weight=0.5,
+#         params={"std": 2.0, "command_name": "pose_command"},
+#     )
+    
+#     position_tracking_fine_grained = RewTerm(
+#         func=mdp.position_command_error_tanh,
+#         weight=0.5,
+#         params={"std": 0.2, "command_name": "pose_command"},
+#     )
+    
+#     orientation_tracking = RewTerm(
+#         func=mdp.heading_command_error_abs,
+#         weight=-0.2,
+#         params={"command_name": "pose_command"},
+#     )
+    
+#     stability_at_goal = RewTerm(
+#         func=mdp.stability_reward,
+#         weight=2.0,  # начните с малого веса
+#         params={
+#             "command_name": "pose_command",
+#             "position_threshold": 0.5,  # чуть шире чем 0.2 из fine_grained
+#             "orientation_threshold": 0.4,
+#             "lin_velocity_threshold": 0.3,
+#             "ang_velocity_threshold": 0.3
+#         }
+#     )
 
 @configclass
 class CommandsCfg:
@@ -131,12 +181,13 @@ class CommandsCfg:
         ranges=mdp.UniformPose2dCommandCfg.Ranges(pos_x=(-4.0, 4.0), pos_y=(-4.0, 4.0), heading=(-math.pi, math.pi)),
     )
 
-
+    
 @configclass
 class TerminationsCfg:
     """Termination terms for the MDP."""
 
     time_out = DoneTerm(func=mdp.time_out, time_out=True) 
+    # goal_reached = DoneTerm(func=mdp.goal_reached_termination, params={"threshold": 0.1})
 
 
 @configclass
@@ -152,7 +203,6 @@ class HuskyNavEnvCfg(ManagerBasedRLEnvCfg):
     commands: CommandsCfg = CommandsCfg()
     rewards: RewardsCfg = RewardsCfg()
     terminations: TerminationsCfg = TerminationsCfg()
-
     def __post_init__(self):
         """Post initialization."""
         self.decimation = 2

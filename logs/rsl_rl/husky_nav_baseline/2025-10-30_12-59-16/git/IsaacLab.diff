@@ -1,0 +1,1694 @@
+--- git status ---
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   source/isaaclab/isaaclab/actuators/__pycache__/actuator_pd.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/app/__pycache__/app_launcher.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/assets/articulation/__pycache__/articulation.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/__pycache__/__init__.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/__pycache__/direct_rl_env.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/__pycache__/manager_based_rl_env.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/mdp/__pycache__/__init__.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/mdp/__pycache__/events.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/mdp/__pycache__/terminations.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/mdp/commands/__init__.py
+	modified:   source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/__init__.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/commands_cfg.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/pose_command.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/mdp/commands/commands_cfg.py
+	modified:   source/isaaclab/isaaclab/envs/mdp/commands/pose_command.py
+	modified:   source/isaaclab/isaaclab/envs/mdp/terminations.py
+	modified:   source/isaaclab/isaaclab/sensors/contact_sensor/__pycache__/contact_sensor.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/sensors/ray_caster/patterns/__pycache__/patterns.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/sim/__pycache__/simulation_cfg.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/sim/__pycache__/simulation_context.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/sim/__pycache__/utils.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/sim/converters/__pycache__/mesh_converter.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/sim/spawners/materials/__pycache__/__init__.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/sim/spawners/materials/__pycache__/physics_materials_cfg.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/sim/spawners/sensors/__pycache__/sensors_cfg.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/sim/spawners/shapes/__pycache__/shapes.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/utils/io/__pycache__/__init__.cpython-311.pyc
+	modified:   source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc
+	modified:   source/isaaclab_assets/isaaclab_assets/robots/ur5_husky.py
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/__init__.py
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/__pycache__/__init__.cpython-311.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/__init__.py
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/__pycache__/__init__.cpython-311.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/agibot/__init__.py
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/agibot/__pycache__/__init__.cpython-311.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/agibot/place_toy2box_rmp_rel_env_cfg.py
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/agibot/place_upright_mug_rmp_rel_env_cfg.py
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/mdp/__init__.py
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/mdp/observations.py
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/mdp/terminations.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/__pycache__/husky_env_cfg.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/agents/rsl_rl_ppo_cfg.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/husky_env_cfg.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/__pycache__/rewards.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/rewards.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_11-40-22/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_11-42-15/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_11-51-52/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_12-02-20/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_12-14-19/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_12-24-52/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_13-16-24/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_13-30-35/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_13-39-52/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_14-15-27/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_14-23-20/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_14-37-53/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_14-52-23/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_15-04-43/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_15-06-37/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_14-58-02/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_14-59-17/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_15-00-58/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_15-02-57/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_16-24-39/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_16-30-06/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_16-31-40/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_16-38-50/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_16-40-08/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_16-52-46/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_16-58-07/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_17-21-54/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_17-26-26/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_17-38-34/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_17-43-33/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_17-44-39/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_20-37-27/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_20-39-05/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_20-40-34/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_20-52-29/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_20-59-13/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_21-33-09/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_21-34-10/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_21-39-36/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_21-59-38/
+	logs/rsl_rl/husky_nav_baseline/2025-10-30_12-49-50/
+	logs/rsl_rl/husky_nav_baseline/2025-10-30_12-59-16/
+	outputs/2025-10-24/11-40-22/
+	outputs/2025-10-24/11-42-15/
+	outputs/2025-10-24/11-51-52/
+	outputs/2025-10-24/12-02-20/
+	outputs/2025-10-24/12-14-19/
+	outputs/2025-10-24/12-24-52/
+	outputs/2025-10-24/12-30-05/
+	outputs/2025-10-24/13-16-24/
+	outputs/2025-10-24/13-22-18/
+	outputs/2025-10-24/13-30-35/
+	outputs/2025-10-24/13-37-12/
+	outputs/2025-10-24/13-39-52/
+	outputs/2025-10-24/13-45-24/
+	outputs/2025-10-24/14-15-27/
+	outputs/2025-10-24/14-20-54/
+	outputs/2025-10-24/14-23-20/
+	outputs/2025-10-24/14-37-53/
+	outputs/2025-10-24/14-43-10/
+	outputs/2025-10-24/14-52-23/
+	outputs/2025-10-24/14-58-54/
+	outputs/2025-10-24/15-04-43/
+	outputs/2025-10-24/15-06-37/
+	outputs/2025-10-24/15-12-52/
+	outputs/2025-10-28/
+	outputs/2025-10-30/
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/pick_place/place/
+
+no changes added to commit (use "git add" and/or "git commit -a") 
+
+
+--- git diff ---
+diff --git a/source/isaaclab/isaaclab/actuators/__pycache__/actuator_pd.cpython-311.pyc b/source/isaaclab/isaaclab/actuators/__pycache__/actuator_pd.cpython-311.pyc
+index 2e5b65605a..422e5af161 100644
+Binary files a/source/isaaclab/isaaclab/actuators/__pycache__/actuator_pd.cpython-311.pyc and b/source/isaaclab/isaaclab/actuators/__pycache__/actuator_pd.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/app/__pycache__/app_launcher.cpython-311.pyc b/source/isaaclab/isaaclab/app/__pycache__/app_launcher.cpython-311.pyc
+index dde2eafc3f..5c288385f7 100644
+Binary files a/source/isaaclab/isaaclab/app/__pycache__/app_launcher.cpython-311.pyc and b/source/isaaclab/isaaclab/app/__pycache__/app_launcher.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/assets/articulation/__pycache__/articulation.cpython-311.pyc b/source/isaaclab/isaaclab/assets/articulation/__pycache__/articulation.cpython-311.pyc
+index fa25067f67..eba8f1ac05 100644
+Binary files a/source/isaaclab/isaaclab/assets/articulation/__pycache__/articulation.cpython-311.pyc and b/source/isaaclab/isaaclab/assets/articulation/__pycache__/articulation.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/__pycache__/__init__.cpython-311.pyc b/source/isaaclab/isaaclab/envs/__pycache__/__init__.cpython-311.pyc
+index b8e2e9758a..e12947073f 100644
+Binary files a/source/isaaclab/isaaclab/envs/__pycache__/__init__.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/__pycache__/__init__.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/__pycache__/direct_rl_env.cpython-311.pyc b/source/isaaclab/isaaclab/envs/__pycache__/direct_rl_env.cpython-311.pyc
+index 9f01988934..88d59fc872 100644
+Binary files a/source/isaaclab/isaaclab/envs/__pycache__/direct_rl_env.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/__pycache__/direct_rl_env.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/__pycache__/manager_based_rl_env.cpython-311.pyc b/source/isaaclab/isaaclab/envs/__pycache__/manager_based_rl_env.cpython-311.pyc
+index 2ea204d6a7..80dcadd35f 100644
+Binary files a/source/isaaclab/isaaclab/envs/__pycache__/manager_based_rl_env.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/__pycache__/manager_based_rl_env.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/mdp/__pycache__/__init__.cpython-311.pyc b/source/isaaclab/isaaclab/envs/mdp/__pycache__/__init__.cpython-311.pyc
+index e4fae1b19d..2bcaaa420f 100644
+Binary files a/source/isaaclab/isaaclab/envs/mdp/__pycache__/__init__.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/mdp/__pycache__/__init__.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/mdp/__pycache__/events.cpython-311.pyc b/source/isaaclab/isaaclab/envs/mdp/__pycache__/events.cpython-311.pyc
+index ddda107ae5..07a78dcc91 100644
+Binary files a/source/isaaclab/isaaclab/envs/mdp/__pycache__/events.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/mdp/__pycache__/events.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/mdp/__pycache__/terminations.cpython-311.pyc b/source/isaaclab/isaaclab/envs/mdp/__pycache__/terminations.cpython-311.pyc
+index 617d5714bd..2b9e6972e5 100644
+Binary files a/source/isaaclab/isaaclab/envs/mdp/__pycache__/terminations.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/mdp/__pycache__/terminations.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/mdp/commands/__init__.py b/source/isaaclab/isaaclab/envs/mdp/commands/__init__.py
+index c2e1a592db..66c9666cfe 100644
+--- a/source/isaaclab/isaaclab/envs/mdp/commands/__init__.py
++++ b/source/isaaclab/isaaclab/envs/mdp/commands/__init__.py
+@@ -12,8 +12,9 @@ from .commands_cfg import (
+     UniformPose2dCommandCfg,
+     UniformPoseCommandCfg,
+     UniformVelocityCommandCfg,
++    UniformPoseFixedCommandCfg
+ )
+ from .null_command import NullCommand
+ from .pose_2d_command import TerrainBasedPose2dCommand, UniformPose2dCommand
+-from .pose_command import UniformPoseCommand
++from .pose_command import UniformPoseCommand,UniformPoseFixedCommand
+ from .velocity_command import NormalVelocityCommand, UniformVelocityCommand
+diff --git a/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/__init__.cpython-311.pyc b/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/__init__.cpython-311.pyc
+index fd96560035..1775ad862e 100644
+Binary files a/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/__init__.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/__init__.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/commands_cfg.cpython-311.pyc b/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/commands_cfg.cpython-311.pyc
+index 95d776bfa7..e0562411f3 100644
+Binary files a/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/commands_cfg.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/commands_cfg.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/pose_command.cpython-311.pyc b/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/pose_command.cpython-311.pyc
+index 22fd0ee3c7..a7d61a263d 100644
+Binary files a/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/pose_command.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/pose_command.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/mdp/commands/commands_cfg.py b/source/isaaclab/isaaclab/envs/mdp/commands/commands_cfg.py
+index 2f558183dd..62c1c8d353 100644
+--- a/source/isaaclab/isaaclab/envs/mdp/commands/commands_cfg.py
++++ b/source/isaaclab/isaaclab/envs/mdp/commands/commands_cfg.py
+@@ -13,7 +13,7 @@ from isaaclab.utils import configclass
+ 
+ from .null_command import NullCommand
+ from .pose_2d_command import TerrainBasedPose2dCommand, UniformPose2dCommand
+-from .pose_command import UniformPoseCommand
++from .pose_command import UniformPoseCommand,UniformPoseFixedCommand
+ from .velocity_command import NormalVelocityCommand, UniformVelocityCommand
+ 
+ 
+@@ -246,3 +246,59 @@ class TerrainBasedPose2dCommandCfg(UniformPose2dCommandCfg):
+ 
+     ranges: Ranges = MISSING
+     """Distribution ranges for the sampled commands."""
++
++
++@configclass
++class UniformPoseFixedCommandCfg(CommandTermCfg):
++    """Configuration for uniform pose command generator."""
++
++    class_type: type = UniformPoseFixedCommand
++
++    asset_name: str = MISSING
++    """Name of the asset in the environment for which the commands are generated."""
++
++    body_name: str = MISSING
++    """Name of the body in the asset for which the commands are generated."""
++
++    make_quat_unique: bool = False
++    """Whether to make the quaternion unique or not. Defaults to False.
++
++    If True, the quaternion is made unique by ensuring the real part is positive.
++    """
++
++    @configclass
++    class Ranges:
++        """Uniform distribution ranges for the pose commands."""
++
++        pos_x: tuple[float, float] = MISSING
++        """Range for the x position (in m)."""
++
++        pos_y: tuple[float, float] = MISSING
++        """Range for the y position (in m)."""
++
++        pos_z: tuple[float, float] = MISSING
++        """Range for the z position (in m)."""
++
++        roll: tuple[float, float] = MISSING
++        """Range for the roll angle (in rad)."""
++
++        pitch: tuple[float, float] = MISSING
++        """Range for the pitch angle (in rad)."""
++
++        yaw: tuple[float, float] = MISSING
++        """Range for the yaw angle (in rad)."""
++
++    ranges: Ranges = MISSING
++    """Ranges for the commands."""
++
++    goal_pose_visualizer_cfg: VisualizationMarkersCfg = FRAME_MARKER_CFG.replace(prim_path="/Visuals/Command/goal_pose")
++    """The configuration for the goal pose visualization marker. Defaults to FRAME_MARKER_CFG."""
++
++    current_pose_visualizer_cfg: VisualizationMarkersCfg = FRAME_MARKER_CFG.replace(
++        prim_path="/Visuals/Command/body_pose"
++    )
++    """The configuration for the current pose visualization marker. Defaults to FRAME_MARKER_CFG."""
++
++    # Set the scale of the visualization markers to (0.1, 0.1, 0.1)
++    goal_pose_visualizer_cfg.markers["frame"].scale = (0.1, 0.1, 0.1)
++    current_pose_visualizer_cfg.markers["frame"].scale = (0.1, 0.1, 0.1)
+diff --git a/source/isaaclab/isaaclab/envs/mdp/commands/pose_command.py b/source/isaaclab/isaaclab/envs/mdp/commands/pose_command.py
+index 5c38a9f6cd..4f1f5c59d7 100644
+--- a/source/isaaclab/isaaclab/envs/mdp/commands/pose_command.py
++++ b/source/isaaclab/isaaclab/envs/mdp/commands/pose_command.py
+@@ -15,11 +15,12 @@ from isaaclab.assets import Articulation
+ from isaaclab.managers import CommandTerm
+ from isaaclab.markers import VisualizationMarkers
+ from isaaclab.utils.math import combine_frame_transforms, compute_pose_error, quat_from_euler_xyz, quat_unique
+-
++from isaaclab.utils.math import combine_frame_transforms
++from isaaclab.utils.math import quat_apply_inverse, quat_conjugate, quat_mul
+ if TYPE_CHECKING:
+     from isaaclab.envs import ManagerBasedEnv
+ 
+-    from .commands_cfg import UniformPoseCommandCfg
++    from .commands_cfg import UniformPoseCommandCfg,UniformPoseFixedCommandCfg
+ 
+ 
+ class UniformPoseCommand(CommandTerm):
+@@ -171,3 +172,97 @@ class UniformPoseCommand(CommandTerm):
+         # -- current body pose
+         body_link_pose_w = self.robot.data.body_link_pose_w[:, self.body_idx]
+         self.current_pose_visualizer.visualize(body_link_pose_w[:, :3], body_link_pose_w[:, 3:7])
++
++
++
++class UniformPoseFixedCommand(CommandTerm):
++    # ... docstring и остальное без изменений ...
++    cfg: UniformPoseFixedCommandCfg
++    
++    def __init__(self, cfg: UniformPoseFixedCommandCfg, env: ManagerBasedEnv):
++        super().__init__(cfg, env)
++        
++        self.robot: Articulation = env.scene[cfg.asset_name]
++        self.body_idx = self.robot.find_bodies(cfg.body_name)[0][0]
++        
++        # Инициализация в мировом фрейме
++        self.pose_command_w = torch.zeros(self.num_envs, 7, device=self.device)
++        self.pose_command_w[:, 3] = 1.0
++        self.pose_command_b = torch.zeros_like(self.pose_command_w)
++        
++        self.metrics["position_error"] = torch.zeros(self.num_envs, device=self.device)
++        self.metrics["orientation_error"] = torch.zeros(self.num_envs, device=self.device)
++
++    @property
++    def command(self) -> torch.Tensor:
++        """The desired pose command in BASE frame. Shape is (num_envs, 7).
++        
++        Returns command in base frame for controller, even though we sample in world frame.
++        """
++        return self.pose_command_b
++
++    def _resample_command(self, env_ids: Sequence[int]):
++        # Сэмплируем в мировом фрейме
++        r = torch.empty(len(env_ids), device=self.device)
++        self.pose_command_w[env_ids, 0] = r.uniform_(*self.cfg.ranges.pos_x)
++        self.pose_command_w[env_ids, 1] = r.uniform_(*self.cfg.ranges.pos_y)
++        self.pose_command_w[env_ids, 2] = r.uniform_(*self.cfg.ranges.pos_z)
++        
++        euler_angles = torch.zeros(len(env_ids), 3, device=self.device)
++        euler_angles[:, 0].uniform_(*self.cfg.ranges.roll)
++        euler_angles[:, 1].uniform_(*self.cfg.ranges.pitch)
++        euler_angles[:, 2].uniform_(*self.cfg.ranges.yaw)
++        quat = quat_from_euler_xyz(euler_angles[:, 0], euler_angles[:, 1], euler_angles[:, 2])
++        self.pose_command_w[env_ids, 3:] = quat_unique(quat) if self.cfg.make_quat_unique else quat
++
++    def _update_command(self):
++        """Convert world frame command to base frame for the controller."""
++        # Позиция: (target_world - root_world) преобразованная в базовый фрейм
++        world_to_base_pos = self.pose_command_w[:, :3] - self.robot.data.root_pos_w
++        self.pose_command_b[:, :3] = quat_apply_inverse(self.robot.data.root_quat_w, world_to_base_pos)
++        
++        # Ориентация: conjugate(root_quat) * target_quat  
++        root_quat_conj = quat_conjugate(self.robot.data.root_quat_w)
++        self.pose_command_b[:, 3:] = quat_mul(root_quat_conj, self.pose_command_w[:, 3:])
++    def _update_metrics(self):
++        # Ошибка вычисляется напрямую в мировом фрейме
++        pos_error, rot_error = compute_pose_error(
++            self.pose_command_w[:, :3],
++            self.pose_command_w[:, 3:],
++            self.robot.data.body_pos_w[:, self.body_idx],
++            self.robot.data.body_quat_w[:, self.body_idx],
++        )
++        self.metrics["position_error"] = torch.norm(pos_error, dim=-1)
++        self.metrics["orientation_error"] = torch.norm(rot_error, dim=-1)
++
++    # Добавьте также остальные обязательные методы если они есть в базовом классе:
++    def _set_debug_vis_impl(self, debug_vis: bool):
++        # create markers if necessary for the first time
++        if debug_vis:
++            if not hasattr(self, "goal_pose_visualizer"):
++                # -- goal pose
++                self.goal_pose_visualizer = VisualizationMarkers(self.cfg.goal_pose_visualizer_cfg)
++                # -- current body pose
++                self.current_pose_visualizer = VisualizationMarkers(self.cfg.current_pose_visualizer_cfg)
++            # set their visibility to true
++            self.goal_pose_visualizer.set_visibility(True)
++            self.current_pose_visualizer.set_visibility(True)
++        else:
++            if hasattr(self, "goal_pose_visualizer"):
++                self.goal_pose_visualizer.set_visibility(False)
++                self.current_pose_visualizer.set_visibility(False)
++
++    def _debug_vis_callback(self, event):
++        # check if robot is initialized
++        # note: this is needed in-case the robot is de-initialized. we can't access the data
++        if not self.robot.is_initialized:
++            return
++        # update the markers
++        # -- goal pose
++        self.goal_pose_visualizer.visualize(self.pose_command_w[:, :3], self.pose_command_w[:, 3:])
++        # -- current body pose
++        body_link_pose_w = self.robot.data.body_link_pose_w[:, self.body_idx]
++        self.current_pose_visualizer.visualize(body_link_pose_w[:, :3], body_link_pose_w[:, 3:7])
++
++
++
+diff --git a/source/isaaclab/isaaclab/envs/mdp/terminations.py b/source/isaaclab/isaaclab/envs/mdp/terminations.py
+index a13ce9bb4a..10f9257d49 100644
+--- a/source/isaaclab/isaaclab/envs/mdp/terminations.py
++++ b/source/isaaclab/isaaclab/envs/mdp/terminations.py
+@@ -46,6 +46,35 @@ def command_resample(env: ManagerBasedRLEnv, command_name: str, num_resamples: i
+ Root terminations.
+ """
+ 
++def goal_reached_termination(
++    env: ManagerBasedRLEnv,
++    threshold: float = 0.3,
++    asset_cfg: SceneEntityCfg = SceneEntityCfg("robot"),
++) -> torch.Tensor:
++    """Terminate episode when the robot reaches the commanded 2D goal."""
++    # 1. Достаем объект робота
++    asset: RigidObject = env.scene[asset_cfg.name]
++    base_pos = asset.data.root_pos_w[:, :2]  # XY позиция робота
++
++    # 2. Получаем текущую команду
++    pose_command = env.command_manager.get_command("pose_command")
++
++    # 3. Извлекаем целевую позицию (в мировых координатах)
++    if hasattr(pose_command, "pos_command_w"):
++        goal_pos = pose_command[:, :2]  # XY цель
++    else:
++        goal_pos = pose_command[:, :2]  # fallback
++
++    # 4. Вычисляем расстояние
++    distance = torch.norm(base_pos - goal_pos, dim=-1)
++
++    # 5. (опционально) вывести для отладки
++    # print("Base pos:", base_pos)
++    # print("Goal pos:", goal_pos)
++    # print("Distance:", distance)
++
++    # 6. Возвращаем условие завершения
++    return distance < threshold
+ 
+ def bad_orientation(
+     env: ManagerBasedRLEnv, limit_angle: float, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
+@@ -159,3 +188,5 @@ def illegal_contact(env: ManagerBasedRLEnv, threshold: float, sensor_cfg: SceneE
+     return torch.any(
+         torch.max(torch.norm(net_contact_forces[:, :, sensor_cfg.body_ids], dim=-1), dim=1)[0] > threshold, dim=1
+     )
++
++
+diff --git a/source/isaaclab/isaaclab/sensors/contact_sensor/__pycache__/contact_sensor.cpython-311.pyc b/source/isaaclab/isaaclab/sensors/contact_sensor/__pycache__/contact_sensor.cpython-311.pyc
+index 065639d766..e277f2fe2e 100644
+Binary files a/source/isaaclab/isaaclab/sensors/contact_sensor/__pycache__/contact_sensor.cpython-311.pyc and b/source/isaaclab/isaaclab/sensors/contact_sensor/__pycache__/contact_sensor.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/sensors/ray_caster/patterns/__pycache__/patterns.cpython-311.pyc b/source/isaaclab/isaaclab/sensors/ray_caster/patterns/__pycache__/patterns.cpython-311.pyc
+index 2c19442c5f..dffa3c6661 100644
+Binary files a/source/isaaclab/isaaclab/sensors/ray_caster/patterns/__pycache__/patterns.cpython-311.pyc and b/source/isaaclab/isaaclab/sensors/ray_caster/patterns/__pycache__/patterns.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/sim/__pycache__/simulation_cfg.cpython-311.pyc b/source/isaaclab/isaaclab/sim/__pycache__/simulation_cfg.cpython-311.pyc
+index c5b2bfbaea..375c90d35d 100644
+Binary files a/source/isaaclab/isaaclab/sim/__pycache__/simulation_cfg.cpython-311.pyc and b/source/isaaclab/isaaclab/sim/__pycache__/simulation_cfg.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/sim/__pycache__/simulation_context.cpython-311.pyc b/source/isaaclab/isaaclab/sim/__pycache__/simulation_context.cpython-311.pyc
+index def8cf6a62..b749291f9f 100644
+Binary files a/source/isaaclab/isaaclab/sim/__pycache__/simulation_context.cpython-311.pyc and b/source/isaaclab/isaaclab/sim/__pycache__/simulation_context.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/sim/__pycache__/utils.cpython-311.pyc b/source/isaaclab/isaaclab/sim/__pycache__/utils.cpython-311.pyc
+index f98be99a8a..72d697d682 100644
+Binary files a/source/isaaclab/isaaclab/sim/__pycache__/utils.cpython-311.pyc and b/source/isaaclab/isaaclab/sim/__pycache__/utils.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/sim/converters/__pycache__/mesh_converter.cpython-311.pyc b/source/isaaclab/isaaclab/sim/converters/__pycache__/mesh_converter.cpython-311.pyc
+index bac9a8569d..6cacf6a59c 100644
+Binary files a/source/isaaclab/isaaclab/sim/converters/__pycache__/mesh_converter.cpython-311.pyc and b/source/isaaclab/isaaclab/sim/converters/__pycache__/mesh_converter.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/sim/spawners/materials/__pycache__/__init__.cpython-311.pyc b/source/isaaclab/isaaclab/sim/spawners/materials/__pycache__/__init__.cpython-311.pyc
+index 5f09d063d0..608a7d422e 100644
+Binary files a/source/isaaclab/isaaclab/sim/spawners/materials/__pycache__/__init__.cpython-311.pyc and b/source/isaaclab/isaaclab/sim/spawners/materials/__pycache__/__init__.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/sim/spawners/materials/__pycache__/physics_materials_cfg.cpython-311.pyc b/source/isaaclab/isaaclab/sim/spawners/materials/__pycache__/physics_materials_cfg.cpython-311.pyc
+index 8f2947d94f..a2ad83eca3 100644
+Binary files a/source/isaaclab/isaaclab/sim/spawners/materials/__pycache__/physics_materials_cfg.cpython-311.pyc and b/source/isaaclab/isaaclab/sim/spawners/materials/__pycache__/physics_materials_cfg.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/sim/spawners/sensors/__pycache__/sensors_cfg.cpython-311.pyc b/source/isaaclab/isaaclab/sim/spawners/sensors/__pycache__/sensors_cfg.cpython-311.pyc
+index a4be96fa24..505c7f6b94 100644
+Binary files a/source/isaaclab/isaaclab/sim/spawners/sensors/__pycache__/sensors_cfg.cpython-311.pyc and b/source/isaaclab/isaaclab/sim/spawners/sensors/__pycache__/sensors_cfg.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/sim/spawners/shapes/__pycache__/shapes.cpython-311.pyc b/source/isaaclab/isaaclab/sim/spawners/shapes/__pycache__/shapes.cpython-311.pyc
+index ea753953ab..ff466f11e6 100644
+Binary files a/source/isaaclab/isaaclab/sim/spawners/shapes/__pycache__/shapes.cpython-311.pyc and b/source/isaaclab/isaaclab/sim/spawners/shapes/__pycache__/shapes.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/utils/io/__pycache__/__init__.cpython-311.pyc b/source/isaaclab/isaaclab/utils/io/__pycache__/__init__.cpython-311.pyc
+index 2a53cd90ad..b8b1ee84ef 100644
+Binary files a/source/isaaclab/isaaclab/utils/io/__pycache__/__init__.cpython-311.pyc and b/source/isaaclab/isaaclab/utils/io/__pycache__/__init__.cpython-311.pyc differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc
+index 90129ce1a6..ffd22ad7d2 100644
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc and b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/ur5_husky.py b/source/isaaclab_assets/isaaclab_assets/robots/ur5_husky.py
+index 4d0458cfe1..9ef6ddf23c 100644
+--- a/source/isaaclab_assets/isaaclab_assets/robots/ur5_husky.py
++++ b/source/isaaclab_assets/isaaclab_assets/robots/ur5_husky.py
+@@ -31,7 +31,7 @@ UR5M_CFG = ArticulationCfg(
+         ),
+     ),
+     init_state=ArticulationCfg.InitialStateCfg(
+-        pos=(0.0, 0.0, 0.0),
++        pos=(0.0, 0.0, 0.1),
+         joint_pos={
+             "shoulder_pan_joint": math.radians(-7.0),             # 132.0°
+             "shoulder_lift_joint": math.radians(-85.0),           # -8.9°
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/__init__.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/__init__.py
+deleted file mode 100644
+index d2bbb58b0c..0000000000
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/__init__.py
++++ /dev/null
+@@ -1,9 +0,0 @@
+-# Copyright (c) 2022-2025, The Isaac Lab Project Developers (https://github.com/isaac-sim/IsaacLab/blob/main/CONTRIBUTORS.md).
+-# All rights reserved.
+-#
+-# SPDX-License-Identifier: BSD-3-Clause
+-
+-"""Configurations for the place environments."""
+-
+-# We leave this file empty since we don't want to expose any configs in this package directly.
+-# We still need this file to import the "config" module in the parent package.
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/__pycache__/__init__.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/__pycache__/__init__.cpython-311.pyc
+deleted file mode 100644
+index bad4a939e2..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/__pycache__/__init__.cpython-311.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/__init__.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/__init__.py
+deleted file mode 100644
+index d2bbb58b0c..0000000000
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/__init__.py
++++ /dev/null
+@@ -1,9 +0,0 @@
+-# Copyright (c) 2022-2025, The Isaac Lab Project Developers (https://github.com/isaac-sim/IsaacLab/blob/main/CONTRIBUTORS.md).
+-# All rights reserved.
+-#
+-# SPDX-License-Identifier: BSD-3-Clause
+-
+-"""Configurations for the place environments."""
+-
+-# We leave this file empty since we don't want to expose any configs in this package directly.
+-# We still need this file to import the "config" module in the parent package.
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/__pycache__/__init__.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/__pycache__/__init__.cpython-311.pyc
+deleted file mode 100644
+index 9598e85af9..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/__pycache__/__init__.cpython-311.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/agibot/__init__.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/agibot/__init__.py
+deleted file mode 100644
+index 6941186bea..0000000000
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/agibot/__init__.py
++++ /dev/null
+@@ -1,34 +0,0 @@
+-# Copyright (c) 2022-2025, The Isaac Lab Project Developers (https://github.com/isaac-sim/IsaacLab/blob/main/CONTRIBUTORS.md).
+-# All rights reserved.
+-#
+-# SPDX-License-Identifier: BSD-3-Clause
+-
+-import gymnasium as gym
+-
+-##
+-# Register Gym environments.
+-##
+-
+-##
+-# Agibot Right Arm: place toy2box task, with RmpFlow
+-##
+-gym.register(
+-    id="Isaac-Place-Toy2Box-Agibot-Right-Arm-RmpFlow-v0",
+-    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+-    kwargs={
+-        "env_cfg_entry_point": f"{__name__}.place_toy2box_rmp_rel_env_cfg:RmpFlowAgibotPlaceToy2BoxEnvCfg",
+-    },
+-    disable_env_checker=True,
+-)
+-
+-##
+-# Agibot Left Arm: place upright mug task, with RmpFlow
+-##
+-gym.register(
+-    id="Isaac-Place-Mug-Agibot-Left-Arm-RmpFlow-v0",
+-    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+-    kwargs={
+-        "env_cfg_entry_point": f"{__name__}.place_upright_mug_rmp_rel_env_cfg:RmpFlowAgibotPlaceUprightMugEnvCfg",
+-    },
+-    disable_env_checker=True,
+-)
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/agibot/__pycache__/__init__.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/agibot/__pycache__/__init__.cpython-311.pyc
+deleted file mode 100644
+index 3eee52365e..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/agibot/__pycache__/__init__.cpython-311.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/agibot/place_toy2box_rmp_rel_env_cfg.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/agibot/place_toy2box_rmp_rel_env_cfg.py
+deleted file mode 100644
+index 18d8ccdf1c..0000000000
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/agibot/place_toy2box_rmp_rel_env_cfg.py
++++ /dev/null
+@@ -1,346 +0,0 @@
+-# Copyright (c) 2022-2025, The Isaac Lab Project Developers (https://github.com/isaac-sim/IsaacLab/blob/main/CONTRIBUTORS.md).
+-# All rights reserved.
+-#
+-# SPDX-License-Identifier: BSD-3-Clause
+-
+-import os
+-from dataclasses import MISSING
+-
+-from isaaclab.assets import AssetBaseCfg, RigidObjectCfg
+-from isaaclab.devices.device_base import DevicesCfg
+-from isaaclab.devices.keyboard import Se3KeyboardCfg
+-from isaaclab.devices.spacemouse import Se3SpaceMouseCfg
+-from isaaclab.envs import ManagerBasedRLEnvCfg
+-from isaaclab.envs.mdp.actions.rmpflow_actions_cfg import RMPFlowActionCfg
+-from isaaclab.managers import EventTermCfg as EventTerm
+-from isaaclab.managers import ObservationGroupCfg as ObsGroup
+-from isaaclab.managers import ObservationTermCfg as ObsTerm
+-from isaaclab.managers import SceneEntityCfg
+-from isaaclab.managers import TerminationTermCfg as DoneTerm
+-from isaaclab.sensors import ContactSensorCfg, FrameTransformerCfg
+-from isaaclab.sensors.frame_transformer.frame_transformer_cfg import OffsetCfg
+-from isaaclab.sim.schemas.schemas_cfg import MassPropertiesCfg, RigidBodyPropertiesCfg
+-from isaaclab.sim.spawners.from_files.from_files_cfg import UsdFileCfg
+-from isaaclab.utils import configclass
+-from isaaclab.utils.assets import ISAAC_NUCLEUS_DIR, ISAACLAB_NUCLEUS_DIR
+-
+-from isaaclab_tasks.manager_based.manipulation.place import mdp as place_mdp
+-from isaaclab_tasks.manager_based.manipulation.stack import mdp
+-from isaaclab_tasks.manager_based.manipulation.stack.mdp import franka_stack_events
+-from isaaclab_tasks.manager_based.manipulation.stack.stack_env_cfg import ObjectTableSceneCfg
+-
+-##
+-# Pre-defined configs
+-##
+-from isaaclab.markers.config import FRAME_MARKER_CFG  # isort: skip
+-from isaaclab_assets.robots.agibot import AGIBOT_A2D_CFG  # isort: skip
+-from isaaclab.controllers.config.rmp_flow import AGIBOT_RIGHT_ARM_RMPFLOW_CFG  # isort: skip
+-
+-##
+-# Event settings
+-##
+-
+-
+-@configclass
+-class EventCfgPlaceToy2Box:
+-    """Configuration for events."""
+-
+-    reset_all = EventTerm(func=mdp.reset_scene_to_default, mode="reset", params={"reset_joint_targets": True})
+-
+-    init_toy_position = EventTerm(
+-        func=franka_stack_events.randomize_object_pose,
+-        mode="reset",
+-        params={
+-            "pose_range": {
+-                "x": (-0.15, 0.20),
+-                "y": (-0.3, -0.15),
+-                "z": (-0.65, -0.65),
+-                "yaw": (-3.14, 3.14),
+-            },
+-            "asset_cfgs": [SceneEntityCfg("toy_truck")],
+-        },
+-    )
+-    init_box_position = EventTerm(
+-        func=franka_stack_events.randomize_object_pose,
+-        mode="reset",
+-        params={
+-            "pose_range": {
+-                "x": (0.25, 0.35),
+-                "y": (0.0, 0.10),
+-                "z": (-0.55, -0.55),
+-                "yaw": (-3.14, 3.14),
+-            },
+-            "asset_cfgs": [SceneEntityCfg("box")],
+-        },
+-    )
+-
+-
+-#
+-# MDP settings
+-##
+-
+-
+-@configclass
+-class ObservationsCfg:
+-    """Observation specifications for the MDP."""
+-
+-    @configclass
+-    class PolicyCfg(ObsGroup):
+-        """Observations for policy group with state values."""
+-
+-        actions = ObsTerm(func=mdp.last_action)
+-        joint_pos = ObsTerm(func=mdp.joint_pos_rel)
+-        joint_vel = ObsTerm(func=mdp.joint_vel_rel)
+-        toy_truck_positions = ObsTerm(
+-            func=place_mdp.object_poses_in_base_frame,
+-            params={"object_cfg": SceneEntityCfg("toy_truck"), "return_key": "pos"},
+-        )
+-        toy_truck_orientations = ObsTerm(
+-            func=place_mdp.object_poses_in_base_frame,
+-            params={"object_cfg": SceneEntityCfg("toy_truck"), "return_key": "quat"},
+-        )
+-        box_positions = ObsTerm(
+-            func=place_mdp.object_poses_in_base_frame, params={"object_cfg": SceneEntityCfg("box"), "return_key": "pos"}
+-        )
+-        box_orientations = ObsTerm(
+-            func=place_mdp.object_poses_in_base_frame,
+-            params={"object_cfg": SceneEntityCfg("box"), "return_key": "quat"},
+-        )
+-        eef_pos = ObsTerm(func=mdp.ee_frame_pose_in_base_frame, params={"return_key": "pos"})
+-        eef_quat = ObsTerm(func=mdp.ee_frame_pose_in_base_frame, params={"return_key": "quat"})
+-        gripper_pos = ObsTerm(func=mdp.gripper_pos)
+-
+-        def __post_init__(self):
+-            self.enable_corruption = False
+-            self.concatenate_terms = False
+-
+-    @configclass
+-    class SubtaskCfg(ObsGroup):
+-        """Observations for subtask group."""
+-
+-        grasp = ObsTerm(
+-            func=place_mdp.object_grasped,
+-            params={
+-                "robot_cfg": SceneEntityCfg("robot"),
+-                "ee_frame_cfg": SceneEntityCfg("ee_frame"),
+-                "object_cfg": SceneEntityCfg("toy_truck"),
+-                "diff_threshold": 0.05,
+-            },
+-        )
+-
+-        def __post_init__(self):
+-            self.enable_corruption = False
+-            self.concatenate_terms = False
+-
+-    # observation groups
+-    policy: PolicyCfg = PolicyCfg()
+-    subtask_terms: SubtaskCfg = SubtaskCfg()
+-
+-
+-@configclass
+-class ActionsCfg:
+-    """Action specifications for the MDP."""
+-
+-    # will be set by agent env cfg
+-    arm_action: mdp.JointPositionActionCfg = MISSING
+-    gripper_action: mdp.BinaryJointPositionActionCfg = MISSING
+-
+-
+-@configclass
+-class TerminationsCfg:
+-    """Termination terms for the MDP."""
+-
+-    time_out = DoneTerm(func=mdp.time_out, time_out=True)
+-
+-    toy_truck_dropping = DoneTerm(
+-        func=mdp.root_height_below_minimum, params={"minimum_height": -0.85, "asset_cfg": SceneEntityCfg("toy_truck")}
+-    )
+-
+-    success = DoneTerm(
+-        func=place_mdp.object_a_is_into_b,
+-        params={
+-            "robot_cfg": SceneEntityCfg("robot"),
+-            "object_a_cfg": SceneEntityCfg("toy_truck"),
+-            "object_b_cfg": SceneEntityCfg("box"),
+-            "xy_threshold": 0.10,
+-            "height_diff": 0.06,
+-            "height_threshold": 0.04,
+-        },
+-    )
+-
+-
+-@configclass
+-class PlaceToy2BoxEnvCfg(ManagerBasedRLEnvCfg):
+-    """Configuration for the stacking environment."""
+-
+-    # Scene settings
+-    scene: ObjectTableSceneCfg = ObjectTableSceneCfg(num_envs=4096, env_spacing=3.0, replicate_physics=False)
+-    # Basic settings
+-    observations: ObservationsCfg = ObservationsCfg()
+-    actions: ActionsCfg = ActionsCfg()
+-    # MDP settings
+-    terminations: TerminationsCfg = TerminationsCfg()
+-
+-    # Unused managers
+-    commands = None
+-    rewards = None
+-    events = None
+-    curriculum = None
+-
+-    def __post_init__(self):
+-        """Post initialization."""
+-
+-        self.sim.render_interval = self.decimation
+-
+-        self.sim.physx.bounce_threshold_velocity = 0.2
+-        self.sim.physx.bounce_threshold_velocity = 0.01
+-        self.sim.physx.gpu_found_lost_aggregate_pairs_capacity = 1024 * 1024 * 4
+-        self.sim.physx.gpu_total_aggregate_pairs_capacity = 16 * 1024
+-        self.sim.physx.friction_correlation_distance = 0.00625
+-
+-        # set viewer to see the whole scene
+-        self.viewer.eye = [1.5, -1.0, 1.5]
+-        self.viewer.lookat = [0.5, 0.0, 0.0]
+-
+-
+-"""
+-Env to Replay Sim2Lab Demonstrations with JointSpaceAction
+-"""
+-
+-
+-class RmpFlowAgibotPlaceToy2BoxEnvCfg(PlaceToy2BoxEnvCfg):
+-
+-    def __post_init__(self):
+-        # post init of parent
+-        super().__post_init__()
+-
+-        self.events = EventCfgPlaceToy2Box()
+-
+-        # Set Agibot as robot
+-        self.scene.robot = AGIBOT_A2D_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
+-
+-        # add table
+-        self.scene.table = AssetBaseCfg(
+-            prim_path="{ENV_REGEX_NS}/Table",
+-            init_state=AssetBaseCfg.InitialStateCfg(pos=[0.5, 0.0, -0.7], rot=[0.707, 0, 0, 0.707]),
+-            spawn=UsdFileCfg(
+-                usd_path=f"{ISAAC_NUCLEUS_DIR}/Props/Mounts/SeattleLabTable/table_instanceable.usd",
+-                scale=(1.8, 1.0, 0.30),
+-            ),
+-        )
+-
+-        use_relative_mode_env = os.getenv("USE_RELATIVE_MODE", "True")
+-        self.use_relative_mode = use_relative_mode_env.lower() in ["true", "1", "t"]
+-
+-        # Set actions for the specific robot type (Agibot)
+-        self.actions.arm_action = RMPFlowActionCfg(
+-            asset_name="robot",
+-            joint_names=["right_arm_joint.*"],
+-            body_name="right_gripper_center",
+-            controller=AGIBOT_RIGHT_ARM_RMPFLOW_CFG,
+-            scale=1.0,
+-            body_offset=RMPFlowActionCfg.OffsetCfg(pos=[0.0, 0.0, 0.0]),
+-            articulation_prim_expr="/World/envs/env_.*/Robot",
+-            use_relative_mode=self.use_relative_mode,
+-        )
+-
+-        # Enable Parallel Gripper:
+-        self.actions.gripper_action = mdp.BinaryJointPositionActionCfg(
+-            asset_name="robot",
+-            joint_names=["right_hand_joint1", "right_.*_Support_Joint"],
+-            open_command_expr={"right_hand_joint1": 0.994, "right_.*_Support_Joint": 0.994},
+-            close_command_expr={"right_hand_joint1": 0.20, "right_.*_Support_Joint": 0.20},
+-        )
+-
+-        # find joint ids for grippers
+-        self.gripper_joint_names = ["right_hand_joint1", "right_Right_1_Joint"]
+-        self.gripper_open_val = 0.994
+-        self.gripper_threshold = 0.2
+-
+-        # Rigid body properties of toy_truck and box
+-        toy_truck_properties = RigidBodyPropertiesCfg(
+-            solver_position_iteration_count=16,
+-            solver_velocity_iteration_count=1,
+-            max_angular_velocity=1000.0,
+-            max_linear_velocity=1000.0,
+-            max_depenetration_velocity=5.0,
+-            disable_gravity=False,
+-        )
+-
+-        box_properties = toy_truck_properties.copy()
+-
+-        # Notes: remember to add Physics/Mass properties to the toy_truck mesh to make grasping successful,
+-        # then you can use below MassPropertiesCfg to set the mass of the toy_truck
+-        toy_mass_properties = MassPropertiesCfg(
+-            mass=0.05,
+-        )
+-
+-        self.scene.toy_truck = RigidObjectCfg(
+-            prim_path="{ENV_REGEX_NS}/ToyTruck",
+-            init_state=RigidObjectCfg.InitialStateCfg(),
+-            spawn=UsdFileCfg(
+-                usd_path=f"{ISAACLAB_NUCLEUS_DIR}/Objects/ToyTruck/toy_truck.usd",
+-                rigid_props=toy_truck_properties,
+-                mass_props=toy_mass_properties,
+-            ),
+-        )
+-
+-        self.scene.box = RigidObjectCfg(
+-            prim_path="{ENV_REGEX_NS}/Box",
+-            init_state=RigidObjectCfg.InitialStateCfg(),
+-            spawn=UsdFileCfg(
+-                usd_path=f"{ISAACLAB_NUCLEUS_DIR}/Objects/Box/box.usd",
+-                rigid_props=box_properties,
+-            ),
+-        )
+-
+-        # Listens to the required transforms
+-        self.marker_cfg = FRAME_MARKER_CFG.copy()
+-        self.marker_cfg.markers["frame"].scale = (0.1, 0.1, 0.1)
+-        self.marker_cfg.prim_path = "/Visuals/FrameTransformer"
+-
+-        self.scene.ee_frame = FrameTransformerCfg(
+-            prim_path="{ENV_REGEX_NS}/Robot/base_link",
+-            debug_vis=False,
+-            visualizer_cfg=self.marker_cfg,
+-            target_frames=[
+-                FrameTransformerCfg.FrameCfg(
+-                    prim_path="{ENV_REGEX_NS}/Robot/right_gripper_center",
+-                    name="end_effector",
+-                    offset=OffsetCfg(
+-                        pos=[0.0, 0.0, 0.0],
+-                    ),
+-                ),
+-            ],
+-        )
+-
+-        # add contact force sensor for grasped checking
+-        self.scene.contact_grasp = ContactSensorCfg(
+-            prim_path="{ENV_REGEX_NS}/Robot/right_.*_Pad_Link",
+-            update_period=0.05,
+-            history_length=6,
+-            debug_vis=True,
+-            filter_prim_paths_expr=["{ENV_REGEX_NS}/ToyTruck"],
+-        )
+-
+-        self.teleop_devices = DevicesCfg(
+-            devices={
+-                "keyboard": Se3KeyboardCfg(
+-                    pos_sensitivity=0.05,
+-                    rot_sensitivity=0.05,
+-                    sim_device=self.sim.device,
+-                ),
+-                "spacemouse": Se3SpaceMouseCfg(
+-                    pos_sensitivity=0.05,
+-                    rot_sensitivity=0.05,
+-                    sim_device=self.sim.device,
+-                ),
+-            }
+-        )
+-
+-        # Set the simulation parameters
+-        self.sim.dt = 1 / 60
+-        self.sim.render_interval = 6
+-
+-        self.decimation = 3
+-        self.episode_length_s = 30.0
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/agibot/place_upright_mug_rmp_rel_env_cfg.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/agibot/place_upright_mug_rmp_rel_env_cfg.py
+deleted file mode 100644
+index 6689a9cb15..0000000000
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/config/agibot/place_upright_mug_rmp_rel_env_cfg.py
++++ /dev/null
+@@ -1,282 +0,0 @@
+-# Copyright (c) 2022-2025, The Isaac Lab Project Developers (https://github.com/isaac-sim/IsaacLab/blob/main/CONTRIBUTORS.md).
+-# All rights reserved.
+-#
+-# SPDX-License-Identifier: BSD-3-Clause
+-
+-import os
+-from dataclasses import MISSING
+-
+-from isaaclab.assets import AssetBaseCfg, RigidObjectCfg
+-from isaaclab.devices.device_base import DevicesCfg
+-from isaaclab.devices.keyboard import Se3KeyboardCfg
+-from isaaclab.devices.spacemouse import Se3SpaceMouseCfg
+-from isaaclab.envs.mdp.actions.rmpflow_actions_cfg import RMPFlowActionCfg
+-from isaaclab.managers import EventTermCfg as EventTerm
+-from isaaclab.managers import ObservationGroupCfg as ObsGroup
+-from isaaclab.managers import ObservationTermCfg as ObsTerm
+-from isaaclab.managers import SceneEntityCfg
+-from isaaclab.managers import TerminationTermCfg as DoneTerm
+-from isaaclab.sensors import ContactSensorCfg, FrameTransformerCfg
+-from isaaclab.sensors.frame_transformer.frame_transformer_cfg import OffsetCfg
+-from isaaclab.sim.schemas.schemas_cfg import RigidBodyPropertiesCfg
+-from isaaclab.sim.spawners.from_files.from_files_cfg import UsdFileCfg
+-from isaaclab.utils import configclass
+-from isaaclab.utils.assets import ISAAC_NUCLEUS_DIR, ISAACLAB_NUCLEUS_DIR
+-
+-from isaaclab_tasks.manager_based.manipulation.place import mdp as place_mdp
+-from isaaclab_tasks.manager_based.manipulation.place.config.agibot import place_toy2box_rmp_rel_env_cfg
+-from isaaclab_tasks.manager_based.manipulation.stack import mdp
+-from isaaclab_tasks.manager_based.manipulation.stack.mdp import franka_stack_events
+-
+-##
+-# Pre-defined configs
+-##
+-from isaaclab.markers.config import FRAME_MARKER_CFG  # isort: skip
+-from isaaclab_assets.robots.agibot import AGIBOT_A2D_CFG  # isort: skip
+-from isaaclab.controllers.config.rmp_flow import AGIBOT_LEFT_ARM_RMPFLOW_CFG  # isort: skip
+-
+-##
+-# Event settings
+-##
+-
+-
+-@configclass
+-class EventCfgPlaceUprightMug:
+-    """Configuration for events."""
+-
+-    reset_all = EventTerm(func=mdp.reset_scene_to_default, mode="reset", params={"reset_joint_targets": True})
+-
+-    randomize_mug_positions = EventTerm(
+-        func=franka_stack_events.randomize_object_pose,
+-        mode="reset",
+-        params={
+-            "pose_range": {
+-                "x": (-0.05, 0.2),
+-                "y": (-0.10, 0.10),
+-                "z": (0.75, 0.75),
+-                "roll": (-1.57, -1.57),
+-                "yaw": (-0.57, 0.57),
+-            },
+-            "asset_cfgs": [SceneEntityCfg("mug")],
+-        },
+-    )
+-
+-
+-#
+-# MDP settings
+-##
+-
+-
+-@configclass
+-class ObservationsCfg:
+-    """Observation specifications for the MDP."""
+-
+-    @configclass
+-    class PolicyCfg(ObsGroup):
+-        """Observations for policy group with state values."""
+-
+-        actions = ObsTerm(func=mdp.last_action)
+-        joint_pos = ObsTerm(func=mdp.joint_pos_rel)
+-        joint_vel = ObsTerm(func=mdp.joint_vel_rel)
+-        mug_positions = ObsTerm(
+-            func=place_mdp.object_poses_in_base_frame, params={"object_cfg": SceneEntityCfg("mug"), "return_key": "pos"}
+-        )
+-        mug_orientations = ObsTerm(
+-            func=place_mdp.object_poses_in_base_frame,
+-            params={"object_cfg": SceneEntityCfg("mug"), "return_key": "quat"},
+-        )
+-        eef_pos = ObsTerm(func=mdp.ee_frame_pose_in_base_frame, params={"return_key": "pos"})
+-        eef_quat = ObsTerm(func=mdp.ee_frame_pose_in_base_frame, params={"return_key": "quat"})
+-        gripper_pos = ObsTerm(func=mdp.gripper_pos)
+-
+-        def __post_init__(self):
+-            self.enable_corruption = False
+-            self.concatenate_terms = False
+-
+-    @configclass
+-    class SubtaskCfg(ObsGroup):
+-        """Observations for subtask group."""
+-
+-        grasp = ObsTerm(
+-            func=place_mdp.object_grasped,
+-            params={
+-                "robot_cfg": SceneEntityCfg("robot"),
+-                "ee_frame_cfg": SceneEntityCfg("ee_frame"),
+-                "object_cfg": SceneEntityCfg("mug"),
+-                "diff_threshold": 0.05,
+-            },
+-        )
+-
+-        def __post_init__(self):
+-            self.enable_corruption = False
+-            self.concatenate_terms = False
+-
+-    # observation groups
+-    policy: PolicyCfg = PolicyCfg()
+-    subtask_terms: SubtaskCfg = SubtaskCfg()
+-
+-
+-@configclass
+-class ActionsCfg:
+-    """Action specifications for the MDP."""
+-
+-    # will be set by agent env cfg
+-    arm_action: mdp.JointPositionActionCfg = MISSING
+-    gripper_action: mdp.BinaryJointPositionActionCfg = MISSING
+-
+-
+-@configclass
+-class TerminationsCfg:
+-    """Termination terms for the MDP."""
+-
+-    time_out = DoneTerm(func=mdp.time_out, time_out=True)
+-
+-    mug_dropping = DoneTerm(
+-        func=mdp.root_height_below_minimum, params={"minimum_height": -0.85, "asset_cfg": SceneEntityCfg("mug")}
+-    )
+-
+-    success = DoneTerm(
+-        func=place_mdp.object_placed_upright,
+-        params={
+-            "robot_cfg": SceneEntityCfg("robot"),
+-            "object_cfg": SceneEntityCfg("mug"),
+-            "target_height": 0.6,
+-        },
+-    )
+-
+-
+-"""
+-Env to Place Upright Mug with AgiBot Left Arm using RMPFlow
+-"""
+-
+-
+-class RmpFlowAgibotPlaceUprightMugEnvCfg(place_toy2box_rmp_rel_env_cfg.PlaceToy2BoxEnvCfg):
+-
+-    def __post_init__(self):
+-        # post init of parent
+-        super().__post_init__()
+-
+-        self.events = EventCfgPlaceUprightMug()
+-
+-        # Set Agibot as robot
+-        self.scene.robot = AGIBOT_A2D_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
+-        self.scene.robot.init_state.pos = (-0.60, 0.0, 0.0)
+-
+-        # reset obs and termination terms
+-        self.observations = ObservationsCfg()
+-        self.terminations = TerminationsCfg()
+-
+-        # Table
+-        self.scene.table = AssetBaseCfg(
+-            prim_path="{ENV_REGEX_NS}/Table",
+-            init_state=AssetBaseCfg.InitialStateCfg(pos=[0.50, 0.0, 0.60], rot=[0.707, 0, 0, 0.707]),
+-            spawn=UsdFileCfg(
+-                usd_path=f"{ISAAC_NUCLEUS_DIR}/Props/Mounts/SeattleLabTable/table_instanceable.usd",
+-                scale=(1.0, 1.0, 0.60),
+-            ),
+-        )
+-
+-        # add contact force sensor for grasped checking
+-        self.scene.contact_grasp = ContactSensorCfg(
+-            prim_path="{ENV_REGEX_NS}/Robot/right_.*_Pad_Link",
+-            update_period=0.0,
+-            history_length=6,
+-            debug_vis=True,
+-            filter_prim_paths_expr=["{ENV_REGEX_NS}/Mug"],
+-        )
+-
+-        use_relative_mode_env = os.getenv("USE_RELATIVE_MODE", "True")
+-        self.use_relative_mode = use_relative_mode_env.lower() in ["true", "1", "t"]
+-
+-        # Set actions for the specific robot type (Agibot)
+-        self.actions.arm_action = RMPFlowActionCfg(
+-            asset_name="robot",
+-            joint_names=["left_arm_joint.*"],
+-            body_name="gripper_center",
+-            controller=AGIBOT_LEFT_ARM_RMPFLOW_CFG,
+-            scale=1.0,
+-            body_offset=RMPFlowActionCfg.OffsetCfg(pos=[0.0, 0.0, 0.0], rot=[0.7071, 0.0, -0.7071, 0.0]),
+-            articulation_prim_expr="/World/envs/env_.*/Robot",
+-            use_relative_mode=self.use_relative_mode,
+-        )
+-
+-        # Enable Parallel Gripper:
+-        self.actions.gripper_action = mdp.BinaryJointPositionActionCfg(
+-            asset_name="robot",
+-            joint_names=["left_hand_joint1", "left_.*_Support_Joint"],
+-            open_command_expr={"left_hand_joint1": 0.994, "left_.*_Support_Joint": 0.994},
+-            close_command_expr={"left_hand_joint1": 0.0, "left_.*_Support_Joint": 0.0},
+-        )
+-
+-        # find joint ids for grippers
+-        self.gripper_joint_names = ["left_hand_joint1", "left_Right_1_Joint"]
+-        self.gripper_open_val = 0.994
+-        self.gripper_threshold = 0.2
+-
+-        # Rigid body properties of mug
+-        mug_properties = RigidBodyPropertiesCfg(
+-            solver_position_iteration_count=16,
+-            solver_velocity_iteration_count=1,
+-            max_angular_velocity=1000.0,
+-            max_linear_velocity=1000.0,
+-            max_depenetration_velocity=5.0,
+-            disable_gravity=False,
+-        )
+-
+-        self.scene.mug = RigidObjectCfg(
+-            prim_path="{ENV_REGEX_NS}/Mug",
+-            init_state=RigidObjectCfg.InitialStateCfg(),
+-            spawn=UsdFileCfg(
+-                usd_path=f"{ISAACLAB_NUCLEUS_DIR}/Objects/Mug/mug.usd",
+-                scale=(1.0, 1.0, 1.0),
+-                rigid_props=mug_properties,
+-            ),
+-        )
+-
+-        # Listens to the required transforms
+-        self.marker_cfg = FRAME_MARKER_CFG.copy()
+-        self.marker_cfg.markers["frame"].scale = (0.1, 0.1, 0.1)
+-        self.marker_cfg.prim_path = "/Visuals/FrameTransformer"
+-
+-        self.scene.ee_frame = FrameTransformerCfg(
+-            prim_path="{ENV_REGEX_NS}/Robot/base_link",
+-            debug_vis=False,
+-            visualizer_cfg=self.marker_cfg,
+-            target_frames=[
+-                FrameTransformerCfg.FrameCfg(
+-                    prim_path="{ENV_REGEX_NS}/Robot/gripper_center",
+-                    name="end_effector",
+-                    offset=OffsetCfg(
+-                        pos=[0.0, 0.0, 0.0],
+-                        rot=[
+-                            0.7071,
+-                            0.0,
+-                            -0.7071,
+-                            0.0,
+-                        ],
+-                    ),
+-                ),
+-            ],
+-        )
+-
+-        self.teleop_devices = DevicesCfg(
+-            devices={
+-                "keyboard": Se3KeyboardCfg(
+-                    pos_sensitivity=0.05,
+-                    rot_sensitivity=0.05,
+-                    sim_device=self.sim.device,
+-                ),
+-                "spacemouse": Se3SpaceMouseCfg(
+-                    pos_sensitivity=0.05,
+-                    rot_sensitivity=0.05,
+-                    sim_device=self.sim.device,
+-                ),
+-            }
+-        )
+-
+-        # Set the simulation parameters
+-        self.sim.dt = 1 / 60
+-        self.sim.render_interval = 6
+-
+-        self.decimation = 3
+-        self.episode_length_s = 10.0
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/mdp/__init__.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/mdp/__init__.py
+deleted file mode 100644
+index f394d204c7..0000000000
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/mdp/__init__.py
++++ /dev/null
+@@ -1,11 +0,0 @@
+-# Copyright (c) 2022-2025, The Isaac Lab Project Developers (https://github.com/isaac-sim/IsaacLab/blob/main/CONTRIBUTORS.md).
+-# All rights reserved.
+-#
+-# SPDX-License-Identifier: BSD-3-Clause
+-
+-"""This sub-module contains the functions that are specific to the pick and place environments."""
+-
+-from isaaclab.envs.mdp import *  # noqa: F401, F403
+-
+-from .observations import *  # noqa: F401, F403
+-from .terminations import *  # noqa: F401, F403
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/mdp/observations.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/mdp/observations.py
+deleted file mode 100644
+index 18870db2ca..0000000000
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/mdp/observations.py
++++ /dev/null
+@@ -1,118 +0,0 @@
+-# Copyright (c) 2022-2025, The Isaac Lab Project Developers (https://github.com/isaac-sim/IsaacLab/blob/main/CONTRIBUTORS.md).
+-# All rights reserved.
+-#
+-# SPDX-License-Identifier: BSD-3-Clause
+-
+-from __future__ import annotations
+-
+-import torch
+-from typing import TYPE_CHECKING, Literal
+-
+-import isaaclab.utils.math as math_utils
+-from isaaclab.assets import Articulation, RigidObject
+-from isaaclab.managers import SceneEntityCfg
+-from isaaclab.sensors import FrameTransformer
+-
+-if TYPE_CHECKING:
+-    from isaaclab.envs import ManagerBasedRLEnv
+-
+-
+-def object_poses_in_base_frame(
+-    env: ManagerBasedRLEnv,
+-    object_cfg: SceneEntityCfg = SceneEntityCfg("mug"),
+-    robot_cfg: SceneEntityCfg = SceneEntityCfg("robot"),
+-    return_key: Literal["pos", "quat", None] = None,
+-) -> torch.Tensor:
+-    """The pose of the object in the robot base frame."""
+-    object: RigidObject = env.scene[object_cfg.name]
+-
+-    pos_object_world = object.data.root_pos_w
+-    quat_object_world = object.data.root_quat_w
+-
+-    """The position of the robot in the world frame."""
+-    robot: Articulation = env.scene[robot_cfg.name]
+-    root_pos_w = robot.data.root_pos_w
+-    root_quat_w = robot.data.root_quat_w
+-
+-    pos_object_base, quat_object_base = math_utils.subtract_frame_transforms(
+-        root_pos_w, root_quat_w, pos_object_world, quat_object_world
+-    )
+-    if return_key == "pos":
+-        return pos_object_base
+-    elif return_key == "quat":
+-        return quat_object_base
+-    elif return_key is None:
+-        return torch.cat((pos_object_base, quat_object_base), dim=1)
+-
+-
+-def object_grasped(
+-    env: ManagerBasedRLEnv,
+-    robot_cfg: SceneEntityCfg,
+-    ee_frame_cfg: SceneEntityCfg,
+-    object_cfg: SceneEntityCfg,
+-    diff_threshold: float = 0.06,
+-    force_threshold: float = 1.0,
+-) -> torch.Tensor:
+-    """
+-    Check if an object is grasped by the specified robot.
+-    Support both surface gripper and parallel gripper.
+-    If contact_grasp sensor is found, check if the contact force is greater than force_threshold.
+-    """
+-
+-    robot: Articulation = env.scene[robot_cfg.name]
+-    ee_frame: FrameTransformer = env.scene[ee_frame_cfg.name]
+-    object: RigidObject = env.scene[object_cfg.name]
+-
+-    object_pos = object.data.root_pos_w
+-    end_effector_pos = ee_frame.data.target_pos_w[:, 0, :]
+-    pose_diff = torch.linalg.vector_norm(object_pos - end_effector_pos, dim=1)
+-
+-    if "contact_grasp" in env.scene.keys() and env.scene["contact_grasp"] is not None:
+-        contact_force_grasp = env.scene["contact_grasp"].data.net_forces_w  # shape:(N, 2, 3) for two fingers
+-        contact_force_norm = torch.linalg.vector_norm(
+-            contact_force_grasp, dim=2
+-        )  # shape:(N, 2) - force magnitude per finger
+-        both_fingers_force_ok = torch.all(
+-            contact_force_norm > force_threshold, dim=1
+-        )  # both fingers must exceed threshold
+-        grasped = torch.logical_and(pose_diff < diff_threshold, both_fingers_force_ok)
+-    elif (
+-        f"contact_grasp_{object_cfg.name}" in env.scene.keys()
+-        and env.scene[f"contact_grasp_{object_cfg.name}"] is not None
+-    ):
+-        contact_force_object = env.scene[
+-            f"contact_grasp_{object_cfg.name}"
+-        ].data.net_forces_w  # shape:(N, 2, 3) for two fingers
+-        contact_force_norm = torch.linalg.vector_norm(
+-            contact_force_object, dim=2
+-        )  # shape:(N, 2) - force magnitude per finger
+-        both_fingers_force_ok = torch.all(
+-            contact_force_norm > force_threshold, dim=1
+-        )  # both fingers must exceed threshold
+-        grasped = torch.logical_and(pose_diff < diff_threshold, both_fingers_force_ok)
+-    else:
+-        grasped = (pose_diff < diff_threshold).clone().detach()
+-
+-    if hasattr(env.scene, "surface_grippers") and len(env.scene.surface_grippers) > 0:
+-        surface_gripper = env.scene.surface_grippers["surface_gripper"]
+-        suction_cup_status = surface_gripper.state.view(-1, 1)  # 1: closed, 0: closing, -1: open
+-        suction_cup_is_closed = (suction_cup_status == 1).to(torch.float32)
+-        grasped = torch.logical_and(suction_cup_is_closed, pose_diff < diff_threshold)
+-
+-    else:
+-        if hasattr(env.cfg, "gripper_joint_names"):
+-            gripper_joint_ids, _ = robot.find_joints(env.cfg.gripper_joint_names)
+-            grasped = torch.logical_and(
+-                grasped,
+-                torch.abs(torch.abs(robot.data.joint_pos[:, gripper_joint_ids[0]]) - env.cfg.gripper_open_val)
+-                > env.cfg.gripper_threshold,
+-            )
+-            grasped = torch.logical_and(
+-                grasped,
+-                torch.abs(torch.abs(robot.data.joint_pos[:, gripper_joint_ids[1]]) - env.cfg.gripper_open_val)
+-                > env.cfg.gripper_threshold,
+-            )
+-        else:
+-            raise ValueError("No gripper_joint_names found in environment config")
+-
+-    return grasped
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/mdp/terminations.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/mdp/terminations.py
+deleted file mode 100644
+index 9768321ef1..0000000000
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/place/mdp/terminations.py
++++ /dev/null
+@@ -1,122 +0,0 @@
+-# Copyright (c) 2022-2025, The Isaac Lab Project Developers (https://github.com/isaac-sim/IsaacLab/blob/main/CONTRIBUTORS.md).
+-# All rights reserved.
+-#
+-# SPDX-License-Identifier: BSD-3-Clause
+-
+-"""Common functions that can be used to activate certain terminations for the place task.
+-
+-The functions can be passed to the :class:`isaaclab.managers.TerminationTermCfg` object to enable
+-the termination introduced by the function.
+-"""
+-
+-from __future__ import annotations
+-
+-import torch
+-from typing import TYPE_CHECKING
+-
+-import isaaclab.utils.math as math_utils
+-from isaaclab.assets import Articulation, RigidObject
+-from isaaclab.managers import SceneEntityCfg
+-
+-if TYPE_CHECKING:
+-    from isaaclab.envs import ManagerBasedRLEnv
+-
+-
+-def object_placed_upright(
+-    env: ManagerBasedRLEnv,
+-    robot_cfg: SceneEntityCfg,
+-    object_cfg: SceneEntityCfg,
+-    target_height: float = 0.927,
+-    euler_xy_threshold: float = 0.10,
+-):
+-    """Check if an object placed upright by the specified robot."""
+-
+-    robot: Articulation = env.scene[robot_cfg.name]
+-    object: RigidObject = env.scene[object_cfg.name]
+-
+-    # Compute mug euler angles of X, Y axis, to check if it is placed upright
+-    object_euler_x, object_euler_y, _ = math_utils.euler_xyz_from_quat(object.data.root_quat_w)  # (N,4) [0, 2*pi]
+-
+-    object_euler_x_err = torch.abs(math_utils.wrap_to_pi(object_euler_x))  # (N,)
+-    object_euler_y_err = torch.abs(math_utils.wrap_to_pi(object_euler_y))  # (N,)
+-
+-    success = torch.logical_and(object_euler_x_err < euler_xy_threshold, object_euler_y_err < euler_xy_threshold)
+-
+-    # Check if current mug height is greater than target height
+-    height_success = object.data.root_pos_w[:, 2] > target_height
+-
+-    success = torch.logical_and(height_success, success)
+-
+-    if hasattr(env.scene, "surface_grippers") and len(env.scene.surface_grippers) > 0:
+-        surface_gripper = env.scene.surface_grippers["surface_gripper"]
+-        suction_cup_status = surface_gripper.state.view(-1, 1)  # 1: closed, 0: closing, -1: open
+-        suction_cup_is_open = (suction_cup_status == -1).to(torch.float32)
+-        success = torch.logical_and(suction_cup_is_open, success)
+-
+-    else:
+-        if hasattr(env.cfg, "gripper_joint_names"):
+-            gripper_joint_ids, _ = robot.find_joints(env.cfg.gripper_joint_names)
+-            success = torch.logical_and(
+-                success,
+-                torch.abs(torch.abs(robot.data.joint_pos[:, gripper_joint_ids[0]]) - env.cfg.gripper_open_val)
+-                < env.cfg.gripper_threshold,
+-            )
+-            success = torch.logical_and(
+-                success,
+-                torch.abs(torch.abs(robot.data.joint_pos[:, gripper_joint_ids[1]]) - env.cfg.gripper_open_val)
+-                < env.cfg.gripper_threshold,
+-            )
+-        else:
+-            raise ValueError("No gripper_joint_names found in environment config")
+-
+-    return success
+-
+-
+-def object_a_is_into_b(
+-    env: ManagerBasedRLEnv,
+-    robot_cfg: SceneEntityCfg = SceneEntityCfg("robot"),
+-    object_a_cfg: SceneEntityCfg = SceneEntityCfg("object_a"),
+-    object_b_cfg: SceneEntityCfg = SceneEntityCfg("object_b"),
+-    xy_threshold: float = 0.03,  # xy_distance_threshold
+-    height_threshold: float = 0.04,  # height_distance_threshold
+-    height_diff: float = 0.0,  # expected height_diff
+-) -> torch.Tensor:
+-    """Check if an object a is put into another object b by the specified robot."""
+-
+-    robot: Articulation = env.scene[robot_cfg.name]
+-    object_a: RigidObject = env.scene[object_a_cfg.name]
+-    object_b: RigidObject = env.scene[object_b_cfg.name]
+-
+-    # check object a is into object b
+-    pos_diff = object_a.data.root_pos_w - object_b.data.root_pos_w
+-    height_dist = torch.linalg.vector_norm(pos_diff[:, 2:], dim=1)
+-    xy_dist = torch.linalg.vector_norm(pos_diff[:, :2], dim=1)
+-
+-    success = torch.logical_and(xy_dist < xy_threshold, (height_dist - height_diff) < height_threshold)
+-
+-    # Check gripper positions
+-    if hasattr(env.scene, "surface_grippers") and len(env.scene.surface_grippers) > 0:
+-        surface_gripper = env.scene.surface_grippers["surface_gripper"]
+-        suction_cup_status = surface_gripper.state.view(-1, 1)  # 1: closed, 0: closing, -1: open
+-        suction_cup_is_open = (suction_cup_status == -1).to(torch.float32)
+-        success = torch.logical_and(suction_cup_is_open, success)
+-
+-    else:
+-        if hasattr(env.cfg, "gripper_joint_names"):
+-            gripper_joint_ids, _ = robot.find_joints(env.cfg.gripper_joint_names)
+-            assert len(gripper_joint_ids) == 2, "Terminations only support parallel gripper for now"
+-
+-            success = torch.logical_and(
+-                success,
+-                torch.abs(torch.abs(robot.data.joint_pos[:, gripper_joint_ids[0]]) - env.cfg.gripper_open_val)
+-                < env.cfg.gripper_threshold,
+-            )
+-            success = torch.logical_and(
+-                success,
+-                torch.abs(torch.abs(robot.data.joint_pos[:, gripper_joint_ids[1]]) - env.cfg.gripper_open_val)
+-                < env.cfg.gripper_threshold,
+-            )
+-        else:
+-            raise ValueError("No gripper_joint_names found in environment config")
+-
+-    return success
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/__pycache__/husky_env_cfg.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/__pycache__/husky_env_cfg.cpython-311.pyc
+index 436ec29c57..a61d1c9a17 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/__pycache__/husky_env_cfg.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/__pycache__/husky_env_cfg.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/agents/rsl_rl_ppo_cfg.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/agents/rsl_rl_ppo_cfg.py
+index 88bad121d4..091b639e35 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/agents/rsl_rl_ppo_cfg.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/agents/rsl_rl_ppo_cfg.py
+@@ -13,12 +13,12 @@ class HuskyNavigationEnvPPORunnerCfg(RslRlOnPolicyRunnerCfg):
+     num_steps_per_env = 8
+     max_iterations = 1500
+     save_interval = 50
+-    experiment_name = "husky_nav_baseline"
++    experiment_name = "husky_FBC"
+     policy = RslRlPpoActorCriticCfg(
+         init_noise_std=0.5,
+         actor_obs_normalization=False,
+         critic_obs_normalization=False,
+-        actor_hidden_dims=[128, 128],
++        actor_hidden_dims=[256, 256],
+         critic_hidden_dims=[128, 128],
+         activation="elu",
+     )
+@@ -28,7 +28,7 @@ class HuskyNavigationEnvPPORunnerCfg(RslRlOnPolicyRunnerCfg):
+         clip_param=0.2,
+         entropy_coef=0.005,
+         num_learning_epochs=5,
+-        num_mini_batches=4,
++        num_mini_batches=128,
+         learning_rate=1.0e-3,
+         schedule="adaptive",
+         gamma=0.99,
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/husky_env_cfg.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/husky_env_cfg.py
+index 844079d241..e7c8171221 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/husky_env_cfg.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/husky_env_cfg.py
+@@ -20,9 +20,10 @@ from isaaclab.utils.assets import ISAACLAB_NUCLEUS_DIR
+ 
+ import isaaclab_tasks.manager_based.navigation.mdp as mdp
+ from isaaclab_tasks.manager_based.navigation.mdp.custom_mdp import DiffDriveVelocityAction, DiffDriveVelocityActionCfg
++from isaaclab_assets.robots import ur5_husky # isort: skip
++
+ 
+ 
+-from isaaclab_assets.robots import ur5_husky # isort: skip
+ UR5M_CFG = ur5_husky.UR5M_CFG
+ 
+ 
+@@ -104,20 +105,69 @@ class RewardsCfg:
+     termination_penalty = RewTerm(func=mdp.is_terminated, weight=-400.0)
+     position_tracking = RewTerm(
+         func=mdp.position_command_error_tanh,
+-        weight=0.5,
+-        params={"std": 2.0, "command_name": "pose_command"},
++        weight=0.8,
++        params={"std": 1.5, "command_name": "pose_command"},
+     )
+     position_tracking_fine_grained = RewTerm(
+         func=mdp.position_command_error_tanh,
+-        weight=0.5,
+-        params={"std": 0.2, "command_name": "pose_command"},
++        weight=1.0,
++        params={"std": 0.1, "command_name": "pose_command"},
+     )
+     orientation_tracking = RewTerm(
+         func=mdp.heading_command_error_abs,
+         weight=-0.2,
+         params={"command_name": "pose_command"},
+     )
+-
++    stability_at_goal = RewTerm(
++        func=mdp.stability_reward,
++        weight=0.3,
++        params={
++            "command_name": "pose_command",
++            "position_threshold": 0.2,
++            "orientation_threshold": 0.4,
++            "lin_velocity_threshold": 0.2,
++            "ang_velocity_threshold": 0.2
++        }
++    )
++    vel_pen = RewTerm(func = mdp.distance_based_velocity_penalty, 
++                      weight = -0.15, params={"command_name": "pose_command"})
++
++# @configclass
++# class RewardsCfg:
++#     """Reward terms for the MDP."""
++
++#     termination_penalty = RewTerm(func=mdp.is_terminated, weight=-400.0)
++    
++#     # ВСЁ КАК БЫЛО (ваша рабочая конфигурация)
++#     position_tracking = RewTerm(
++#         func=mdp.position_command_error_tanh,
++#         weight=0.5,
++#         params={"std": 2.0, "command_name": "pose_command"},
++#     )
++    
++#     position_tracking_fine_grained = RewTerm(
++#         func=mdp.position_command_error_tanh,
++#         weight=0.5,
++#         params={"std": 0.2, "command_name": "pose_command"},
++#     )
++    
++#     orientation_tracking = RewTerm(
++#         func=mdp.heading_command_error_abs,
++#         weight=-0.2,
++#         params={"command_name": "pose_command"},
++#     )
++    
++#     stability_at_goal = RewTerm(
++#         func=mdp.stability_reward,
++#         weight=2.0,  # начните с малого веса
++#         params={
++#             "command_name": "pose_command",
++#             "position_threshold": 0.5,  # чуть шире чем 0.2 из fine_grained
++#             "orientation_threshold": 0.4,
++#             "lin_velocity_threshold": 0.3,
++#             "ang_velocity_threshold": 0.3
++#         }
++#     )
+ 
+ @configclass
+ class CommandsCfg:
+@@ -131,12 +181,13 @@ class CommandsCfg:
+         ranges=mdp.UniformPose2dCommandCfg.Ranges(pos_x=(-4.0, 4.0), pos_y=(-4.0, 4.0), heading=(-math.pi, math.pi)),
+     )
+ 
+-
++    
+ @configclass
+ class TerminationsCfg:
+     """Termination terms for the MDP."""
+ 
+     time_out = DoneTerm(func=mdp.time_out, time_out=True) 
++    # goal_reached = DoneTerm(func=mdp.goal_reached_termination, params={"threshold": 0.1})
+ 
+ 
+ @configclass
+@@ -152,7 +203,6 @@ class HuskyNavEnvCfg(ManagerBasedRLEnvCfg):
+     commands: CommandsCfg = CommandsCfg()
+     rewards: RewardsCfg = RewardsCfg()
+     terminations: TerminationsCfg = TerminationsCfg()
+-
+     def __post_init__(self):
+         """Post initialization."""
+         self.decimation = 2
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/__pycache__/rewards.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/__pycache__/rewards.cpython-311.pyc
+index bcf983064b..6581feb8c3 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/__pycache__/rewards.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/__pycache__/rewards.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/rewards.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/rewards.py
+index 59c7ec5a93..5078fae0fc 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/rewards.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/rewards.py
+@@ -7,6 +7,10 @@ from __future__ import annotations
+ 
+ import torch
+ from typing import TYPE_CHECKING
++from isaaclab.assets import RigidObject
++from isaaclab.managers import SceneEntityCfg
++from isaaclab.utils.math import combine_frame_transforms, quat_error_magnitude, quat_mul
++
+ 
+ if TYPE_CHECKING:
+     from isaaclab.envs import ManagerBasedRLEnv
+@@ -25,3 +29,73 @@ def heading_command_error_abs(env: ManagerBasedRLEnv, command_name: str) -> torc
+     command = env.command_manager.get_command(command_name)
+     heading_b = command[:, 3]
+     return heading_b.abs()
++
++#####CUSTOM REWARDS#####
++
++def stability_reward(
++    env: "ManagerBasedRLEnv",
++    command_name: str,
++    position_threshold: float = 0.3,
++    orientation_threshold: float = 0.3,
++    lin_velocity_threshold: float = 0.4,
++    ang_velocity_threshold: float = 0.4
++) -> torch.Tensor:
++    """
++    Награда за полную стабильность у цели.
++    Робот должен быть: на месте, правильно ориентирован и неподвижен.
++    """
++    command = env.command_manager.get_command(command_name)
++
++    # Используем готовые функции для позиции и ориентации
++    des_pos_b = command[:, :3]
++    distance = torch.norm(des_pos_b, dim=1)
++    position_error = distance
++
++    # Ошибка ориентации
++    heading_error = command[:, 3].abs()
++
++    # Скорости робота
++    lin_vel = torch.norm(env.scene["robot"].data.root_lin_vel_b[:, :2], dim=-1)
++    ang_vel = torch.abs(env.scene["robot"].data.root_ang_vel_b[:, 2])
++
++    # Проверяем условия
++    at_position = position_error < position_threshold
++    at_orientation = heading_error < orientation_threshold
++    lin_stopped = lin_vel < lin_velocity_threshold
++    ang_stopped = ang_vel < ang_velocity_threshold
++
++    # Полная стабильность
++    fully_stable = at_position & at_orientation & lin_stopped & ang_stopped
++
++    # Градуированная награда
++    reward = at_position.float() * 0.25
++    reward += at_orientation.float() * 0.25
++    reward += lin_stopped.float() * 0.25
++    reward += ang_stopped.float() * 0.25
++    reward += fully_stable.float() * 1.0
++
++    return reward
++
++
++def distance_based_velocity_penalty(
++    env: "ManagerBasedRLEnv",
++    command_name: str,
++    activation_distance: float = 1.0
++) -> torch.Tensor:
++    """
++    Штраф за скорость, который увеличивается по мере приближения к цели.
++    """
++    command = env.command_manager.get_command(command_name)
++
++    des_pos_b = command[:, :3]
++    distance = torch.norm(des_pos_b, dim=1)
++
++    # Используем функции для скоростей
++    lin_vel = torch.norm(env.scene["robot"].data.root_lin_vel_b[:, :2], dim=-1)
++    ang_vel = torch.abs(env.scene["robot"].data.root_ang_vel_b[:, 2])
++
++    # Штраф пропорционален скорости и близости к цели
++    penalty_factor = torch.clamp(1.0 - distance / activation_distance, 0.0, 1.0)
++    penalty = penalty_factor * (lin_vel + ang_vel * 0.5)
++
++    return penalty
+\ No newline at end of file

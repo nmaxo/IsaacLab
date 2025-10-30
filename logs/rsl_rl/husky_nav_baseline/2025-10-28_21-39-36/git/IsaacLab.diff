@@ -1,0 +1,687 @@
+--- git status ---
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   source/isaaclab/isaaclab/actuators/__pycache__/actuator_pd.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/app/__pycache__/app_launcher.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/assets/articulation/__pycache__/articulation.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/__pycache__/__init__.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/__pycache__/direct_rl_env.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/__pycache__/manager_based_rl_env.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/mdp/__pycache__/__init__.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/mdp/__pycache__/events.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/mdp/__pycache__/terminations.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/mdp/commands/__init__.py
+	modified:   source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/__init__.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/commands_cfg.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/pose_command.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/mdp/commands/commands_cfg.py
+	modified:   source/isaaclab/isaaclab/envs/mdp/commands/pose_command.py
+	modified:   source/isaaclab/isaaclab/envs/mdp/terminations.py
+	modified:   source/isaaclab/isaaclab/sensors/contact_sensor/__pycache__/contact_sensor.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/sensors/ray_caster/patterns/__pycache__/patterns.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/sim/__pycache__/simulation_cfg.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/sim/__pycache__/simulation_context.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/sim/__pycache__/utils.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/sim/converters/__pycache__/mesh_converter.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/sim/spawners/materials/__pycache__/__init__.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/sim/spawners/materials/__pycache__/physics_materials_cfg.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/sim/spawners/sensors/__pycache__/sensors_cfg.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/sim/spawners/shapes/__pycache__/shapes.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/utils/io/__pycache__/__init__.cpython-311.pyc
+	modified:   source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc
+	modified:   source/isaaclab_assets/isaaclab_assets/robots/ur5_husky.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/__pycache__/husky_env_cfg.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/agents/rsl_rl_ppo_cfg.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/husky_env_cfg.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/__pycache__/rewards.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/rewards.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_11-40-22/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_11-42-15/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_11-51-52/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_12-02-20/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_12-14-19/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_12-24-52/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_13-16-24/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_13-30-35/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_13-39-52/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_14-15-27/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_14-23-20/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_14-37-53/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_14-52-23/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_15-04-43/
+	logs/rsl_rl/husky_nav_baseline/2025-10-24_15-06-37/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_14-58-02/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_14-59-17/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_15-00-58/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_15-02-57/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_16-24-39/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_16-30-06/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_16-31-40/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_16-38-50/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_16-40-08/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_16-52-46/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_16-58-07/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_17-21-54/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_17-26-26/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_17-38-34/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_17-43-33/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_17-44-39/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_20-37-27/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_20-39-05/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_20-40-34/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_20-52-29/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_20-59-13/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_21-33-09/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_21-34-10/
+	logs/rsl_rl/husky_nav_baseline/2025-10-28_21-39-36/
+	outputs/2025-10-24/11-40-22/
+	outputs/2025-10-24/11-42-15/
+	outputs/2025-10-24/11-51-52/
+	outputs/2025-10-24/12-02-20/
+	outputs/2025-10-24/12-14-19/
+	outputs/2025-10-24/12-24-52/
+	outputs/2025-10-24/12-30-05/
+	outputs/2025-10-24/13-16-24/
+	outputs/2025-10-24/13-22-18/
+	outputs/2025-10-24/13-30-35/
+	outputs/2025-10-24/13-37-12/
+	outputs/2025-10-24/13-39-52/
+	outputs/2025-10-24/13-45-24/
+	outputs/2025-10-24/14-15-27/
+	outputs/2025-10-24/14-20-54/
+	outputs/2025-10-24/14-23-20/
+	outputs/2025-10-24/14-37-53/
+	outputs/2025-10-24/14-43-10/
+	outputs/2025-10-24/14-52-23/
+	outputs/2025-10-24/14-58-54/
+	outputs/2025-10-24/15-04-43/
+	outputs/2025-10-24/15-06-37/
+	outputs/2025-10-24/15-12-52/
+	outputs/2025-10-28/
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/
+
+no changes added to commit (use "git add" and/or "git commit -a") 
+
+
+--- git diff ---
+diff --git a/source/isaaclab/isaaclab/actuators/__pycache__/actuator_pd.cpython-311.pyc b/source/isaaclab/isaaclab/actuators/__pycache__/actuator_pd.cpython-311.pyc
+index 2e5b65605a..422e5af161 100644
+Binary files a/source/isaaclab/isaaclab/actuators/__pycache__/actuator_pd.cpython-311.pyc and b/source/isaaclab/isaaclab/actuators/__pycache__/actuator_pd.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/app/__pycache__/app_launcher.cpython-311.pyc b/source/isaaclab/isaaclab/app/__pycache__/app_launcher.cpython-311.pyc
+index dde2eafc3f..5c288385f7 100644
+Binary files a/source/isaaclab/isaaclab/app/__pycache__/app_launcher.cpython-311.pyc and b/source/isaaclab/isaaclab/app/__pycache__/app_launcher.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/assets/articulation/__pycache__/articulation.cpython-311.pyc b/source/isaaclab/isaaclab/assets/articulation/__pycache__/articulation.cpython-311.pyc
+index fa25067f67..eba8f1ac05 100644
+Binary files a/source/isaaclab/isaaclab/assets/articulation/__pycache__/articulation.cpython-311.pyc and b/source/isaaclab/isaaclab/assets/articulation/__pycache__/articulation.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/__pycache__/__init__.cpython-311.pyc b/source/isaaclab/isaaclab/envs/__pycache__/__init__.cpython-311.pyc
+index b8e2e9758a..e12947073f 100644
+Binary files a/source/isaaclab/isaaclab/envs/__pycache__/__init__.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/__pycache__/__init__.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/__pycache__/direct_rl_env.cpython-311.pyc b/source/isaaclab/isaaclab/envs/__pycache__/direct_rl_env.cpython-311.pyc
+index 9f01988934..88d59fc872 100644
+Binary files a/source/isaaclab/isaaclab/envs/__pycache__/direct_rl_env.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/__pycache__/direct_rl_env.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/__pycache__/manager_based_rl_env.cpython-311.pyc b/source/isaaclab/isaaclab/envs/__pycache__/manager_based_rl_env.cpython-311.pyc
+index 2ea204d6a7..80dcadd35f 100644
+Binary files a/source/isaaclab/isaaclab/envs/__pycache__/manager_based_rl_env.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/__pycache__/manager_based_rl_env.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/mdp/__pycache__/__init__.cpython-311.pyc b/source/isaaclab/isaaclab/envs/mdp/__pycache__/__init__.cpython-311.pyc
+index e4fae1b19d..2bcaaa420f 100644
+Binary files a/source/isaaclab/isaaclab/envs/mdp/__pycache__/__init__.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/mdp/__pycache__/__init__.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/mdp/__pycache__/events.cpython-311.pyc b/source/isaaclab/isaaclab/envs/mdp/__pycache__/events.cpython-311.pyc
+index ddda107ae5..07a78dcc91 100644
+Binary files a/source/isaaclab/isaaclab/envs/mdp/__pycache__/events.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/mdp/__pycache__/events.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/mdp/__pycache__/terminations.cpython-311.pyc b/source/isaaclab/isaaclab/envs/mdp/__pycache__/terminations.cpython-311.pyc
+index 617d5714bd..2b9e6972e5 100644
+Binary files a/source/isaaclab/isaaclab/envs/mdp/__pycache__/terminations.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/mdp/__pycache__/terminations.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/mdp/commands/__init__.py b/source/isaaclab/isaaclab/envs/mdp/commands/__init__.py
+index c2e1a592db..66c9666cfe 100644
+--- a/source/isaaclab/isaaclab/envs/mdp/commands/__init__.py
++++ b/source/isaaclab/isaaclab/envs/mdp/commands/__init__.py
+@@ -12,8 +12,9 @@ from .commands_cfg import (
+     UniformPose2dCommandCfg,
+     UniformPoseCommandCfg,
+     UniformVelocityCommandCfg,
++    UniformPoseFixedCommandCfg
+ )
+ from .null_command import NullCommand
+ from .pose_2d_command import TerrainBasedPose2dCommand, UniformPose2dCommand
+-from .pose_command import UniformPoseCommand
++from .pose_command import UniformPoseCommand,UniformPoseFixedCommand
+ from .velocity_command import NormalVelocityCommand, UniformVelocityCommand
+diff --git a/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/__init__.cpython-311.pyc b/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/__init__.cpython-311.pyc
+index fd96560035..1775ad862e 100644
+Binary files a/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/__init__.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/__init__.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/commands_cfg.cpython-311.pyc b/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/commands_cfg.cpython-311.pyc
+index 95d776bfa7..e0562411f3 100644
+Binary files a/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/commands_cfg.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/commands_cfg.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/pose_command.cpython-311.pyc b/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/pose_command.cpython-311.pyc
+index 22fd0ee3c7..a7d61a263d 100644
+Binary files a/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/pose_command.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/pose_command.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/mdp/commands/commands_cfg.py b/source/isaaclab/isaaclab/envs/mdp/commands/commands_cfg.py
+index 2f558183dd..62c1c8d353 100644
+--- a/source/isaaclab/isaaclab/envs/mdp/commands/commands_cfg.py
++++ b/source/isaaclab/isaaclab/envs/mdp/commands/commands_cfg.py
+@@ -13,7 +13,7 @@ from isaaclab.utils import configclass
+ 
+ from .null_command import NullCommand
+ from .pose_2d_command import TerrainBasedPose2dCommand, UniformPose2dCommand
+-from .pose_command import UniformPoseCommand
++from .pose_command import UniformPoseCommand,UniformPoseFixedCommand
+ from .velocity_command import NormalVelocityCommand, UniformVelocityCommand
+ 
+ 
+@@ -246,3 +246,59 @@ class TerrainBasedPose2dCommandCfg(UniformPose2dCommandCfg):
+ 
+     ranges: Ranges = MISSING
+     """Distribution ranges for the sampled commands."""
++
++
++@configclass
++class UniformPoseFixedCommandCfg(CommandTermCfg):
++    """Configuration for uniform pose command generator."""
++
++    class_type: type = UniformPoseFixedCommand
++
++    asset_name: str = MISSING
++    """Name of the asset in the environment for which the commands are generated."""
++
++    body_name: str = MISSING
++    """Name of the body in the asset for which the commands are generated."""
++
++    make_quat_unique: bool = False
++    """Whether to make the quaternion unique or not. Defaults to False.
++
++    If True, the quaternion is made unique by ensuring the real part is positive.
++    """
++
++    @configclass
++    class Ranges:
++        """Uniform distribution ranges for the pose commands."""
++
++        pos_x: tuple[float, float] = MISSING
++        """Range for the x position (in m)."""
++
++        pos_y: tuple[float, float] = MISSING
++        """Range for the y position (in m)."""
++
++        pos_z: tuple[float, float] = MISSING
++        """Range for the z position (in m)."""
++
++        roll: tuple[float, float] = MISSING
++        """Range for the roll angle (in rad)."""
++
++        pitch: tuple[float, float] = MISSING
++        """Range for the pitch angle (in rad)."""
++
++        yaw: tuple[float, float] = MISSING
++        """Range for the yaw angle (in rad)."""
++
++    ranges: Ranges = MISSING
++    """Ranges for the commands."""
++
++    goal_pose_visualizer_cfg: VisualizationMarkersCfg = FRAME_MARKER_CFG.replace(prim_path="/Visuals/Command/goal_pose")
++    """The configuration for the goal pose visualization marker. Defaults to FRAME_MARKER_CFG."""
++
++    current_pose_visualizer_cfg: VisualizationMarkersCfg = FRAME_MARKER_CFG.replace(
++        prim_path="/Visuals/Command/body_pose"
++    )
++    """The configuration for the current pose visualization marker. Defaults to FRAME_MARKER_CFG."""
++
++    # Set the scale of the visualization markers to (0.1, 0.1, 0.1)
++    goal_pose_visualizer_cfg.markers["frame"].scale = (0.1, 0.1, 0.1)
++    current_pose_visualizer_cfg.markers["frame"].scale = (0.1, 0.1, 0.1)
+diff --git a/source/isaaclab/isaaclab/envs/mdp/commands/pose_command.py b/source/isaaclab/isaaclab/envs/mdp/commands/pose_command.py
+index 5c38a9f6cd..4f1f5c59d7 100644
+--- a/source/isaaclab/isaaclab/envs/mdp/commands/pose_command.py
++++ b/source/isaaclab/isaaclab/envs/mdp/commands/pose_command.py
+@@ -15,11 +15,12 @@ from isaaclab.assets import Articulation
+ from isaaclab.managers import CommandTerm
+ from isaaclab.markers import VisualizationMarkers
+ from isaaclab.utils.math import combine_frame_transforms, compute_pose_error, quat_from_euler_xyz, quat_unique
+-
++from isaaclab.utils.math import combine_frame_transforms
++from isaaclab.utils.math import quat_apply_inverse, quat_conjugate, quat_mul
+ if TYPE_CHECKING:
+     from isaaclab.envs import ManagerBasedEnv
+ 
+-    from .commands_cfg import UniformPoseCommandCfg
++    from .commands_cfg import UniformPoseCommandCfg,UniformPoseFixedCommandCfg
+ 
+ 
+ class UniformPoseCommand(CommandTerm):
+@@ -171,3 +172,97 @@ class UniformPoseCommand(CommandTerm):
+         # -- current body pose
+         body_link_pose_w = self.robot.data.body_link_pose_w[:, self.body_idx]
+         self.current_pose_visualizer.visualize(body_link_pose_w[:, :3], body_link_pose_w[:, 3:7])
++
++
++
++class UniformPoseFixedCommand(CommandTerm):
++    # ... docstring и остальное без изменений ...
++    cfg: UniformPoseFixedCommandCfg
++    
++    def __init__(self, cfg: UniformPoseFixedCommandCfg, env: ManagerBasedEnv):
++        super().__init__(cfg, env)
++        
++        self.robot: Articulation = env.scene[cfg.asset_name]
++        self.body_idx = self.robot.find_bodies(cfg.body_name)[0][0]
++        
++        # Инициализация в мировом фрейме
++        self.pose_command_w = torch.zeros(self.num_envs, 7, device=self.device)
++        self.pose_command_w[:, 3] = 1.0
++        self.pose_command_b = torch.zeros_like(self.pose_command_w)
++        
++        self.metrics["position_error"] = torch.zeros(self.num_envs, device=self.device)
++        self.metrics["orientation_error"] = torch.zeros(self.num_envs, device=self.device)
++
++    @property
++    def command(self) -> torch.Tensor:
++        """The desired pose command in BASE frame. Shape is (num_envs, 7).
++        
++        Returns command in base frame for controller, even though we sample in world frame.
++        """
++        return self.pose_command_b
++
++    def _resample_command(self, env_ids: Sequence[int]):
++        # Сэмплируем в мировом фрейме
++        r = torch.empty(len(env_ids), device=self.device)
++        self.pose_command_w[env_ids, 0] = r.uniform_(*self.cfg.ranges.pos_x)
++        self.pose_command_w[env_ids, 1] = r.uniform_(*self.cfg.ranges.pos_y)
++        self.pose_command_w[env_ids, 2] = r.uniform_(*self.cfg.ranges.pos_z)
++        
++        euler_angles = torch.zeros(len(env_ids), 3, device=self.device)
++        euler_angles[:, 0].uniform_(*self.cfg.ranges.roll)
++        euler_angles[:, 1].uniform_(*self.cfg.ranges.pitch)
++        euler_angles[:, 2].uniform_(*self.cfg.ranges.yaw)
++        quat = quat_from_euler_xyz(euler_angles[:, 0], euler_angles[:, 1], euler_angles[:, 2])
++        self.pose_command_w[env_ids, 3:] = quat_unique(quat) if self.cfg.make_quat_unique else quat
++
++    def _update_command(self):
++        """Convert world frame command to base frame for the controller."""
++        # Позиция: (target_world - root_world) преобразованная в базовый фрейм
++        world_to_base_pos = self.pose_command_w[:, :3] - self.robot.data.root_pos_w
++        self.pose_command_b[:, :3] = quat_apply_inverse(self.robot.data.root_quat_w, world_to_base_pos)
++        
++        # Ориентация: conjugate(root_quat) * target_quat  
++        root_quat_conj = quat_conjugate(self.robot.data.root_quat_w)
++        self.pose_command_b[:, 3:] = quat_mul(root_quat_conj, self.pose_command_w[:, 3:])
++    def _update_metrics(self):
++        # Ошибка вычисляется напрямую в мировом фрейме
++        pos_error, rot_error = compute_pose_error(
++            self.pose_command_w[:, :3],
++            self.pose_command_w[:, 3:],
++            self.robot.data.body_pos_w[:, self.body_idx],
++            self.robot.data.body_quat_w[:, self.body_idx],
++        )
++        self.metrics["position_error"] = torch.norm(pos_error, dim=-1)
++        self.metrics["orientation_error"] = torch.norm(rot_error, dim=-1)
++
++    # Добавьте также остальные обязательные методы если они есть в базовом классе:
++    def _set_debug_vis_impl(self, debug_vis: bool):
++        # create markers if necessary for the first time
++        if debug_vis:
++            if not hasattr(self, "goal_pose_visualizer"):
++                # -- goal pose
++                self.goal_pose_visualizer = VisualizationMarkers(self.cfg.goal_pose_visualizer_cfg)
++                # -- current body pose
++                self.current_pose_visualizer = VisualizationMarkers(self.cfg.current_pose_visualizer_cfg)
++            # set their visibility to true
++            self.goal_pose_visualizer.set_visibility(True)
++            self.current_pose_visualizer.set_visibility(True)
++        else:
++            if hasattr(self, "goal_pose_visualizer"):
++                self.goal_pose_visualizer.set_visibility(False)
++                self.current_pose_visualizer.set_visibility(False)
++
++    def _debug_vis_callback(self, event):
++        # check if robot is initialized
++        # note: this is needed in-case the robot is de-initialized. we can't access the data
++        if not self.robot.is_initialized:
++            return
++        # update the markers
++        # -- goal pose
++        self.goal_pose_visualizer.visualize(self.pose_command_w[:, :3], self.pose_command_w[:, 3:])
++        # -- current body pose
++        body_link_pose_w = self.robot.data.body_link_pose_w[:, self.body_idx]
++        self.current_pose_visualizer.visualize(body_link_pose_w[:, :3], body_link_pose_w[:, 3:7])
++
++
++
+diff --git a/source/isaaclab/isaaclab/envs/mdp/terminations.py b/source/isaaclab/isaaclab/envs/mdp/terminations.py
+index a13ce9bb4a..10f9257d49 100644
+--- a/source/isaaclab/isaaclab/envs/mdp/terminations.py
++++ b/source/isaaclab/isaaclab/envs/mdp/terminations.py
+@@ -46,6 +46,35 @@ def command_resample(env: ManagerBasedRLEnv, command_name: str, num_resamples: i
+ Root terminations.
+ """
+ 
++def goal_reached_termination(
++    env: ManagerBasedRLEnv,
++    threshold: float = 0.3,
++    asset_cfg: SceneEntityCfg = SceneEntityCfg("robot"),
++) -> torch.Tensor:
++    """Terminate episode when the robot reaches the commanded 2D goal."""
++    # 1. Достаем объект робота
++    asset: RigidObject = env.scene[asset_cfg.name]
++    base_pos = asset.data.root_pos_w[:, :2]  # XY позиция робота
++
++    # 2. Получаем текущую команду
++    pose_command = env.command_manager.get_command("pose_command")
++
++    # 3. Извлекаем целевую позицию (в мировых координатах)
++    if hasattr(pose_command, "pos_command_w"):
++        goal_pos = pose_command[:, :2]  # XY цель
++    else:
++        goal_pos = pose_command[:, :2]  # fallback
++
++    # 4. Вычисляем расстояние
++    distance = torch.norm(base_pos - goal_pos, dim=-1)
++
++    # 5. (опционально) вывести для отладки
++    # print("Base pos:", base_pos)
++    # print("Goal pos:", goal_pos)
++    # print("Distance:", distance)
++
++    # 6. Возвращаем условие завершения
++    return distance < threshold
+ 
+ def bad_orientation(
+     env: ManagerBasedRLEnv, limit_angle: float, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
+@@ -159,3 +188,5 @@ def illegal_contact(env: ManagerBasedRLEnv, threshold: float, sensor_cfg: SceneE
+     return torch.any(
+         torch.max(torch.norm(net_contact_forces[:, :, sensor_cfg.body_ids], dim=-1), dim=1)[0] > threshold, dim=1
+     )
++
++
+diff --git a/source/isaaclab/isaaclab/sensors/contact_sensor/__pycache__/contact_sensor.cpython-311.pyc b/source/isaaclab/isaaclab/sensors/contact_sensor/__pycache__/contact_sensor.cpython-311.pyc
+index 065639d766..e277f2fe2e 100644
+Binary files a/source/isaaclab/isaaclab/sensors/contact_sensor/__pycache__/contact_sensor.cpython-311.pyc and b/source/isaaclab/isaaclab/sensors/contact_sensor/__pycache__/contact_sensor.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/sensors/ray_caster/patterns/__pycache__/patterns.cpython-311.pyc b/source/isaaclab/isaaclab/sensors/ray_caster/patterns/__pycache__/patterns.cpython-311.pyc
+index 2c19442c5f..dffa3c6661 100644
+Binary files a/source/isaaclab/isaaclab/sensors/ray_caster/patterns/__pycache__/patterns.cpython-311.pyc and b/source/isaaclab/isaaclab/sensors/ray_caster/patterns/__pycache__/patterns.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/sim/__pycache__/simulation_cfg.cpython-311.pyc b/source/isaaclab/isaaclab/sim/__pycache__/simulation_cfg.cpython-311.pyc
+index c5b2bfbaea..375c90d35d 100644
+Binary files a/source/isaaclab/isaaclab/sim/__pycache__/simulation_cfg.cpython-311.pyc and b/source/isaaclab/isaaclab/sim/__pycache__/simulation_cfg.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/sim/__pycache__/simulation_context.cpython-311.pyc b/source/isaaclab/isaaclab/sim/__pycache__/simulation_context.cpython-311.pyc
+index def8cf6a62..b749291f9f 100644
+Binary files a/source/isaaclab/isaaclab/sim/__pycache__/simulation_context.cpython-311.pyc and b/source/isaaclab/isaaclab/sim/__pycache__/simulation_context.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/sim/__pycache__/utils.cpython-311.pyc b/source/isaaclab/isaaclab/sim/__pycache__/utils.cpython-311.pyc
+index f98be99a8a..72d697d682 100644
+Binary files a/source/isaaclab/isaaclab/sim/__pycache__/utils.cpython-311.pyc and b/source/isaaclab/isaaclab/sim/__pycache__/utils.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/sim/converters/__pycache__/mesh_converter.cpython-311.pyc b/source/isaaclab/isaaclab/sim/converters/__pycache__/mesh_converter.cpython-311.pyc
+index bac9a8569d..6cacf6a59c 100644
+Binary files a/source/isaaclab/isaaclab/sim/converters/__pycache__/mesh_converter.cpython-311.pyc and b/source/isaaclab/isaaclab/sim/converters/__pycache__/mesh_converter.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/sim/spawners/materials/__pycache__/__init__.cpython-311.pyc b/source/isaaclab/isaaclab/sim/spawners/materials/__pycache__/__init__.cpython-311.pyc
+index 5f09d063d0..608a7d422e 100644
+Binary files a/source/isaaclab/isaaclab/sim/spawners/materials/__pycache__/__init__.cpython-311.pyc and b/source/isaaclab/isaaclab/sim/spawners/materials/__pycache__/__init__.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/sim/spawners/materials/__pycache__/physics_materials_cfg.cpython-311.pyc b/source/isaaclab/isaaclab/sim/spawners/materials/__pycache__/physics_materials_cfg.cpython-311.pyc
+index 8f2947d94f..a2ad83eca3 100644
+Binary files a/source/isaaclab/isaaclab/sim/spawners/materials/__pycache__/physics_materials_cfg.cpython-311.pyc and b/source/isaaclab/isaaclab/sim/spawners/materials/__pycache__/physics_materials_cfg.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/sim/spawners/sensors/__pycache__/sensors_cfg.cpython-311.pyc b/source/isaaclab/isaaclab/sim/spawners/sensors/__pycache__/sensors_cfg.cpython-311.pyc
+index a4be96fa24..505c7f6b94 100644
+Binary files a/source/isaaclab/isaaclab/sim/spawners/sensors/__pycache__/sensors_cfg.cpython-311.pyc and b/source/isaaclab/isaaclab/sim/spawners/sensors/__pycache__/sensors_cfg.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/sim/spawners/shapes/__pycache__/shapes.cpython-311.pyc b/source/isaaclab/isaaclab/sim/spawners/shapes/__pycache__/shapes.cpython-311.pyc
+index ea753953ab..ff466f11e6 100644
+Binary files a/source/isaaclab/isaaclab/sim/spawners/shapes/__pycache__/shapes.cpython-311.pyc and b/source/isaaclab/isaaclab/sim/spawners/shapes/__pycache__/shapes.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/utils/io/__pycache__/__init__.cpython-311.pyc b/source/isaaclab/isaaclab/utils/io/__pycache__/__init__.cpython-311.pyc
+index 2a53cd90ad..b8b1ee84ef 100644
+Binary files a/source/isaaclab/isaaclab/utils/io/__pycache__/__init__.cpython-311.pyc and b/source/isaaclab/isaaclab/utils/io/__pycache__/__init__.cpython-311.pyc differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc
+index 90129ce1a6..ffd22ad7d2 100644
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc and b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/ur5_husky.py b/source/isaaclab_assets/isaaclab_assets/robots/ur5_husky.py
+index 4d0458cfe1..9ef6ddf23c 100644
+--- a/source/isaaclab_assets/isaaclab_assets/robots/ur5_husky.py
++++ b/source/isaaclab_assets/isaaclab_assets/robots/ur5_husky.py
+@@ -31,7 +31,7 @@ UR5M_CFG = ArticulationCfg(
+         ),
+     ),
+     init_state=ArticulationCfg.InitialStateCfg(
+-        pos=(0.0, 0.0, 0.0),
++        pos=(0.0, 0.0, 0.1),
+         joint_pos={
+             "shoulder_pan_joint": math.radians(-7.0),             # 132.0°
+             "shoulder_lift_joint": math.radians(-85.0),           # -8.9°
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/__pycache__/husky_env_cfg.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/__pycache__/husky_env_cfg.cpython-311.pyc
+index 436ec29c57..a61d1c9a17 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/__pycache__/husky_env_cfg.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/__pycache__/husky_env_cfg.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/agents/rsl_rl_ppo_cfg.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/agents/rsl_rl_ppo_cfg.py
+index 88bad121d4..091b639e35 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/agents/rsl_rl_ppo_cfg.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/agents/rsl_rl_ppo_cfg.py
+@@ -13,12 +13,12 @@ class HuskyNavigationEnvPPORunnerCfg(RslRlOnPolicyRunnerCfg):
+     num_steps_per_env = 8
+     max_iterations = 1500
+     save_interval = 50
+-    experiment_name = "husky_nav_baseline"
++    experiment_name = "husky_FBC"
+     policy = RslRlPpoActorCriticCfg(
+         init_noise_std=0.5,
+         actor_obs_normalization=False,
+         critic_obs_normalization=False,
+-        actor_hidden_dims=[128, 128],
++        actor_hidden_dims=[256, 256],
+         critic_hidden_dims=[128, 128],
+         activation="elu",
+     )
+@@ -28,7 +28,7 @@ class HuskyNavigationEnvPPORunnerCfg(RslRlOnPolicyRunnerCfg):
+         clip_param=0.2,
+         entropy_coef=0.005,
+         num_learning_epochs=5,
+-        num_mini_batches=4,
++        num_mini_batches=128,
+         learning_rate=1.0e-3,
+         schedule="adaptive",
+         gamma=0.99,
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/husky_env_cfg.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/husky_env_cfg.py
+index 844079d241..e7c8171221 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/husky_env_cfg.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/husky_env_cfg.py
+@@ -20,9 +20,10 @@ from isaaclab.utils.assets import ISAACLAB_NUCLEUS_DIR
+ 
+ import isaaclab_tasks.manager_based.navigation.mdp as mdp
+ from isaaclab_tasks.manager_based.navigation.mdp.custom_mdp import DiffDriveVelocityAction, DiffDriveVelocityActionCfg
++from isaaclab_assets.robots import ur5_husky # isort: skip
++
+ 
+ 
+-from isaaclab_assets.robots import ur5_husky # isort: skip
+ UR5M_CFG = ur5_husky.UR5M_CFG
+ 
+ 
+@@ -104,20 +105,69 @@ class RewardsCfg:
+     termination_penalty = RewTerm(func=mdp.is_terminated, weight=-400.0)
+     position_tracking = RewTerm(
+         func=mdp.position_command_error_tanh,
+-        weight=0.5,
+-        params={"std": 2.0, "command_name": "pose_command"},
++        weight=0.8,
++        params={"std": 1.5, "command_name": "pose_command"},
+     )
+     position_tracking_fine_grained = RewTerm(
+         func=mdp.position_command_error_tanh,
+-        weight=0.5,
+-        params={"std": 0.2, "command_name": "pose_command"},
++        weight=1.0,
++        params={"std": 0.1, "command_name": "pose_command"},
+     )
+     orientation_tracking = RewTerm(
+         func=mdp.heading_command_error_abs,
+         weight=-0.2,
+         params={"command_name": "pose_command"},
+     )
+-
++    stability_at_goal = RewTerm(
++        func=mdp.stability_reward,
++        weight=0.3,
++        params={
++            "command_name": "pose_command",
++            "position_threshold": 0.2,
++            "orientation_threshold": 0.4,
++            "lin_velocity_threshold": 0.2,
++            "ang_velocity_threshold": 0.2
++        }
++    )
++    vel_pen = RewTerm(func = mdp.distance_based_velocity_penalty, 
++                      weight = -0.15, params={"command_name": "pose_command"})
++
++# @configclass
++# class RewardsCfg:
++#     """Reward terms for the MDP."""
++
++#     termination_penalty = RewTerm(func=mdp.is_terminated, weight=-400.0)
++    
++#     # ВСЁ КАК БЫЛО (ваша рабочая конфигурация)
++#     position_tracking = RewTerm(
++#         func=mdp.position_command_error_tanh,
++#         weight=0.5,
++#         params={"std": 2.0, "command_name": "pose_command"},
++#     )
++    
++#     position_tracking_fine_grained = RewTerm(
++#         func=mdp.position_command_error_tanh,
++#         weight=0.5,
++#         params={"std": 0.2, "command_name": "pose_command"},
++#     )
++    
++#     orientation_tracking = RewTerm(
++#         func=mdp.heading_command_error_abs,
++#         weight=-0.2,
++#         params={"command_name": "pose_command"},
++#     )
++    
++#     stability_at_goal = RewTerm(
++#         func=mdp.stability_reward,
++#         weight=2.0,  # начните с малого веса
++#         params={
++#             "command_name": "pose_command",
++#             "position_threshold": 0.5,  # чуть шире чем 0.2 из fine_grained
++#             "orientation_threshold": 0.4,
++#             "lin_velocity_threshold": 0.3,
++#             "ang_velocity_threshold": 0.3
++#         }
++#     )
+ 
+ @configclass
+ class CommandsCfg:
+@@ -131,12 +181,13 @@ class CommandsCfg:
+         ranges=mdp.UniformPose2dCommandCfg.Ranges(pos_x=(-4.0, 4.0), pos_y=(-4.0, 4.0), heading=(-math.pi, math.pi)),
+     )
+ 
+-
++    
+ @configclass
+ class TerminationsCfg:
+     """Termination terms for the MDP."""
+ 
+     time_out = DoneTerm(func=mdp.time_out, time_out=True) 
++    # goal_reached = DoneTerm(func=mdp.goal_reached_termination, params={"threshold": 0.1})
+ 
+ 
+ @configclass
+@@ -152,7 +203,6 @@ class HuskyNavEnvCfg(ManagerBasedRLEnvCfg):
+     commands: CommandsCfg = CommandsCfg()
+     rewards: RewardsCfg = RewardsCfg()
+     terminations: TerminationsCfg = TerminationsCfg()
+-
+     def __post_init__(self):
+         """Post initialization."""
+         self.decimation = 2
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/__pycache__/rewards.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/__pycache__/rewards.cpython-311.pyc
+index bcf983064b..6581feb8c3 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/__pycache__/rewards.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/__pycache__/rewards.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/rewards.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/rewards.py
+index 59c7ec5a93..5078fae0fc 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/rewards.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/rewards.py
+@@ -7,6 +7,10 @@ from __future__ import annotations
+ 
+ import torch
+ from typing import TYPE_CHECKING
++from isaaclab.assets import RigidObject
++from isaaclab.managers import SceneEntityCfg
++from isaaclab.utils.math import combine_frame_transforms, quat_error_magnitude, quat_mul
++
+ 
+ if TYPE_CHECKING:
+     from isaaclab.envs import ManagerBasedRLEnv
+@@ -25,3 +29,73 @@ def heading_command_error_abs(env: ManagerBasedRLEnv, command_name: str) -> torc
+     command = env.command_manager.get_command(command_name)
+     heading_b = command[:, 3]
+     return heading_b.abs()
++
++#####CUSTOM REWARDS#####
++
++def stability_reward(
++    env: "ManagerBasedRLEnv",
++    command_name: str,
++    position_threshold: float = 0.3,
++    orientation_threshold: float = 0.3,
++    lin_velocity_threshold: float = 0.4,
++    ang_velocity_threshold: float = 0.4
++) -> torch.Tensor:
++    """
++    Награда за полную стабильность у цели.
++    Робот должен быть: на месте, правильно ориентирован и неподвижен.
++    """
++    command = env.command_manager.get_command(command_name)
++
++    # Используем готовые функции для позиции и ориентации
++    des_pos_b = command[:, :3]
++    distance = torch.norm(des_pos_b, dim=1)
++    position_error = distance
++
++    # Ошибка ориентации
++    heading_error = command[:, 3].abs()
++
++    # Скорости робота
++    lin_vel = torch.norm(env.scene["robot"].data.root_lin_vel_b[:, :2], dim=-1)
++    ang_vel = torch.abs(env.scene["robot"].data.root_ang_vel_b[:, 2])
++
++    # Проверяем условия
++    at_position = position_error < position_threshold
++    at_orientation = heading_error < orientation_threshold
++    lin_stopped = lin_vel < lin_velocity_threshold
++    ang_stopped = ang_vel < ang_velocity_threshold
++
++    # Полная стабильность
++    fully_stable = at_position & at_orientation & lin_stopped & ang_stopped
++
++    # Градуированная награда
++    reward = at_position.float() * 0.25
++    reward += at_orientation.float() * 0.25
++    reward += lin_stopped.float() * 0.25
++    reward += ang_stopped.float() * 0.25
++    reward += fully_stable.float() * 1.0
++
++    return reward
++
++
++def distance_based_velocity_penalty(
++    env: "ManagerBasedRLEnv",
++    command_name: str,
++    activation_distance: float = 1.0
++) -> torch.Tensor:
++    """
++    Штраф за скорость, который увеличивается по мере приближения к цели.
++    """
++    command = env.command_manager.get_command(command_name)
++
++    des_pos_b = command[:, :3]
++    distance = torch.norm(des_pos_b, dim=1)
++
++    # Используем функции для скоростей
++    lin_vel = torch.norm(env.scene["robot"].data.root_lin_vel_b[:, :2], dim=-1)
++    ang_vel = torch.abs(env.scene["robot"].data.root_ang_vel_b[:, 2])
++
++    # Штраф пропорционален скорости и близости к цели
++    penalty_factor = torch.clamp(1.0 - distance / activation_distance, 0.0, 1.0)
++    penalty = penalty_factor * (lin_vel + ang_vel * 0.5)
++
++    return penalty
+\ No newline at end of file

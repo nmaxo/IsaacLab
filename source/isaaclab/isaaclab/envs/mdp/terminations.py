@@ -46,6 +46,35 @@ def command_resample(env: ManagerBasedRLEnv, command_name: str, num_resamples: i
 Root terminations.
 """
 
+def goal_reached_termination(
+    env: ManagerBasedRLEnv,
+    threshold: float = 0.3,
+    asset_cfg: SceneEntityCfg = SceneEntityCfg("robot"),
+) -> torch.Tensor:
+    """Terminate episode when the robot reaches the commanded 2D goal."""
+    # 1. Достаем объект робота
+    asset: RigidObject = env.scene[asset_cfg.name]
+    base_pos = asset.data.root_pos_w[:, :2]  # XY позиция робота
+
+    # 2. Получаем текущую команду
+    pose_command = env.command_manager.get_command("pose_command")
+
+    # 3. Извлекаем целевую позицию (в мировых координатах)
+    if hasattr(pose_command, "pos_command_w"):
+        goal_pos = pose_command[:, :2]  # XY цель
+    else:
+        goal_pos = pose_command[:, :2]  # fallback
+
+    # 4. Вычисляем расстояние
+    distance = torch.norm(base_pos - goal_pos, dim=-1)
+
+    # 5. (опционально) вывести для отладки
+    # print("Base pos:", base_pos)
+    # print("Goal pos:", goal_pos)
+    # print("Distance:", distance)
+
+    # 6. Возвращаем условие завершения
+    return distance < threshold
 
 def bad_orientation(
     env: ManagerBasedRLEnv, limit_angle: float, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
@@ -159,3 +188,5 @@ def illegal_contact(env: ManagerBasedRLEnv, threshold: float, sensor_cfg: SceneE
     return torch.any(
         torch.max(torch.norm(net_contact_forces[:, :, sensor_cfg.body_ids], dim=-1), dim=1)[0] > threshold, dim=1
     )
+
+

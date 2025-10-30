@@ -13,12 +13,12 @@ class HuskyNavigationEnvPPORunnerCfg(RslRlOnPolicyRunnerCfg):
     num_steps_per_env = 8
     max_iterations = 1500
     save_interval = 50
-    experiment_name = "husky_nav_baseline"
+    experiment_name = "husky_FBC"
     policy = RslRlPpoActorCriticCfg(
         init_noise_std=0.5,
         actor_obs_normalization=False,
         critic_obs_normalization=False,
-        actor_hidden_dims=[128, 128],
+        actor_hidden_dims=[256, 256],
         critic_hidden_dims=[128, 128],
         activation="elu",
     )
@@ -28,7 +28,7 @@ class HuskyNavigationEnvPPORunnerCfg(RslRlOnPolicyRunnerCfg):
         clip_param=0.2,
         entropy_coef=0.005,
         num_learning_epochs=5,
-        num_mini_batches=4,
+        num_mini_batches=128,
         learning_rate=1.0e-3,
         schedule="adaptive",
         gamma=0.99,
