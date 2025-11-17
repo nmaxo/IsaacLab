@@ -134,3 +134,81 @@ def orientation_command_error(env: ManagerBasedRLEnv, command_name: str, asset_c
     des_quat_w = quat_mul(asset.data.root_quat_w, des_quat_b)
     curr_quat_w = asset.data.body_quat_w[:, asset_cfg.body_ids[0]]  # type: ignore
     return quat_error_magnitude(curr_quat_w, des_quat_w)
+
+
+##### НОВЫЕ ФУНКЦИИ НАГРАД #####
+
+def goal_reached_bonus(
+    env: "ManagerBasedRLEnv",
+    asset_cfg: SceneEntityCfg,
+    command_name: str,
+    position_threshold: float = 0.05,
+    orientation_threshold: float = 0.1,
+) -> torch.Tensor:
+    """
+    Большая награда за успешное достижение цели.
+    Выдается только когда робот находится в пределах заданных порогов по позиции и ориентации.
+    """
+    asset: RigidObject = env.scene[asset_cfg.name]
+    command = env.command_manager.get_command(command_name)
+    
+    # Проверка позиции
+    des_pos_b = command[:, :3]
+    des_pos_w, _ = combine_frame_transforms(asset.data.root_pos_w, asset.data.root_quat_w, des_pos_b)
+    curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]] # type: ignore
+    position_error = torch.norm(curr_pos_w - des_pos_w, dim=1)
+    
+    # Проверка ориентации
+    des_quat_b = command[:, 3:7]
+    des_quat_w = quat_mul(asset.data.root_quat_w, des_quat_b)
+    curr_quat_w = asset.data.body_quat_w[:, asset_cfg.body_ids[0]] # type: ignore
+    orientation_error = quat_error_magnitude(curr_quat_w, des_quat_w)
+    
+    # Условие достижения цели
+    goal_reached = (position_error < position_threshold) & (orientation_error < orientation_threshold)
+    
+    return goal_reached.float()
+
+
+def episode_failure_penalty(
+    env: "ManagerBasedRLEnv",
+    asset_cfg: SceneEntityCfg,
+    command_name: str,
+    failure_distance: float = 0.3,
+) -> torch.Tensor:
+    """
+    Штраф за неудачное завершение эпизода.
+    Применяется, когда эпизод заканчивается, но цель не достигнута.
+    """
+    asset: RigidObject = env.scene[asset_cfg.name]
+    command = env.command_manager.get_command(command_name)
+    
+    # Вычисляем текущую ошибку позиции
+    des_pos_b = command[:, :3]
+    des_pos_w, _ = combine_frame_transforms(asset.data.root_pos_w, asset.data.root_quat_w, des_pos_b)
+    curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]] # type: ignore
+    distance = torch.norm(curr_pos_w - des_pos_w, dim=1)
+    
+    # Проверяем, близки ли мы к концу эпизода
+    # Используем episode_length_buf для определения
+    max_episode_length = env.max_episode_length
+    current_step = env.episode_length_buf
+    
+    # Применяем штраф только в конце эпизода, если цель не достигнута
+    near_end = current_step >= (max_episode_length - 1)
+    failed = distance > failure_distance
+    
+    penalty = (near_end & failed).float()
+    
+    return penalty
+
+
+def time_penalty(env: "ManagerBasedRLEnv") -> torch.Tensor:
+    """
+    Прогрессивный штраф за каждый шаг эпизода.
+    Мотивирует агента выполнять задачу быстрее.
+    """
+    # Постоянный штраф за каждый шаг
+    return torch.ones(env.num_envs, device=env.device)
+
+

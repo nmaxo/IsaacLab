@@ -26,6 +26,7 @@ from isaaclab_assets.robots import ur5_husky # isort: skip
 
 
 
+
 UR5M_CFG = ur5_husky.UR5M_CFG
 
 
@@ -121,15 +122,15 @@ class RewardsCfg:
     # termination_penalty = RewTerm(func=mdp.is_terminated, weight=-400.0)
     position_tracking = RewTerm(
         func=mdp.position_command_error_tanh,
-        weight=0.2,
+        weight=0.45,
         params={"std":1.5,"asset_cfg": SceneEntityCfg("robot", body_names='base_link'), "command_name": "ee_pose"},
     )
 
 
     position_tracking_fine_grained = RewTerm(
         func=mdp.position_command_error_tanh,
-        weight=0.4,
-        params={"std":0.3,"asset_cfg": SceneEntityCfg("robot", body_names='base_link'), "command_name": "ee_pose"},
+        weight=2.5,
+        params={"std":0.2,"asset_cfg": SceneEntityCfg("robot", body_names='base_link'), "command_name": "ee_pose"},
     )
     # orientation_tracking = RewTerm(
     #     func=mdp.heading_command_error_abs,
@@ -138,7 +139,7 @@ class RewardsCfg:
     # )
     stability_at_goal = RewTerm(
         func=mdp.stability_reward,
-        weight=0.4,
+        weight=0.3,
         params={
             "command_name": "ee_pose",
             "position_threshold": 0.2,
@@ -154,19 +155,50 @@ class RewardsCfg:
     # task terms
     end_effector_position_tracking = RewTerm(
         func=mdp.position_command_error,
-        weight=-0.15,
+        weight=-0.35,
         params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "command_name": "ee_pose"},
     )
     end_effector_position_tracking_fine_grained = RewTerm(
         func=mdp.position_command_error_tanh,
         weight=0.15,
-        params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "std": 0.4 ,"command_name": "ee_pose"},
+        params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "std": 0.25 ,"command_name": "ee_pose"},
     )
     
     end_effector_orientation_tracking = RewTerm(
         func=mdp.orientation_command_error,
         weight=-0.3,
         params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "command_name": "ee_pose"},
+    )
+
+
+        # Большая награда за успешное достижение цели
+    task_completion_bonus = RewTerm(
+        func=mdp.goal_reached_bonus,
+        weight=5.0,  # Большой бонус за достижение цели
+        params={
+            "asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"),
+            "command_name": "ee_pose",
+            "position_threshold": 0.05,  # Точный порог для достижения
+            "orientation_threshold": 0.2,
+        }
+    )
+    
+    # Штраф за неудачное завершение эпизода
+    failure_penalty = RewTerm(
+        func=mdp.episode_failure_penalty,
+        weight=-2.0,  # Штраф за провал
+        params={
+            "asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"),
+            "command_name": "ee_pose",
+            "failure_distance": 0.25,  # Если дальше этого расстояния в конце
+        }
+    )
+    
+    # Прогрессивный штраф за затягивание эпизода
+    time_penalty = RewTerm(
+        func=mdp.time_penalty,
+        weight=-0.05,  # Небольшой штраф за каждый шаг
+        params={}
     )
 
     # # action penalty
@@ -178,42 +210,7 @@ class RewardsCfg:
     # )
 
 
-# @configclass
-# class RewardsCfg:
-#     """Reward terms for the MDP."""
 
-#     termination_penalty = RewTerm(func=mdp.is_terminated, weight=-400.0)
-    
-#     # ВСЁ КАК БЫЛО (ваша рабочая конфигурация)
-#     position_tracking = RewTerm(
-#         func=mdp.position_command_error_tanh,
-#         weight=0.5,
-#         params={"std": 2.0, "command_name": "pose_command"},
-#     )
-    
-#     position_tracking_fine_grained = RewTerm(
-#         func=mdp.position_command_error_tanh,
-#         weight=0.5,
-#         params={"std": 0.2, "command_name": "pose_command"},
-#     )
-    
-#     orientation_tracking = RewTerm(
-#         func=mdp.heading_command_error_abs,
-#         weight=-0.2,
-#         params={"command_name": "pose_command"},
-#     )
-    
-#     stability_at_goal = RewTerm(
-#         func=mdp.stability_reward,
-#         weight=2.0,  # начните с малого веса
-#         params={
-#             "command_name": "pose_command",
-#             "position_threshold": 0.5,  # чуть шире чем 0.2 из fine_grained
-#             "orientation_threshold": 0.4,
-#             "lin_velocity_threshold": 0.3,
-#             "ang_velocity_threshold": 0.3
-#         }
-#     )
 
 @configclass
 class CommandsCfg:
@@ -222,12 +219,12 @@ class CommandsCfg:
     ee_pose = mdp.UniformPoseFixedCommandCfg(
             asset_name="robot",
             body_name='gripper_link',
-            resampling_time_range=(15.0, 15.0),
+            resampling_time_range=(12.0, 12.0),
             debug_vis=True,
             ranges=mdp.UniformPoseFixedCommandCfg.Ranges(
                 pos_x=(-3.0,3.0),
-                pos_y=(-3.2, 3.2),
-                pos_z=(0.7, 0.9),
+                pos_y=(-5.2, 5.2),
+                pos_z=(0.4, 0.95),
                 roll=(0.0, 0.0),
                 pitch=(0.0,0.0),  # depends on end-effector axis
                 yaw=(0, 0),
@@ -263,7 +260,7 @@ class FBCEnvCfg(ManagerBasedRLEnvCfg):
         """Post initialization."""
         self.decimation = 2
         self.sim.render_interval = self.decimation
-        self.episode_length_s = 20
+        self.episode_length_s = 12
         self.viewer.eye = (3.5, 3.5, 3.5)
         # simulation settings
         self.sim.dt = 1.0 / 60.0
