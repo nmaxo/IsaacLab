@@ -10,8 +10,8 @@ from isaaclab.utils.assets import ISAACLAB_NUCLEUS_DIR
 import os
 import math
 
-stiffness_wheel_const = 0  # Жесткость для управления скоростью колес
-damping_wheel_const =150  # Демпфирование для управления скоростью колес
+stiffness_wheel_const = 2.6 # Жесткость для управления скоростью колес
+damping_wheel_const =80 # Демпфирование для управления скоростью колес
 
 UR5M_CFG = ArticulationCfg(
     prim_path="/ur5",
@@ -19,9 +19,9 @@ UR5M_CFG = ArticulationCfg(
         usd_path=os.path.join("/home/maksim/IsaacLab/source/isaaclab_assets/data/husky_asset/FINAL_HUSKY.usd"),
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             rigid_body_enabled=True,
-            max_linear_velocity=2.0,
-            max_angular_velocity=2.0,
-            max_depenetration_velocity=2.0,
+            max_linear_velocity=1.0,
+            max_angular_velocity=1.0,
+            max_depenetration_velocity=1.0,
             enable_gyroscopic_forces=True,
         ),
         articulation_props=sim_utils.ArticulationRootPropertiesCfg(
@@ -67,14 +67,16 @@ UR5M_CFG = ArticulationCfg(
         ),
         "left_wheels": ImplicitActuatorCfg(
                 joint_names_expr=["front_left_wheel_joint", "rear_left_wheel_joint"],
-                velocity_limit=5.0,
+                effort_limit_sim=300,
+                velocity_limit_sim=7.0,
                 stiffness=stiffness_wheel_const,
                 damping=damping_wheel_const
             ),
             # Правые колёса (передние + задние)
         "right_wheels": ImplicitActuatorCfg(
                 joint_names_expr=["front_right_wheel_joint", "rear_right_wheel_joint"],
-                velocity_limit=5.0,
+                effort_limit_sim=300,
+                velocity_limit_sim=7.0,
                 stiffness=stiffness_wheel_const,
                 damping=damping_wheel_const,
             ),

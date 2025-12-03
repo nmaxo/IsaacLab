@@ -96,7 +96,11 @@ def position_command_error(env: ManagerBasedRLEnv, command_name: str, asset_cfg:
     # obtain the desired and current positions
     des_pos_b = command[:, :3]
     des_pos_w, _ = combine_frame_transforms(asset.data.root_pos_w, asset.data.root_quat_w, des_pos_b)
-    curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]]  # type: ignore
+    if isinstance(asset_cfg.body_ids, slice):
+        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids][:, 0]
+        print('ЛОХОПЕД')
+    else:
+        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]]
 
     return torch.norm(curr_pos_w - des_pos_w, dim=1)
 
@@ -115,7 +119,11 @@ def position_command_error_tanh(
     # obtain the desired and current positions
     des_pos_b = command[:, :3]
     des_pos_w, _ = combine_frame_transforms(asset.data.root_pos_w, asset.data.root_quat_w, des_pos_b)
-    curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]]  # type: ignore
+    # Если body_ids - это срез, получаем все элементы и берём первый
+    if isinstance(asset_cfg.body_ids, slice):
+        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids][:, 0]
+    else:
+        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]]
     distance = torch.norm(curr_pos_w - des_pos_w, dim=1)
     return 1 - torch.tanh(distance / std)
 
@@ -132,7 +140,13 @@ def orientation_command_error(env: ManagerBasedRLEnv, command_name: str, asset_c
     # obtain the desired and current orientations
     des_quat_b = command[:, 3:7]
     des_quat_w = quat_mul(asset.data.root_quat_w, des_quat_b)
-    curr_quat_w = asset.data.body_quat_w[:, asset_cfg.body_ids[0]]  # type: ignore
+    body_ids = asset_cfg.body_ids
+    if isinstance(body_ids, slice):
+        index = body_ids.start or 0
+    else:
+        index = body_ids[0]
+
+    curr_quat_w = asset.data.body_quat_w[:, index]
     return quat_error_magnitude(curr_quat_w, des_quat_w)
 
 
@@ -143,7 +157,7 @@ def goal_reached_bonus(
     asset_cfg: SceneEntityCfg,
     command_name: str,
     position_threshold: float = 0.05,
-    orientation_threshold: float = 0.1,
+    orientation_threshold: float = 0.,
 ) -> torch.Tensor:
     """
     Большая награда за успешное достижение цели.
@@ -155,13 +169,22 @@ def goal_reached_bonus(
     # Проверка позиции
     des_pos_b = command[:, :3]
     des_pos_w, _ = combine_frame_transforms(asset.data.root_pos_w, asset.data.root_quat_w, des_pos_b)
-    curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]] # type: ignore
+    if isinstance(asset_cfg.body_ids, slice):
+        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids][:, 0]
+    else:
+        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]]
     position_error = torch.norm(curr_pos_w - des_pos_w, dim=1)
     
     # Проверка ориентации
     des_quat_b = command[:, 3:7]
     des_quat_w = quat_mul(asset.data.root_quat_w, des_quat_b)
-    curr_quat_w = asset.data.body_quat_w[:, asset_cfg.body_ids[0]] # type: ignore
+    body_ids = asset_cfg.body_ids
+    if isinstance(body_ids, slice):
+        index = body_ids.start or 0
+    else:
+        index = body_ids[0]
+
+    curr_quat_w = asset.data.body_quat_w[:, index]
     orientation_error = quat_error_magnitude(curr_quat_w, des_quat_w)
     
     # Условие достижения цели
@@ -186,7 +209,10 @@ def episode_failure_penalty(
     # Вычисляем текущую ошибку позиции
     des_pos_b = command[:, :3]
     des_pos_w, _ = combine_frame_transforms(asset.data.root_pos_w, asset.data.root_quat_w, des_pos_b)
-    curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]] # type: ignore
+    if isinstance(asset_cfg.body_ids, slice):
+        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids][:, 0]
+    else:
+        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]]
     distance = torch.norm(curr_pos_w - des_pos_w, dim=1)
     
     # Проверяем, близки ли мы к концу эпизода
@@ -210,5 +236,237 @@ def time_penalty(env: "ManagerBasedRLEnv") -> torch.Tensor:
     """
     # Постоянный штраф за каждый шаг
     return torch.ones(env.num_envs, device=env.device)
+
+
+
+def goal_reached_term(
+    env: "ManagerBasedRLEnv",
+    asset_cfg: SceneEntityCfg,
+    command_name: str,
+    position_threshold: float = 0.05,
+    orientation_threshold: float = 0.,
+) -> torch.Tensor:
+    """
+    Большая награда за успешное достижение цели.
+    Выдается только когда робот находится в пределах заданных порогов по позиции и ориентации.
+    """
+    asset: RigidObject = env.scene[asset_cfg.name]
+    command = env.command_manager.get_command(command_name)
+    
+    # Проверка позиции
+    des_pos_b = command[:, :3]
+    des_pos_w, _ = combine_frame_transforms(asset.data.root_pos_w, asset.data.root_quat_w, des_pos_b)
+    if isinstance(asset_cfg.body_ids, slice):
+        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids][:, 0]
+    else:
+        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]]
+    position_error = torch.norm(curr_pos_w - des_pos_w, dim=1)
+    
+    # Проверка ориентации
+    des_quat_b = command[:, 3:7]
+    des_quat_w = quat_mul(asset.data.root_quat_w, des_quat_b)
+    body_ids = asset_cfg.body_ids
+    if isinstance(body_ids, slice):
+        index = body_ids.start or 0
+    else:
+        index = body_ids[0]
+
+    curr_quat_w = asset.data.body_quat_w[:, index]
+    orientation_error = quat_error_magnitude(curr_quat_w, des_quat_w)
+    
+    # Условие достижения цели
+    goal_reached = (position_error < position_threshold) & (orientation_error < orientation_threshold)
+    
+    return goal_reached
+
+
+# ============================================================
+# ДВЕ ГЛАВНЫЕ ФУНКЦИИ С ДИНАМИЧЕСКИМИ ВЕСАМИ
+# ============================================================
+
+def navigation_rewards_combined(
+    env, 
+    command_name: str = "base_link",
+    transition_distance: float = 0.5
+) -> torch.Tensor:
+    """
+    Объединяет все навигационные награды (база) с динамическим весом через tanh.
+    
+    Вес максимален далеко от цели, уменьшается при приближении.
+    
+    Включает:
+    - position_tracking (0.45) - грубое отслеживание позиции базы
+    - position_tracking_fine_grained (2.5) - точное отслеживание позиции базы
+    - stability_at_goal (0.3) - стабильность базы
+    - velocity_penalty (-0.2) - штраф за скорость
+    
+    Args:
+        env: Environment instance
+        command_name: Имя команды
+        transition_distance: Расстояние перехода от навигации к манипуляции (метры)
+    
+    Returns:
+        Взвешенная навигационная награда формы (num_envs,)
+    """
+    base_asset_cfg = SceneEntityCfg("robot", body_names='base_link')
+    
+    # 1. Position tracking (грубое)
+    pos_tracking = torch.exp(position_command_error(
+        env,  
+        asset_cfg=base_asset_cfg, 
+        command_name=command_name
+    ))
+    
+    # 2. Position tracking fine-grained (точное)
+    pos_tracking_fine = position_command_error_tanh(
+        env,
+        std=0.5,
+        asset_cfg=base_asset_cfg,
+        command_name=command_name
+    )
+    
+    # 3. Stability at goal
+    stability = stability_reward(
+        env,
+        command_name=command_name,
+        position_threshold=0.2,
+        orientation_threshold=0.4,
+        lin_velocity_threshold=0.2,
+        ang_velocity_threshold=0.2
+    )
+    
+    # 4. Velocity penalty
+    vel_penalty = distance_based_velocity_penalty(
+        env,
+        command_name=command_name
+    )
+    
+    # Суммируем с исходными весами
+    base_reward = (
+        0.75 * pos_tracking +
+        1.5 * pos_tracking_fine +
+        0.3 * stability +
+        (-0.2) * vel_penalty
+    )
+    
+    # Вычисляем расстояние до цели
+    distance = position_command_error(
+        env, 
+        asset_cfg=base_asset_cfg, 
+        command_name=command_name
+    )
+    
+    dynamic_weight = torch.tanh(distance / float(transition_distance))
+    
+    return base_reward * dynamic_weight
+
+
+def manipulation_rewards_combined(
+    env,
+    command_name: str = "ee_pose", 
+    transition_distance: float = 1.5
+) -> torch.Tensor:
+    """
+    Объединяет все манипуляционные награды (рука/end-effector) с динамическим весом через tanh.
+    
+    Вес минимален далеко от цели, увеличивается при приближении.
+    
+    Включает:
+    - end_effector_position_tracking (-0.35) - позиция EE
+    - end_effector_position_tracking_fine_grained (0.15) - точная позиция EE
+    - end_effector_orientation_tracking (-0.3) - ориентация EE
+    
+    Args:
+        env: Environment instance
+        command_name: Имя команды
+        transition_distance: Расстояние перехода от навигации к манипуляции (метры)
+    
+    Returns:
+        Взвешенная манипуляционная награда формы (num_envs,)
+    """
+    ee_asset_cfg = SceneEntityCfg("robot", body_names="gripper_link")
+    
+    # 1. Position tracking
+    ee_pos_tracking = position_command_error(
+        env,
+        asset_cfg=ee_asset_cfg,
+        command_name=command_name
+    )
+    
+    # 2. Position tracking fine-grained
+    ee_pos_tracking_fine = position_command_error_tanh(
+        env,
+        asset_cfg=ee_asset_cfg,
+        std=0.25,
+        command_name=command_name
+    )
+    
+    # 3. Orientation tracking
+    ee_orientation = orientation_command_error(
+        env,
+        asset_cfg=ee_asset_cfg,
+        command_name=command_name
+    )
+    
+    # Суммируем с исходными весами
+    base_reward = (
+        (0.85) * torch.exp(ee_pos_tracking) +
+        2.5 * ee_pos_tracking_fine +
+        (-0.0) * ee_orientation
+    )
+    
+    # Вычисляем расстояние до цели
+    distance = ee_pos_tracking
+    
+    # Применяем динамический вес через tanh (обратный)
+    # tanh((transition_distance - distance) / transition_distance):
+    #   - далеко (distance >> transition_distance) → вес ≈ 0.0
+    #   - близко (distance → 0) → вес ≈ 1.0
+    # Нормализуем из [-1, 1] в [0, 1]
+    dynamic_weight = (torch.tanh((transition_distance - distance) / transition_distance) + 1.0) / 2.0
+    
+    return base_reward * dynamic_weight
+
+
+
+def goal_reached_bool(
+    env: "ManagerBasedRLEnv",
+    asset_cfg: SceneEntityCfg,
+    command_name: str,
+    position_threshold: float = 0.05,
+    orientation_threshold: float = 0.,
+) -> torch.Tensor:
+    """
+    termination for goal_reachrd completion,
+    """
+    asset: RigidObject = env.scene[asset_cfg.name]
+    command = env.command_manager.get_command(command_name)
+    
+    # Проверка позиции
+    des_pos_b = command[:, :3]
+    des_pos_w, _ = combine_frame_transforms(asset.data.root_pos_w, asset.data.root_quat_w, des_pos_b)
+    if isinstance(asset_cfg.body_ids, slice):
+        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids][:, 0]
+    else:
+        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]]
+    position_error = torch.norm(curr_pos_w - des_pos_w, dim=1)
+    
+    # Проверка ориентации
+    des_quat_b = command[:, 3:7]
+    des_quat_w = quat_mul(asset.data.root_quat_w, des_quat_b)
+    body_ids = asset_cfg.body_ids
+    if isinstance(body_ids, slice):
+        index = body_ids.start or 0
+    else:
+        index = body_ids[0]
+
+    curr_quat_w = asset.data.body_quat_w[:, index]
+    orientation_error = quat_error_magnitude(curr_quat_w, des_quat_w)
+    
+    # Условие достижения цели
+    goal_reached = (position_error < position_threshold) & (orientation_error < orientation_threshold)
+    
+    return goal_reached
+
 
 

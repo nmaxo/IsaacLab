@@ -5,6 +5,8 @@ from isaaclab_tasks.manager_based.navigation.mdp import (
     ActionTerm,
 )
 from isaaclab.utils import configclass
+from skrl.utils import logger
+
 
 class DiffDriveVelocityAction(JointVelocityAction):
     """ActionTerm для дифференциального привода 4 колес.
@@ -41,6 +43,12 @@ class DiffDriveVelocityAction(JointVelocityAction):
         # [front_left, front_right, rear_left, rear_right]
         wheel_vels = torch.cat([v_left, v_right, v_left, v_right], dim=1)
 
+        wheel_vels = wheel_vels * self.cfg.scale
+            # ← ЛОГИРОВАНИЕ через skrl:
+        # logger.info(f"max_angular: {self.cfg.max_angular_speed}")
+        # logger.info(f"omega max: {omega.max():.3f}")
+        # logger.info(f"v_right - v_left: {(v_right - v_left).max():.3f}")
+
         # сохраняем обработанные действия
         self._processed_actions = wheel_vels
 
@@ -56,8 +64,8 @@ class DiffDriveVelocityActionCfg(JointVelocityActionCfg):
     wheel_base: float = 0.8    # м (расстояние между левыми и правыми колесами)
 
     # максимальные скорости
-    max_linear_speed: float = 1.0   # м/с
-    max_angular_speed: float = 3.0  # рад/с
-
+    max_linear_speed: float = 5.0   # м/с
+    max_angular_speed: float = 5.0  # рад/с
+    scale: float = 1.0
     # дополнительные опции
     use_default_offset: bool = False
