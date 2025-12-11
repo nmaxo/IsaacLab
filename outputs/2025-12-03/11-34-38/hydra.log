@@ -1,0 +1,2334 @@
+[2025-12-03 11:34:38,497][ogn_registration][INFO] - Looking for Python nodes to register in omni.physx.fabric-107.3.26
+[2025-12-03 11:34:38,497][ogn_registration][INFO] -  -> Registered nodes from module omni.physxfabric at /home/maksim/anaconda3/envs/env_isaaclab/lib/python3.11/site-packages/isaacsim/extscache/omni.physx.fabric-107.3.26+107.3.3.lx64.r.cp311.u353
+[2025-12-03 11:34:38,497][ogn_registration][INFO] - Registering nodes in /home/maksim/anaconda3/envs/env_isaaclab/lib/python3.11/site-packages/isaacsim/extscache/omni.physx.fabric-107.3.26+107.3.3.lx64.r.cp311.u353 imported as omni.physxfabric with AutoNode config {}
+[2025-12-03 11:34:38,497][ogn_registration][INFO] - Registering Python Node Types from omni.physxfabric at /home/maksim/anaconda3/envs/env_isaaclab/lib/python3.11/site-packages/isaacsim/extscache/omni.physx.fabric-107.3.26+107.3.3.lx64.r.cp311.u353 in omni.physx.fabric
+[2025-12-03 11:34:38,497][ogn_registration][INFO] - ========================================================================================================================
+[2025-12-03 11:34:38,498][ogn_registration][INFO] - No dependency on omni.graph, therefore no nodes to register in omni.physx.fabric
+[2025-12-03 11:34:38,498][ogn_registration][INFO] - ...None found, no registration to do
+[2025-12-03 11:34:38,498][ogn_registration][INFO] - ...Skipping: No OmniGraph presence in the module omni.physxfabric - No nodes in this module, do not remember it
+[2025-12-03 11:34:38,498][ogn_registration][INFO] - Destroying registration record for omni.physx.fabric
+[2025-12-03 11:34:38,498][ogn_registration][INFO] - OGN register omni.physx.fabric-107.3.26 took 765032.000000
+[2025-12-03 11:34:43,233][skrl][INFO] - Environment wrapper: Isaac Lab (single-agent)
+[2025-12-03 11:34:43,233][skrl][INFO] - Seed: 42
+[2025-12-03 11:34:43,636][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:43,644][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:43,644][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:44,120][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:44,120][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:44,120][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:44,252][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:44,252][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:44,252][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:44,299][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:44,300][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:44,300][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:44,347][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:44,347][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:44,347][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:44,394][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:44,394][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:44,394][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:44,441][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:44,441][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:44,441][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:44,487][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:44,487][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:44,487][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:44,535][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:44,535][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:44,535][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:44,583][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:44,583][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:44,583][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:44,631][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:44,631][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:44,631][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:44,680][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:44,680][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:44,680][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:44,728][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:44,728][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:44,728][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:44,775][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:44,775][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:44,775][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:44,823][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:44,823][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:44,823][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:44,871][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:44,871][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:44,871][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:44,919][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:44,919][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:44,919][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:44,967][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:44,967][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:44,967][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:45,015][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:45,015][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:45,016][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:45,063][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:45,063][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:45,063][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:45,110][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:45,110][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:45,111][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:45,158][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:45,158][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:45,158][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:45,206][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:45,206][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:45,206][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:45,253][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:45,253][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:45,254][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:45,301][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:45,301][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:45,301][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:45,348][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:45,348][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:45,348][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:45,395][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:45,395][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:45,396][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:45,443][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:45,443][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:45,443][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:45,494][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:45,494][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:45,494][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:45,546][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:45,546][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:45,546][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:45,593][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:45,594][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:45,594][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:45,642][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:45,642][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:45,642][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:45,690][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:45,690][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:45,690][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:45,738][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:45,738][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:45,738][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:45,786][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:45,786][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:45,786][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:45,834][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:45,834][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:45,834][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:45,882][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:45,882][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:45,882][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:45,935][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:45,935][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:45,935][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:45,983][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:45,983][skrl][INFO] - omega max: 3.214
+[2025-12-03 11:34:45,983][skrl][INFO] - v_right - v_left: 13.626
+[2025-12-03 11:34:46,030][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:46,030][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:46,030][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:46,078][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:46,078][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:46,078][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:46,125][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:46,125][skrl][INFO] - omega max: 4.322
+[2025-12-03 11:34:46,125][skrl][INFO] - v_right - v_left: 18.326
+[2025-12-03 11:34:46,173][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:46,173][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:46,173][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:46,220][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:46,220][skrl][INFO] - omega max: 1.816
+[2025-12-03 11:34:46,220][skrl][INFO] - v_right - v_left: 7.699
+[2025-12-03 11:34:46,268][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:46,268][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:46,268][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:46,315][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:46,315][skrl][INFO] - omega max: 3.129
+[2025-12-03 11:34:46,315][skrl][INFO] - v_right - v_left: 13.267
+[2025-12-03 11:34:46,363][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:46,363][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:46,363][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:46,411][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:46,411][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:46,411][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:46,458][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:46,458][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:46,458][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:46,505][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:46,505][skrl][INFO] - omega max: 3.242
+[2025-12-03 11:34:46,505][skrl][INFO] - v_right - v_left: 13.746
+[2025-12-03 11:34:46,553][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:46,553][skrl][INFO] - omega max: 1.513
+[2025-12-03 11:34:46,554][skrl][INFO] - v_right - v_left: 6.414
+[2025-12-03 11:34:46,600][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:46,600][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:46,600][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:46,648][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:46,648][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:46,648][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:46,694][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:46,695][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:46,695][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:46,742][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:46,742][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:46,742][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:46,789][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:46,790][skrl][INFO] - omega max: 2.147
+[2025-12-03 11:34:46,790][skrl][INFO] - v_right - v_left: 9.102
+[2025-12-03 11:34:46,836][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:46,837][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:46,837][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:46,884][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:46,884][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:46,884][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:46,932][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:46,933][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:46,933][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:46,980][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:46,980][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:46,980][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:47,027][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:47,027][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:47,027][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:47,074][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:47,074][skrl][INFO] - omega max: 0.176
+[2025-12-03 11:34:47,074][skrl][INFO] - v_right - v_left: 0.747
+[2025-12-03 11:34:47,121][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:47,121][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:47,121][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:47,169][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:47,169][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:47,169][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:47,217][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:47,217][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:47,217][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:47,264][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:47,264][skrl][INFO] - omega max: 4.500
+[2025-12-03 11:34:47,264][skrl][INFO] - v_right - v_left: 19.081
+[2025-12-03 11:34:47,311][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:47,311][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:47,311][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:47,358][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:47,358][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:47,358][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:47,405][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:47,405][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:47,405][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:47,452][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:47,452][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:47,452][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:47,499][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:47,499][skrl][INFO] - omega max: 2.742
+[2025-12-03 11:34:47,499][skrl][INFO] - v_right - v_left: 11.627
+[2025-12-03 11:34:47,546][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:47,546][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:47,546][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:47,593][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:47,593][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:47,593][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:47,640][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:47,640][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:47,640][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:47,687][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:47,687][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:47,687][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:47,734][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:47,734][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:47,734][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:47,781][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:47,782][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:47,782][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:47,828][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:47,828][skrl][INFO] - omega max: 0.091
+[2025-12-03 11:34:47,828][skrl][INFO] - v_right - v_left: 0.388
+[2025-12-03 11:34:47,875][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:47,875][skrl][INFO] - omega max: 3.404
+[2025-12-03 11:34:47,875][skrl][INFO] - v_right - v_left: 14.431
+[2025-12-03 11:34:47,922][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:47,922][skrl][INFO] - omega max: -2.637
+[2025-12-03 11:34:47,922][skrl][INFO] - v_right - v_left: -11.181
+[2025-12-03 11:34:47,970][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:47,970][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:47,970][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:48,017][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:48,017][skrl][INFO] - omega max: 4.526
+[2025-12-03 11:34:48,017][skrl][INFO] - v_right - v_left: 19.191
+[2025-12-03 11:34:48,064][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:48,064][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:48,065][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:48,111][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:48,111][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:48,111][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:48,158][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:48,158][skrl][INFO] - omega max: 4.324
+[2025-12-03 11:34:48,158][skrl][INFO] - v_right - v_left: 18.332
+[2025-12-03 11:34:48,205][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:48,205][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:48,205][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:48,252][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:48,252][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:48,252][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:48,299][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:48,299][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:48,299][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:48,346][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:48,346][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:48,346][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:48,393][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:48,393][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:48,393][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:48,440][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:48,441][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:48,441][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:48,488][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:48,488][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:48,488][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:48,535][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:48,535][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:48,586][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:48,633][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:48,633][skrl][INFO] - omega max: 4.367
+[2025-12-03 11:34:48,633][skrl][INFO] - v_right - v_left: 18.515
+[2025-12-03 11:34:48,680][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:48,680][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:48,680][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:48,726][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:48,727][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:48,727][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:48,773][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:48,773][skrl][INFO] - omega max: 1.380
+[2025-12-03 11:34:48,773][skrl][INFO] - v_right - v_left: 5.851
+[2025-12-03 11:34:48,820][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:48,821][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:48,821][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:48,868][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:48,869][skrl][INFO] - omega max: 4.059
+[2025-12-03 11:34:48,869][skrl][INFO] - v_right - v_left: 17.210
+[2025-12-03 11:34:48,916][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:48,916][skrl][INFO] - omega max: 2.370
+[2025-12-03 11:34:48,916][skrl][INFO] - v_right - v_left: 10.049
+[2025-12-03 11:34:48,963][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:48,963][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:48,963][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:49,010][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:49,010][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:49,010][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:49,057][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:49,057][skrl][INFO] - omega max: 0.932
+[2025-12-03 11:34:49,057][skrl][INFO] - v_right - v_left: 3.954
+[2025-12-03 11:34:49,104][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:49,104][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:49,104][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:49,151][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:49,151][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:49,151][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:49,198][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:49,198][skrl][INFO] - omega max: -2.443
+[2025-12-03 11:34:49,198][skrl][INFO] - v_right - v_left: -10.358
+[2025-12-03 11:34:49,245][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:49,245][skrl][INFO] - omega max: -1.781
+[2025-12-03 11:34:49,245][skrl][INFO] - v_right - v_left: -7.549
+[2025-12-03 11:34:49,292][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:49,292][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:49,292][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:49,339][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:49,339][skrl][INFO] - omega max: -0.022
+[2025-12-03 11:34:49,339][skrl][INFO] - v_right - v_left: -0.095
+[2025-12-03 11:34:49,386][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:49,386][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:49,386][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:49,433][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:49,433][skrl][INFO] - omega max: 3.492
+[2025-12-03 11:34:49,433][skrl][INFO] - v_right - v_left: 14.807
+[2025-12-03 11:34:49,480][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:49,480][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:49,480][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:49,527][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:49,527][skrl][INFO] - omega max: 3.178
+[2025-12-03 11:34:49,527][skrl][INFO] - v_right - v_left: 13.473
+[2025-12-03 11:34:49,574][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:49,574][skrl][INFO] - omega max: 4.226
+[2025-12-03 11:34:49,574][skrl][INFO] - v_right - v_left: 17.917
+[2025-12-03 11:34:49,621][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:49,621][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:49,621][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:49,668][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:49,668][skrl][INFO] - omega max: 2.191
+[2025-12-03 11:34:49,668][skrl][INFO] - v_right - v_left: 9.291
+[2025-12-03 11:34:49,715][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:49,715][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:49,715][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:49,762][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:49,762][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:49,762][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:49,809][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:49,810][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:49,810][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:49,856][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:49,857][skrl][INFO] - omega max: 0.765
+[2025-12-03 11:34:49,857][skrl][INFO] - v_right - v_left: 3.245
+[2025-12-03 11:34:49,903][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:49,903][skrl][INFO] - omega max: -4.447
+[2025-12-03 11:34:49,903][skrl][INFO] - v_right - v_left: -18.856
+[2025-12-03 11:34:49,950][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:49,950][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:49,950][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:49,998][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:49,998][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:49,998][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:50,045][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:50,045][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:50,045][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:50,092][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:50,092][skrl][INFO] - omega max: 3.130
+[2025-12-03 11:34:50,092][skrl][INFO] - v_right - v_left: 13.271
+[2025-12-03 11:34:50,139][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:50,139][skrl][INFO] - omega max: 4.935
+[2025-12-03 11:34:50,139][skrl][INFO] - v_right - v_left: 20.924
+[2025-12-03 11:34:50,186][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:50,186][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:50,186][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:50,233][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:50,233][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:50,233][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:50,280][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:50,280][skrl][INFO] - omega max: 3.720
+[2025-12-03 11:34:50,280][skrl][INFO] - v_right - v_left: 15.774
+[2025-12-03 11:34:50,327][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:50,327][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:50,327][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:50,374][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:50,374][skrl][INFO] - omega max: 3.249
+[2025-12-03 11:34:50,374][skrl][INFO] - v_right - v_left: 13.776
+[2025-12-03 11:34:50,421][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:50,421][skrl][INFO] - omega max: -0.606
+[2025-12-03 11:34:50,421][skrl][INFO] - v_right - v_left: -2.570
+[2025-12-03 11:34:50,468][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:50,468][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:50,468][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:50,515][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:50,515][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:50,516][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:50,562][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:50,562][skrl][INFO] - omega max: 3.288
+[2025-12-03 11:34:50,562][skrl][INFO] - v_right - v_left: 13.940
+[2025-12-03 11:34:50,610][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:50,610][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:50,610][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:50,657][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:50,657][skrl][INFO] - omega max: 4.307
+[2025-12-03 11:34:50,657][skrl][INFO] - v_right - v_left: 18.261
+[2025-12-03 11:34:50,704][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:50,704][skrl][INFO] - omega max: -3.151
+[2025-12-03 11:34:50,704][skrl][INFO] - v_right - v_left: -13.362
+[2025-12-03 11:34:50,751][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:50,751][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:50,752][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:50,798][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:50,798][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:50,798][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:50,845][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:50,845][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:50,845][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:50,892][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:50,892][skrl][INFO] - omega max: -0.112
+[2025-12-03 11:34:50,892][skrl][INFO] - v_right - v_left: -0.474
+[2025-12-03 11:34:50,939][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:50,939][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:50,939][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:50,986][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:50,986][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:50,986][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:51,033][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:51,033][skrl][INFO] - omega max: -2.620
+[2025-12-03 11:34:51,033][skrl][INFO] - v_right - v_left: -11.108
+[2025-12-03 11:34:51,080][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:51,080][skrl][INFO] - omega max: -5.000
+[2025-12-03 11:34:51,080][skrl][INFO] - v_right - v_left: -21.199
+[2025-12-03 11:34:51,127][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:51,127][skrl][INFO] - omega max: 1.297
+[2025-12-03 11:34:51,127][skrl][INFO] - v_right - v_left: 5.498
+[2025-12-03 11:34:51,173][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:51,174][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:51,174][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:51,220][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:51,220][skrl][INFO] - omega max: -0.014
+[2025-12-03 11:34:51,220][skrl][INFO] - v_right - v_left: -0.060
+[2025-12-03 11:34:51,267][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:51,268][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:51,268][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:51,315][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:51,315][skrl][INFO] - omega max: 0.002
+[2025-12-03 11:34:51,315][skrl][INFO] - v_right - v_left: 0.009
+[2025-12-03 11:34:51,362][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:51,362][skrl][INFO] - omega max: 1.152
+[2025-12-03 11:34:51,362][skrl][INFO] - v_right - v_left: 4.886
+[2025-12-03 11:34:51,409][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:51,409][skrl][INFO] - omega max: 4.313
+[2025-12-03 11:34:51,409][skrl][INFO] - v_right - v_left: 18.287
+[2025-12-03 11:34:51,457][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:51,457][skrl][INFO] - omega max: 0.075
+[2025-12-03 11:34:51,457][skrl][INFO] - v_right - v_left: 0.317
+[2025-12-03 11:34:51,504][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:51,504][skrl][INFO] - omega max: -0.559
+[2025-12-03 11:34:51,504][skrl][INFO] - v_right - v_left: -2.368
+[2025-12-03 11:34:51,551][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:51,551][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:51,551][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:51,597][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:51,597][skrl][INFO] - omega max: -5.000
+[2025-12-03 11:34:51,597][skrl][INFO] - v_right - v_left: -21.199
+[2025-12-03 11:34:51,644][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:51,644][skrl][INFO] - omega max: -4.808
+[2025-12-03 11:34:51,644][skrl][INFO] - v_right - v_left: -20.383
+[2025-12-03 11:34:51,691][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:51,691][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:51,691][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:51,738][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:51,738][skrl][INFO] - omega max: -0.850
+[2025-12-03 11:34:51,738][skrl][INFO] - v_right - v_left: -3.602
+[2025-12-03 11:34:51,785][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:51,785][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:51,785][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:51,832][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:51,832][skrl][INFO] - omega max: -3.076
+[2025-12-03 11:34:51,833][skrl][INFO] - v_right - v_left: -13.042
+[2025-12-03 11:34:51,880][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:51,880][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:51,880][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:51,927][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:51,927][skrl][INFO] - omega max: 2.936
+[2025-12-03 11:34:51,927][skrl][INFO] - v_right - v_left: 12.448
+[2025-12-03 11:34:51,973][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:51,974][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:51,974][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:52,020][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:52,020][skrl][INFO] - omega max: -4.804
+[2025-12-03 11:34:52,020][skrl][INFO] - v_right - v_left: -20.367
+[2025-12-03 11:34:52,068][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:52,068][skrl][INFO] - omega max: 4.957
+[2025-12-03 11:34:52,068][skrl][INFO] - v_right - v_left: 21.017
+[2025-12-03 11:34:52,114][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:52,115][skrl][INFO] - omega max: -2.964
+[2025-12-03 11:34:52,115][skrl][INFO] - v_right - v_left: -12.569
+[2025-12-03 11:34:52,161][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:52,161][skrl][INFO] - omega max: -0.508
+[2025-12-03 11:34:52,162][skrl][INFO] - v_right - v_left: -2.152
+[2025-12-03 11:34:52,208][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:52,208][skrl][INFO] - omega max: 3.671
+[2025-12-03 11:34:52,208][skrl][INFO] - v_right - v_left: 15.564
+[2025-12-03 11:34:52,256][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:52,256][skrl][INFO] - omega max: -4.483
+[2025-12-03 11:34:52,256][skrl][INFO] - v_right - v_left: -19.007
+[2025-12-03 11:34:52,304][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:52,304][skrl][INFO] - omega max: 1.553
+[2025-12-03 11:34:52,304][skrl][INFO] - v_right - v_left: 6.583
+[2025-12-03 11:34:52,351][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:52,351][skrl][INFO] - omega max: -5.000
+[2025-12-03 11:34:52,351][skrl][INFO] - v_right - v_left: -21.199
+[2025-12-03 11:34:52,399][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:52,399][skrl][INFO] - omega max: -5.000
+[2025-12-03 11:34:52,399][skrl][INFO] - v_right - v_left: -21.199
+[2025-12-03 11:34:52,447][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:52,447][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:52,447][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:52,495][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:52,495][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:52,495][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:52,546][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:52,546][skrl][INFO] - omega max: -5.000
+[2025-12-03 11:34:52,546][skrl][INFO] - v_right - v_left: -21.199
+[2025-12-03 11:34:52,597][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:52,597][skrl][INFO] - omega max: 2.677
+[2025-12-03 11:34:52,597][skrl][INFO] - v_right - v_left: 11.351
+[2025-12-03 11:34:52,645][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:52,645][skrl][INFO] - omega max: -1.649
+[2025-12-03 11:34:52,645][skrl][INFO] - v_right - v_left: -6.990
+[2025-12-03 11:34:52,693][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:52,693][skrl][INFO] - omega max: 2.708
+[2025-12-03 11:34:52,694][skrl][INFO] - v_right - v_left: 11.480
+[2025-12-03 11:34:52,741][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:52,741][skrl][INFO] - omega max: -5.000
+[2025-12-03 11:34:52,741][skrl][INFO] - v_right - v_left: -21.199
+[2025-12-03 11:34:52,788][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:52,788][skrl][INFO] - omega max: -5.000
+[2025-12-03 11:34:52,788][skrl][INFO] - v_right - v_left: -21.199
+[2025-12-03 11:34:52,836][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:52,836][skrl][INFO] - omega max: 4.662
+[2025-12-03 11:34:52,836][skrl][INFO] - v_right - v_left: 19.767
+[2025-12-03 11:34:52,883][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:52,883][skrl][INFO] - omega max: 4.852
+[2025-12-03 11:34:52,883][skrl][INFO] - v_right - v_left: 20.571
+[2025-12-03 11:34:52,930][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:52,930][skrl][INFO] - omega max: -5.000
+[2025-12-03 11:34:52,930][skrl][INFO] - v_right - v_left: -21.199
+[2025-12-03 11:34:52,978][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:52,978][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:52,978][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:53,029][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:53,029][skrl][INFO] - omega max: 1.997
+[2025-12-03 11:34:53,029][skrl][INFO] - v_right - v_left: 8.466
+[2025-12-03 11:34:53,079][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:53,080][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:53,080][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:53,127][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:53,127][skrl][INFO] - omega max: 1.118
+[2025-12-03 11:34:53,127][skrl][INFO] - v_right - v_left: 4.741
+[2025-12-03 11:34:53,175][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:53,175][skrl][INFO] - omega max: 4.639
+[2025-12-03 11:34:53,175][skrl][INFO] - v_right - v_left: 19.669
+[2025-12-03 11:34:53,223][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:53,223][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:53,223][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:53,273][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:53,273][skrl][INFO] - omega max: -1.779
+[2025-12-03 11:34:53,273][skrl][INFO] - v_right - v_left: -7.544
+[2025-12-03 11:34:53,322][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:53,322][skrl][INFO] - omega max: 3.105
+[2025-12-03 11:34:53,323][skrl][INFO] - v_right - v_left: 13.164
+[2025-12-03 11:34:53,371][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:53,371][skrl][INFO] - omega max: -1.436
+[2025-12-03 11:34:53,371][skrl][INFO] - v_right - v_left: -6.089
+[2025-12-03 11:34:53,419][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:53,419][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:53,419][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:53,467][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:53,467][skrl][INFO] - omega max: 1.343
+[2025-12-03 11:34:53,467][skrl][INFO] - v_right - v_left: 5.693
+[2025-12-03 11:34:53,518][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:53,518][skrl][INFO] - omega max: 2.159
+[2025-12-03 11:34:53,518][skrl][INFO] - v_right - v_left: 9.152
+[2025-12-03 11:34:53,567][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:53,567][skrl][INFO] - omega max: -5.000
+[2025-12-03 11:34:53,567][skrl][INFO] - v_right - v_left: -21.199
+[2025-12-03 11:34:53,666][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:53,666][skrl][INFO] - omega max: -0.048
+[2025-12-03 11:34:53,666][skrl][INFO] - v_right - v_left: -0.203
+[2025-12-03 11:34:53,714][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:53,715][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:53,715][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:53,762][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:53,762][skrl][INFO] - omega max: 0.687
+[2025-12-03 11:34:53,762][skrl][INFO] - v_right - v_left: 2.915
+[2025-12-03 11:34:53,810][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:53,810][skrl][INFO] - omega max: -1.789
+[2025-12-03 11:34:53,810][skrl][INFO] - v_right - v_left: -7.584
+[2025-12-03 11:34:53,862][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:53,863][skrl][INFO] - omega max: -2.120
+[2025-12-03 11:34:53,863][skrl][INFO] - v_right - v_left: -8.988
+[2025-12-03 11:34:53,911][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:53,911][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:53,911][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:53,958][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:53,958][skrl][INFO] - omega max: -3.192
+[2025-12-03 11:34:53,958][skrl][INFO] - v_right - v_left: -13.534
+[2025-12-03 11:34:54,006][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:54,006][skrl][INFO] - omega max: 1.225
+[2025-12-03 11:34:54,006][skrl][INFO] - v_right - v_left: 5.193
+[2025-12-03 11:34:54,053][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:54,053][skrl][INFO] - omega max: 4.302
+[2025-12-03 11:34:54,053][skrl][INFO] - v_right - v_left: 18.240
+[2025-12-03 11:34:54,101][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:54,101][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:54,101][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:54,149][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:54,149][skrl][INFO] - omega max: 4.399
+[2025-12-03 11:34:54,149][skrl][INFO] - v_right - v_left: 18.649
+[2025-12-03 11:34:54,196][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:54,196][skrl][INFO] - omega max: -1.857
+[2025-12-03 11:34:54,196][skrl][INFO] - v_right - v_left: -7.872
+[2025-12-03 11:34:54,243][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:54,244][skrl][INFO] - omega max: -1.408
+[2025-12-03 11:34:54,244][skrl][INFO] - v_right - v_left: -5.971
+[2025-12-03 11:34:54,291][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:54,291][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:54,291][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:54,339][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:54,339][skrl][INFO] - omega max: -3.568
+[2025-12-03 11:34:54,339][skrl][INFO] - v_right - v_left: -15.127
+[2025-12-03 11:34:54,386][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:54,386][skrl][INFO] - omega max: -5.000
+[2025-12-03 11:34:54,386][skrl][INFO] - v_right - v_left: -21.199
+[2025-12-03 11:34:54,434][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:54,434][skrl][INFO] - omega max: 1.983
+[2025-12-03 11:34:54,434][skrl][INFO] - v_right - v_left: 8.408
+[2025-12-03 11:34:54,481][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:54,481][skrl][INFO] - omega max: -0.278
+[2025-12-03 11:34:54,481][skrl][INFO] - v_right - v_left: -1.179
+[2025-12-03 11:34:54,529][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:54,529][skrl][INFO] - omega max: 1.066
+[2025-12-03 11:34:54,529][skrl][INFO] - v_right - v_left: 4.518
+[2025-12-03 11:34:54,577][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:54,577][skrl][INFO] - omega max: 2.154
+[2025-12-03 11:34:54,577][skrl][INFO] - v_right - v_left: 9.131
+[2025-12-03 11:34:54,625][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:54,625][skrl][INFO] - omega max: -2.661
+[2025-12-03 11:34:54,625][skrl][INFO] - v_right - v_left: -11.283
+[2025-12-03 11:34:54,672][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:54,672][skrl][INFO] - omega max: 0.702
+[2025-12-03 11:34:54,672][skrl][INFO] - v_right - v_left: 2.976
+[2025-12-03 11:34:54,719][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:54,719][skrl][INFO] - omega max: -1.798
+[2025-12-03 11:34:54,719][skrl][INFO] - v_right - v_left: -7.625
+[2025-12-03 11:34:54,767][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:54,767][skrl][INFO] - omega max: -0.398
+[2025-12-03 11:34:54,767][skrl][INFO] - v_right - v_left: -1.689
+[2025-12-03 11:34:54,814][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:54,815][skrl][INFO] - omega max: -2.163
+[2025-12-03 11:34:54,815][skrl][INFO] - v_right - v_left: -9.171
+[2025-12-03 11:34:54,862][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:54,862][skrl][INFO] - omega max: -1.476
+[2025-12-03 11:34:54,862][skrl][INFO] - v_right - v_left: -6.257
+[2025-12-03 11:34:54,909][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:54,909][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:54,909][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:54,956][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:54,956][skrl][INFO] - omega max: 2.150
+[2025-12-03 11:34:54,956][skrl][INFO] - v_right - v_left: 9.117
+[2025-12-03 11:34:55,003][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:55,003][skrl][INFO] - omega max: 3.770
+[2025-12-03 11:34:55,003][skrl][INFO] - v_right - v_left: 15.983
+[2025-12-03 11:34:55,050][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:55,050][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:55,050][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:55,097][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:55,097][skrl][INFO] - omega max: -3.582
+[2025-12-03 11:34:55,097][skrl][INFO] - v_right - v_left: -15.185
+[2025-12-03 11:34:55,144][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:55,144][skrl][INFO] - omega max: -0.846
+[2025-12-03 11:34:55,144][skrl][INFO] - v_right - v_left: -3.586
+[2025-12-03 11:34:55,191][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:55,191][skrl][INFO] - omega max: 1.415
+[2025-12-03 11:34:55,191][skrl][INFO] - v_right - v_left: 5.998
+[2025-12-03 11:34:55,238][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:55,238][skrl][INFO] - omega max: 1.046
+[2025-12-03 11:34:55,238][skrl][INFO] - v_right - v_left: 4.433
+[2025-12-03 11:34:55,285][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:55,285][skrl][INFO] - omega max: 3.143
+[2025-12-03 11:34:55,285][skrl][INFO] - v_right - v_left: 13.324
+[2025-12-03 11:34:55,332][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:55,332][skrl][INFO] - omega max: -0.291
+[2025-12-03 11:34:55,332][skrl][INFO] - v_right - v_left: -1.233
+[2025-12-03 11:34:55,379][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:55,379][skrl][INFO] - omega max: 0.496
+[2025-12-03 11:34:55,379][skrl][INFO] - v_right - v_left: 2.105
+[2025-12-03 11:34:55,426][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:55,426][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:55,426][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:55,473][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:55,473][skrl][INFO] - omega max: 0.072
+[2025-12-03 11:34:55,473][skrl][INFO] - v_right - v_left: 0.304
+[2025-12-03 11:34:55,520][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:55,520][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:55,520][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:55,567][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:55,567][skrl][INFO] - omega max: 3.979
+[2025-12-03 11:34:55,567][skrl][INFO] - v_right - v_left: 16.872
+[2025-12-03 11:34:55,614][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:55,614][skrl][INFO] - omega max: 3.805
+[2025-12-03 11:34:55,614][skrl][INFO] - v_right - v_left: 16.132
+[2025-12-03 11:34:55,662][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:55,662][skrl][INFO] - omega max: -5.000
+[2025-12-03 11:34:55,662][skrl][INFO] - v_right - v_left: -21.199
+[2025-12-03 11:34:55,709][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:55,709][skrl][INFO] - omega max: -2.838
+[2025-12-03 11:34:55,709][skrl][INFO] - v_right - v_left: -12.031
+[2025-12-03 11:34:55,756][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:55,756][skrl][INFO] - omega max: -3.707
+[2025-12-03 11:34:55,756][skrl][INFO] - v_right - v_left: -15.718
+[2025-12-03 11:34:55,803][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:55,803][skrl][INFO] - omega max: 1.348
+[2025-12-03 11:34:55,803][skrl][INFO] - v_right - v_left: 5.713
+[2025-12-03 11:34:55,850][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:55,850][skrl][INFO] - omega max: -1.130
+[2025-12-03 11:34:55,850][skrl][INFO] - v_right - v_left: -4.792
+[2025-12-03 11:34:55,897][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:55,897][skrl][INFO] - omega max: 4.769
+[2025-12-03 11:34:55,897][skrl][INFO] - v_right - v_left: 20.218
+[2025-12-03 11:34:55,944][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:55,944][skrl][INFO] - omega max: 3.227
+[2025-12-03 11:34:55,944][skrl][INFO] - v_right - v_left: 13.682
+[2025-12-03 11:34:55,991][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:55,991][skrl][INFO] - omega max: 1.046
+[2025-12-03 11:34:55,992][skrl][INFO] - v_right - v_left: 4.436
+[2025-12-03 11:34:56,038][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:56,038][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:56,038][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:56,085][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:56,085][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:56,085][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:56,133][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:56,133][skrl][INFO] - omega max: 0.241
+[2025-12-03 11:34:56,133][skrl][INFO] - v_right - v_left: 1.022
+[2025-12-03 11:34:56,180][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:56,180][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:56,180][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:56,227][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:56,227][skrl][INFO] - omega max: -2.862
+[2025-12-03 11:34:56,227][skrl][INFO] - v_right - v_left: -12.133
+[2025-12-03 11:34:56,274][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:56,274][skrl][INFO] - omega max: -3.953
+[2025-12-03 11:34:56,274][skrl][INFO] - v_right - v_left: -16.761
+[2025-12-03 11:34:56,321][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:56,321][skrl][INFO] - omega max: 2.596
+[2025-12-03 11:34:56,321][skrl][INFO] - v_right - v_left: 11.006
+[2025-12-03 11:34:56,368][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:56,368][skrl][INFO] - omega max: 1.292
+[2025-12-03 11:34:56,368][skrl][INFO] - v_right - v_left: 5.476
+[2025-12-03 11:34:56,415][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:56,415][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:56,415][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:56,463][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:56,463][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:56,463][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:56,510][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:56,510][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:56,510][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:56,557][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:56,557][skrl][INFO] - omega max: 1.530
+[2025-12-03 11:34:56,557][skrl][INFO] - v_right - v_left: 6.487
+[2025-12-03 11:34:56,603][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:56,603][skrl][INFO] - omega max: 3.014
+[2025-12-03 11:34:56,603][skrl][INFO] - v_right - v_left: 12.778
+[2025-12-03 11:34:56,650][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:56,650][skrl][INFO] - omega max: -3.472
+[2025-12-03 11:34:56,650][skrl][INFO] - v_right - v_left: -14.723
+[2025-12-03 11:34:56,697][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:56,697][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:56,697][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:56,744][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:56,744][skrl][INFO] - omega max: 4.381
+[2025-12-03 11:34:56,744][skrl][INFO] - v_right - v_left: 18.573
+[2025-12-03 11:34:56,792][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:56,792][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:56,792][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:56,839][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:56,839][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:56,839][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:56,886][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:56,886][skrl][INFO] - omega max: 4.751
+[2025-12-03 11:34:56,886][skrl][INFO] - v_right - v_left: 20.143
+[2025-12-03 11:34:56,933][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:56,933][skrl][INFO] - omega max: -0.519
+[2025-12-03 11:34:56,933][skrl][INFO] - v_right - v_left: -2.201
+[2025-12-03 11:34:56,981][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:56,981][skrl][INFO] - omega max: 4.336
+[2025-12-03 11:34:56,981][skrl][INFO] - v_right - v_left: 18.385
+[2025-12-03 11:34:57,028][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:57,028][skrl][INFO] - omega max: 1.577
+[2025-12-03 11:34:57,029][skrl][INFO] - v_right - v_left: 6.687
+[2025-12-03 11:34:57,075][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:57,075][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:57,075][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:57,122][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:57,122][skrl][INFO] - omega max: 0.157
+[2025-12-03 11:34:57,122][skrl][INFO] - v_right - v_left: 0.666
+[2025-12-03 11:34:57,169][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:57,169][skrl][INFO] - omega max: 0.213
+[2025-12-03 11:34:57,169][skrl][INFO] - v_right - v_left: 0.901
+[2025-12-03 11:34:57,216][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:57,216][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:57,216][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:57,264][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:57,264][skrl][INFO] - omega max: 0.550
+[2025-12-03 11:34:57,264][skrl][INFO] - v_right - v_left: 2.333
+[2025-12-03 11:34:57,311][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:57,311][skrl][INFO] - omega max: 2.119
+[2025-12-03 11:34:57,311][skrl][INFO] - v_right - v_left: 8.984
+[2025-12-03 11:34:57,358][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:57,358][skrl][INFO] - omega max: 0.908
+[2025-12-03 11:34:57,358][skrl][INFO] - v_right - v_left: 3.850
+[2025-12-03 11:34:57,405][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:57,405][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:57,405][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:57,452][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:57,452][skrl][INFO] - omega max: 1.213
+[2025-12-03 11:34:57,452][skrl][INFO] - v_right - v_left: 5.145
+[2025-12-03 11:34:57,499][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:57,499][skrl][INFO] - omega max: 1.333
+[2025-12-03 11:34:57,499][skrl][INFO] - v_right - v_left: 5.652
+[2025-12-03 11:34:57,546][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:57,546][skrl][INFO] - omega max: 1.589
+[2025-12-03 11:34:57,546][skrl][INFO] - v_right - v_left: 6.737
+[2025-12-03 11:34:57,593][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:57,594][skrl][INFO] - omega max: 1.644
+[2025-12-03 11:34:57,594][skrl][INFO] - v_right - v_left: 6.972
+[2025-12-03 11:34:57,640][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:57,640][skrl][INFO] - omega max: 1.827
+[2025-12-03 11:34:57,640][skrl][INFO] - v_right - v_left: 7.745
+[2025-12-03 11:34:57,687][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:57,687][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:57,687][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:57,734][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:57,734][skrl][INFO] - omega max: 2.128
+[2025-12-03 11:34:57,734][skrl][INFO] - v_right - v_left: 9.024
+[2025-12-03 11:34:57,781][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:57,781][skrl][INFO] - omega max: 2.039
+[2025-12-03 11:34:57,781][skrl][INFO] - v_right - v_left: 8.646
+[2025-12-03 11:34:57,828][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:57,828][skrl][INFO] - omega max: 2.280
+[2025-12-03 11:34:57,828][skrl][INFO] - v_right - v_left: 9.665
+[2025-12-03 11:34:57,875][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:57,875][skrl][INFO] - omega max: 3.483
+[2025-12-03 11:34:57,875][skrl][INFO] - v_right - v_left: 14.765
+[2025-12-03 11:34:57,922][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:57,922][skrl][INFO] - omega max: 2.406
+[2025-12-03 11:34:57,922][skrl][INFO] - v_right - v_left: 10.199
+[2025-12-03 11:34:57,969][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:57,969][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:57,969][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:58,016][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:58,016][skrl][INFO] - omega max: 2.419
+[2025-12-03 11:34:58,016][skrl][INFO] - v_right - v_left: 10.258
+[2025-12-03 11:34:58,063][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:58,063][skrl][INFO] - omega max: 2.499
+[2025-12-03 11:34:58,063][skrl][INFO] - v_right - v_left: 10.596
+[2025-12-03 11:34:58,109][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:58,109][skrl][INFO] - omega max: 2.652
+[2025-12-03 11:34:58,109][skrl][INFO] - v_right - v_left: 11.242
+[2025-12-03 11:34:58,156][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:58,156][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:58,156][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:58,203][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:58,203][skrl][INFO] - omega max: 2.611
+[2025-12-03 11:34:58,203][skrl][INFO] - v_right - v_left: 11.070
+[2025-12-03 11:34:58,250][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:58,250][skrl][INFO] - omega max: 3.112
+[2025-12-03 11:34:58,251][skrl][INFO] - v_right - v_left: 13.195
+[2025-12-03 11:34:58,298][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:58,298][skrl][INFO] - omega max: 1.989
+[2025-12-03 11:34:58,298][skrl][INFO] - v_right - v_left: 8.432
+[2025-12-03 11:34:58,345][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:58,345][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:58,345][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:58,392][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:58,392][skrl][INFO] - omega max: 1.171
+[2025-12-03 11:34:58,392][skrl][INFO] - v_right - v_left: 4.965
+[2025-12-03 11:34:58,439][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:58,439][skrl][INFO] - omega max: 3.321
+[2025-12-03 11:34:58,439][skrl][INFO] - v_right - v_left: 14.082
+[2025-12-03 11:34:58,486][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:58,486][skrl][INFO] - omega max: 2.872
+[2025-12-03 11:34:58,486][skrl][INFO] - v_right - v_left: 12.175
+[2025-12-03 11:34:58,533][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:58,533][skrl][INFO] - omega max: 1.627
+[2025-12-03 11:34:58,533][skrl][INFO] - v_right - v_left: 6.896
+[2025-12-03 11:34:58,580][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:58,580][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:58,581][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:58,677][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:58,678][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:58,678][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:58,724][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:58,724][skrl][INFO] - omega max: 3.747
+[2025-12-03 11:34:58,725][skrl][INFO] - v_right - v_left: 15.886
+[2025-12-03 11:34:58,771][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:58,771][skrl][INFO] - omega max: 2.883
+[2025-12-03 11:34:58,771][skrl][INFO] - v_right - v_left: 12.222
+[2025-12-03 11:34:58,818][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:58,818][skrl][INFO] - omega max: 4.064
+[2025-12-03 11:34:58,818][skrl][INFO] - v_right - v_left: 17.230
+[2025-12-03 11:34:58,865][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:58,865][skrl][INFO] - omega max: -1.500
+[2025-12-03 11:34:58,865][skrl][INFO] - v_right - v_left: -6.359
+[2025-12-03 11:34:58,912][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:58,912][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:58,912][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:58,958][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:58,959][skrl][INFO] - omega max: 0.286
+[2025-12-03 11:34:58,959][skrl][INFO] - v_right - v_left: 1.214
+[2025-12-03 11:34:59,005][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:59,005][skrl][INFO] - omega max: -3.756
+[2025-12-03 11:34:59,005][skrl][INFO] - v_right - v_left: -15.926
+[2025-12-03 11:34:59,052][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:59,052][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:59,052][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:59,100][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:59,100][skrl][INFO] - omega max: 0.317
+[2025-12-03 11:34:59,100][skrl][INFO] - v_right - v_left: 1.345
+[2025-12-03 11:34:59,147][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:59,147][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:59,147][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:59,194][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:59,194][skrl][INFO] - omega max: 3.460
+[2025-12-03 11:34:59,194][skrl][INFO] - v_right - v_left: 14.672
+[2025-12-03 11:34:59,241][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:59,241][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:59,241][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:59,288][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:59,288][skrl][INFO] - omega max: 4.084
+[2025-12-03 11:34:59,288][skrl][INFO] - v_right - v_left: 17.317
+[2025-12-03 11:34:59,335][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:59,335][skrl][INFO] - omega max: 2.449
+[2025-12-03 11:34:59,335][skrl][INFO] - v_right - v_left: 10.381
+[2025-12-03 11:34:59,382][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:59,383][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:59,383][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:59,430][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:59,430][skrl][INFO] - omega max: -1.422
+[2025-12-03 11:34:59,430][skrl][INFO] - v_right - v_left: -6.030
+[2025-12-03 11:34:59,477][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:59,477][skrl][INFO] - omega max: 2.834
+[2025-12-03 11:34:59,477][skrl][INFO] - v_right - v_left: 12.015
+[2025-12-03 11:34:59,524][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:59,524][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:59,524][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:59,571][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:59,571][skrl][INFO] - omega max: -0.820
+[2025-12-03 11:34:59,571][skrl][INFO] - v_right - v_left: -3.476
+[2025-12-03 11:34:59,618][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:59,618][skrl][INFO] - omega max: 2.997
+[2025-12-03 11:34:59,618][skrl][INFO] - v_right - v_left: 12.707
+[2025-12-03 11:34:59,665][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:59,665][skrl][INFO] - omega max: 3.626
+[2025-12-03 11:34:59,665][skrl][INFO] - v_right - v_left: 15.373
+[2025-12-03 11:34:59,712][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:59,713][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:59,713][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:59,760][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:59,760][skrl][INFO] - omega max: 3.186
+[2025-12-03 11:34:59,760][skrl][INFO] - v_right - v_left: 13.509
+[2025-12-03 11:34:59,807][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:59,808][skrl][INFO] - omega max: -0.124
+[2025-12-03 11:34:59,808][skrl][INFO] - v_right - v_left: -0.525
+[2025-12-03 11:34:59,855][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:59,855][skrl][INFO] - omega max: 3.246
+[2025-12-03 11:34:59,855][skrl][INFO] - v_right - v_left: 13.763
+[2025-12-03 11:34:59,902][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:59,902][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:34:59,902][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:34:59,949][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:59,949][skrl][INFO] - omega max: 3.511
+[2025-12-03 11:34:59,949][skrl][INFO] - v_right - v_left: 14.886
+[2025-12-03 11:34:59,997][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:34:59,997][skrl][INFO] - omega max: 3.491
+[2025-12-03 11:34:59,997][skrl][INFO] - v_right - v_left: 14.800
+[2025-12-03 11:35:00,044][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:00,044][skrl][INFO] - omega max: 1.855
+[2025-12-03 11:35:00,044][skrl][INFO] - v_right - v_left: 7.866
+[2025-12-03 11:35:00,091][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:00,091][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:00,091][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:00,139][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:00,139][skrl][INFO] - omega max: 3.274
+[2025-12-03 11:35:00,139][skrl][INFO] - v_right - v_left: 13.881
+[2025-12-03 11:35:00,186][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:00,186][skrl][INFO] - omega max: 3.451
+[2025-12-03 11:35:00,187][skrl][INFO] - v_right - v_left: 14.634
+[2025-12-03 11:35:00,234][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:00,234][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:00,234][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:00,282][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:00,282][skrl][INFO] - omega max: 2.220
+[2025-12-03 11:35:00,283][skrl][INFO] - v_right - v_left: 9.414
+[2025-12-03 11:35:00,330][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:00,331][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:00,331][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:00,381][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:00,381][skrl][INFO] - omega max: -1.509
+[2025-12-03 11:35:00,382][skrl][INFO] - v_right - v_left: -6.400
+[2025-12-03 11:35:00,429][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:00,429][skrl][INFO] - omega max: 1.379
+[2025-12-03 11:35:00,429][skrl][INFO] - v_right - v_left: 5.847
+[2025-12-03 11:35:00,480][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:00,480][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:00,481][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:00,529][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:00,529][skrl][INFO] - omega max: 4.313
+[2025-12-03 11:35:00,529][skrl][INFO] - v_right - v_left: 18.286
+[2025-12-03 11:35:00,578][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:00,578][skrl][INFO] - omega max: 0.521
+[2025-12-03 11:35:00,578][skrl][INFO] - v_right - v_left: 2.208
+[2025-12-03 11:35:00,626][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:00,626][skrl][INFO] - omega max: 4.147
+[2025-12-03 11:35:00,626][skrl][INFO] - v_right - v_left: 17.581
+[2025-12-03 11:35:00,673][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:00,673][skrl][INFO] - omega max: 4.504
+[2025-12-03 11:35:00,673][skrl][INFO] - v_right - v_left: 19.096
+[2025-12-03 11:35:00,721][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:00,721][skrl][INFO] - omega max: 2.396
+[2025-12-03 11:35:00,721][skrl][INFO] - v_right - v_left: 10.158
+[2025-12-03 11:35:00,768][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:00,769][skrl][INFO] - omega max: 4.035
+[2025-12-03 11:35:00,769][skrl][INFO] - v_right - v_left: 17.107
+[2025-12-03 11:35:00,816][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:00,816][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:00,816][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:00,864][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:00,864][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:00,864][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:00,912][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:00,912][skrl][INFO] - omega max: -1.930
+[2025-12-03 11:35:00,912][skrl][INFO] - v_right - v_left: -8.184
+[2025-12-03 11:35:00,959][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:00,959][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:00,959][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:01,006][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:01,006][skrl][INFO] - omega max: -2.913
+[2025-12-03 11:35:01,006][skrl][INFO] - v_right - v_left: -12.351
+[2025-12-03 11:35:01,054][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:01,054][skrl][INFO] - omega max: 4.899
+[2025-12-03 11:35:01,054][skrl][INFO] - v_right - v_left: 20.771
+[2025-12-03 11:35:01,105][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:01,105][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:01,105][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:01,153][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:01,153][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:01,153][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:01,201][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:01,201][skrl][INFO] - omega max: -3.545
+[2025-12-03 11:35:01,201][skrl][INFO] - v_right - v_left: -15.029
+[2025-12-03 11:35:01,252][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:01,252][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:01,252][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:01,300][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:01,300][skrl][INFO] - omega max: 0.536
+[2025-12-03 11:35:01,301][skrl][INFO] - v_right - v_left: 2.274
+[2025-12-03 11:35:01,348][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:01,348][skrl][INFO] - omega max: 4.589
+[2025-12-03 11:35:01,348][skrl][INFO] - v_right - v_left: 19.457
+[2025-12-03 11:35:01,398][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:01,398][skrl][INFO] - omega max: 3.795
+[2025-12-03 11:35:01,398][skrl][INFO] - v_right - v_left: 16.090
+[2025-12-03 11:35:01,446][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:01,446][skrl][INFO] - omega max: 4.676
+[2025-12-03 11:35:01,446][skrl][INFO] - v_right - v_left: 19.825
+[2025-12-03 11:35:01,495][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:01,495][skrl][INFO] - omega max: 4.282
+[2025-12-03 11:35:01,495][skrl][INFO] - v_right - v_left: 18.155
+[2025-12-03 11:35:01,543][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:01,543][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:01,543][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:01,591][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:01,591][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:01,591][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:01,640][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:01,640][skrl][INFO] - omega max: 4.593
+[2025-12-03 11:35:01,640][skrl][INFO] - v_right - v_left: 19.474
+[2025-12-03 11:35:01,687][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:01,687][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:01,687][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:01,734][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:01,734][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:01,734][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:01,782][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:01,782][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:01,782][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:01,829][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:01,829][skrl][INFO] - omega max: 2.931
+[2025-12-03 11:35:01,829][skrl][INFO] - v_right - v_left: 12.429
+[2025-12-03 11:35:01,877][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:01,877][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:01,877][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:01,924][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:01,924][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:01,925][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:01,972][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:01,972][skrl][INFO] - omega max: -3.460
+[2025-12-03 11:35:01,972][skrl][INFO] - v_right - v_left: -14.671
+[2025-12-03 11:35:02,020][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:02,020][skrl][INFO] - omega max: -0.081
+[2025-12-03 11:35:02,020][skrl][INFO] - v_right - v_left: -0.343
+[2025-12-03 11:35:02,067][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:02,068][skrl][INFO] - omega max: 3.361
+[2025-12-03 11:35:02,068][skrl][INFO] - v_right - v_left: 14.250
+[2025-12-03 11:35:02,115][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:02,115][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:02,115][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:02,163][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:02,163][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:02,163][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:02,210][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:02,210][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:02,211][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:02,258][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:02,258][skrl][INFO] - omega max: 3.787
+[2025-12-03 11:35:02,258][skrl][INFO] - v_right - v_left: 16.058
+[2025-12-03 11:35:02,306][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:02,306][skrl][INFO] - omega max: 3.327
+[2025-12-03 11:35:02,306][skrl][INFO] - v_right - v_left: 14.104
+[2025-12-03 11:35:02,353][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:02,353][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:02,353][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:02,401][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:02,401][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:02,401][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:02,448][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:02,448][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:02,448][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:02,495][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:02,496][skrl][INFO] - omega max: 3.825
+[2025-12-03 11:35:02,496][skrl][INFO] - v_right - v_left: 16.216
+[2025-12-03 11:35:02,543][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:02,543][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:02,543][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:02,591][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:02,591][skrl][INFO] - omega max: 4.628
+[2025-12-03 11:35:02,591][skrl][INFO] - v_right - v_left: 19.621
+[2025-12-03 11:35:02,638][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:02,638][skrl][INFO] - omega max: 2.665
+[2025-12-03 11:35:02,638][skrl][INFO] - v_right - v_left: 11.298
+[2025-12-03 11:35:02,685][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:02,685][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:02,685][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:02,732][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:02,732][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:02,732][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:02,780][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:02,780][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:02,780][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:02,827][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:02,827][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:02,827][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:02,874][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:02,874][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:02,874][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:02,920][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:02,920][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:02,921][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:02,967][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:02,968][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:02,968][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:03,014][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:03,014][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:03,015][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:03,062][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:03,062][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:03,062][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:03,109][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:03,109][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:03,109][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:03,156][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:03,156][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:03,156][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:03,204][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:03,204][skrl][INFO] - omega max: -2.501
+[2025-12-03 11:35:03,204][skrl][INFO] - v_right - v_left: -10.603
+[2025-12-03 11:35:03,250][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:03,250][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:03,250][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:03,297][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:03,297][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:03,297][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:03,344][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:03,344][skrl][INFO] - omega max: 1.408
+[2025-12-03 11:35:03,344][skrl][INFO] - v_right - v_left: 5.970
+[2025-12-03 11:35:03,391][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:03,391][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:03,391][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:03,438][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:03,438][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:03,438][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:03,485][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:03,485][skrl][INFO] - omega max: -1.713
+[2025-12-03 11:35:03,485][skrl][INFO] - v_right - v_left: -7.264
+[2025-12-03 11:35:03,532][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:03,532][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:03,532][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:03,579][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:03,579][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:03,579][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:03,625][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:03,626][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:03,626][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:03,723][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:03,723][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:03,723][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:03,770][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:03,770][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:03,770][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:03,817][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:03,817][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:03,817][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:03,864][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:03,864][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:03,864][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:03,911][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:03,911][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:03,911][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:03,959][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:03,959][skrl][INFO] - omega max: -2.033
+[2025-12-03 11:35:03,960][skrl][INFO] - v_right - v_left: -8.621
+[2025-12-03 11:35:04,007][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:04,007][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:04,007][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:04,053][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:04,053][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:04,053][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:04,100][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:04,101][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:04,101][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:04,147][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:04,148][skrl][INFO] - omega max: 2.257
+[2025-12-03 11:35:04,148][skrl][INFO] - v_right - v_left: 9.570
+[2025-12-03 11:35:04,194][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:04,194][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:04,194][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:04,241][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:04,241][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:04,241][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:04,288][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:04,289][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:04,289][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:04,335][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:04,335][skrl][INFO] - omega max: 4.634
+[2025-12-03 11:35:04,335][skrl][INFO] - v_right - v_left: 19.646
+[2025-12-03 11:35:04,382][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:04,382][skrl][INFO] - omega max: 0.649
+[2025-12-03 11:35:04,382][skrl][INFO] - v_right - v_left: 2.751
+[2025-12-03 11:35:04,429][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:04,429][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:04,429][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:04,476][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:04,476][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:04,476][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:04,523][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:04,523][skrl][INFO] - omega max: 1.829
+[2025-12-03 11:35:04,523][skrl][INFO] - v_right - v_left: 7.755
+[2025-12-03 11:35:04,569][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:04,570][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:04,570][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:04,618][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:04,618][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:04,618][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:04,665][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:04,665][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:04,665][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:04,712][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:04,712][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:04,712][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:04,759][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:04,759][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:04,759][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:04,806][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:04,806][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:04,807][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:04,853][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:04,853][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:04,853][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:04,900][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:04,901][skrl][INFO] - omega max: -0.183
+[2025-12-03 11:35:04,901][skrl][INFO] - v_right - v_left: -0.775
+[2025-12-03 11:35:04,947][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:04,947][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:04,947][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:04,994][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:04,994][skrl][INFO] - omega max: 4.831
+[2025-12-03 11:35:04,994][skrl][INFO] - v_right - v_left: 20.483
+[2025-12-03 11:35:05,041][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:05,041][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:05,041][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:05,087][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:05,087][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:05,088][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:05,136][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:05,136][skrl][INFO] - omega max: 4.555
+[2025-12-03 11:35:05,136][skrl][INFO] - v_right - v_left: 19.311
+[2025-12-03 11:35:05,183][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:05,183][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:05,183][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:05,231][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:05,231][skrl][INFO] - omega max: 2.449
+[2025-12-03 11:35:05,231][skrl][INFO] - v_right - v_left: 10.381
+[2025-12-03 11:35:05,278][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:05,278][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:05,278][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:05,325][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:05,325][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:05,325][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:05,372][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:05,372][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:05,372][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:05,419][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:05,419][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:05,419][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:05,465][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:05,466][skrl][INFO] - omega max: 4.433
+[2025-12-03 11:35:05,466][skrl][INFO] - v_right - v_left: 18.797
+[2025-12-03 11:35:05,513][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:05,513][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:05,513][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:05,559][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:05,560][skrl][INFO] - omega max: 4.061
+[2025-12-03 11:35:05,560][skrl][INFO] - v_right - v_left: 17.220
+[2025-12-03 11:35:05,607][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:05,607][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:05,607][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:05,653][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:05,653][skrl][INFO] - omega max: 0.962
+[2025-12-03 11:35:05,653][skrl][INFO] - v_right - v_left: 4.081
+[2025-12-03 11:35:05,701][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:05,701][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:05,701][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:05,747][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:05,747][skrl][INFO] - omega max: 4.485
+[2025-12-03 11:35:05,748][skrl][INFO] - v_right - v_left: 19.017
+[2025-12-03 11:35:05,794][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:05,794][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:05,794][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:05,841][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:05,842][skrl][INFO] - omega max: 3.828
+[2025-12-03 11:35:05,842][skrl][INFO] - v_right - v_left: 16.230
+[2025-12-03 11:35:05,889][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:05,889][skrl][INFO] - omega max: 4.524
+[2025-12-03 11:35:05,889][skrl][INFO] - v_right - v_left: 19.183
+[2025-12-03 11:35:05,936][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:05,936][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:05,936][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:05,983][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:05,983][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:05,983][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:06,030][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:06,030][skrl][INFO] - omega max: -2.562
+[2025-12-03 11:35:06,030][skrl][INFO] - v_right - v_left: -10.861
+[2025-12-03 11:35:06,078][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:06,078][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:06,078][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:06,125][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:06,125][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:06,125][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:06,172][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:06,172][skrl][INFO] - omega max: -0.023
+[2025-12-03 11:35:06,172][skrl][INFO] - v_right - v_left: -0.096
+[2025-12-03 11:35:06,218][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:06,219][skrl][INFO] - omega max: -2.686
+[2025-12-03 11:35:06,219][skrl][INFO] - v_right - v_left: -11.389
+[2025-12-03 11:35:06,265][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:06,265][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:06,265][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:06,312][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:06,312][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:06,313][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:06,359][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:06,360][skrl][INFO] - omega max: 2.737
+[2025-12-03 11:35:06,360][skrl][INFO] - v_right - v_left: 11.603
+[2025-12-03 11:35:06,407][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:06,407][skrl][INFO] - omega max: 2.833
+[2025-12-03 11:35:06,407][skrl][INFO] - v_right - v_left: 12.010
+[2025-12-03 11:35:06,453][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:06,454][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:06,454][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:06,500][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:06,501][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:06,501][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:06,547][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:06,547][skrl][INFO] - omega max: 3.448
+[2025-12-03 11:35:06,547][skrl][INFO] - v_right - v_left: 14.620
+[2025-12-03 11:35:06,594][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:06,594][skrl][INFO] - omega max: 4.759
+[2025-12-03 11:35:06,594][skrl][INFO] - v_right - v_left: 20.179
+[2025-12-03 11:35:06,641][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:06,641][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:06,641][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:06,688][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:06,688][skrl][INFO] - omega max: 3.118
+[2025-12-03 11:35:06,689][skrl][INFO] - v_right - v_left: 13.220
+[2025-12-03 11:35:06,735][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:06,736][skrl][INFO] - omega max: 4.302
+[2025-12-03 11:35:06,736][skrl][INFO] - v_right - v_left: 18.241
+[2025-12-03 11:35:06,782][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:06,782][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:06,782][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:06,830][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:06,830][skrl][INFO] - omega max: 3.618
+[2025-12-03 11:35:06,830][skrl][INFO] - v_right - v_left: 15.340
+[2025-12-03 11:35:06,876][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:06,877][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:06,877][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:06,924][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:06,924][skrl][INFO] - omega max: 3.355
+[2025-12-03 11:35:06,924][skrl][INFO] - v_right - v_left: 14.223
+[2025-12-03 11:35:06,971][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:06,971][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:06,971][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:07,018][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:07,018][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:07,018][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:07,065][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:07,065][skrl][INFO] - omega max: -2.132
+[2025-12-03 11:35:07,065][skrl][INFO] - v_right - v_left: -9.041
+[2025-12-03 11:35:07,112][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:07,112][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:07,112][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:07,159][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:07,159][skrl][INFO] - omega max: 3.726
+[2025-12-03 11:35:07,159][skrl][INFO] - v_right - v_left: 15.797
+[2025-12-03 11:35:07,205][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:07,206][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:07,206][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:07,253][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:07,253][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:07,253][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:07,300][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:07,300][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:07,300][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:07,347][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:07,348][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:07,348][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:07,394][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:07,395][skrl][INFO] - omega max: 4.974
+[2025-12-03 11:35:07,395][skrl][INFO] - v_right - v_left: 21.090
+[2025-12-03 11:35:07,441][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:07,441][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:07,442][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:07,488][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:07,488][skrl][INFO] - omega max: 0.022
+[2025-12-03 11:35:07,488][skrl][INFO] - v_right - v_left: 0.092
+[2025-12-03 11:35:07,535][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:07,535][skrl][INFO] - omega max: 4.467
+[2025-12-03 11:35:07,536][skrl][INFO] - v_right - v_left: 18.938
+[2025-12-03 11:35:07,582][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:07,582][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:07,582][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:07,629][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:07,629][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:07,629][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:07,676][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:07,676][skrl][INFO] - omega max: 2.418
+[2025-12-03 11:35:07,676][skrl][INFO] - v_right - v_left: 10.253
+[2025-12-03 11:35:07,723][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:07,723][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:07,723][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:07,770][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:07,770][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:07,770][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:07,817][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:07,817][skrl][INFO] - omega max: 0.702
+[2025-12-03 11:35:07,818][skrl][INFO] - v_right - v_left: 2.978
+[2025-12-03 11:35:07,865][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:07,865][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:07,865][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:07,912][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:07,912][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:07,912][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:07,959][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:07,960][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:07,960][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:08,007][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:08,007][skrl][INFO] - omega max: 2.375
+[2025-12-03 11:35:08,007][skrl][INFO] - v_right - v_left: 10.069
+[2025-12-03 11:35:08,058][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:08,058][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:08,058][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:08,106][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:08,106][skrl][INFO] - omega max: 3.244
+[2025-12-03 11:35:08,106][skrl][INFO] - v_right - v_left: 13.753
+[2025-12-03 11:35:08,153][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:08,154][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:08,154][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:08,200][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:08,201][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:08,201][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:08,248][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:08,248][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:08,248][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:08,295][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:08,295][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:08,295][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:08,342][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:08,342][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:08,342][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:08,389][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:08,389][skrl][INFO] - omega max: -4.120
+[2025-12-03 11:35:08,389][skrl][INFO] - v_right - v_left: -17.467
+[2025-12-03 11:35:08,436][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:08,436][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:08,436][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:08,484][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:08,484][skrl][INFO] - omega max: 1.648
+[2025-12-03 11:35:08,484][skrl][INFO] - v_right - v_left: 6.986
+[2025-12-03 11:35:08,530][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:08,531][skrl][INFO] - omega max: 3.047
+[2025-12-03 11:35:08,531][skrl][INFO] - v_right - v_left: 12.919
+[2025-12-03 11:35:08,578][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:08,578][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:08,578][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:08,624][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:08,625][skrl][INFO] - omega max: 0.087
+[2025-12-03 11:35:08,625][skrl][INFO] - v_right - v_left: 0.368
+[2025-12-03 11:35:08,672][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:08,672][skrl][INFO] - omega max: 1.214
+[2025-12-03 11:35:08,672][skrl][INFO] - v_right - v_left: 5.149
+[2025-12-03 11:35:08,718][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:08,718][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:08,718][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:08,765][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:08,765][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:08,765][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:08,812][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:08,812][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:08,812][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:08,859][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:08,859][skrl][INFO] - omega max: 0.940
+[2025-12-03 11:35:08,859][skrl][INFO] - v_right - v_left: 3.985
+[2025-12-03 11:35:08,905][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:08,906][skrl][INFO] - omega max: 2.122
+[2025-12-03 11:35:08,906][skrl][INFO] - v_right - v_left: 8.996
+[2025-12-03 11:35:08,953][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:08,953][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:08,953][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:09,000][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:09,000][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:09,000][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:09,047][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:09,048][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:09,048][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:09,094][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:09,094][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:09,094][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:09,141][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:09,141][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:09,141][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:09,188][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:09,188][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:09,188][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:09,234][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:09,234][skrl][INFO] - omega max: 2.543
+[2025-12-03 11:35:09,235][skrl][INFO] - v_right - v_left: 10.782
+[2025-12-03 11:35:09,282][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:09,282][skrl][INFO] - omega max: 2.214
+[2025-12-03 11:35:09,282][skrl][INFO] - v_right - v_left: 9.386
+[2025-12-03 11:35:09,329][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:09,329][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:09,329][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:09,376][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:09,376][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:09,376][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:09,423][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:09,423][skrl][INFO] - omega max: 1.715
+[2025-12-03 11:35:09,423][skrl][INFO] - v_right - v_left: 7.271
+[2025-12-03 11:35:09,470][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:09,470][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:09,470][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:09,518][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:09,518][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:09,518][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:09,565][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:09,565][skrl][INFO] - omega max: -0.576
+[2025-12-03 11:35:09,565][skrl][INFO] - v_right - v_left: -2.441
+[2025-12-03 11:35:09,612][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:09,612][skrl][INFO] - omega max: 0.310
+[2025-12-03 11:35:09,612][skrl][INFO] - v_right - v_left: 1.316
+[2025-12-03 11:35:09,659][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:09,659][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:09,660][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:09,707][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:09,707][skrl][INFO] - omega max: 2.982
+[2025-12-03 11:35:09,707][skrl][INFO] - v_right - v_left: 12.642
+[2025-12-03 11:35:09,754][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:09,754][skrl][INFO] - omega max: 4.496
+[2025-12-03 11:35:09,754][skrl][INFO] - v_right - v_left: 19.062
+[2025-12-03 11:35:09,801][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:09,801][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:09,801][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:09,848][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:09,848][skrl][INFO] - omega max: 4.802
+[2025-12-03 11:35:09,848][skrl][INFO] - v_right - v_left: 20.358
+[2025-12-03 11:35:09,896][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:09,896][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:09,896][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:10,133][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:10,133][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:10,133][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:10,180][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:10,180][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:10,180][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:10,227][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:10,227][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:10,227][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:10,274][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:10,274][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:10,274][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:10,322][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:10,322][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:10,322][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:10,369][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:10,369][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:10,369][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:10,416][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:10,416][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:10,416][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:10,463][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:10,463][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:10,463][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:10,510][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:10,510][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:10,510][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:10,556][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:10,557][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:10,557][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:10,604][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:10,604][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:10,604][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:10,651][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:10,651][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:10,651][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:10,698][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:10,698][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:10,698][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:10,745][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:10,745][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:10,745][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:10,791][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:10,791][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:10,792][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:10,839][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:10,839][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:10,839][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:10,886][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:10,886][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:10,886][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:10,933][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:10,933][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:10,933][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:10,979][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:10,980][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:10,980][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:11,026][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:11,027][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:11,027][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:11,074][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:11,074][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:11,074][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:11,121][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:11,121][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:11,121][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:11,168][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:11,168][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:11,168][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:11,215][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:11,215][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:11,215][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:11,261][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:11,261][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:11,261][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:11,308][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:11,309][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:11,309][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:11,355][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:11,355][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:11,355][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:11,402][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:11,402][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:11,403][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:11,450][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:11,450][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:11,450][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:11,497][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:11,497][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:11,497][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:11,544][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:11,544][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:11,544][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:11,592][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:11,592][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:11,592][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:11,639][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:11,639][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:11,639][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:11,686][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:11,686][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:11,686][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:11,734][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:11,734][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:11,734][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:11,781][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:11,781][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:11,781][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:11,827][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:11,828][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:11,828][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:11,875][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:11,875][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:11,875][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:11,922][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:11,922][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:11,922][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:11,969][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:11,969][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:11,969][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:12,015][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:12,016][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:12,016][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:12,062][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:12,062][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:12,062][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:12,110][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:12,110][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:12,110][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:12,157][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:12,157][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:12,157][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:12,205][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:12,205][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:12,205][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:12,252][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:12,252][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:12,252][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:12,299][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:12,300][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:12,300][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:12,346][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:12,346][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:12,346][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:12,393][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:12,394][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:12,394][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:12,441][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:12,441][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:12,441][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:12,488][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:12,488][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:12,488][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:12,535][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:12,535][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:12,535][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:12,581][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:12,581][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:12,582][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:12,628][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:12,629][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:12,629][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:12,675][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:12,675][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:12,675][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:12,722][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:12,722][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:12,722][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:12,769][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:12,769][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:12,769][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:12,816][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:12,816][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:12,816][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:12,863][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:12,863][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:12,863][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:12,910][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:12,910][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:12,910][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:12,957][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:12,957][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:12,957][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:13,003][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:13,003][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:13,004][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:13,051][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:13,051][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:13,051][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:13,098][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:13,098][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:13,098][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:13,145][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:13,145][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:13,145][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:13,192][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:13,192][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:13,192][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:13,239][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:13,239][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:13,239][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:13,286][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:13,286][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:13,286][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:13,333][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:13,333][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:13,333][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:13,379][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:13,379][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:13,380][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:13,426][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:13,426][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:13,426][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:13,473][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:13,473][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:13,473][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:13,520][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:13,520][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:13,520][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:13,567][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:13,567][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:13,567][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:13,615][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:13,615][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:13,615][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:13,661][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:13,661][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:13,662][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:13,708][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:13,708][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:13,709][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:13,756][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:13,756][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:13,756][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:13,803][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:13,803][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:13,803][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:13,850][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:13,850][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:13,850][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:13,897][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:13,897][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:13,897][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:13,944][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:13,944][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:13,944][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:13,991][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:13,991][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:13,991][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:14,038][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:14,038][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:14,038][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:14,085][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:14,085][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:14,085][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:14,132][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:14,132][skrl][INFO] - omega max: 0.538
+[2025-12-03 11:35:14,183][skrl][INFO] - v_right - v_left: 2.280
+[2025-12-03 11:35:14,229][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:14,230][skrl][INFO] - omega max: 0.566
+[2025-12-03 11:35:14,230][skrl][INFO] - v_right - v_left: 2.402
+[2025-12-03 11:35:14,276][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:14,276][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:14,276][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:14,323][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:14,323][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:14,323][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:14,371][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:14,371][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:14,371][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:14,418][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:14,418][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:14,419][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:14,466][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:14,466][skrl][INFO] - omega max: 0.518
+[2025-12-03 11:35:14,466][skrl][INFO] - v_right - v_left: 2.195
+[2025-12-03 11:35:14,513][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:14,513][skrl][INFO] - omega max: 0.742
+[2025-12-03 11:35:14,513][skrl][INFO] - v_right - v_left: 3.145
+[2025-12-03 11:35:14,561][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:14,562][skrl][INFO] - omega max: 0.380
+[2025-12-03 11:35:14,562][skrl][INFO] - v_right - v_left: 1.610
+[2025-12-03 11:35:14,609][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:14,609][skrl][INFO] - omega max: 0.564
+[2025-12-03 11:35:14,609][skrl][INFO] - v_right - v_left: 2.393
+[2025-12-03 11:35:14,656][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:14,656][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:14,656][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:14,704][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:14,704][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:14,704][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:14,751][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:14,751][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:14,751][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:14,798][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:14,798][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:14,798][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:14,845][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:14,846][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:14,846][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:14,893][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:14,893][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:14,893][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:14,941][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:14,941][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:14,941][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:14,989][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:14,989][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:14,990][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:15,037][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:15,037][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:15,037][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:15,084][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:15,084][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:15,084][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:15,131][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:15,131][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:15,131][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:15,178][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:15,178][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:15,178][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:15,225][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:15,225][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:15,226][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:15,273][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:15,273][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:15,273][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:15,320][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:15,320][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:15,320][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:15,367][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:15,367][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:15,367][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:15,415][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:15,415][skrl][INFO] - omega max: 0.804
+[2025-12-03 11:35:15,415][skrl][INFO] - v_right - v_left: 3.409
+[2025-12-03 11:35:15,462][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:15,462][skrl][INFO] - omega max: 0.705
+[2025-12-03 11:35:15,462][skrl][INFO] - v_right - v_left: 2.988
+[2025-12-03 11:35:15,510][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:15,510][skrl][INFO] - omega max: 1.108
+[2025-12-03 11:35:15,510][skrl][INFO] - v_right - v_left: 4.699
+[2025-12-03 11:35:15,557][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:15,557][skrl][INFO] - omega max: -1.322
+[2025-12-03 11:35:15,557][skrl][INFO] - v_right - v_left: -5.607
+[2025-12-03 11:35:15,604][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:15,605][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:15,605][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:15,654][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:15,654][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:15,654][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:15,702][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:15,702][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:15,702][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:15,750][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:15,750][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:15,750][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:15,797][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:15,797][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:15,797][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:15,844][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:15,844][skrl][INFO] - omega max: 1.774
+[2025-12-03 11:35:15,844][skrl][INFO] - v_right - v_left: 7.521
+[2025-12-03 11:35:15,891][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:15,891][skrl][INFO] - omega max: 2.296
+[2025-12-03 11:35:15,892][skrl][INFO] - v_right - v_left: 9.734
+[2025-12-03 11:35:15,938][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:15,938][skrl][INFO] - omega max: 0.555
+[2025-12-03 11:35:15,938][skrl][INFO] - v_right - v_left: 2.352
+[2025-12-03 11:35:15,985][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:15,985][skrl][INFO] - omega max: 2.788
+[2025-12-03 11:35:15,985][skrl][INFO] - v_right - v_left: 11.819
+[2025-12-03 11:35:16,032][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:16,032][skrl][INFO] - omega max: 2.157
+[2025-12-03 11:35:16,032][skrl][INFO] - v_right - v_left: 9.146
+[2025-12-03 11:35:16,079][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:16,079][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:16,079][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:16,125][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:16,126][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:16,126][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:16,173][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:16,173][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:16,173][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:16,220][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:16,220][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:16,220][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:16,267][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:16,267][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:16,267][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:16,314][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:16,314][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:16,314][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:16,361][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:16,361][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:16,361][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:16,408][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:16,408][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:16,408][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:16,455][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:16,455][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:16,455][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:16,502][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:16,503][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:16,503][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:16,550][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:16,550][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:16,550][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:16,597][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:16,597][skrl][INFO] - omega max: 2.255
+[2025-12-03 11:35:16,597][skrl][INFO] - v_right - v_left: 9.560
+[2025-12-03 11:35:16,644][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:16,644][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:16,644][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:16,691][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:16,691][skrl][INFO] - omega max: 4.292
+[2025-12-03 11:35:16,692][skrl][INFO] - v_right - v_left: 18.197
+[2025-12-03 11:35:16,738][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:16,738][skrl][INFO] - omega max: 0.111
+[2025-12-03 11:35:16,738][skrl][INFO] - v_right - v_left: 0.470
+[2025-12-03 11:35:16,786][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:16,786][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:16,786][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:16,833][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:16,833][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:16,833][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:16,880][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:16,880][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:16,880][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:16,927][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:16,927][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:16,927][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:16,975][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:16,975][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:16,975][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:17,022][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:17,022][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:17,022][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:17,070][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:17,070][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:17,070][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:17,118][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:17,118][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:17,118][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:17,166][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:17,166][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:17,166][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:17,216][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:17,216][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:17,216][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:17,268][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:17,268][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:17,268][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:17,316][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:17,316][skrl][INFO] - omega max: 2.264
+[2025-12-03 11:35:17,316][skrl][INFO] - v_right - v_left: 9.597
+[2025-12-03 11:35:17,364][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:17,364][skrl][INFO] - omega max: 1.320
+[2025-12-03 11:35:17,364][skrl][INFO] - v_right - v_left: 5.595
+[2025-12-03 11:35:17,412][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:17,412][skrl][INFO] - omega max: 1.787
+[2025-12-03 11:35:17,412][skrl][INFO] - v_right - v_left: 7.575
+[2025-12-03 11:35:17,461][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:17,461][skrl][INFO] - omega max: 1.014
+[2025-12-03 11:35:17,461][skrl][INFO] - v_right - v_left: 4.301
+[2025-12-03 11:35:17,509][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:17,509][skrl][INFO] - omega max: 1.866
+[2025-12-03 11:35:17,509][skrl][INFO] - v_right - v_left: 7.910
+[2025-12-03 11:35:17,556][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:17,556][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:17,557][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:17,604][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:17,604][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:17,604][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:17,651][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:17,651][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:17,651][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:17,698][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:17,698][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:17,699][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:17,749][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:17,749][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:17,750][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:17,797][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:17,797][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:17,797][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:17,844][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:17,844][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:17,844][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:17,892][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:17,892][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:17,892][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:17,941][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:17,941][skrl][INFO] - omega max: 0.723
+[2025-12-03 11:35:17,941][skrl][INFO] - v_right - v_left: 3.067
+[2025-12-03 11:35:17,989][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:17,989][skrl][INFO] - omega max: 1.614
+[2025-12-03 11:35:17,989][skrl][INFO] - v_right - v_left: 6.845
+[2025-12-03 11:35:18,036][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:18,037][skrl][INFO] - omega max: 4.992
+[2025-12-03 11:35:18,037][skrl][INFO] - v_right - v_left: 21.165
+[2025-12-03 11:35:18,084][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:18,084][skrl][INFO] - omega max: 3.325
+[2025-12-03 11:35:18,084][skrl][INFO] - v_right - v_left: 14.099
+[2025-12-03 11:35:18,132][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:18,132][skrl][INFO] - omega max: 2.649
+[2025-12-03 11:35:18,132][skrl][INFO] - v_right - v_left: 11.230
+[2025-12-03 11:35:18,180][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:18,180][skrl][INFO] - omega max: 1.929
+[2025-12-03 11:35:18,180][skrl][INFO] - v_right - v_left: 8.177
+[2025-12-03 11:35:18,228][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:18,228][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:18,228][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:18,276][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:18,276][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:18,277][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:18,324][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:18,324][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:18,324][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:18,372][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:18,372][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:18,372][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:18,421][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:18,421][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:18,421][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:18,468][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:18,468][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:18,469][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:18,516][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:18,516][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:18,516][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:18,564][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:18,564][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:18,564][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:18,612][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:18,612][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:18,612][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:18,660][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:18,660][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:18,660][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:18,707][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:18,707][skrl][INFO] - omega max: -3.289
+[2025-12-03 11:35:18,707][skrl][INFO] - v_right - v_left: -13.945
+[2025-12-03 11:35:18,756][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:18,756][skrl][INFO] - omega max: 2.492
+[2025-12-03 11:35:18,756][skrl][INFO] - v_right - v_left: 10.566
+[2025-12-03 11:35:18,805][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:18,805][skrl][INFO] - omega max: 3.076
+[2025-12-03 11:35:18,805][skrl][INFO] - v_right - v_left: 13.042
+[2025-12-03 11:35:18,853][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:18,853][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:18,853][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:18,900][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:18,900][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:18,900][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:18,948][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:18,948][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:18,948][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:18,996][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:18,996][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:18,996][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:19,046][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:19,047][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:19,047][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:19,095][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:19,095][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:19,095][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:19,145][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:19,145][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:19,146][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:19,193][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:19,193][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:19,193][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:19,241][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:19,241][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:19,241][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:19,288][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:19,288][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:19,288][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:19,339][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:19,339][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:19,339][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:19,387][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:19,387][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:19,387][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:19,435][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:19,435][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:19,435][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:19,482][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:19,482][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:19,482][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:19,529][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:19,529][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:19,529][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:19,576][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:19,576][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:19,576][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:19,624][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:19,624][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:19,624][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:19,671][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:19,671][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:19,671][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:19,718][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:19,719][skrl][INFO] - omega max: -2.645
+[2025-12-03 11:35:19,719][skrl][INFO] - v_right - v_left: -11.216
+[2025-12-03 11:35:19,766][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:19,766][skrl][INFO] - omega max: 2.489
+[2025-12-03 11:35:19,766][skrl][INFO] - v_right - v_left: 10.555
+[2025-12-03 11:35:19,813][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:19,813][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:19,813][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:19,860][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:19,860][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:19,860][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:19,907][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:19,908][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:19,908][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:19,956][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:19,956][skrl][INFO] - omega max: -3.278
+[2025-12-03 11:35:19,956][skrl][INFO] - v_right - v_left: -13.897
+[2025-12-03 11:35:20,002][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:20,003][skrl][INFO] - omega max: 1.765
+[2025-12-03 11:35:20,003][skrl][INFO] - v_right - v_left: 7.483
+[2025-12-03 11:35:20,050][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:20,050][skrl][INFO] - omega max: 2.620
+[2025-12-03 11:35:20,050][skrl][INFO] - v_right - v_left: 11.107
+[2025-12-03 11:35:20,098][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:20,098][skrl][INFO] - omega max: 2.801
+[2025-12-03 11:35:20,098][skrl][INFO] - v_right - v_left: 11.874
+[2025-12-03 11:35:20,146][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:20,147][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:20,147][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:20,194][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:20,194][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:20,194][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:20,242][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:20,242][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:20,242][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:20,289][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:20,289][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:20,290][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:20,337][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:20,337][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:20,337][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:20,387][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:20,388][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:20,388][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:20,438][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:20,439][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:20,439][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:20,486][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:20,486][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:20,486][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:20,534][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:20,535][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:20,535][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:20,583][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:20,583][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:20,583][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:20,630][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:20,630][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:20,630][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:20,677][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:20,678][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:20,678][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:20,724][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:20,724][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:20,725][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:20,771][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:20,771][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:20,771][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:20,818][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:20,818][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:20,818][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:20,865][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:20,865][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:20,865][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:20,912][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:20,913][skrl][INFO] - omega max: 2.766
+[2025-12-03 11:35:20,913][skrl][INFO] - v_right - v_left: 11.729
+[2025-12-03 11:35:20,960][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:20,960][skrl][INFO] - omega max: 3.385
+[2025-12-03 11:35:20,960][skrl][INFO] - v_right - v_left: 14.352
+[2025-12-03 11:35:21,006][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:21,007][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:21,007][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:21,053][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:21,053][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:21,053][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:21,100][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:21,100][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:21,100][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:21,147][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:21,147][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:21,147][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:21,194][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:21,194][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:21,194][skrl][INFO] - v_right - v_left: 21.199
+[2025-12-03 11:35:21,241][skrl][INFO] - max_angular: 5.0
+[2025-12-03 11:35:21,242][skrl][INFO] - omega max: 5.000
+[2025-12-03 11:35:21,242][skrl][INFO] - v_right - v_left: 21.199

@@ -59,7 +59,7 @@ class EventCfg:
         func=mdp.reset_root_state_uniform,
         mode="reset",
         params={
-            "pose_range": {"x": (-0.5, 0.5), "y": (-0.5, 0.5), "yaw": (0, 0)},
+            "pose_range": {"x": (0.0, 0.0), "y": (0.0, 0.0), "yaw": (0, 0)},
             "velocity_range": {
                 "x": (-0.0, 0.0),
                 "y": (-0.0, 0.0),
@@ -74,7 +74,7 @@ class EventCfg:
         func=mdp.reset_joints_by_scale,
         mode="reset",
         params={
-            "position_range": (0.9, 1.1),
+            "position_range": (0.5, 1.5),
             "velocity_range": (0.0, 0.0),
         },
     )
@@ -87,11 +87,11 @@ class ActionsCfg:
     asset_name="robot",
     joint_names=["front_left_wheel_joint", "front_right_wheel_joint","rear_left_wheel_joint", "rear_right_wheel_joint"],
     wheel_radius=0.1651,  # Радиус колес Husky
-    wheel_base=0.7,
-    scale= 0.2 # Расстояние между левыми и правыми колесами
+    wheel_base=0.7,# Расстояние между левыми и правыми колесами
+    scale= 0.6
     )
     arm_actions : ActionTerm = mdp.JointPositionActionCfg(
-            asset_name="robot", joint_names=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"], scale=0.1, use_default_offset=False
+            asset_name="robot", joint_names=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"], scale=0.3, use_default_offset=False
         )
 
 
@@ -108,8 +108,13 @@ class ObservationsCfg:
         base_ang_vel = ObsTerm(func=mdp.base_ang_vel)
         pose_command = ObsTerm(func=mdp.generated_commands, params={"command_name": "ee_pose"})
         joint_pos = ObsTerm(func=mdp.joint_pos_rel, noise=Unoise(n_min=-0.01, n_max=0.01))
-        # joint_vel = ObsTerm(func=mdp.joint_vel_rel, noise=Unoise(n_min=-0.01, n_max=0.01))
+        joint_vel = ObsTerm(func=mdp.joint_vel_rel, noise=Unoise(n_min=-0.01, n_max=0.01))
         actions = ObsTerm(func=mdp.last_action)
+
+
+        def __post_init__(self):
+            self.enable_corruption = True
+            self.concatenate_terms = True
 
     # observation groups
     policy: PolicyCfg = PolicyCfg()
@@ -120,53 +125,51 @@ class RewardsCfg:
     """Reward terms for the MDP."""
 
     # termination_penalty = RewTerm(func=mdp.is_terminated, weight=-400.0)
-    position_tracking = RewTerm(
-        func=mdp.position_command_error,
-        weight=1.25,
-        params={"asset_cfg": SceneEntityCfg("robot", body_names='base_link'), "command_name": "ee_pose"},
-    )
+    # position_tracking = RewTerm(
+    #     func=mdp.position_command_error,
+    #     weight=-2.25,
+    #     params={"asset_cfg": SceneEntityCfg("robot", body_names='base_link'), "command_name": "ee_pose"},
+    # )
 
+
+    # position_tracking_fine_grained = RewTerm(
+    #     func=mdp.position_command_error_tanh,
+    #     weight=0.85,
+    #     params={"std":0.3,"asset_cfg": SceneEntityCfg("robot", body_names='base_link'), "command_name": "ee_pose"},
+    # )
+
+    # stability_at_goal = RewTerm(
+    #     func=mdp.stability_reward,
+    #     weight=0.05,
+    #     params={
+    #         "command_name": "ee_pose",
+    #         "position_threshold": 0.2,
+    #         "orientation_threshold": 0.4,
+    #         "lin_velocity_threshold": 0.2,
+    #         "ang_velocity_threshold": 0.2
+    #     }
+    # )
+
+    # vel_pen = RewTerm(func = mdp.distance_based_velocity_penalty, 
+    #                   weight = -0.2, params={"command_name": "ee_pose"})
     
-
-
-    position_tracking_fine_grained = RewTerm(
-        func=mdp.position_command_error_tanh,
-        weight=0.85,
-        params={"std":0.3,"asset_cfg": SceneEntityCfg("robot", body_names='base_link'), "command_name": "ee_pose"},
-    )
-
-    stability_at_goal = RewTerm(
-        func=mdp.stability_reward,
-        weight=0.3,
-        params={
-            "command_name": "ee_pose",
-            "position_threshold": 0.2,
-            "orientation_threshold": 0.4,
-            "lin_velocity_threshold": 0.2,
-            "ang_velocity_threshold": 0.2
-        }
-    )
-
-    vel_pen = RewTerm(func = mdp.distance_based_velocity_penalty, 
-                      weight = -0.2, params={"command_name": "ee_pose"})
+    # # task terms
+    # end_effector_position_tracking = RewTerm(
+    #     func=mdp.position_command_error,
+    #     weight=-0.65,
+    #     params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "command_name": "ee_pose"},
+    # )
+    # end_effector_position_tracking_fine_grained = RewTerm(
+    #     func=mdp.position_command_error_tanh,
+    #     weight=2.85,
+    #     params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "std": 0.35 ,"command_name": "ee_pose"},
+    # )
     
-    # task terms
-    end_effector_position_tracking = RewTerm(
-        func=mdp.position_command_error,
-        weight=-0.65,
-        params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "command_name": "ee_pose"},
-    )
-    end_effector_position_tracking_fine_grained = RewTerm(
-        func=mdp.position_command_error_tanh,
-        weight=2.85,
-        params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "std": 0.35 ,"command_name": "ee_pose"},
-    )
-    
-    end_effector_orientation_tracking = RewTerm(
-        func=mdp.orientation_command_error,
-        weight=-0.9,
-        params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "command_name": "ee_pose"},
-    )
+    # end_effector_orientation_tracking = RewTerm(
+    #     func=mdp.orientation_command_error,
+    #     weight=-0.5,
+    #     params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "command_name": "ee_pose"},
+    # )
 
 
         # Большая награда за успешное достижение цели
@@ -193,15 +196,29 @@ class RewardsCfg:
     # )
     
     # Прогрессивный штраф за затягивание эпизода
-    time_penalty = RewTerm(
-        func=mdp.time_penalty,
-        weight=-0.05,  # Небольшой штраф за каждый шаг
+    # time_penalty = RewTerm(
+    #     func=mdp.time_penalty,
+    #     weight=-0.05,  # Небольшой штраф за каждый шаг
+    #     params={}
+    # )
+    nav_rew = RewTerm(
+        func = mdp.navigation_rewards_combined,
+        weight=1,
         params={}
+
+
+    )
+    manip_rew = RewTerm(
+        func = mdp.manipulation_rewards_combined,
+        weight=3,
+        params={}
+
     )
 
 
 
-    action_rate = RewTerm(func=mdp.action_rate_l2, weight=-1e-4)
+
+    action_rate = RewTerm(func=mdp.action_rate_l2, weight=-1e-3)
 
     joint_vel = RewTerm(
         func=mdp.joint_vel_l2,
@@ -211,7 +228,7 @@ class RewardsCfg:
 
     torque_pen = RewTerm(
         func=mdp.joint_torques_l2,
-        weight=-8e-7,
+        weight=-5e-8,
         params={}
 
     )
@@ -229,8 +246,8 @@ class CommandsCfg:
             resampling_time_range=(18.0, 18.0),
             debug_vis=True,
             ranges=mdp.UniformPoseFixedCommandCfg.Ranges(
-                pos_x=(-1.5,1.5),
-                pos_y=(-2.2, 2.2),
+                pos_x=(-0.4,0.4),
+                pos_y=(-0.4,0.4),
                 pos_z=(0.6, 0.95),
                 roll=(0.0, 0.0),
                 pitch=(0.0,0.0),  # depends on end-effector axis

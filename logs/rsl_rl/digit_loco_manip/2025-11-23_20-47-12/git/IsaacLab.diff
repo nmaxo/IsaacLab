@@ -1,0 +1,244 @@
+--- git status ---
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   source/isaaclab/isaaclab/managers/__pycache__/action_manager.cpython-311.pyc
+	modified:   source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/__pycache__/__init__.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_env_cfg.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_env_cfg.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/__init__.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/skrl_ppo_cfg.yaml
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/custom_mdp.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/rewards.cpython-311.pyc
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	husky_FBC/
+	husky_FBC_final/
+	logs/rsl_rl/digit_loco_manip/2025-11-23_20-47-12/
+	logs/rsl_rl/franka_open_drawer/
+	logs/skrl/husky_FBC/2025-10-30_22-36-38_ppo_torch/
+	logs/skrl/husky_FBC/2025-10-31_00-05-14_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-11_10-14-09_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-11_10-14-55_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-11_10-15-38_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-11_11-50-35_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-11_12-42-21_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-11_12-45-41_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_00-16-43_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_00-26-31_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_00-28-32_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_00-34-03_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_00-42-05_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_00-42-57_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_00-44-27_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_01-13-23_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_01-33-04_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_01-47-27_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_02-27-06_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_02-32-02_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_02-46-56_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_21-56-28_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_03-22-25_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_03-47-19_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_14-23-30_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_14-24-39_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_17-34-43_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_17-39-03_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_17-42-45_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_17-46-47_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_17-55-18_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_18-05-34_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_18-09-12_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_18-21-36_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_18-34-51_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_18-46-04_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_19-35-25_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_20-06-52_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_20-11-23_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_20-15-44_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-23_17-40-06_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-23_17-46-35_ppo_torch/
+	logs/skrl/husky_FBC/best_baseline/
+	logs/skrl/husky_FBC_final/
+	logs/skrl/reach_franka/
+	outputs/2025-10-30/22-36-38/
+	outputs/2025-10-30/23-51-34/
+	outputs/2025-10-30/23-52-47/
+	outputs/2025-10-30/23-53-54/
+	outputs/2025-10-31/
+	outputs/2025-11-11/
+	outputs/2025-11-12/
+	outputs/2025-11-20/
+	outputs/2025-11-21/
+	outputs/2025-11-23/
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/franka/__pycache__/joint_pos_env_cfg.cpython-311.pyc
+
+no changes added to commit (use "git add" and/or "git commit -a") 
+
+
+--- git diff ---
+diff --git a/source/isaaclab/isaaclab/managers/__pycache__/action_manager.cpython-311.pyc b/source/isaaclab/isaaclab/managers/__pycache__/action_manager.cpython-311.pyc
+index 212927e828..1fb1e0029c 100644
+Binary files a/source/isaaclab/isaaclab/managers/__pycache__/action_manager.cpython-311.pyc and b/source/isaaclab/isaaclab/managers/__pycache__/action_manager.cpython-311.pyc differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc
+index ffd22ad7d2..6dd9cbae3e 100644
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc and b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/__pycache__/__init__.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/__pycache__/__init__.cpython-311.pyc
+index 22f4ea6fa2..81b31c814b 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/__pycache__/__init__.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/__pycache__/__init__.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_env_cfg.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_env_cfg.py
+index cfaab57a34..5124a8ca25 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_env_cfg.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_env_cfg.py
+@@ -160,8 +160,8 @@ class RewardsCfg:
+     )
+     end_effector_position_tracking_fine_grained = RewTerm(
+         func=mdp.position_command_error_tanh,
+-        weight=0.15,
+-        params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "std": 0.25 ,"command_name": "ee_pose"},
++        weight=0.65,
++        params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "std": 0.55 ,"command_name": "ee_pose"},
+     )
+     
+     end_effector_orientation_tracking = RewTerm(
+@@ -208,6 +208,12 @@ class RewardsCfg:
+     #     weight=-0.001,
+     #     params={"asset_cfg": SceneEntityCfg("robot")},
+     # )
++    torque_pen = RewTerm(
++        func=mdp.joint_torques_l2,
++        weight=1e-8,
++        params={}
++
++    )
+ 
+ 
+ 
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_env_cfg.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_env_cfg.cpython-311.pyc
+index 5e846153b4..dcd04c2700 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_env_cfg.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_env_cfg.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/__init__.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/__init__.cpython-311.pyc
+index 4905d510ac..5910e146ca 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/__init__.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/__init__.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/skrl_ppo_cfg.yaml b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/skrl_ppo_cfg.yaml
+index 8e95366c64..a545ea695e 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/skrl_ppo_cfg.yaml
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/skrl_ppo_cfg.yaml
+@@ -1,48 +1,35 @@
+-# Copyright (c) 2022-2025, The Isaac Lab Project Developers (https://github.com/isaac-sim/IsaacLab/blob/main/CONTRIBUTORS.md).
+-# All rights reserved.
+-#
+-# SPDX-License-Identifier: BSD-3-Clause
+-
+ seed: 42
+-
+-
+-# Models are instantiated using skrl's model instantiator utility
+-# https://skrl.readthedocs.io/en/latest/api/utils/model_instantiators.html
+ models:
+-  separate: False
+-  policy:  # see gaussian_model parameters
++  separate: false
++  policy:
+     class: GaussianMixin
+-    clip_actions: False
+-    clip_log_std: True
++    clip_actions: false
++    clip_log_std: true
+     min_log_std: -20.0
+     max_log_std: 2.0
+     initial_log_std: 0.0
+     network:
+-      - name: net
+-        input: STATES
+-        layers: [256, 256]
+-        activations: elu
++    - name: net
++      input: STATES
++      layers:
++      - 256
++      - 256
++      activations: elu
+     output: ACTIONS
+-  value:  # see deterministic_model parameters
++  value:
+     class: DeterministicMixin
+-    clip_actions: False
++    clip_actions: false
+     network:
+-      - name: net
+-        input: STATES
+-        layers: [256, 256]
+-        activations: elu
++    - name: net
++      input: STATES
++      layers:
++      - 256
++      - 256
++      activations: elu
+     output: ONE
+-
+-
+-# Rollout memory
+-# https://skrl.readthedocs.io/en/latest/api/memories/random.html
+ memory:
+   class: RandomMemory
+-  memory_size: -1  # automatically determined (same as agent:rollouts)
+-
+-
+-# PPO agent configuration (field names are from PPO_DEFAULT_CONFIG)
+-# https://skrl.readthedocs.io/en/latest/api/agents/ppo.html
++  memory_size: -1
+ agent:
+   class: PPO
+   rollouts: 128
+@@ -50,7 +37,7 @@ agent:
+   mini_batches: 16
+   discount_factor: 0.99
+   lambda: 0.95
+-  learning_rate: 3.0e-04
++  learning_rate: 0.0003
+   learning_rate_scheduler: KLAdaptiveLR
+   learning_rate_scheduler_kwargs:
+     kl_threshold: 0.01
+@@ -63,23 +50,19 @@ agent:
+   grad_norm_clip: 1.0
+   ratio_clip: 0.2
+   value_clip: 0.2
+-  clip_predicted_values: True
++  clip_predicted_values: true
+   entropy_loss_scale: 0.05
+   value_loss_scale: 2.0
+   kl_threshold: 0.0
+   rewards_shaper_scale: 1.0
+-  time_limit_bootstrap: False
+-  # logging and checkpoint
++  time_limit_bootstrap: false
+   experiment:
+-    directory: "husky_FBC"
+-    experiment_name: ""
++    directory: /home/maksim/IsaacLab/logs/skrl/husky_FBC
++    experiment_name: 2025-11-21_02-54-20_ppo_torch
+     write_interval: auto
+     checkpoint_interval: auto
+-
+-
+-# Sequential trainer
+-# https://skrl.readthedocs.io/en/latest/api/trainers/sequential.html
+ trainer:
+   class: SequentialTrainer
+-  timesteps: 20000
++  timesteps: 50000
+   environment_info: log
++  close_environment_at_exit: false
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/custom_mdp.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/custom_mdp.cpython-311.pyc
+index 87e240f0fd..b500a72249 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/custom_mdp.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/custom_mdp.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/rewards.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/rewards.cpython-311.pyc
+index e267ab89ac..8b42edbd39 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/rewards.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/rewards.cpython-311.pyc differ

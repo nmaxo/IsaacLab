@@ -1,0 +1,66 @@
+--- git status ---
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   source/isaaclab/isaaclab/managers/action_manager.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/__pycache__/reach_env_cfg.cpython-311.pyc
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	husky_FBC/
+	logs/rsl_rl/franka_open_drawer/
+	logs/skrl/husky_FBC/2025-10-30_22-36-38_ppo_torch/
+	logs/skrl/husky_FBC/2025-10-31_00-05-14_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-11_10-14-09_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-11_10-14-55_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-11_10-15-38_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-11_11-50-35_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-11_12-42-21_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-11_12-45-41_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_00-16-43_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_00-26-31_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_00-28-32_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_00-34-03_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_00-42-05_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_00-42-57_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_00-44-27_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_01-13-23_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_01-33-04_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_01-47-27_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_02-27-06_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_02-32-02_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_02-46-56_ppo_torch/
+	logs/skrl/reach_franka/
+	outputs/2025-10-30/22-36-38/
+	outputs/2025-10-30/23-51-34/
+	outputs/2025-10-30/23-52-47/
+	outputs/2025-10-30/23-53-54/
+	outputs/2025-10-31/
+	outputs/2025-11-11/
+	outputs/2025-11-12/
+	outputs/2025-11-20/
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/franka/__pycache__/joint_pos_env_cfg.cpython-311.pyc
+
+no changes added to commit (use "git add" and/or "git commit -a") 
+
+
+--- git diff ---
+diff --git a/source/isaaclab/isaaclab/managers/action_manager.py b/source/isaaclab/isaaclab/managers/action_manager.py
+index 9b561ceb6a..c248d38862 100644
+--- a/source/isaaclab/isaaclab/managers/action_manager.py
++++ b/source/isaaclab/isaaclab/managers/action_manager.py
+@@ -23,7 +23,6 @@ from isaaclab.envs.utils.io_descriptors import GenericActionIODescriptor
+ 
+ from .manager_base import ManagerBase, ManagerTermBase
+ from .manager_term_cfg import ActionTermCfg
+-
+ if TYPE_CHECKING:
+     from isaaclab.envs import ManagerBasedEnv
+ 
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/__pycache__/reach_env_cfg.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/__pycache__/reach_env_cfg.cpython-311.pyc
+index 995d4c2833..7156a1f967 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/__pycache__/reach_env_cfg.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/__pycache__/reach_env_cfg.cpython-311.pyc differ

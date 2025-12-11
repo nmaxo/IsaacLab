@@ -1,0 +1,1138 @@
+--- git status ---
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   scripts/reinforcement_learning/rsl_rl/play.py
+	modified:   source/isaaclab/isaaclab/envs/mdp/__pycache__/terminations.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/managers/__pycache__/action_manager.cpython-311.pyc
+	modified:   source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/__pycache__/__init__.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_env_cfg.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_env_cfg.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/__init__.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/__pycache__/rsl_rl_ppo_cfg.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/rsl_rl_ppo_cfg.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/skrl_ppo_cfg.yaml
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/custom_mdp.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/rewards.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/rewards.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/__pycache__/husky_env_cfg.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/agents/__pycache__/rsl_rl_ppo_cfg.cpython-311.pyc
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	husky_FBC/
+	husky_FBC_final/
+	logs/play/
+	logs/rsl_rl/digit_loco_manip/2025-11-23_20-47-12/
+	logs/rsl_rl/franka_open_drawer/
+	logs/rsl_rl/husky_FBC_baseline/
+	logs/skrl/husky_FBC/2025-10-30_22-36-38_ppo_torch/
+	logs/skrl/husky_FBC/2025-10-31_00-05-14_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-11_10-14-09_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-11_10-14-55_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-11_10-15-38_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-11_11-50-35_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-11_12-42-21_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-11_12-45-41_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_00-16-43_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_00-26-31_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_00-28-32_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_00-34-03_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_00-42-05_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_00-42-57_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_00-44-27_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_01-13-23_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_01-33-04_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_01-47-27_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_02-27-06_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_02-32-02_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_02-46-56_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-20_21-56-28_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_03-22-25_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_03-47-19_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_14-23-30_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_14-24-39_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_17-34-43_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_17-39-03_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_17-42-45_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_17-46-47_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_17-55-18_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_18-05-34_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_18-09-12_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_18-21-36_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_18-34-51_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_18-46-04_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_19-35-25_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_20-06-52_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_20-11-23_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-21_20-15-44_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-23_17-40-06_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-23_17-46-35_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-23_21-21-23_ppo_torch/
+	logs/skrl/husky_FBC/2025-11-23_21-35-36_ppo_torch/
+	logs/skrl/husky_FBC/25-11-23_21-33-39-372767_PPO/
+	logs/skrl/husky_FBC/best_baseline/
+	logs/skrl/husky_FBC_final/
+	"logs/skrl/husky_FBC_\320\23412/"
+	logs/skrl/husky_baseline_improvement/
+	logs/skrl/reach_franka/
+	outputs/2025-10-30/22-36-38/
+	outputs/2025-10-30/23-51-34/
+	outputs/2025-10-30/23-52-47/
+	outputs/2025-10-30/23-53-54/
+	outputs/2025-10-31/
+	outputs/2025-11-11/
+	outputs/2025-11-12/
+	outputs/2025-11-20/
+	outputs/2025-11-21/
+	outputs/2025-11-23/
+	outputs/2025-11-24/
+	outputs/2025-12-02/
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/franka/__pycache__/joint_pos_env_cfg.cpython-311.pyc
+
+no changes added to commit (use "git add" and/or "git commit -a") 
+
+
+--- git diff ---
+diff --git a/scripts/reinforcement_learning/rsl_rl/play.py b/scripts/reinforcement_learning/rsl_rl/play.py
+index 11ef739946..c8110f92b7 100644
+--- a/scripts/reinforcement_learning/rsl_rl/play.py
++++ b/scripts/reinforcement_learning/rsl_rl/play.py
+@@ -34,6 +34,7 @@ parser.add_argument(
+     help="Use the pre-trained checkpoint from Nucleus.",
+ )
+ parser.add_argument("--real-time", action="store_true", default=False, help="Run in real-time, if possible.")
++parser.add_argument("--enable_logging", action="store_true", default=False, help="Enable TensorBoard logging during play.")
+ # append RSL-RL cli arguments
+ cli_args.add_rsl_rl_args(parser)
+ # append AppLauncher cli args
+@@ -57,6 +58,8 @@ import gymnasium as gym
+ import os
+ import time
+ import torch
++from datetime import datetime
++from torch.utils.tensorboard import SummaryWriter
+ 
+ from rsl_rl.runners import DistillationRunner, OnPolicyRunner
+ 
+@@ -96,10 +99,11 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
+     env_cfg.seed = agent_cfg.seed
+     env_cfg.sim.device = args_cli.device if args_cli.device is not None else env_cfg.sim.device
+ 
+-    # specify directory for logging experiments
++    # specify directory for loading checkpoint
+     log_root_path = os.path.join("logs", "rsl_rl", agent_cfg.experiment_name)
+     log_root_path = os.path.abspath(log_root_path)
+     print(f"[INFO] Loading experiment from directory: {log_root_path}")
++    
+     if args_cli.use_pretrained_checkpoint:
+         resume_path = get_published_pretrained_checkpoint("rsl_rl", train_task_name)
+         if not resume_path:
+@@ -110,10 +114,31 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
+     else:
+         resume_path = get_checkpoint_path(log_root_path, agent_cfg.load_run, agent_cfg.load_checkpoint)
+ 
+-    log_dir = os.path.dirname(resume_path)
++    # ==================== СОЗДАНИЕ ДИРЕКТОРИИ ДЛЯ PLAY ЛОГОВ ====================
++    # specify directory for logging play runs
++    play_log_root = os.path.join("logs", "play", agent_cfg.experiment_name)
++    play_log_root = os.path.abspath(play_log_root)
++    
++    # create timestamped directory for this play session
++    play_log_dir = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
++    if agent_cfg.run_name:
++        play_log_dir += f"_{agent_cfg.run_name}_play"
++    else:
++        play_log_dir += "_play"
++    play_log_dir = os.path.join(play_log_root, play_log_dir)
++    
++    os.makedirs(play_log_dir, exist_ok=True)
++    print(f"[INFO] Play logs will be saved to: {play_log_dir}")
++    
++    # Initialize TensorBoard writer if logging is enabled
++    writer = None
++    if args_cli.enable_logging:
++        writer = SummaryWriter(log_dir=os.path.join(play_log_dir, "summaries"))
++        print(f"[INFO] TensorBoard logging enabled at: {os.path.join(play_log_dir, 'summaries')}")
++    # ============================================================================
+ 
+     # set the log directory for the environment (works for all environment types)
+-    env_cfg.log_dir = log_dir
++    env_cfg.log_dir = play_log_dir
+ 
+     # create isaac environment
+     env = gym.make(args_cli.task, cfg=env_cfg, render_mode="rgb_array" if args_cli.video else None)
+@@ -125,12 +150,12 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
+     # wrap for video recording
+     if args_cli.video:
+         video_kwargs = {
+-            "video_folder": os.path.join(log_dir, "videos", "play"),
++            "video_folder": os.path.join(play_log_dir, "videos"),
+             "step_trigger": lambda step: step == 0,
+             "video_length": args_cli.video_length,
+             "disable_logger": True,
+         }
+-        print("[INFO] Recording videos during training.")
++        print("[INFO] Recording videos during play.")
+         print_dict(video_kwargs, nesting=4)
+         env = gym.wrappers.RecordVideo(env, **video_kwargs)
+ 
+@@ -168,7 +193,7 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
+         normalizer = None
+ 
+     # export policy to onnx/jit
+-    export_model_dir = os.path.join(os.path.dirname(resume_path), "exported")
++    export_model_dir = os.path.join(play_log_dir, "exported")
+     export_policy_as_jit(policy_nn, normalizer=normalizer, path=export_model_dir, filename="policy.pt")
+     export_policy_as_onnx(policy_nn, normalizer=normalizer, path=export_model_dir, filename="policy.onnx")
+ 
+@@ -177,6 +202,16 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
+     # reset environment
+     obs = env.get_observations()
+     timestep = 0
++    
++    # Episode tracking variables
++    episode_reward = torch.zeros(env.num_envs, device=env.device)
++    episode_length = torch.zeros(env.num_envs, device=env.device)
++    episode_count = 0
++    
++    # Tracking for custom metrics
++    total_episodes = 0
++    successful_episodes = 0
++    
+     # simulate environment
+     while simulation_app.is_running():
+         start_time = time.time()
+@@ -185,18 +220,155 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
+             # agent stepping
+             actions = policy(obs)
+             # env stepping
+-            obs, _, _, _ = env.step(actions)
++            obs, rewards, dones, infos = env.step(actions)
++#             command_manager = env.unwrapped.command_manager
++#             command_term = env.unwrapped.command_manager.get_term("ee_pose")
++
++# # Теперь можно логировать метрики
++#             pos_error = command_term.metrics["position_error"]
++#             ori_error = command_term.metrics["orientation_error"]
++#             print(pos_error,ori_error)
++#             print(dir(command_manager))
++            # ==================== ЛОГИРОВАНИЕ METRIC И SUCCESS RATE ====================
++                # Получаем CommandTerm (например, ee_pose)
++            command_term = env.unwrapped.command_manager.get_term("ee_pose")
++            print(env.unwrapped.__dict__.keys())
++        
++            # ==================== ЛОГИРОВАНИЕ МЕТРИК ====================
++            if writer is not None:
++
++                # Accumulate episode stats
++                episode_reward += rewards
++                episode_length += 1
++                
++                # ========== 1. БАЗОВЫЕ МЕТРИКИ ==========
++                writer.add_scalar("play/step_reward_mean", rewards.mean().item(), timestep)
++                writer.add_scalar("play/step_reward_std", rewards.std().item(), timestep)
++                writer.add_scalar("play/action_mean", actions.mean().item(), timestep)
++                writer.add_scalar("play/action_std", actions.std().item(), timestep)
++                writer.add_scalar("play/action_min", actions.min().item(), timestep)
++                writer.add_scalar("play/action_max", actions.max().item(), timestep)
++                
++                # ========== 2. МЕТРИКИ ИЗ INFOS (как при тренировке) ==========
++                # Эти метрики обычно предоставляет окружение
++                if "extras" in infos:
++                    extras = infos["extras"]
++                    print(extras)
++                    
++                    # Логируем все метрики из extras
++                    for key, value in extras.items():
++                        if isinstance(value, torch.Tensor):
++                            if value.numel() == 1:
++                                # Скалярное значение
++                                writer.add_scalar(f"play/extras/{key}", value.item(), timestep)
++                            else:
++                                # Вектор значений - логируем статистики
++                                writer.add_scalar(f"play/extras/{key}_mean", value.mean().item(), timestep)
++                                writer.add_scalar(f"play/extras/{key}_std", value.std().item(), timestep)
++                                writer.add_scalar(f"play/extras/{key}_min", value.min().item(), timestep)
++                                writer.add_scalar(f"play/extras/{key}_max", value.max().item(), timestep)
++                
++                # ========== 3. МЕТРИКИ ПО ЗАВЕРШЕНИЮ ЭПИЗОДОВ ==========
++                if dones.any():
++                    # Индексы завершенных эпизодов
++                    done_indices = dones.nonzero(as_tuple=False).flatten()
++                    
++                    for idx in done_indices:
++                        total_episodes += 1
++                        
++                        # Логируем награду и длину эпизода
++                        ep_reward = episode_reward[idx].item()
++                        ep_length = episode_length[idx].item()
++                        
++                        writer.add_scalar("play/episode_reward", ep_reward, total_episodes)
++                        writer.add_scalar("play/episode_length", ep_length, total_episodes)
++                        
++                        # ========== 4. КАСТОМНЫЕ МЕТРИКИ ==========
++                        # Пример: считаем успешность (если награда выше порога)
++                        success_threshold = 100.0  # Настройте под вашу задачу
++                        if ep_reward > success_threshold:
++                            successful_episodes += 1
++                        
++                        success_rate = successful_episodes / total_episodes if total_episodes > 0 else 0
++                        writer.add_scalar("play/success_rate", success_rate, total_episodes)
++                        
++                        # Пример: метрики из episode_infos если они есть
++                        if "episode" in infos:
++                            episode_info = infos["episode"]
++                            if isinstance(episode_info, dict):
++                                for key, value in episode_info.items():
++                                    if torch.is_tensor(value):
++                                        writer.add_scalar(f"play/episode/{key}", value[idx].item(), total_episodes)
++                        
++                        # Пример: кастомная метрика - средняя награда за последние N эпизодов
++                        if total_episodes % 10 == 0:  # Каждые 10 эпизодов
++                            writer.add_scalar("play/episode_reward_avg_last_10", ep_reward, total_episodes)
++                    
++                    # Сбросить счетчики для завершенных эпизодов
++                    episode_reward[done_indices] = 0.0
++                    episode_length[done_indices] = 0
++                
++                # ========== 5. МЕТРИКИ ОКРУЖЕНИЯ (если доступны) ==========
++                # Доступ к внутренним переменным окружения
++                if hasattr(env.unwrapped, "scene"):
++                    scene = env.unwrapped.scene
++                    
++                    # Пример: логируем позиции/скорости роботов (для Manager-based env)
++                    if hasattr(scene, "robot") and hasattr(scene.robot, "data"):
++                        robot_data = scene.robot.data
++                        
++                        # Позиция
++                        if hasattr(robot_data, "root_pos_w"):
++                            pos = robot_data.root_pos_w
++                            writer.add_scalar("play/robot/pos_x_mean", pos[:, 0].mean().item(), timestep)
++                            writer.add_scalar("play/robot/pos_y_mean", pos[:, 1].mean().item(), timestep)
++                            writer.add_scalar("play/robot/pos_z_mean", pos[:, 2].mean().item(), timestep)
++                        
++                        # Скорость
++                        if hasattr(robot_data, "root_lin_vel_w"):
++                            vel = robot_data.root_lin_vel_w
++                            speed = torch.norm(vel, dim=1)
++                            writer.add_scalar("play/robot/speed_mean", speed.mean().item(), timestep)
++                            writer.add_scalar("play/robot/speed_max", speed.max().item(), timestep)
++                        
++                        # Углы сочленений
++                        if hasattr(robot_data, "joint_pos"):
++                            joint_pos = robot_data.joint_pos
++                            writer.add_scalar("play/robot/joint_pos_mean", joint_pos.mean().item(), timestep)
++                            writer.add_scalar("play/robot/joint_pos_std", joint_pos.std().item(), timestep)
++                
++                # ========== 6. КАСТОМНЫЕ ВЫЧИСЛЕНИЯ ==========
++                # Пример: энтропия действий (для непрерывных действий)
++                action_entropy = -0.5 * torch.log(2 * torch.pi * actions.var(dim=0)).mean()
++                writer.add_scalar("play/action_entropy", action_entropy.item(), timestep)
++                
++                # Пример: процент клиппинга действий
++                clipped_actions = torch.clamp(actions, -1.0, 1.0)
++                clipping_ratio = (actions != clipped_actions).float().mean()
++                writer.add_scalar("play/action_clipping_ratio", clipping_ratio.item(), timestep)
++                
++                # Пример: среднее абсолютное значение действий
++                writer.add_scalar("play/action_abs_mean", actions.abs().mean().item(), timestep)
++            # ============================================================
++            
+         if args_cli.video:
+             timestep += 1
+             # Exit the play loop after recording one video
+             if timestep == args_cli.video_length:
+                 break
++        else:
++            timestep += 1
+ 
+         # time delay for real-time evaluation
+         sleep_time = dt - (time.time() - start_time)
+         if args_cli.real_time and sleep_time > 0:
+             time.sleep(sleep_time)
+ 
++    # close writer if it was created
++    if writer is not None:
++        writer.close()
++        print(f"[INFO] TensorBoard logs saved. View with: tensorboard --logdir {play_log_dir}")
++
+     # close the simulator
+     env.close()
+ 
+@@ -206,3 +378,90 @@ if __name__ == "__main__":
+     main()
+     # close sim app
+     simulation_app.close()
++
++
++# ==================== ПРИМЕРЫ ДОПОЛНИТЕЛЬНЫХ МЕТРИК ====================
++# Вот еще примеры метрик, которые можно добавить в секцию логирования:
++
++# 7. МЕТРИКИ ДЛЯ СПЕЦИФИЧНЫХ ЗАДАЧ:
++# 
++# Для задач навигации:
++# - writer.add_scalar("play/distance_to_goal", distance.mean().item(), timestep)
++# - writer.add_scalar("play/goal_reached_ratio", goal_reached.float().mean().item(), timestep)
++#
++# Для задач манипуляции:
++# - writer.add_scalar("play/object_height", object_pos[:, 2].mean().item(), timestep)
++# - writer.add_scalar("play/grasp_success", grasp_success.float().mean().item(), timestep)
++# - writer.add_scalar("play/end_effector_to_object", distance_ee_obj.mean().item(), timestep)
++#
++# Для задач локомоции:
++# - writer.add_scalar("play/forward_velocity", forward_vel.mean().item(), timestep)
++# - writer.add_scalar("play/energy_consumption", power.sum().item(), timestep)
++# - writer.add_scalar("play/feet_air_time", air_time.mean().item(), timestep)
++# - writer.add_scalar("play/stumble_count", stumbles.sum().item(), timestep)
++
++# 8. МЕТРИКИ РАСПРЕДЕЛЕНИЙ (гистограммы):
++#
++# if timestep % 100 == 0:  # Логируем каждые 100 шагов
++#     writer.add_histogram("play/actions_distribution", actions, timestep)
++#     writer.add_histogram("play/rewards_distribution", rewards, timestep)
++#     writer.add_histogram("play/observations_distribution", obs, timestep)
++
++# 9. МЕТРИКИ ПРОИЗВОДИТЕЛЬНОСТИ:
++#
++# inference_time = time.time() - start_time
++# writer.add_scalar("play/inference_fps", 1.0 / inference_time, timestep)
++# writer.add_scalar("play/inference_time_ms", inference_time * 1000, timestep)
++
++# 10. КУМУЛЯТИВНЫЕ МЕТРИКИ:
++#
++# cumulative_reward += rewards.sum().item()
++# writer.add_scalar("play/cumulative_reward", cumulative_reward, timestep)
++#
++# cumulative_episodes = total_episodes
++# writer.add_scalar("play/total_episodes", cumulative_episodes, timestep)
++
++# 11. МЕТРИКИ СРАВНЕНИЯ С BASELINE:
++#
++# baseline_reward = 50.0  # Определите ваш baseline
++# performance_ratio = ep_reward / baseline_reward
++# writer.add_scalar("play/performance_vs_baseline", performance_ratio, timestep)
++
++# 12. МЕТРИКИ ИЗ OBSERVATION SPACE:
++#
++# if hasattr(env.unwrapped, "observation_manager"):
++#     obs_manager = env.unwrapped.observation_manager
++#     for obs_term_name in obs_manager.active_terms:
++#         obs_term = obs_manager.get_term(obs_term_name)
++#         if isinstance(obs_term, torch.Tensor):
++#             writer.add_scalar(f"play/obs/{obs_term_name}_mean", obs_term.mean().item(), timestep)
++
++# 13. СТАТИСТИЧЕСКИЕ МЕТРИКИ:
++#
++# # Скользящее среднее наград
++# if len(reward_buffer) > 100:
++#     writer.add_scalar("play/reward_moving_avg", np.mean(reward_buffer[-100:]), timestep)
++#
++# # Дисперсия и квантили
++# writer.add_scalar("play/reward_variance", rewards.var().item(), timestep)
++# writer.add_scalar("play/reward_median", rewards.median().item(), timestep)
++# writer.add_scalar("play/reward_25th_percentile", torch.quantile(rewards, 0.25).item(), timestep)
++# writer.add_scalar("play/reward_75th_percentile", torch.quantile(rewards, 0.75).item(), timestep)
++
++# 14. МЕТРИКИ СТАБИЛЬНОСТИ ПОЛИТИКИ:
++#
++# # Изменение действий между шагами
++# if previous_actions is not None:
++#     action_change = (actions - previous_actions).abs().mean()
++#     writer.add_scalar("play/action_smoothness", action_change.item(), timestep)
++# previous_actions = actions.clone()
++
++# 15. УСЛОВНЫЕ МЕТРИКИ:
++#
++# # Логируем только когда происходит что-то интересное
++# if rewards.max() > 10.0:
++#     writer.add_scalar("play/high_reward_event", rewards.max().item(), timestep)
++#
++# if dones.sum() > env.num_envs * 0.5:
++#     writer.add_scalar("play/mass_termination_event", dones.sum().item(), timestep)
++# ========================================================================
+\ No newline at end of file
+diff --git a/source/isaaclab/isaaclab/envs/mdp/__pycache__/terminations.cpython-311.pyc b/source/isaaclab/isaaclab/envs/mdp/__pycache__/terminations.cpython-311.pyc
+index 2b9e6972e5..050e54d95c 100644
+Binary files a/source/isaaclab/isaaclab/envs/mdp/__pycache__/terminations.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/mdp/__pycache__/terminations.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/managers/__pycache__/action_manager.cpython-311.pyc b/source/isaaclab/isaaclab/managers/__pycache__/action_manager.cpython-311.pyc
+index 212927e828..1fb1e0029c 100644
+Binary files a/source/isaaclab/isaaclab/managers/__pycache__/action_manager.cpython-311.pyc and b/source/isaaclab/isaaclab/managers/__pycache__/action_manager.cpython-311.pyc differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc
+index ffd22ad7d2..6dd9cbae3e 100644
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc and b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/__pycache__/__init__.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/__pycache__/__init__.cpython-311.pyc
+index 22f4ea6fa2..81b31c814b 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/__pycache__/__init__.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/__pycache__/__init__.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_env_cfg.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_env_cfg.py
+index cfaab57a34..04cf74193b 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_env_cfg.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_env_cfg.py
+@@ -18,7 +18,7 @@ from isaaclab.utils import configclass
+ from isaaclab.scene import InteractiveSceneCfg
+ from isaaclab.utils.assets import ISAACLAB_NUCLEUS_DIR
+ from isaaclab.utils.noise import AdditiveUniformNoiseCfg as Unoise
+-
++from isaaclab.managers import CurriculumTermCfg as CurrTerm
+ 
+ import isaaclab_tasks.manager_based.full_body_control.mdp as mdp
+ from isaaclab_tasks.manager_based.full_body_control.mdp.custom_mdp import DiffDriveVelocityAction, DiffDriveVelocityActionCfg
+@@ -122,21 +122,21 @@ class RewardsCfg:
+     # termination_penalty = RewTerm(func=mdp.is_terminated, weight=-400.0)
+     position_tracking = RewTerm(
+         func=mdp.position_command_error_tanh,
+-        weight=0.45,
++        weight=1.85,
+         params={"std":1.5,"asset_cfg": SceneEntityCfg("robot", body_names='base_link'), "command_name": "ee_pose"},
+     )
+ 
+ 
+     position_tracking_fine_grained = RewTerm(
+         func=mdp.position_command_error_tanh,
+-        weight=2.5,
++        weight=1.25,
+         params={"std":0.2,"asset_cfg": SceneEntityCfg("robot", body_names='base_link'), "command_name": "ee_pose"},
+     )
+-    # orientation_tracking = RewTerm(
+-    #     func=mdp.heading_command_error_abs,
+-    #     weight=-0.2,
+-    #     params={"command_name": "pose_command"},
+-    # )
++    base_orientation_tracking = RewTerm(
++        func=mdp.orientation_command_error,
++        weight=-0.4,
++        params={"asset_cfg": SceneEntityCfg("robot", body_names="base_link"), "command_name": "ee_pose"},
++    )
+     stability_at_goal = RewTerm(
+         func=mdp.stability_reward,
+         weight=0.3,
+@@ -155,18 +155,18 @@ class RewardsCfg:
+     # task terms
+     end_effector_position_tracking = RewTerm(
+         func=mdp.position_command_error,
+-        weight=-0.35,
++        weight=-0.55,
+         params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "command_name": "ee_pose"},
+     )
+     end_effector_position_tracking_fine_grained = RewTerm(
+         func=mdp.position_command_error_tanh,
+-        weight=0.15,
+-        params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "std": 0.25 ,"command_name": "ee_pose"},
++        weight=2.85,
++        params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "std": 0.45 ,"command_name": "ee_pose"},
+     )
+     
+     end_effector_orientation_tracking = RewTerm(
+         func=mdp.orientation_command_error,
+-        weight=-0.3,
++        weight=-0.6,
+         params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "command_name": "ee_pose"},
+     )
+ 
+@@ -183,16 +183,16 @@ class RewardsCfg:
+         }
+     )
+     
+-    # Штраф за неудачное завершение эпизода
+-    failure_penalty = RewTerm(
+-        func=mdp.episode_failure_penalty,
+-        weight=-2.0,  # Штраф за провал
+-        params={
+-            "asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"),
+-            "command_name": "ee_pose",
+-            "failure_distance": 0.25,  # Если дальше этого расстояния в конце
+-        }
+-    )
++    # # Штраф за неудачное завершение эпизода
++    # failure_penalty = RewTerm(
++    #     func=mdp.episode_failure_penalty,
++    #     weight=-2.0,  # Штраф за провал
++    #     params={
++    #         "asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"),
++    #         "command_name": "ee_pose",
++    #         "failure_distance": 0.25,  # Если дальше этого расстояния в конце
++    #     }
++    # )
+     
+     # Прогрессивный штраф за затягивание эпизода
+     time_penalty = RewTerm(
+@@ -201,13 +201,22 @@ class RewardsCfg:
+         params={}
+     )
+ 
+-    # # action penalty
+-    # action_rate = RewTerm(func=mdp.action_rate_l2, weight=-0.0001)
+-    # joint_vel = RewTerm(
+-    #     func=mdp.joint_vel_l2,
+-    #     weight=-0.001,
+-    #     params={"asset_cfg": SceneEntityCfg("robot")},
+-    # )
++
++
++    action_rate = RewTerm(func=mdp.action_rate_l2, weight=-1e-4)
++
++    joint_vel = RewTerm(
++        func=mdp.joint_vel_l2,
++        weight=-1e-3,
++        params={"asset_cfg": SceneEntityCfg("robot")},
++    )
++
++    torque_pen = RewTerm(
++        func=mdp.joint_torques_l2,
++        weight=5e-7,
++        params={}
++
++    )
+ 
+ 
+ 
+@@ -219,12 +228,12 @@ class CommandsCfg:
+     ee_pose = mdp.UniformPoseFixedCommandCfg(
+             asset_name="robot",
+             body_name='gripper_link',
+-            resampling_time_range=(12.0, 12.0),
++            resampling_time_range=(18.0, 18.0),
+             debug_vis=True,
+             ranges=mdp.UniformPoseFixedCommandCfg.Ranges(
+-                pos_x=(-3.0,3.0),
+-                pos_y=(-5.2, 5.2),
+-                pos_z=(0.4, 0.95),
++                pos_x=(-2.0,2.0),
++                pos_y=(-2.2, 2.2),
++                pos_z=(0.6, 0.95),
+                 roll=(0.0, 0.0),
+                 pitch=(0.0,0.0),  # depends on end-effector axis
+                 yaw=(0, 0),
+@@ -241,6 +250,16 @@ class TerminationsCfg:
+     time_out = DoneTerm(func=mdp.time_out, time_out=True) 
+     # goal_reached = DoneTerm(func=mdp.goal_reached_termination, params={"threshold": 0.1})
+ 
++# @configclass
++# class CurriculumCfg:
++#     success_rate = CurrTerm(
++#         func=mdp.compute_success_rate,
++#         params={
++#             "command_name": "ee_pose",       
++#             "position_threshold": 0.05,      
++#             "orientation_threshold": 0.2     
++#         }
++#     )
+ 
+ 
+ @configclass
+@@ -256,11 +275,13 @@ class FBCEnvCfg(ManagerBasedRLEnvCfg):
+     commands: CommandsCfg = CommandsCfg()
+     rewards: RewardsCfg = RewardsCfg()
+     terminations: TerminationsCfg = TerminationsCfg()
++    # curriculum: CurriculumCfg = CurriculumCfg()
++
+     def __post_init__(self):
+         """Post initialization."""
+         self.decimation = 2
+         self.sim.render_interval = self.decimation
+-        self.episode_length_s = 12
++        self.episode_length_s = 18
+         self.viewer.eye = (3.5, 3.5, 3.5)
+         # simulation settings
+         self.sim.dt = 1.0 / 60.0
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_env_cfg.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_env_cfg.cpython-311.pyc
+index 5e846153b4..14b59c86d4 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_env_cfg.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_env_cfg.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/__init__.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/__init__.cpython-311.pyc
+index 4905d510ac..5910e146ca 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/__init__.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/__init__.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/__pycache__/rsl_rl_ppo_cfg.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/__pycache__/rsl_rl_ppo_cfg.cpython-311.pyc
+index fc788d6c10..16d93a0d82 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/__pycache__/rsl_rl_ppo_cfg.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/__pycache__/rsl_rl_ppo_cfg.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/rsl_rl_ppo_cfg.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/rsl_rl_ppo_cfg.py
+index 70dc697546..13be97fd15 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/rsl_rl_ppo_cfg.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/rsl_rl_ppo_cfg.py
+@@ -13,11 +13,11 @@ class FBCEnvPPORunnerCfg(RslRlOnPolicyRunnerCfg):
+     num_steps_per_env = 24  # увеличено с 8
+     max_iterations = 1500
+     save_interval = 50
+-    experiment_name = "husky_nav_baseline"
++    experiment_name = "husky_FBC_baseline"
+     policy = RslRlPpoActorCriticCfg(
+         init_noise_std=1.0,  # увеличено с 0.5
+-        actor_obs_normalization=False,
+-        critic_obs_normalization=False,
++        actor_obs_normalization=True,
++        critic_obs_normalization=True,
+         actor_hidden_dims=[256, 256],  # увеличена емкость
+         critic_hidden_dims=[256, 256],
+         activation="elu",
+@@ -27,12 +27,12 @@ class FBCEnvPPORunnerCfg(RslRlOnPolicyRunnerCfg):
+         use_clipped_value_loss=True,
+         clip_param=0.1,  # уменьшено с 0.2
+         entropy_coef=0.01,  # увеличено с 0.005
+-        num_learning_epochs=4,  # уменьшено с 5
+-        num_mini_batches=8,  # уменьшено с 16
+-        learning_rate=3.0e-4,  # уменьшено с 1.0e-3
++        num_learning_epochs=8,  # уменьшено с 5
++        num_mini_batches=32,  # уменьшено с 16
++        learning_rate=1.0e-4,  # уменьшено с 1.0e-3
+         schedule="adaptive",
+         gamma=0.99,
+         lam=0.95,
+-        desired_kl=0.02,  # увеличено с 0.01
+-        max_grad_norm=0.5,  # уменьшено с 1.0
++        desired_kl=0.01,  # увеличено с 0.01
++        max_grad_norm=1.0,  # уменьшено с 1.0
+     )
+\ No newline at end of file
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/skrl_ppo_cfg.yaml b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/skrl_ppo_cfg.yaml
+index 8e95366c64..ffa5df6e8a 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/skrl_ppo_cfg.yaml
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/skrl_ppo_cfg.yaml
+@@ -1,48 +1,35 @@
+-# Copyright (c) 2022-2025, The Isaac Lab Project Developers (https://github.com/isaac-sim/IsaacLab/blob/main/CONTRIBUTORS.md).
+-# All rights reserved.
+-#
+-# SPDX-License-Identifier: BSD-3-Clause
+-
+ seed: 42
+-
+-
+-# Models are instantiated using skrl's model instantiator utility
+-# https://skrl.readthedocs.io/en/latest/api/utils/model_instantiators.html
+ models:
+-  separate: False
+-  policy:  # see gaussian_model parameters
++  separate: false
++  policy:
+     class: GaussianMixin
+-    clip_actions: False
+-    clip_log_std: True
++    clip_actions: false
++    clip_log_std: true
+     min_log_std: -20.0
+     max_log_std: 2.0
+     initial_log_std: 0.0
+     network:
+-      - name: net
+-        input: STATES
+-        layers: [256, 256]
+-        activations: elu
++    - name: net
++      input: STATES
++      layers:
++      - 256
++      - 256
++      activations: elu
+     output: ACTIONS
+-  value:  # see deterministic_model parameters
++  value:
+     class: DeterministicMixin
+-    clip_actions: False
++    clip_actions: false
+     network:
+-      - name: net
+-        input: STATES
+-        layers: [256, 256]
+-        activations: elu
++    - name: net
++      input: STATES
++      layers:
++      - 256
++      - 256
++      activations: elu
+     output: ONE
+-
+-
+-# Rollout memory
+-# https://skrl.readthedocs.io/en/latest/api/memories/random.html
+ memory:
+   class: RandomMemory
+-  memory_size: -1  # automatically determined (same as agent:rollouts)
+-
+-
+-# PPO agent configuration (field names are from PPO_DEFAULT_CONFIG)
+-# https://skrl.readthedocs.io/en/latest/api/agents/ppo.html
++  memory_size: -1
+ agent:
+   class: PPO
+   rollouts: 128
+@@ -50,7 +37,7 @@ agent:
+   mini_batches: 16
+   discount_factor: 0.99
+   lambda: 0.95
+-  learning_rate: 3.0e-04
++  learning_rate: 0.0003
+   learning_rate_scheduler: KLAdaptiveLR
+   learning_rate_scheduler_kwargs:
+     kl_threshold: 0.01
+@@ -63,23 +50,19 @@ agent:
+   grad_norm_clip: 1.0
+   ratio_clip: 0.2
+   value_clip: 0.2
+-  clip_predicted_values: True
++  clip_predicted_values: true
+   entropy_loss_scale: 0.05
+   value_loss_scale: 2.0
+   kl_threshold: 0.0
+   rewards_shaper_scale: 1.0
+-  time_limit_bootstrap: False
+-  # logging and checkpoint
++  time_limit_bootstrap: false
+   experiment:
+-    directory: "husky_FBC"
++    directory: /home/maksim/IsaacLab/logs/skrl/husky_FBC_М12
+     experiment_name: ""
+     write_interval: auto
+     checkpoint_interval: auto
+-
+-
+-# Sequential trainer
+-# https://skrl.readthedocs.io/en/latest/api/trainers/sequential.html
+ trainer:
+   class: SequentialTrainer
+-  timesteps: 20000
++  timesteps: 24000
+   environment_info: log
++  close_environment_at_exit: false
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/custom_mdp.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/custom_mdp.cpython-311.pyc
+index 87e240f0fd..b500a72249 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/custom_mdp.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/custom_mdp.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/rewards.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/rewards.cpython-311.pyc
+index e267ab89ac..c45bf4e216 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/rewards.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/rewards.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/rewards.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/rewards.py
+index 2820880ffb..ad7fa1a857 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/rewards.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/rewards.py
+@@ -96,7 +96,11 @@ def position_command_error(env: ManagerBasedRLEnv, command_name: str, asset_cfg:
+     # obtain the desired and current positions
+     des_pos_b = command[:, :3]
+     des_pos_w, _ = combine_frame_transforms(asset.data.root_pos_w, asset.data.root_quat_w, des_pos_b)
+-    curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]]  # type: ignore
++    if isinstance(asset_cfg.body_ids, slice):
++        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids][:, 0]
++        print('ЛОХОПЕД')
++    else:
++        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]]
+ 
+     return torch.norm(curr_pos_w - des_pos_w, dim=1)
+ 
+@@ -115,7 +119,11 @@ def position_command_error_tanh(
+     # obtain the desired and current positions
+     des_pos_b = command[:, :3]
+     des_pos_w, _ = combine_frame_transforms(asset.data.root_pos_w, asset.data.root_quat_w, des_pos_b)
+-    curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]]  # type: ignore
++    # Если body_ids - это срез, получаем все элементы и берём первый
++    if isinstance(asset_cfg.body_ids, slice):
++        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids][:, 0]
++    else:
++        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]]
+     distance = torch.norm(curr_pos_w - des_pos_w, dim=1)
+     return 1 - torch.tanh(distance / std)
+ 
+@@ -132,7 +140,13 @@ def orientation_command_error(env: ManagerBasedRLEnv, command_name: str, asset_c
+     # obtain the desired and current orientations
+     des_quat_b = command[:, 3:7]
+     des_quat_w = quat_mul(asset.data.root_quat_w, des_quat_b)
+-    curr_quat_w = asset.data.body_quat_w[:, asset_cfg.body_ids[0]]  # type: ignore
++    body_ids = asset_cfg.body_ids
++    if isinstance(body_ids, slice):
++        index = body_ids.start or 0
++    else:
++        index = body_ids[0]
++
++    curr_quat_w = asset.data.body_quat_w[:, index]
+     return quat_error_magnitude(curr_quat_w, des_quat_w)
+ 
+ 
+@@ -143,7 +157,7 @@ def goal_reached_bonus(
+     asset_cfg: SceneEntityCfg,
+     command_name: str,
+     position_threshold: float = 0.05,
+-    orientation_threshold: float = 0.1,
++    orientation_threshold: float = 0.,
+ ) -> torch.Tensor:
+     """
+     Большая награда за успешное достижение цели.
+@@ -155,13 +169,22 @@ def goal_reached_bonus(
+     # Проверка позиции
+     des_pos_b = command[:, :3]
+     des_pos_w, _ = combine_frame_transforms(asset.data.root_pos_w, asset.data.root_quat_w, des_pos_b)
+-    curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]] # type: ignore
++    if isinstance(asset_cfg.body_ids, slice):
++        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids][:, 0]
++    else:
++        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]]
+     position_error = torch.norm(curr_pos_w - des_pos_w, dim=1)
+     
+     # Проверка ориентации
+     des_quat_b = command[:, 3:7]
+     des_quat_w = quat_mul(asset.data.root_quat_w, des_quat_b)
+-    curr_quat_w = asset.data.body_quat_w[:, asset_cfg.body_ids[0]] # type: ignore
++    body_ids = asset_cfg.body_ids
++    if isinstance(body_ids, slice):
++        index = body_ids.start or 0
++    else:
++        index = body_ids[0]
++
++    curr_quat_w = asset.data.body_quat_w[:, index]
+     orientation_error = quat_error_magnitude(curr_quat_w, des_quat_w)
+     
+     # Условие достижения цели
+@@ -186,7 +209,10 @@ def episode_failure_penalty(
+     # Вычисляем текущую ошибку позиции
+     des_pos_b = command[:, :3]
+     des_pos_w, _ = combine_frame_transforms(asset.data.root_pos_w, asset.data.root_quat_w, des_pos_b)
+-    curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]] # type: ignore
++    if isinstance(asset_cfg.body_ids, slice):
++        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids][:, 0]
++    else:
++        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]]
+     distance = torch.norm(curr_pos_w - des_pos_w, dim=1)
+     
+     # Проверяем, близки ли мы к концу эпизода
+@@ -212,3 +238,236 @@ def time_penalty(env: "ManagerBasedRLEnv") -> torch.Tensor:
+     return torch.ones(env.num_envs, device=env.device)
+ 
+ 
++
++
++
++# ============================================================
++# ДВЕ ГЛАВНЫЕ ФУНКЦИИ С ДИНАМИЧЕСКИМИ ВЕСАМИ
++# ============================================================
++
++def navigation_rewards_combined(
++    env, 
++    command_name: str = "base_link",
++    transition_distance: float = 0.5
++) -> torch.Tensor:
++    """
++    Объединяет все навигационные награды (база) с динамическим весом через tanh.
++    
++    Вес максимален далеко от цели, уменьшается при приближении.
++    
++    Включает:
++    - position_tracking (0.45) - грубое отслеживание позиции базы
++    - position_tracking_fine_grained (2.5) - точное отслеживание позиции базы
++    - stability_at_goal (0.3) - стабильность базы
++    - velocity_penalty (-0.2) - штраф за скорость
++    
++    Args:
++        env: Environment instance
++        command_name: Имя команды
++        transition_distance: Расстояние перехода от навигации к манипуляции (метры)
++    
++    Returns:
++        Взвешенная навигационная награда формы (num_envs,)
++    """
++    base_asset_cfg = SceneEntityCfg("robot", body_names='base_link')
++    
++    # 1. Position tracking (грубое)
++    pos_tracking = torch.exp(position_command_error(
++        env,  
++        asset_cfg=base_asset_cfg, 
++        command_name=command_name
++    ))
++    
++    # 2. Position tracking fine-grained (точное)
++    pos_tracking_fine = position_command_error_tanh(
++        env,
++        std=0.5,
++        asset_cfg=base_asset_cfg,
++        command_name=command_name
++    )
++    
++    # 3. Stability at goal
++    stability = stability_reward(
++        env,
++        command_name=command_name,
++        position_threshold=0.2,
++        orientation_threshold=0.4,
++        lin_velocity_threshold=0.2,
++        ang_velocity_threshold=0.2
++    )
++    
++    # 4. Velocity penalty
++    vel_penalty = distance_based_velocity_penalty(
++        env,
++        command_name=command_name
++    )
++    
++    # Суммируем с исходными весами
++    base_reward = (
++        0.75 * pos_tracking +
++        1.5 * pos_tracking_fine +
++        0.3 * stability +
++        (-0.2) * vel_penalty
++    )
++    
++    # Вычисляем расстояние до цели
++    distance = position_command_error(
++        env, 
++        asset_cfg=base_asset_cfg, 
++        command_name=command_name
++    )
++    
++    dynamic_weight = torch.tanh(distance / float(transition_distance))
++    
++    return base_reward * dynamic_weight
++
++
++def manipulation_rewards_combined(
++    env,
++    command_name: str = "ee_pose", 
++    transition_distance: float = 1.5
++) -> torch.Tensor:
++    """
++    Объединяет все манипуляционные награды (рука/end-effector) с динамическим весом через tanh.
++    
++    Вес минимален далеко от цели, увеличивается при приближении.
++    
++    Включает:
++    - end_effector_position_tracking (-0.35) - позиция EE
++    - end_effector_position_tracking_fine_grained (0.15) - точная позиция EE
++    - end_effector_orientation_tracking (-0.3) - ориентация EE
++    
++    Args:
++        env: Environment instance
++        command_name: Имя команды
++        transition_distance: Расстояние перехода от навигации к манипуляции (метры)
++    
++    Returns:
++        Взвешенная манипуляционная награда формы (num_envs,)
++    """
++    ee_asset_cfg = SceneEntityCfg("robot", body_names="gripper_link")
++    
++    # 1. Position tracking
++    ee_pos_tracking = position_command_error(
++        env,
++        asset_cfg=ee_asset_cfg,
++        command_name=command_name
++    )
++    
++    # 2. Position tracking fine-grained
++    ee_pos_tracking_fine = position_command_error_tanh(
++        env,
++        asset_cfg=ee_asset_cfg,
++        std=0.25,
++        command_name=command_name
++    )
++    
++    # 3. Orientation tracking
++    ee_orientation = orientation_command_error(
++        env,
++        asset_cfg=ee_asset_cfg,
++        command_name=command_name
++    )
++    
++    # Суммируем с исходными весами
++    base_reward = (
++        (0.85) * torch.exp(ee_pos_tracking) +
++        2.5 * ee_pos_tracking_fine +
++        (-0.0) * ee_orientation
++    )
++    
++    # Вычисляем расстояние до цели
++    distance = ee_pos_tracking
++    
++    # Применяем динамический вес через tanh (обратный)
++    # tanh((transition_distance - distance) / transition_distance):
++    #   - далеко (distance >> transition_distance) → вес ≈ 0.0
++    #   - близко (distance → 0) → вес ≈ 1.0
++    # Нормализуем из [-1, 1] в [0, 1]
++    dynamic_weight = (torch.tanh((transition_distance - distance) / transition_distance) + 1.0) / 2.0
++    
++    return base_reward * dynamic_weight
++
++
++
++def goal_reached_bool(
++    env: "ManagerBasedRLEnv",
++    asset_cfg: SceneEntityCfg,
++    command_name: str,
++    position_threshold: float = 0.05,
++    orientation_threshold: float = 0.,
++) -> torch.Tensor:
++    """
++    termination for goal_reachrd completion,
++    """
++    asset: RigidObject = env.scene[asset_cfg.name]
++    command = env.command_manager.get_command(command_name)
++    
++    # Проверка позиции
++    des_pos_b = command[:, :3]
++    des_pos_w, _ = combine_frame_transforms(asset.data.root_pos_w, asset.data.root_quat_w, des_pos_b)
++    if isinstance(asset_cfg.body_ids, slice):
++        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids][:, 0]
++    else:
++        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]]
++    position_error = torch.norm(curr_pos_w - des_pos_w, dim=1)
++    
++    # Проверка ориентации
++    des_quat_b = command[:, 3:7]
++    des_quat_w = quat_mul(asset.data.root_quat_w, des_quat_b)
++    body_ids = asset_cfg.body_ids
++    if isinstance(body_ids, slice):
++        index = body_ids.start or 0
++    else:
++        index = body_ids[0]
++
++    curr_quat_w = asset.data.body_quat_w[:, index]
++    orientation_error = quat_error_magnitude(curr_quat_w, des_quat_w)
++    
++    # Условие достижения цели
++    goal_reached = (position_error < position_threshold) & (orientation_error < orientation_threshold)
++    
++    return goal_reached
++
++
++
++def compute_success_rate(env, asset_cfg, command_name, position_threshold=0.05, orientation_threshold=0.2):
++    """
++    Метрика success rate для логирования.
++    Возвращает тензор (num_envs,): 1.0 если цель достигнута И это последний шаг, иначе 0.0
++    """
++    asset = env.scene[asset_cfg.name]
++    command = env.command_manager.get_command(command_name)
++    
++    des_pos_b = command[:, :3]
++    des_pos_w, _ = combine_frame_transforms(asset.data.root_pos_w, asset.data.root_quat_w, des_pos_b)
++    
++    if isinstance(asset_cfg.body_ids, slice):
++        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids][:, 0]
++    else:
++        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]]
++    
++    position_error = torch.norm(curr_pos_w - des_pos_w, dim=1)
++    
++    des_quat_b = command[:, 3:7]
++    des_quat_w = quat_mul(asset.data.root_quat_w, des_quat_b)
++    
++    if isinstance(asset_cfg.body_ids, slice):
++        index = asset_cfg.body_ids.start or 0
++    else:
++        index = asset_cfg.body_ids[0]
++    
++    curr_quat_w = asset.data.body_quat_w[:, index]
++    orientation_error = quat_error_magnitude(curr_quat_w, des_quat_w)
++    
++    # Проверка достижения цели для ВСЕХ окружений
++    goal_reached = (position_error < position_threshold) & (orientation_error < orientation_threshold)
++    
++    # Проверка последнего шага для ВСЕХ окружений
++    max_episode_length = env.max_episode_length
++    is_final_step = (env.episode_length_buf >= max_episode_length - 1)
++    
++    # КЛЮЧЕВОЕ: применяем оба условия к тензору размера (num_envs,)
++    success = (goal_reached & is_final_step).float()
++    
++    return success  # Возвращаем тензор (num_envs,), Isaac Lab сам посчитает mean для логирования
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/__pycache__/husky_env_cfg.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/__pycache__/husky_env_cfg.cpython-311.pyc
+index a61d1c9a17..c8cdc802cd 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/__pycache__/husky_env_cfg.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/__pycache__/husky_env_cfg.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/agents/__pycache__/rsl_rl_ppo_cfg.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/agents/__pycache__/rsl_rl_ppo_cfg.cpython-311.pyc
+index bd97498b7b..ef09dabaa7 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/agents/__pycache__/rsl_rl_ppo_cfg.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/husky/agents/__pycache__/rsl_rl_ppo_cfg.cpython-311.pyc differ

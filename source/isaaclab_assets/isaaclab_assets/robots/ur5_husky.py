@@ -10,8 +10,8 @@ from isaaclab.utils.assets import ISAACLAB_NUCLEUS_DIR
 import os
 import math
 
-stiffness_wheel_const = 2.6 # Жесткость для управления скоростью колес
-damping_wheel_const =80 # Демпфирование для управления скоростью колес
+stiffness_wheel_const = 0 # Жесткость для управления скоростью колес
+damping_wheel_const = 150 # Демпфирование для управления скоростью колес
 
 UR5M_CFG = ArticulationCfg(
     prim_path="/ur5",
@@ -68,7 +68,7 @@ UR5M_CFG = ArticulationCfg(
         "left_wheels": ImplicitActuatorCfg(
                 joint_names_expr=["front_left_wheel_joint", "rear_left_wheel_joint"],
                 effort_limit_sim=300,
-                velocity_limit_sim=7.0,
+                velocity_limit_sim=10.0,
                 stiffness=stiffness_wheel_const,
                 damping=damping_wheel_const
             ),
@@ -76,7 +76,7 @@ UR5M_CFG = ArticulationCfg(
         "right_wheels": ImplicitActuatorCfg(
                 joint_names_expr=["front_right_wheel_joint", "rear_right_wheel_joint"],
                 effort_limit_sim=300,
-                velocity_limit_sim=7.0,
+                velocity_limit_sim=10.0,
                 stiffness=stiffness_wheel_const,
                 damping=damping_wheel_const,
             ),

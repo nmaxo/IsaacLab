@@ -121,6 +121,9 @@ else:
     agent_cfg_entry_point = args_cli.agent
     algorithm = agent_cfg_entry_point.split("_cfg")[0].split("skrl_")[-1].lower()
 
+def log_joint_torques(agent, timestep, timesteps):
+    torque_mean = agent.env.scene.data.applied_torque.mean().item()
+    agent.track_data("Torques / mean_joint_torque", torque_mean)
 
 @hydra_task_config(args_cli.task, agent_cfg_entry_point)
 def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agent_cfg: dict):
@@ -162,6 +165,12 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
     # set directory into agent config
     agent_cfg["agent"]["experiment"]["directory"] = log_root_path
     agent_cfg["agent"]["experiment"]["experiment_name"] = log_dir
+
+    ################################################################################
+    
+    agent_cfg["agent"]["experiment"]["callbacks"] = {"on_step_end":1}
+    #####################################################################################
+
     # update log_dir
     log_dir = os.path.join(log_root_path, log_dir)
 
