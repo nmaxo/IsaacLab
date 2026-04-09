@@ -1,8 +1,6 @@
 
-# Environment configuration
-# THis file is the overall configuration of the UR5 fined tuned for simulation
-# You can have different configuration for different scenarios
-"""Configuration for the UR5_husky e robot with velocity-driven wheels."""
+"""Configuration for the UR5_husky robot with velocity-driven wheels."""
+
 import isaaclab.sim as sim_utils
 from isaaclab.actuators import ImplicitActuatorCfg
 from isaaclab.assets import ArticulationCfg
@@ -16,18 +14,18 @@ damping_wheel_const = 150 # Демпфирование для управлени
 UR5M_CFG = ArticulationCfg(
     prim_path="/ur5",
     spawn=sim_utils.UsdFileCfg(
-        usd_path=os.path.join("/home/maksim/IsaacLab/source/isaaclab_assets/data/husky_asset/FINAL_HUSKY.usd"),
+        usd_path=os.path.join("/home/maksim/IsaacLab/source/isaaclab_assets/data/husky_asset/husky_mass_enable.usd"),
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             rigid_body_enabled=True,
-            max_linear_velocity=1.0,
-            max_angular_velocity=1.0,
-            max_depenetration_velocity=1.0,
+            max_linear_velocity=5.0,
+            max_angular_velocity=5.0,
+            max_depenetration_velocity=3.0,
             enable_gyroscopic_forces=True,
         ),
         articulation_props=sim_utils.ArticulationRootPropertiesCfg(
             enabled_self_collisions=False,
-            solver_position_iteration_count=8,  # 4
-            solver_velocity_iteration_count=2,  # 0
+            solver_position_iteration_count=16,  # 4
+            solver_velocity_iteration_count=8,  # 0
         ),
     ),
     init_state=ArticulationCfg.InitialStateCfg(
@@ -53,22 +51,44 @@ UR5M_CFG = ArticulationCfg(
                 "wrist_2_joint",
                 "wrist_3_joint",
             ],
-            velocity_limit_sim=0.5,  # 0.5,
-            effort_limit_sim=300.0,  # 300
-            stiffness=2000.0,        # 2000
-            damping=100.0,           # 100
+
+            # В IsaacLab ImplicitActuator = PD-контроллер
+            # stiffness = Kp
+            # damping   = Kd
+
+            stiffness={
+                "shoulder_pan_joint": 9400.0,
+                "shoulder_lift_joint": 10020.0,
+                "elbow_joint": 10230.0,
+                "wrist_1_joint": 3940.0,
+                "wrist_2_joint": 3940.0,
+                "wrist_3_joint": 1000.0,
+            },
+
+            damping={
+                "shoulder_pan_joint": 1600.4,
+                "shoulder_lift_joint": 1200.4,
+                "elbow_joint": 1200.1,
+                "wrist_1_joint": 1200.6,
+                "wrist_2_joint": 1200.1,
+                "wrist_3_joint": 1200.0,
+            },
+
+            # ограничения можно оставить выключенными
+            effort_limit_sim=None,
+            velocity_limit_sim=None,
         ),
         "gripper_actuator": ImplicitActuatorCfg(
             joint_names_expr=["robotiq_85_left_knuckle_joint", "robotiq_85_right_knuckle_joint"],
-            effort_limit_sim=0.6,    # 0.6
-            velocity_limit_sim=5.0,  # 5
+            # effort_limit_sim=0.6,    # 0.6
+            # velocity_limit_sim=5.0,  # 5
             stiffness=1000,          # 6oo
             damping=100,             # 40
         ),
         "left_wheels": ImplicitActuatorCfg(
                 joint_names_expr=["front_left_wheel_joint", "rear_left_wheel_joint"],
                 effort_limit_sim=300,
-                velocity_limit_sim=10.0,
+                velocity_limit_sim=7.0,
                 stiffness=stiffness_wheel_const,
                 damping=damping_wheel_const
             ),
@@ -76,10 +96,10 @@ UR5M_CFG = ArticulationCfg(
         "right_wheels": ImplicitActuatorCfg(
                 joint_names_expr=["front_right_wheel_joint", "rear_right_wheel_joint"],
                 effort_limit_sim=300,
-                velocity_limit_sim=10.0,
+                velocity_limit_sim=7.0,
                 stiffness=stiffness_wheel_const,
                 damping=damping_wheel_const,
             ),
     }
 )
-"""Configuration for the UR5_husky robot with velocity-driven wheels."""
+

@@ -1,0 +1,72 @@
+seed: 42
+models:
+  separate: false
+  policy:
+    class: GaussianMixin
+    clip_actions: false
+    clip_log_std: true
+    min_log_std: -20.0
+    max_log_std: 2.0
+    initial_log_std: 0.0
+    network:
+    - name: net
+      input: OBSERVATIONS
+      layers:
+      - 256
+      - 128
+      - 64
+      activations: elu
+    output: ACTIONS
+  value:
+    class: DeterministicMixin
+    clip_actions: false
+    network:
+    - name: net
+      input: OBSERVATIONS
+      layers:
+      - 256
+      - 128
+      - 64
+      activations: elu
+    output: ONE
+memory:
+  class: RandomMemory
+  memory_size: -1
+agent:
+  class: PPO
+  rollouts: 96
+  learning_epochs: 5
+  mini_batches: 96
+  discount_factor: 0.99
+  lambda: 0.95
+  learning_rate: 0.0005
+  learning_rate_scheduler: KLAdaptiveLR
+  learning_rate_scheduler_kwargs:
+    kl_threshold: 0.008
+  state_preprocessor: null
+  state_preprocessor_kwargs: null
+  value_preprocessor: null
+  value_preprocessor_kwargs: null
+  random_timesteps: 8000
+  learning_starts: 0
+  grad_norm_clip: 1.0
+  ratio_clip: 0.2
+  value_clip: 0.2
+  clip_predicted_values: true
+  entropy_loss_scale: 0.01
+  value_loss_scale: 2.0
+  kl_threshold: 0.0
+  rewards_shaper_scale: 1
+  time_limit_bootstrap: false
+  experiment:
+    directory: /home/maksim/IsaacLab/logs/skrl/FBC_BB
+    experiment_name: 2026-01-25_19-40-17_ppo_torch
+    write_interval: auto
+    checkpoint_interval: auto
+    callbacks:
+      on_step_end: 1
+trainer:
+  class: SequentialTrainer
+  timesteps: 80000
+  environment_info: log
+  close_environment_at_exit: false

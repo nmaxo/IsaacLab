@@ -133,29 +133,41 @@ and the output torque (N*m). It is used to interpolate the output torque based o
 
 SPOT_CFG = ArticulationCfg(
     spawn=sim_utils.UsdFileCfg(
-        usd_path=f"{ISAAC_NUCLEUS_DIR}/Robots/BostonDynamics/spot/spot.usd",
+        usd_path="/home/maksim/Downloads/spot_with_arm.usd",
         activate_contact_sensors=True,
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             disable_gravity=False,
             retain_accelerations=False,
-            linear_damping=0.0,
-            angular_damping=0.0,
-            max_linear_velocity=1000.0,
-            max_angular_velocity=1000.0,
-            max_depenetration_velocity=1.0,
+            linear_damping=0.1,
+            angular_damping=0.5,
+            max_linear_velocity=100.0,
+            max_angular_velocity=100.0,
+            max_depenetration_velocity=0.5,
         ),
         articulation_props=sim_utils.ArticulationRootPropertiesCfg(
-            enabled_self_collisions=True, solver_position_iteration_count=4, solver_velocity_iteration_count=0
+            enabled_self_collisions=False, solver_position_iteration_count=8, solver_velocity_iteration_count=4
+        ),
+        collision_props=sim_utils.CollisionPropertiesCfg(
+            contact_offset=0.02,
+            rest_offset=0.0,
         ),
     ),
     init_state=ArticulationCfg.InitialStateCfg(
-        pos=(0.0, 0.0, 0.5),
+        pos=(0.0, 0.0, 0.6),
         joint_pos={
             "[fh]l_hx": 0.1,  # all left hip_x
             "[fh]r_hx": -0.1,  # all right hip_x
             "f[rl]_hy": 0.9,  # front hip_y
             "h[rl]_hy": 1.1,  # hind hip_y
             ".*_kn": -1.5,  # all knees
+            # arm in neutral position (not inside body)
+            "arm0_sh0": 0.0,
+            "arm0_sh1": 0.0,
+            "arm0_el0": 0.0,
+            "arm0_el1": 0.0,
+            "arm0_wr0": 0.0,
+            "arm0_wr1": 0.0,
+            "arm0_f1x": 0.0,
         },
         joint_vel={".*": 0.0},
     ),
@@ -176,6 +188,22 @@ SPOT_CFG = ArticulationCfg(
             damping=1.5,
             min_delay=0,  # physics time steps (min: 2.0*0=0.0ms)
             max_delay=4,  # physics time steps (max: 2.0*4=8.0ms)
+        ),
+        "spot_arm": DelayedPDActuatorCfg(
+            joint_names_expr=["arm0_(sh|el|wr)[01]"],
+            effort_limit=100.0,
+            stiffness=300.0,
+            damping=30.0,
+            min_delay=0,
+            max_delay=0,
+        ),
+        "spot_gripper": DelayedPDActuatorCfg(
+            joint_names_expr=["arm0_f1x"],
+            effort_limit=30.0,
+            stiffness=150.0,
+            damping=15.0,
+            min_delay=0,
+            max_delay=0,
         ),
     },
 )

@@ -53,6 +53,32 @@ def position_command_error_tanh(
     return 1 - torch.tanh(distance / std)
 
 
+def position_command_error_tanh_curriculum(
+    env: ManagerBasedRLEnv,
+    std_easy: float,
+    std_hard: float,
+    command_name: str,
+    asset_cfg: SceneEntityCfg,
+) -> torch.Tensor:
+    """Reward EE position tracking with curriculum on std: std = lerp(std_easy, std_hard, difficulty).
+
+    Uses the command term's ``difficulty`` buffer (e.g. from ee_target_curriculum).
+    When difficulty=0 (easy) std=std_easy (wider kernel); when difficulty=1 (hard) std=std_hard (tighter).
+    """
+    asset: RigidObject = env.scene[asset_cfg.name]
+    command = env.command_manager.get_command(command_name)
+    ee_cmd = env.command_manager._terms[command_name]
+    difficulty = ee_cmd.difficulty  # (num_envs,)
+
+    des_pos_b = command[:, :3]
+    des_pos_w, _ = combine_frame_transforms(asset.data.root_pos_w, asset.data.root_quat_w, des_pos_b)
+    curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]]  # type: ignore
+    distance = torch.norm(curr_pos_w - des_pos_w, dim=1)
+
+    std = std_easy + (std_hard - std_easy) * difficulty
+    return 1 - torch.tanh(distance / std)
+
+
 def orientation_command_error(env: ManagerBasedRLEnv, command_name: str, asset_cfg: SceneEntityCfg) -> torch.Tensor:
     """Penalize tracking orientation error using shortest path.
 
@@ -68,3 +94,23 @@ def orientation_command_error(env: ManagerBasedRLEnv, command_name: str, asset_c
     des_quat_w = quat_mul(asset.data.root_quat_w, des_quat_b)
     curr_quat_w = asset.data.body_quat_w[:, asset_cfg.body_ids[0]]  # type: ignore
     return quat_error_magnitude(curr_quat_w, des_quat_w)
+
+
+# Gaussian (Φ) rewards — paper "Multi-critic Learning for Whole-body ..."
+# Φ(v, σ²) = exp(-||v||²/σ²). Parameter std = sqrt(σ²).
+
+
+def position_command_error_exp(
+    env: ManagerBasedRLEnv, std: float, command_name: str, asset_cfg: SceneEntityCfg
+) -> torch.Tensor:
+    """Reward EE position tracking: Φ(||p_ee - p_des||, σ²) = exp(-||pos_error||²/σ²)."""
+    err = position_command_error(env, command_name=command_name, asset_cfg=asset_cfg)
+    return torch.exp(-(err * err) / (std * std))
+
+
+def orientation_command_error_exp(
+    env: ManagerBasedRLEnv, std: float, command_name: str, asset_cfg: SceneEntityCfg
+) -> torch.Tensor:
+    """Reward EE orientation tracking: Φ(θ_error, σ²) = exp(-θ_error²/σ²)."""
+    err = orientation_command_error(env, command_name=command_name, asset_cfg=asset_cfg)
+    return torch.exp(-(err * err) / (std * std))

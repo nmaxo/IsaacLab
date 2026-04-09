@@ -237,6 +237,39 @@ def time_penalty(env: "ManagerBasedRLEnv") -> torch.Tensor:
     return torch.ones(env.num_envs, device=env.device)
 
 
+def far_from_goal_bool(
+    env: "ManagerBasedRLEnv",
+    asset_cfg: SceneEntityCfg,
+    command_name: str,
+    distance_threshold: float = 5.0,
+) -> torch.Tensor:
+    """Булева терминация: робот (указанный asset_cfg/body) уехал дальше порога от цели."""
+    asset: RigidObject = env.scene[asset_cfg.name]
+    command = env.command_manager.get_command(command_name)
+
+    des_pos_b = command[:, :3]
+    des_pos_w, _ = combine_frame_transforms(asset.data.root_pos_w, asset.data.root_quat_w, des_pos_b)
+    if isinstance(asset_cfg.body_ids, slice):
+        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids][:, 0]
+    else:
+        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]]
+    distance = torch.norm(curr_pos_w - des_pos_w, dim=1)
+
+    return distance > distance_threshold
+
+
+def far_from_goal_penalty(
+    env: "ManagerBasedRLEnv",
+    asset_cfg: SceneEntityCfg,
+    command_name: str,
+    distance_threshold: float = 5.0,
+    penalty_value: float = -10.0,
+) -> torch.Tensor:
+    """Штраф, совпадающий по условию с far_from_goal_bool: -10, если робот дальше порога."""
+    far = far_from_goal_bool(env, asset_cfg=asset_cfg, command_name=command_name, distance_threshold=distance_threshold)
+    return far.float() * penalty_value
+
+
 
 
 

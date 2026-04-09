@@ -10,29 +10,29 @@ from isaaclab_rl.rsl_rl import RslRlOnPolicyRunnerCfg, RslRlPpoActorCriticCfg, R
 
 @configclass
 class FBCEnvPPORunnerCfg(RslRlOnPolicyRunnerCfg):
-    num_steps_per_env = 24  # увеличено с 8
-    max_iterations = 1500
-    save_interval = 50
-    experiment_name = "husky_FBC_baseline"
+    num_steps_per_env = 256  # Увеличено для лучшей статистики
+    max_iterations = 500    # Больше итераций
+    save_interval = 100
+    experiment_name = "new_fbc"
+    
     policy = RslRlPpoActorCriticCfg(
-        init_noise_std=1.0,  # увеличено с 0.5
-        actor_obs_normalization=True,
-        critic_obs_normalization=True,
-        actor_hidden_dims=[256, 256],  # увеличена емкость
-        critic_hidden_dims=[256, 256],
+        init_noise_std=0.8,  # Больше исследования вначале
+        actor_hidden_dims=[512, 256, 128],  # Больше капасити
+        critic_hidden_dims=[512, 256, 128],
         activation="elu",
     )
+    
     algorithm = RslRlPpoAlgorithmCfg(
-        value_loss_coef=0.5,  # уменьшено с 1.0
+        value_loss_coef=1.0,
         use_clipped_value_loss=True,
-        clip_param=0.1,  # уменьшено с 0.2
-        entropy_coef=0.01,  # увеличено с 0.005
-        num_learning_epochs=8,  # уменьшено с 5
-        num_mini_batches=32,  # уменьшено с 16
-        learning_rate=1.0e-4,  # уменьшено с 1.0e-3
+        clip_param=0.2,
+        entropy_coef=0.005,  # Увеличено для исследования
+        num_learning_epochs=8,  # Больше эпох
+        num_mini_batches=32,    # Уменьшено (256*4096/32 = разумный batch)
+        learning_rate=3.0e-4,   # Немного ниже для стабильности
         schedule="adaptive",
         gamma=0.99,
         lam=0.95,
-        desired_kl=0.01,  # увеличено с 0.01
-        max_grad_norm=1.0,  # уменьшено с 1.0
-    )
+        desired_kl=0.04,        # Более консервативно
+        max_grad_norm=1.0,
+    )  

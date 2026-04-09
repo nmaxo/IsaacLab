@@ -114,3 +114,102 @@ def stand_still_joint_deviation_l1(
     command = env.command_manager.get_command(command_name)
     # Penalize motion when command is nearly zero.
     return mdp.joint_deviation_l1(env, asset_cfg) * (torch.norm(command[:, :2], dim=1) < command_threshold)
+
+
+# =============================================================================
+# Gaussian (Φ) rewards — paper "Multi-critic Learning for Whole-body ..."
+# Φ(v, σ²) = exp(-v^T v / σ²). Parameter std = sqrt(σ²).
+# =============================================================================
+
+
+def flat_orientation_exp(
+    env: ManagerBasedRLEnv, std: float, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
+) -> torch.Tensor:
+    """Reward flat base orientation: Φ(θ_roll,pitch, σ²) = exp(-||proj_gravity_xy||²/σ²)."""
+    sq_error = mdp.flat_orientation_l2(env, asset_cfg)
+    return torch.exp(-sq_error / (std * std))
+
+
+def base_height_exp(
+    env: ManagerBasedRLEnv,
+    target_height: float,
+    std: float,
+    asset_cfg: SceneEntityCfg = SceneEntityCfg("robot"),
+    sensor_cfg: SceneEntityCfg | None = None,
+) -> torch.Tensor:
+    """Reward torso height near target: Φ(h - ĥ, σ²) = exp(-(h-ĥ)²/σ²)."""
+    sq_error = mdp.base_height_l2(env, target_height=target_height, asset_cfg=asset_cfg, sensor_cfg=sensor_cfg)
+    return torch.exp(-sq_error / (std * std))
+
+
+def lin_vel_z_exp(
+    env: ManagerBasedRLEnv, std: float, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
+) -> torch.Tensor:
+    """Reward small vertical base velocity: Φ(v_z, σ²) = exp(-v_z²/σ²)."""
+    sq_error = mdp.lin_vel_z_l2(env, asset_cfg)
+    return torch.exp(-sq_error / (std * std))
+
+
+def ang_vel_xy_exp(
+    env: ManagerBasedRLEnv, std: float, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
+) -> torch.Tensor:
+    """Reward small roll/pitch angular velocity: Φ(ω_xy, σ²) = exp(-||ω_xy||²/σ²)."""
+    sq_error = mdp.ang_vel_xy_l2(env, asset_cfg)
+    return torch.exp(-sq_error / (std * std))
+
+
+def action_rate_exp(env: ManagerBasedRLEnv, std: float) -> torch.Tensor:
+    """Reward smooth actions: Φ(a_t - a_{t-1}, σ²) = exp(-||Δa||²/σ²)."""
+    sq_error = mdp.action_rate_l2(env)
+    return torch.exp(-sq_error / (std * std))
+
+
+def joint_torques_exp(
+    env: ManagerBasedRLEnv, std: float, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
+) -> torch.Tensor:
+    """Reward low joint torques: Φ(τ, σ²) = exp(-||τ||²/σ²)."""
+    sq_error = mdp.joint_torques_l2(env, asset_cfg)
+    return torch.exp(-sq_error / (std * std))
+
+
+def joint_vel_exp(
+    env: ManagerBasedRLEnv, std: float, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
+) -> torch.Tensor:
+    """Reward low joint velocities: Φ(q̇, σ²) = exp(-||q̇||²/σ²)."""
+    sq_error = mdp.joint_vel_l2(env, asset_cfg)
+    return torch.exp(-sq_error / (std * std))
+
+
+def action_rate_exp_slice(
+    env: ManagerBasedRLEnv, std: float, start_idx: int, end_idx: int
+) -> torch.Tensor:
+    """Reward smooth actions on a slice: Φ(Δa[start:end], σ²) = exp(-||Δa||²/σ²)."""
+    delta = env.action_manager.action[:, start_idx:end_idx] - env.action_manager.prev_action[:, start_idx:end_idx]
+    sq_error = torch.sum(delta * delta, dim=1)
+    return torch.exp(-sq_error / (std * std))
+
+
+def arm_base_proximity_penalty(
+    env: ManagerBasedRLEnv,
+    asset_cfg: SceneEntityCfg = SceneEntityCfg("robot"),
+    arm_body_names: str = "arm_link.*",
+    base_body_name: str = "base",
+    margin: float = 0.15,
+) -> torch.Tensor:
+    """Penalize when any arm link is closer than margin to the base (discourages self-intersection).
+
+    Returns the number of envs where min(arm-to-base distance) < margin. Use with negative weight.
+    With enabled_self_collisions=False the arm can pass through the base; this term teaches the policy to avoid it.
+    """
+    from isaaclab.assets import Articulation
+
+    asset: Articulation = env.scene[asset_cfg.name]
+    base_ids, _ = asset.find_bodies(base_body_name)
+    arm_ids, _ = asset.find_bodies(arm_body_names)
+    if not base_ids or not arm_ids:
+        return torch.zeros(env.num_envs, device=env.device)
+    base_pos = asset.data.body_pos_w[:, base_ids[0], :]
+    arm_pos = asset.data.body_pos_w[:, arm_ids, :]
+    dist = torch.norm(arm_pos - base_pos.unsqueeze(1), dim=-1)
+    min_dist = dist.min(dim=1)[0]
+    return (min_dist < margin).float()

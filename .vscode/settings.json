@@ -64,7 +64,7 @@
         "prestartup"
     ],
     // This enables python language server. Seems to work slightly better than jedi:
-    "python.languageServer": "Pylance",
+    "python.languageServer": "None",
     // We use "black" as a formatter:
     "python.formatting.provider": "black",
     "python.formatting.blackArgs": ["--line-length", "120"],
@@ -93,6 +93,13 @@
     // Python extra paths
     // Note: this is filled up when "./isaaclab.sh -i" is run
     "python.analysis.extraPaths": [
+        "${workspaceFolder}/source/isaaclab_tasks",
+        "${workspaceFolder}/source/isaaclab_assets",
+        "${workspaceFolder}/source/isaaclab",
+        "${workspaceFolder}/source/isaaclab_mimic",
+        "${workspaceFolder}/source/isaaclab_rl"
+    ],
+    "cursorpyright.analysis.extraPaths": [
         "${workspaceFolder}/source/isaaclab_tasks",
         "${workspaceFolder}/source/isaaclab_assets",
         "${workspaceFolder}/source/isaaclab",

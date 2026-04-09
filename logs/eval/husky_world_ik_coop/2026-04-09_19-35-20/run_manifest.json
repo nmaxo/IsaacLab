@@ -1,0 +1,2269 @@
+{
+  "step_dt": 0.03333333333333333,
+  "num_envs": 50,
+  "checkpoint": "/home/maksim/IsaacLab/logs/rsl_rl/husky_world_ik_coop/2026-04-09_12-08-25/model_400.pt",
+  "task": "Isaac-FBC-Husky-WorldIK-Play-v0",
+  "segment_end": "goal_pos_w resampled (new EE waypoint) or env episode / cap",
+  "trajectory_types": {
+    "straight_flat": [
+      {
+        "env_id": 6,
+        "num_steps": 98,
+        "duration_sim_s": 3.2333333333333316,
+        "mean_error_m": 0.45067987457982134,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 43,
+        "num_steps": 109,
+        "duration_sim_s": 3.599999999999997,
+        "mean_error_m": 0.35241404225314976,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 15,
+        "num_steps": 113,
+        "duration_sim_s": 3.73333333333333,
+        "mean_error_m": 0.28503664022525854,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 41,
+        "num_steps": 115,
+        "duration_sim_s": 3.7999999999999963,
+        "mean_error_m": 0.33032184405171355,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 1,
+        "num_steps": 116,
+        "duration_sim_s": 3.8333333333333295,
+        "mean_error_m": 0.3584713155789108,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 29,
+        "num_steps": 116,
+        "duration_sim_s": 3.8333333333333295,
+        "mean_error_m": 0.2777078850194812,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 42,
+        "num_steps": 118,
+        "duration_sim_s": 3.899999999999996,
+        "mean_error_m": 1.642462493851781,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 7,
+        "num_steps": 120,
+        "duration_sim_s": 3.9666666666666623,
+        "mean_error_m": 0.3241601016876909,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 14,
+        "num_steps": 122,
+        "duration_sim_s": 4.033333333333329,
+        "mean_error_m": 0.3074600258078731,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 4,
+        "num_steps": 123,
+        "duration_sim_s": 4.066666666666662,
+        "mean_error_m": 0.34429618407313417,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 18,
+        "num_steps": 123,
+        "duration_sim_s": 4.066666666666662,
+        "mean_error_m": 0.5965554710719886,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 12,
+        "num_steps": 126,
+        "duration_sim_s": 4.166666666666662,
+        "mean_error_m": 0.2838669795439475,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 0,
+        "num_steps": 127,
+        "duration_sim_s": 4.199999999999995,
+        "mean_error_m": 0.6194649446667648,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 28,
+        "num_steps": 128,
+        "duration_sim_s": 4.233333333333328,
+        "mean_error_m": 0.287486568238819,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 36,
+        "num_steps": 129,
+        "duration_sim_s": 4.266666666666661,
+        "mean_error_m": 0.23184989610787973,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 40,
+        "num_steps": 130,
+        "duration_sim_s": 4.2999999999999945,
+        "mean_error_m": 0.28073369624236455,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 46,
+        "num_steps": 132,
+        "duration_sim_s": 4.366666666666661,
+        "mean_error_m": 0.272228568820565,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 19,
+        "num_steps": 134,
+        "duration_sim_s": 4.433333333333327,
+        "mean_error_m": 0.6246567007098625,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 23,
+        "num_steps": 135,
+        "duration_sim_s": 4.466666666666661,
+        "mean_error_m": 0.6655348670703394,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 38,
+        "num_steps": 136,
+        "duration_sim_s": 4.499999999999994,
+        "mean_error_m": 0.33161667071502,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 35,
+        "num_steps": 139,
+        "duration_sim_s": 4.599999999999993,
+        "mean_error_m": 0.29958427625058365,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 44,
+        "num_steps": 141,
+        "duration_sim_s": 4.66666666666666,
+        "mean_error_m": 0.3121824206533373,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 8,
+        "num_steps": 142,
+        "duration_sim_s": 4.699999999999993,
+        "mean_error_m": 0.2781383617138359,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 47,
+        "num_steps": 142,
+        "duration_sim_s": 4.699999999999993,
+        "mean_error_m": 0.26290544833410795,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 5,
+        "num_steps": 143,
+        "duration_sim_s": 4.733333333333326,
+        "mean_error_m": 0.3737739842984226,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 26,
+        "num_steps": 147,
+        "duration_sim_s": 4.866666666666659,
+        "mean_error_m": 0.23208874395611334,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 33,
+        "num_steps": 149,
+        "duration_sim_s": 4.933333333333326,
+        "mean_error_m": 0.20998786332323247,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 11,
+        "num_steps": 151,
+        "duration_sim_s": 4.999999999999992,
+        "mean_error_m": 0.2029501623011484,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 22,
+        "num_steps": 151,
+        "duration_sim_s": 4.999999999999992,
+        "mean_error_m": 0.20126721528142888,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 25,
+        "num_steps": 151,
+        "duration_sim_s": 4.999999999999992,
+        "mean_error_m": 0.1463967863939061,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 24,
+        "num_steps": 153,
+        "duration_sim_s": 5.066666666666658,
+        "mean_error_m": 0.11804014640963739,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 48,
+        "num_steps": 157,
+        "duration_sim_s": 5.199999999999991,
+        "mean_error_m": 0.42915996626778774,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 31,
+        "num_steps": 158,
+        "duration_sim_s": 5.2333333333333245,
+        "mean_error_m": 0.1304280300141324,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 32,
+        "num_steps": 160,
+        "duration_sim_s": 5.299999999999991,
+        "mean_error_m": 0.13799721648683771,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 21,
+        "num_steps": 161,
+        "duration_sim_s": 5.333333333333324,
+        "mean_error_m": 0.2469970139888873,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 37,
+        "num_steps": 161,
+        "duration_sim_s": 5.333333333333324,
+        "mean_error_m": 0.17332081138069586,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 39,
+        "num_steps": 163,
+        "duration_sim_s": 5.399999999999991,
+        "mean_error_m": 0.2185318314590337,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 34,
+        "num_steps": 166,
+        "duration_sim_s": 5.49999999999999,
+        "mean_error_m": 0.2572613047233906,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 30,
+        "num_steps": 172,
+        "duration_sim_s": 5.6999999999999895,
+        "mean_error_m": 0.12866119368998116,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 10,
+        "num_steps": 173,
+        "duration_sim_s": 5.733333333333323,
+        "mean_error_m": 0.18527240504246917,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 13,
+        "num_steps": 173,
+        "duration_sim_s": 5.733333333333323,
+        "mean_error_m": 1.058780922430616,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 2,
+        "num_steps": 175,
+        "duration_sim_s": 5.799999999999989,
+        "mean_error_m": 0.27643633274095397,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 45,
+        "num_steps": 176,
+        "duration_sim_s": 5.833333333333322,
+        "mean_error_m": 0.18736426921730692,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 27,
+        "num_steps": 180,
+        "duration_sim_s": 5.966666666666655,
+        "mean_error_m": 0.24459350125657187,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 17,
+        "num_steps": 187,
+        "duration_sim_s": 6.199999999999988,
+        "mean_error_m": 0.1398713354140839,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 20,
+        "num_steps": 187,
+        "duration_sim_s": 6.199999999999988,
+        "mean_error_m": 0.24998877091920949,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 16,
+        "num_steps": 189,
+        "duration_sim_s": 6.266666666666654,
+        "mean_error_m": 0.15347742791430502,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 3,
+        "num_steps": 195,
+        "duration_sim_s": 6.4666666666666535,
+        "mean_error_m": 0.21892674486033428,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 49,
+        "num_steps": 201,
+        "duration_sim_s": 6.666666666666653,
+        "mean_error_m": 0.28768821553656115,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      },
+      {
+        "env_id": 9,
+        "num_steps": 203,
+        "duration_sim_s": 6.733333333333319,
+        "mean_error_m": 0.19153722974797482,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_flat",
+        "trajectory_label": "Прямая (фикс. Z)"
+      }
+    ],
+    "straight_z": [
+      {
+        "env_id": 10,
+        "num_steps": 100,
+        "duration_sim_s": 3.299999999999998,
+        "mean_error_m": 1.2775159084051848,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 35,
+        "num_steps": 108,
+        "duration_sim_s": 3.5666666666666638,
+        "mean_error_m": 0.14440261400132268,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 27,
+        "num_steps": 109,
+        "duration_sim_s": 3.599999999999997,
+        "mean_error_m": 0.11665130895348864,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 46,
+        "num_steps": 110,
+        "duration_sim_s": 3.63333333333333,
+        "mean_error_m": 0.5379231893542138,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 18,
+        "num_steps": 111,
+        "duration_sim_s": 3.6666666666666634,
+        "mean_error_m": 0.10076484194881208,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 32,
+        "num_steps": 111,
+        "duration_sim_s": 3.6666666666666634,
+        "mean_error_m": 0.11998603308388779,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 2,
+        "num_steps": 117,
+        "duration_sim_s": 3.8666666666666627,
+        "mean_error_m": 0.117336087852207,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 36,
+        "num_steps": 117,
+        "duration_sim_s": 3.8666666666666627,
+        "mean_error_m": 0.10171904042363167,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 29,
+        "num_steps": 118,
+        "duration_sim_s": 3.899999999999996,
+        "mean_error_m": 0.41417261468783273,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 5,
+        "num_steps": 120,
+        "duration_sim_s": 3.9666666666666623,
+        "mean_error_m": 0.14009820862362782,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 4,
+        "num_steps": 121,
+        "duration_sim_s": 3.9999999999999956,
+        "mean_error_m": 0.5047796027473181,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 41,
+        "num_steps": 123,
+        "duration_sim_s": 4.066666666666662,
+        "mean_error_m": 0.1747188348232246,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 45,
+        "num_steps": 123,
+        "duration_sim_s": 4.066666666666662,
+        "mean_error_m": 0.11340985032237642,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 17,
+        "num_steps": 124,
+        "duration_sim_s": 4.099999999999995,
+        "mean_error_m": 0.10962285104417993,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 19,
+        "num_steps": 124,
+        "duration_sim_s": 4.099999999999995,
+        "mean_error_m": 0.5105494553403508,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 12,
+        "num_steps": 125,
+        "duration_sim_s": 4.133333333333328,
+        "mean_error_m": 0.11444530364871025,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 9,
+        "num_steps": 129,
+        "duration_sim_s": 4.266666666666661,
+        "mean_error_m": 0.12613250517336896,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 6,
+        "num_steps": 130,
+        "duration_sim_s": 4.2999999999999945,
+        "mean_error_m": 0.17573281698502027,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 1,
+        "num_steps": 132,
+        "duration_sim_s": 4.366666666666661,
+        "mean_error_m": 1.4264301283031025,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 28,
+        "num_steps": 134,
+        "duration_sim_s": 4.433333333333327,
+        "mean_error_m": 0.0802687889020612,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 31,
+        "num_steps": 135,
+        "duration_sim_s": 4.466666666666661,
+        "mean_error_m": 0.10335815314341475,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 16,
+        "num_steps": 137,
+        "duration_sim_s": 4.533333333333327,
+        "mean_error_m": 0.1292278936853374,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 14,
+        "num_steps": 138,
+        "duration_sim_s": 4.56666666666666,
+        "mean_error_m": 0.20276094179438509,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 11,
+        "num_steps": 142,
+        "duration_sim_s": 4.699999999999993,
+        "mean_error_m": 0.1777387657006022,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 40,
+        "num_steps": 143,
+        "duration_sim_s": 4.733333333333326,
+        "mean_error_m": 1.0673993949915146,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 15,
+        "num_steps": 144,
+        "duration_sim_s": 4.7666666666666595,
+        "mean_error_m": 0.3225547870258904,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 21,
+        "num_steps": 144,
+        "duration_sim_s": 4.7666666666666595,
+        "mean_error_m": 0.11811662605032325,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 38,
+        "num_steps": 144,
+        "duration_sim_s": 4.7666666666666595,
+        "mean_error_m": 0.12106496481121415,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 44,
+        "num_steps": 145,
+        "duration_sim_s": 4.799999999999993,
+        "mean_error_m": 0.1126109962062589,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 42,
+        "num_steps": 146,
+        "duration_sim_s": 4.833333333333326,
+        "mean_error_m": 0.1378391387374842,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 47,
+        "num_steps": 146,
+        "duration_sim_s": 4.833333333333326,
+        "mean_error_m": 0.11632392494237587,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 49,
+        "num_steps": 147,
+        "duration_sim_s": 4.866666666666659,
+        "mean_error_m": 0.093775923839029,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 48,
+        "num_steps": 148,
+        "duration_sim_s": 4.899999999999992,
+        "mean_error_m": 0.09878416827602966,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 34,
+        "num_steps": 151,
+        "duration_sim_s": 4.999999999999992,
+        "mean_error_m": 0.12829665597898282,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 26,
+        "num_steps": 155,
+        "duration_sim_s": 5.133333333333325,
+        "mean_error_m": 0.08600045810904233,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 13,
+        "num_steps": 156,
+        "duration_sim_s": 5.166666666666658,
+        "mean_error_m": 0.12694491042445102,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 20,
+        "num_steps": 161,
+        "duration_sim_s": 5.333333333333324,
+        "mean_error_m": 0.11046278527619675,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 43,
+        "num_steps": 161,
+        "duration_sim_s": 5.333333333333324,
+        "mean_error_m": 0.11217639264390335,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 37,
+        "num_steps": 162,
+        "duration_sim_s": 5.366666666666657,
+        "mean_error_m": 0.1079075623901538,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 25,
+        "num_steps": 163,
+        "duration_sim_s": 5.399999999999991,
+        "mean_error_m": 0.42416863216578593,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 39,
+        "num_steps": 167,
+        "duration_sim_s": 5.5333333333333234,
+        "mean_error_m": 0.07879498366734938,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 30,
+        "num_steps": 170,
+        "duration_sim_s": 5.633333333333323,
+        "mean_error_m": 0.11911945483263801,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 33,
+        "num_steps": 173,
+        "duration_sim_s": 5.733333333333323,
+        "mean_error_m": 0.11712174492247532,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 23,
+        "num_steps": 177,
+        "duration_sim_s": 5.866666666666656,
+        "mean_error_m": 0.1772112068483385,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 3,
+        "num_steps": 178,
+        "duration_sim_s": 5.899999999999989,
+        "mean_error_m": 0.09836390449173665,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 7,
+        "num_steps": 180,
+        "duration_sim_s": 5.966666666666655,
+        "mean_error_m": 0.10068691867507167,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 24,
+        "num_steps": 183,
+        "duration_sim_s": 6.066666666666655,
+        "mean_error_m": 0.1394032042453198,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 22,
+        "num_steps": 193,
+        "duration_sim_s": 6.399999999999987,
+        "mean_error_m": 0.32470341498717437,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 8,
+        "num_steps": 198,
+        "duration_sim_s": 6.566666666666653,
+        "mean_error_m": 0.11295771467113735,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      },
+      {
+        "env_id": 0,
+        "num_steps": 200,
+        "duration_sim_s": 6.6333333333333195,
+        "mean_error_m": 0.10835978250019253,
+        "ended": "goal_resampled",
+        "trajectory_type": "straight_z",
+        "trajectory_label": "Прямая (перем. Z)"
+      }
+    ],
+    "sinusoidal_xy": [
+      {
+        "env_id": 3,
+        "num_steps": 95,
+        "duration_sim_s": 3.133333333333332,
+        "mean_error_m": 0.2830648452827805,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 41,
+        "num_steps": 100,
+        "duration_sim_s": 3.299999999999998,
+        "mean_error_m": 0.07815142162144184,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 48,
+        "num_steps": 100,
+        "duration_sim_s": 3.299999999999998,
+        "mean_error_m": 0.09398706570267677,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 16,
+        "num_steps": 103,
+        "duration_sim_s": 3.3999999999999977,
+        "mean_error_m": 0.13422180864128094,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 17,
+        "num_steps": 105,
+        "duration_sim_s": 3.466666666666664,
+        "mean_error_m": 0.0849231043387027,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 21,
+        "num_steps": 106,
+        "duration_sim_s": 3.4999999999999973,
+        "mean_error_m": 0.1841067300652558,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 18,
+        "num_steps": 108,
+        "duration_sim_s": 3.5666666666666638,
+        "mean_error_m": 1.0409629837161414,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 30,
+        "num_steps": 115,
+        "duration_sim_s": 3.7999999999999963,
+        "mean_error_m": 0.36551389290100855,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 24,
+        "num_steps": 116,
+        "duration_sim_s": 3.8333333333333295,
+        "mean_error_m": 0.07605349000318554,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 5,
+        "num_steps": 118,
+        "duration_sim_s": 3.899999999999996,
+        "mean_error_m": 0.24525745958089828,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 9,
+        "num_steps": 119,
+        "duration_sim_s": 3.933333333333329,
+        "mean_error_m": 1.3005838562116152,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 29,
+        "num_steps": 119,
+        "duration_sim_s": 3.933333333333329,
+        "mean_error_m": 0.13775472217748144,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 26,
+        "num_steps": 121,
+        "duration_sim_s": 3.9999999999999956,
+        "mean_error_m": 0.1446150946161471,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 10,
+        "num_steps": 124,
+        "duration_sim_s": 4.099999999999995,
+        "mean_error_m": 0.09676506436399875,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 13,
+        "num_steps": 124,
+        "duration_sim_s": 4.099999999999995,
+        "mean_error_m": 0.22086152317182672,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 46,
+        "num_steps": 124,
+        "duration_sim_s": 4.099999999999995,
+        "mean_error_m": 1.1851795916896193,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 38,
+        "num_steps": 125,
+        "duration_sim_s": 4.133333333333328,
+        "mean_error_m": 1.029370009869337,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 45,
+        "num_steps": 125,
+        "duration_sim_s": 4.133333333333328,
+        "mean_error_m": 0.11206045824289322,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 15,
+        "num_steps": 127,
+        "duration_sim_s": 4.199999999999995,
+        "mean_error_m": 0.0783512224773253,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 34,
+        "num_steps": 127,
+        "duration_sim_s": 4.199999999999995,
+        "mean_error_m": 0.10050881259495348,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 12,
+        "num_steps": 128,
+        "duration_sim_s": 4.233333333333328,
+        "mean_error_m": 0.1111999508284498,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 33,
+        "num_steps": 128,
+        "duration_sim_s": 4.233333333333328,
+        "mean_error_m": 0.10165831740596332,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 22,
+        "num_steps": 133,
+        "duration_sim_s": 4.399999999999994,
+        "mean_error_m": 0.1540153147022527,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 42,
+        "num_steps": 134,
+        "duration_sim_s": 4.433333333333327,
+        "mean_error_m": 1.6368378519372486,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 0,
+        "num_steps": 136,
+        "duration_sim_s": 4.499999999999994,
+        "mean_error_m": 0.1233605411287178,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 11,
+        "num_steps": 136,
+        "duration_sim_s": 4.499999999999994,
+        "mean_error_m": 0.12015312020529938,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 32,
+        "num_steps": 139,
+        "duration_sim_s": 4.599999999999993,
+        "mean_error_m": 0.10376814015799289,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 37,
+        "num_steps": 139,
+        "duration_sim_s": 4.599999999999993,
+        "mean_error_m": 0.0742283072322607,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 23,
+        "num_steps": 141,
+        "duration_sim_s": 4.66666666666666,
+        "mean_error_m": 0.09301089643375247,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 35,
+        "num_steps": 142,
+        "duration_sim_s": 4.699999999999993,
+        "mean_error_m": 0.09671561574747026,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 31,
+        "num_steps": 143,
+        "duration_sim_s": 4.733333333333326,
+        "mean_error_m": 0.09744794458359271,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 39,
+        "num_steps": 144,
+        "duration_sim_s": 4.7666666666666595,
+        "mean_error_m": 0.1921370347392642,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 43,
+        "num_steps": 145,
+        "duration_sim_s": 4.799999999999993,
+        "mean_error_m": 0.14067327118125456,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 6,
+        "num_steps": 146,
+        "duration_sim_s": 4.833333333333326,
+        "mean_error_m": 0.10228086449205875,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 14,
+        "num_steps": 146,
+        "duration_sim_s": 4.833333333333326,
+        "mean_error_m": 0.08021334859810464,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 25,
+        "num_steps": 149,
+        "duration_sim_s": 4.933333333333326,
+        "mean_error_m": 0.10342805977635736,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 36,
+        "num_steps": 149,
+        "duration_sim_s": 4.933333333333326,
+        "mean_error_m": 0.46625728848946574,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 19,
+        "num_steps": 151,
+        "duration_sim_s": 4.999999999999992,
+        "mean_error_m": 0.11398114525521828,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 7,
+        "num_steps": 152,
+        "duration_sim_s": 5.033333333333325,
+        "mean_error_m": 0.10973248094026196,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 47,
+        "num_steps": 157,
+        "duration_sim_s": 5.199999999999991,
+        "mean_error_m": 0.11981530069925223,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 2,
+        "num_steps": 160,
+        "duration_sim_s": 5.299999999999991,
+        "mean_error_m": 0.07067525768652558,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 28,
+        "num_steps": 169,
+        "duration_sim_s": 5.59999999999999,
+        "mean_error_m": 0.08660751170087495,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 4,
+        "num_steps": 170,
+        "duration_sim_s": 5.633333333333323,
+        "mean_error_m": 0.100570545794771,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 44,
+        "num_steps": 177,
+        "duration_sim_s": 5.866666666666656,
+        "mean_error_m": 0.09806775527948376,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 40,
+        "num_steps": 179,
+        "duration_sim_s": 5.933333333333322,
+        "mean_error_m": 0.10039280402323221,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 8,
+        "num_steps": 181,
+        "duration_sim_s": 5.9999999999999885,
+        "mean_error_m": 0.12644658110089066,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 20,
+        "num_steps": 186,
+        "duration_sim_s": 6.1666666666666545,
+        "mean_error_m": 0.08804406604719578,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 1,
+        "num_steps": 187,
+        "duration_sim_s": 6.199999999999988,
+        "mean_error_m": 0.09263874058497143,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 49,
+        "num_steps": 193,
+        "duration_sim_s": 6.399999999999987,
+        "mean_error_m": 0.16745138180881275,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      },
+      {
+        "env_id": 27,
+        "num_steps": 194,
+        "duration_sim_s": 6.43333333333332,
+        "mean_error_m": 0.08016942120781265,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_xy",
+        "trajectory_label": "Синусоида XY"
+      }
+    ],
+    "sinusoidal_full": [
+      {
+        "env_id": 5,
+        "num_steps": 97,
+        "duration_sim_s": 3.1999999999999984,
+        "mean_error_m": 0.11728543288928946,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 37,
+        "num_steps": 99,
+        "duration_sim_s": 3.266666666666665,
+        "mean_error_m": 1.3018280069409596,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 45,
+        "num_steps": 100,
+        "duration_sim_s": 3.299999999999998,
+        "mean_error_m": 0.13801949083805085,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 35,
+        "num_steps": 101,
+        "duration_sim_s": 3.3333333333333313,
+        "mean_error_m": 0.11349023504201139,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 42,
+        "num_steps": 103,
+        "duration_sim_s": 3.3999999999999977,
+        "mean_error_m": 0.09939393424655049,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 36,
+        "num_steps": 104,
+        "duration_sim_s": 3.433333333333331,
+        "mean_error_m": 0.44372972600663513,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 3,
+        "num_steps": 110,
+        "duration_sim_s": 3.63333333333333,
+        "mean_error_m": 0.10738877855579962,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 49,
+        "num_steps": 113,
+        "duration_sim_s": 3.73333333333333,
+        "mean_error_m": 0.11390395716360185,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 24,
+        "num_steps": 117,
+        "duration_sim_s": 3.8666666666666627,
+        "mean_error_m": 0.4112810390945683,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 0,
+        "num_steps": 122,
+        "duration_sim_s": 4.033333333333329,
+        "mean_error_m": 0.10598074670758892,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 4,
+        "num_steps": 122,
+        "duration_sim_s": 4.033333333333329,
+        "mean_error_m": 0.11192944099302174,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 6,
+        "num_steps": 123,
+        "duration_sim_s": 4.066666666666662,
+        "mean_error_m": 1.6543735814530676,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 12,
+        "num_steps": 123,
+        "duration_sim_s": 4.066666666666662,
+        "mean_error_m": 0.36112310140719256,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 43,
+        "num_steps": 127,
+        "duration_sim_s": 4.199999999999995,
+        "mean_error_m": 0.1338794777008492,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 7,
+        "num_steps": 128,
+        "duration_sim_s": 4.233333333333328,
+        "mean_error_m": 0.9314964967488777,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 11,
+        "num_steps": 128,
+        "duration_sim_s": 4.233333333333328,
+        "mean_error_m": 0.16139427915913984,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 34,
+        "num_steps": 130,
+        "duration_sim_s": 4.2999999999999945,
+        "mean_error_m": 0.13463387618271205,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 47,
+        "num_steps": 132,
+        "duration_sim_s": 4.366666666666661,
+        "mean_error_m": 0.3294103253689228,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 10,
+        "num_steps": 134,
+        "duration_sim_s": 4.433333333333327,
+        "mean_error_m": 0.15365546268980895,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 1,
+        "num_steps": 135,
+        "duration_sim_s": 4.466666666666661,
+        "mean_error_m": 0.2196310465534528,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 39,
+        "num_steps": 135,
+        "duration_sim_s": 4.466666666666661,
+        "mean_error_m": 0.12677308176126745,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 18,
+        "num_steps": 136,
+        "duration_sim_s": 4.499999999999994,
+        "mean_error_m": 0.13809548690915108,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 13,
+        "num_steps": 137,
+        "duration_sim_s": 4.533333333333327,
+        "mean_error_m": 0.07304834850458768,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 41,
+        "num_steps": 139,
+        "duration_sim_s": 4.599999999999993,
+        "mean_error_m": 0.11649982369900179,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 14,
+        "num_steps": 140,
+        "duration_sim_s": 4.633333333333327,
+        "mean_error_m": 0.13573302139661142,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 21,
+        "num_steps": 141,
+        "duration_sim_s": 4.66666666666666,
+        "mean_error_m": 0.1017850547342013,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 26,
+        "num_steps": 141,
+        "duration_sim_s": 4.66666666666666,
+        "mean_error_m": 0.13329284455864987,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 27,
+        "num_steps": 143,
+        "duration_sim_s": 4.733333333333326,
+        "mean_error_m": 0.127711021660508,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 25,
+        "num_steps": 144,
+        "duration_sim_s": 4.7666666666666595,
+        "mean_error_m": 0.3323232767223898,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 40,
+        "num_steps": 145,
+        "duration_sim_s": 4.799999999999993,
+        "mean_error_m": 0.6185695039557999,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 33,
+        "num_steps": 147,
+        "duration_sim_s": 4.866666666666659,
+        "mean_error_m": 0.07290207739716688,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 23,
+        "num_steps": 148,
+        "duration_sim_s": 4.899999999999992,
+        "mean_error_m": 0.10716508866312939,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 15,
+        "num_steps": 158,
+        "duration_sim_s": 5.2333333333333245,
+        "mean_error_m": 0.10449920482108299,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 31,
+        "num_steps": 162,
+        "duration_sim_s": 5.366666666666657,
+        "mean_error_m": 0.08986033657910647,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 9,
+        "num_steps": 165,
+        "duration_sim_s": 5.466666666666657,
+        "mean_error_m": 0.10348917176439003,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 16,
+        "num_steps": 170,
+        "duration_sim_s": 5.633333333333323,
+        "mean_error_m": 0.11815771263311892,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 22,
+        "num_steps": 170,
+        "duration_sim_s": 5.633333333333323,
+        "mean_error_m": 0.08635223150691565,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 32,
+        "num_steps": 174,
+        "duration_sim_s": 5.766666666666656,
+        "mean_error_m": 0.07755561639693961,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 19,
+        "num_steps": 177,
+        "duration_sim_s": 5.866666666666656,
+        "mean_error_m": 0.08165637734161932,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 29,
+        "num_steps": 179,
+        "duration_sim_s": 5.933333333333322,
+        "mean_error_m": 0.12787042099295715,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 8,
+        "num_steps": 180,
+        "duration_sim_s": 5.966666666666655,
+        "mean_error_m": 0.08584955593364106,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 20,
+        "num_steps": 180,
+        "duration_sim_s": 5.966666666666655,
+        "mean_error_m": 0.09903812414656082,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 48,
+        "num_steps": 180,
+        "duration_sim_s": 5.966666666666655,
+        "mean_error_m": 0.0809254494909611,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 46,
+        "num_steps": 182,
+        "duration_sim_s": 6.033333333333322,
+        "mean_error_m": 0.10782551708129737,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 30,
+        "num_steps": 186,
+        "duration_sim_s": 6.1666666666666545,
+        "mean_error_m": 0.10346163392707866,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 17,
+        "num_steps": 187,
+        "duration_sim_s": 6.199999999999988,
+        "mean_error_m": 0.08518732039327609,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 28,
+        "num_steps": 191,
+        "duration_sim_s": 6.333333333333321,
+        "mean_error_m": 0.10566125240625511,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 2,
+        "num_steps": 192,
+        "duration_sim_s": 6.366666666666654,
+        "mean_error_m": 0.08091231051366776,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 38,
+        "num_steps": 199,
+        "duration_sim_s": 6.599999999999986,
+        "mean_error_m": 0.13054808845097696,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      },
+      {
+        "env_id": 44,
+        "num_steps": 202,
+        "duration_sim_s": 6.699999999999986,
+        "mean_error_m": 0.12034250594823077,
+        "ended": "goal_resampled",
+        "trajectory_type": "sinusoidal_full",
+        "trajectory_label": "Синусоида XY+Z"
+      }
+    ],
+    "high_harmonic": [
+      {
+        "env_id": 14,
+        "num_steps": 98,
+        "duration_sim_s": 3.2333333333333316,
+        "mean_error_m": 0.14395724105819754,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 40,
+        "num_steps": 98,
+        "duration_sim_s": 3.2333333333333316,
+        "mean_error_m": 0.09910850519580501,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 5,
+        "num_steps": 103,
+        "duration_sim_s": 3.3999999999999977,
+        "mean_error_m": 0.1556982195493087,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 48,
+        "num_steps": 110,
+        "duration_sim_s": 3.63333333333333,
+        "mean_error_m": 1.290130181441253,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 39,
+        "num_steps": 112,
+        "duration_sim_s": 3.6999999999999966,
+        "mean_error_m": 0.19117202613103604,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 11,
+        "num_steps": 113,
+        "duration_sim_s": 3.73333333333333,
+        "mean_error_m": 0.10143003006160786,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 28,
+        "num_steps": 113,
+        "duration_sim_s": 3.73333333333333,
+        "mean_error_m": 0.1594648336151005,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 41,
+        "num_steps": 113,
+        "duration_sim_s": 3.73333333333333,
+        "mean_error_m": 0.3295486295612249,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 34,
+        "num_steps": 116,
+        "duration_sim_s": 3.8333333333333295,
+        "mean_error_m": 0.20372432809130386,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 3,
+        "num_steps": 117,
+        "duration_sim_s": 3.8666666666666627,
+        "mean_error_m": 0.09971230367246346,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 38,
+        "num_steps": 120,
+        "duration_sim_s": 3.9666666666666623,
+        "mean_error_m": 0.1602418975904584,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 35,
+        "num_steps": 123,
+        "duration_sim_s": 4.066666666666662,
+        "mean_error_m": 0.10738080697573298,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 42,
+        "num_steps": 123,
+        "duration_sim_s": 4.066666666666662,
+        "mean_error_m": 0.12295748841592936,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 20,
+        "num_steps": 126,
+        "duration_sim_s": 4.166666666666662,
+        "mean_error_m": 0.305425931699574,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 21,
+        "num_steps": 128,
+        "duration_sim_s": 4.233333333333328,
+        "mean_error_m": 0.8150924453802872,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 1,
+        "num_steps": 132,
+        "duration_sim_s": 4.366666666666661,
+        "mean_error_m": 0.07836849530312148,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 47,
+        "num_steps": 132,
+        "duration_sim_s": 4.366666666666661,
+        "mean_error_m": 0.16937284569510005,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 30,
+        "num_steps": 134,
+        "duration_sim_s": 4.433333333333327,
+        "mean_error_m": 0.09459142532866838,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 2,
+        "num_steps": 137,
+        "duration_sim_s": 4.533333333333327,
+        "mean_error_m": 0.09580477216981188,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 23,
+        "num_steps": 139,
+        "duration_sim_s": 4.599999999999993,
+        "mean_error_m": 0.1231081778947398,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 26,
+        "num_steps": 141,
+        "duration_sim_s": 4.66666666666666,
+        "mean_error_m": 0.15057416601066895,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 13,
+        "num_steps": 143,
+        "duration_sim_s": 4.733333333333326,
+        "mean_error_m": 0.08623470837523887,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 8,
+        "num_steps": 144,
+        "duration_sim_s": 4.7666666666666595,
+        "mean_error_m": 0.13846095202542427,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 37,
+        "num_steps": 145,
+        "duration_sim_s": 4.799999999999993,
+        "mean_error_m": 0.21461272116365104,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 27,
+        "num_steps": 150,
+        "duration_sim_s": 4.966666666666659,
+        "mean_error_m": 0.15503830240418515,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 33,
+        "num_steps": 150,
+        "duration_sim_s": 4.966666666666659,
+        "mean_error_m": 0.1951717466612657,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 43,
+        "num_steps": 150,
+        "duration_sim_s": 4.966666666666659,
+        "mean_error_m": 0.08261394182840984,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 45,
+        "num_steps": 150,
+        "duration_sim_s": 4.966666666666659,
+        "mean_error_m": 0.16100772224366666,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 17,
+        "num_steps": 151,
+        "duration_sim_s": 4.999999999999992,
+        "mean_error_m": 0.07212570835126947,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 29,
+        "num_steps": 152,
+        "duration_sim_s": 5.033333333333325,
+        "mean_error_m": 0.10002311853397834,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 32,
+        "num_steps": 152,
+        "duration_sim_s": 5.033333333333325,
+        "mean_error_m": 0.11817768689146951,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 15,
+        "num_steps": 156,
+        "duration_sim_s": 5.166666666666658,
+        "mean_error_m": 0.12510630179148835,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 18,
+        "num_steps": 158,
+        "duration_sim_s": 5.2333333333333245,
+        "mean_error_m": 0.09909498441634298,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 6,
+        "num_steps": 162,
+        "duration_sim_s": 5.366666666666657,
+        "mean_error_m": 0.09951520994029663,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 46,
+        "num_steps": 163,
+        "duration_sim_s": 5.399999999999991,
+        "mean_error_m": 0.09440157116830715,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 49,
+        "num_steps": 163,
+        "duration_sim_s": 5.399999999999991,
+        "mean_error_m": 0.10779410273842285,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 4,
+        "num_steps": 164,
+        "duration_sim_s": 5.433333333333324,
+        "mean_error_m": 0.08440769653449334,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 10,
+        "num_steps": 165,
+        "duration_sim_s": 5.466666666666657,
+        "mean_error_m": 0.127528740093112,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 31,
+        "num_steps": 165,
+        "duration_sim_s": 5.466666666666657,
+        "mean_error_m": 0.09470742473548109,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 36,
+        "num_steps": 165,
+        "duration_sim_s": 5.466666666666657,
+        "mean_error_m": 0.16623733578757807,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 19,
+        "num_steps": 167,
+        "duration_sim_s": 5.5333333333333234,
+        "mean_error_m": 0.11959996574117752,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 9,
+        "num_steps": 168,
+        "duration_sim_s": 5.566666666666657,
+        "mean_error_m": 0.11047453222618926,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 44,
+        "num_steps": 168,
+        "duration_sim_s": 5.566666666666657,
+        "mean_error_m": 0.10782176207396246,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 24,
+        "num_steps": 170,
+        "duration_sim_s": 5.633333333333323,
+        "mean_error_m": 0.09288927417467623,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 12,
+        "num_steps": 175,
+        "duration_sim_s": 5.799999999999989,
+        "mean_error_m": 0.12188687003084592,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 16,
+        "num_steps": 176,
+        "duration_sim_s": 5.833333333333322,
+        "mean_error_m": 0.3991403648396954,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 7,
+        "num_steps": 181,
+        "duration_sim_s": 5.9999999999999885,
+        "mean_error_m": 0.11201711952974454,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 0,
+        "num_steps": 189,
+        "duration_sim_s": 6.266666666666654,
+        "mean_error_m": 0.08614088082439685,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 22,
+        "num_steps": 194,
+        "duration_sim_s": 6.43333333333332,
+        "mean_error_m": 0.12217527276538696,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      },
+      {
+        "env_id": 25,
+        "num_steps": 195,
+        "duration_sim_s": 6.4666666666666535,
+        "mean_error_m": 0.07485315806399553,
+        "ended": "goal_resampled",
+        "trajectory_type": "high_harmonic",
+        "trajectory_label": "Высокая гармоника"
+      }
+    ]
+  }
+}

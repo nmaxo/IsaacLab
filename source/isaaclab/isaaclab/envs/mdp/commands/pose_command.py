@@ -180,6 +180,11 @@ class UniformPoseFixedCommand(CommandTerm):
 
     The command generator samples target poses uniformly relative to each environment's origin.
     The commands are converted to the BASE frame of the robot for control purposes.
+
+    Supports per-env difficulty curriculum: when ``cfg.enable_curriculum`` is True,
+    target ranges are interpolated between ``cfg.easy_ranges`` (difficulty=0) and
+    ``cfg.ranges`` (difficulty=1). The ``difficulty`` buffer is updated externally
+    by a curriculum manager term.
     """
 
     cfg: UniformPoseFixedCommandCfg
@@ -187,7 +192,7 @@ class UniformPoseFixedCommand(CommandTerm):
     def __init__(self, cfg: UniformPoseCommandCfg, env: ManagerBasedEnv):
         super().__init__(cfg, env)
         self.robot: Articulation = env.scene[cfg.asset_name]
-        
+
         # extract body index for visualization
         self.body_idx = self.robot.find_bodies(cfg.body_name)[0][0]
 
@@ -201,28 +206,69 @@ class UniformPoseFixedCommand(CommandTerm):
         self.metrics["position_error"] = torch.zeros(self.num_envs, device=self.device)
         self.metrics["orientation_error"] = torch.zeros(self.num_envs, device=self.device)
 
+        # per-env difficulty for curriculum [0.0 = easy, 1.0 = full]
+        self.difficulty = torch.zeros(self.num_envs, device=self.device)
+
     @property
     def command(self) -> torch.Tensor:
         """Desired pose command in BASE frame. Shape: (num_envs, 7)."""
         return self.pose_command_b
 
+    def _lerp_range(self, easy: tuple[float, float], hard: tuple[float, float], d: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+        """Linearly interpolate between easy and hard ranges per environment.
+
+        Args:
+            easy: (low, high) tuple for difficulty=0.
+            hard: (low, high) tuple for difficulty=1.
+            d: per-env difficulty values, shape (n,).
+
+        Returns:
+            (low, high) tensors of shape (n,).
+        """
+        lo = easy[0] + (hard[0] - easy[0]) * d
+        hi = easy[1] + (hard[1] - easy[1]) * d
+        return lo, hi
+
     def _resample_command(self, env_ids: Sequence[int]):
         """Sample new target poses in the WORLD frame relative to each environment's origin."""
-        # Получаем origin каждой среды
         env_origins = self._env.scene.env_origins[env_ids]
-        
-        r = torch.empty(len(env_ids), device=self.device)
+        n = len(env_ids)
 
-        # --- Position относительно origin своей среды ---
-        self.pose_command_w[env_ids, 0] = env_origins[:, 0] + r.uniform_(*self.cfg.ranges.pos_x)
-        self.pose_command_w[env_ids, 1] = env_origins[:, 1] + r.uniform_(*self.cfg.ranges.pos_y)
-        self.pose_command_w[env_ids, 2] = env_origins[:, 2] + r.uniform_(*self.cfg.ranges.pos_z)
+        use_curriculum = self.cfg.enable_curriculum and self.cfg.easy_ranges is not None
 
-        # --- Orientation ---
-        euler_angles = torch.zeros(len(env_ids), 3, device=self.device)
-        euler_angles[:, 0].uniform_(*self.cfg.ranges.roll)
-        euler_angles[:, 1].uniform_(*self.cfg.ranges.pitch)
-        euler_angles[:, 2].uniform_(*self.cfg.ranges.yaw)
+        if use_curriculum:
+            d = self.difficulty[env_ids]
+            easy = self.cfg.easy_ranges
+            hard = self.cfg.ranges
+
+            # Position: per-env interpolated ranges
+            lo_x, hi_x = self._lerp_range((easy.pos_x[0], easy.pos_x[1]), (hard.pos_x[0], hard.pos_x[1]), d)
+            lo_y, hi_y = self._lerp_range((easy.pos_y[0], easy.pos_y[1]), (hard.pos_y[0], hard.pos_y[1]), d)
+
+            self.pose_command_w[env_ids, 0] = env_origins[:, 0] + torch.rand(n, device=self.device) * (hi_x - lo_x) + lo_x
+            self.pose_command_w[env_ids, 1] = env_origins[:, 1] + torch.rand(n, device=self.device) * (hi_y - lo_y) + lo_y
+            self.pose_command_w[env_ids, 2] = env_origins[:, 2] + torch.rand(n, device=self.device) * (hard.pos_z[1] - hard.pos_z[0]) + hard.pos_z[0]
+
+            # Orientation: interpolated ranges
+            lo_roll, hi_roll = self._lerp_range((easy.roll[0], easy.roll[1]), (hard.roll[0], hard.roll[1]), d)
+            lo_pitch, hi_pitch = self._lerp_range((easy.pitch[0], easy.pitch[1]), (hard.pitch[0], hard.pitch[1]), d)
+            lo_yaw, hi_yaw = self._lerp_range((easy.yaw[0], easy.yaw[1]), (hard.yaw[0], hard.yaw[1]), d)
+
+            euler_angles = torch.zeros(n, 3, device=self.device)
+            euler_angles[:, 0] = torch.rand(n, device=self.device) * (hi_roll - lo_roll) + lo_roll
+            euler_angles[:, 1] = torch.rand(n, device=self.device) * (hi_pitch - lo_pitch) + lo_pitch
+            euler_angles[:, 2] = torch.rand(n, device=self.device) * (hi_yaw - lo_yaw) + lo_yaw
+        else:
+            r = torch.empty(n, device=self.device)
+            self.pose_command_w[env_ids, 0] = env_origins[:, 0] + r.uniform_(*self.cfg.ranges.pos_x)
+            self.pose_command_w[env_ids, 1] = env_origins[:, 1] + r.uniform_(*self.cfg.ranges.pos_y)
+            self.pose_command_w[env_ids, 2] = env_origins[:, 2] + r.uniform_(*self.cfg.ranges.pos_z)
+
+            euler_angles = torch.zeros(n, 3, device=self.device)
+            euler_angles[:, 0].uniform_(*self.cfg.ranges.roll)
+            euler_angles[:, 1].uniform_(*self.cfg.ranges.pitch)
+            euler_angles[:, 2].uniform_(*self.cfg.ranges.yaw)
+
         quat = quat_from_euler_xyz(euler_angles[:, 0], euler_angles[:, 1], euler_angles[:, 2])
         self.pose_command_w[env_ids, 3:] = quat_unique(quat) if self.cfg.make_quat_unique else quat
 

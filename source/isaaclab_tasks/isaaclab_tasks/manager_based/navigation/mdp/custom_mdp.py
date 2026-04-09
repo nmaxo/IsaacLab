@@ -39,7 +39,7 @@ class DiffDriveVelocityAction(JointVelocityAction):
 
         # создаем вектор скоростей для 4-х колес
         # [front_left, front_right, rear_left, rear_right]
-        wheel_vels = torch.cat([v_left, v_right, v_left, v_right], dim=1)
+        wheel_vels = torch.cat([v_left, v_right], dim=1)
 
         # сохраняем обработанные действия
         self._processed_actions = wheel_vels

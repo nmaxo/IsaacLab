@@ -1,0 +1,1 @@
+suggested_w=0.298426121 suggested_x=0.040156964 suggested_y=0.952406585 suggested_z=0.047446080 delta_angle_deg=145.273788

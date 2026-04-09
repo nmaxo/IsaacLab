@@ -21,3 +21,5 @@ from .rl_cfg import *
 from .rnd_cfg import RslRlRndCfg
 from .symmetry_cfg import RslRlSymmetryCfg
 from .vecenv_wrapper import RslRlVecEnvWrapper
+
+from . import dwbc  # noqa: F401

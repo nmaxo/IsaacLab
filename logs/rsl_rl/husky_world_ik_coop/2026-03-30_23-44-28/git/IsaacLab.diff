@@ -1,0 +1,3576 @@
+--- git status ---
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   .vscode/settings.json
+	deleted:    logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_10000.pt
+	deleted:    logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_15000.pt
+	deleted:    logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_20000.pt
+	deleted:    logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_25000.pt
+	deleted:    logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_30000.pt
+	deleted:    logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_35000.pt
+	deleted:    logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_40000.pt
+	deleted:    logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_45000.pt
+	deleted:    logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_5000.pt
+	deleted:    logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_50000.pt
+	deleted:    logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/best_agent.pt
+	deleted:    logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/events.out.tfevents.1764687777.maksimbr.21431.0
+	deleted:    logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/params/agent.yaml
+	deleted:    logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/params/env.yaml
+	modified:   source/isaaclab/isaaclab/envs/mdp/__pycache__/rewards.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/commands_cfg.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/pose_command.cpython-311.pyc
+	modified:   source/isaaclab/isaaclab/envs/mdp/commands/commands_cfg.py
+	modified:   source/isaaclab/isaaclab/envs/mdp/commands/pose_command.py
+	modified:   source/isaaclab/isaaclab/envs/mdp/rewards.py
+	modified:   source/isaaclab/isaaclab/utils/__pycache__/assets.cpython-311.pyc
+	modified:   source/isaaclab_assets/isaaclab_assets/robots/__init__.py
+	deleted:    source/isaaclab_assets/isaaclab_assets/robots/__pycache__/__init__.cpython-310.pyc
+	modified:   source/isaaclab_assets/isaaclab_assets/robots/__pycache__/__init__.cpython-311.pyc
+	deleted:    source/isaaclab_assets/isaaclab_assets/robots/__pycache__/agility.cpython-311.pyc
+	deleted:    source/isaaclab_assets/isaaclab_assets/robots/__pycache__/allegro.cpython-310.pyc
+	deleted:    source/isaaclab_assets/isaaclab_assets/robots/__pycache__/aloha.cpython-310.pyc
+	deleted:    source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ant.cpython-310.pyc
+	deleted:    source/isaaclab_assets/isaaclab_assets/robots/__pycache__/anymal.cpython-310.pyc
+	deleted:    source/isaaclab_assets/isaaclab_assets/robots/__pycache__/cart_double_pendulum.cpython-310.pyc
+	deleted:    source/isaaclab_assets/isaaclab_assets/robots/__pycache__/cartpole.cpython-310.pyc
+	deleted:    source/isaaclab_assets/isaaclab_assets/robots/__pycache__/fourier.cpython-310.pyc
+	deleted:    source/isaaclab_assets/isaaclab_assets/robots/__pycache__/franka.cpython-310.pyc
+	deleted:    source/isaaclab_assets/isaaclab_assets/robots/__pycache__/humanoid.cpython-310.pyc
+	deleted:    source/isaaclab_assets/isaaclab_assets/robots/__pycache__/humanoid_28.cpython-310.pyc
+	deleted:    source/isaaclab_assets/isaaclab_assets/robots/__pycache__/kinova.cpython-310.pyc
+	deleted:    source/isaaclab_assets/isaaclab_assets/robots/__pycache__/quadcopter.cpython-310.pyc
+	deleted:    source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ridgeback_franka.cpython-310.pyc
+	deleted:    source/isaaclab_assets/isaaclab_assets/robots/__pycache__/sawyer.cpython-310.pyc
+	deleted:    source/isaaclab_assets/isaaclab_assets/robots/__pycache__/shadow_hand.cpython-310.pyc
+	deleted:    source/isaaclab_assets/isaaclab_assets/robots/__pycache__/spot.cpython-310.pyc
+	modified:   source/isaaclab_assets/isaaclab_assets/robots/__pycache__/spot.cpython-311.pyc
+	deleted:    source/isaaclab_assets/isaaclab_assets/robots/__pycache__/unitree.cpython-310.pyc
+	deleted:    source/isaaclab_assets/isaaclab_assets/robots/__pycache__/universal_robots.cpython-310.pyc
+	modified:   source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc
+	modified:   source/isaaclab_assets/isaaclab_assets/robots/spot.py
+	modified:   source/isaaclab_assets/isaaclab_assets/robots/ur5_husky.py
+	modified:   source/isaaclab_rl/isaaclab_rl/rsl_rl/__init__.py
+	modified:   source/isaaclab_rl/isaaclab_rl/rsl_rl/__pycache__/__init__.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_env_cfg.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__init__.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_env_cfg.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/__init__.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/__pycache__/rsl_rl_ppo_cfg.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/rsl_rl_ppo_cfg.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/skrl_ppo_cfg.yaml
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/custom_mdp.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/rewards.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/custom_mdp.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/rewards.py
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/a1/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/a1/agents/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_b/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_b/agents/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_c/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_c/__pycache__/flat_env_cfg.cpython-311.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_c/__pycache__/rough_env_cfg.cpython-311.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_c/agents/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_d/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_d/agents/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/cassie/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/cassie/agents/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/digit/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/digit/__pycache__/rough_env_cfg.cpython-311.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/digit/agents/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/g1/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/g1/agents/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go1/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go1/agents/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go2/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go2/agents/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/h1/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/h1/agents/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/spot/__pycache__/__init__.cpython-310.pyc
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/spot/agents/__pycache__/__init__.cpython-310.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/spot/flat_env_cfg.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__init__.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__pycache__/__init__.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__pycache__/curriculums.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__pycache__/rewards.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/curriculums.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/rewards.py
+	deleted:    source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/dexsuite/config/kuka_allegro/agents/rsl_rl_ppo_cfg.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/__pycache__/reach_env_cfg.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/__pycache__/joint_pos_env_cfg.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/agents/skrl_ppo_cfg.yaml
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/joint_pos_env_cfg.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/mdp/__pycache__/rewards.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/mdp/rewards.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/reach_env_cfg.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/__pycache__/custom_mdp.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/custom_mdp.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	Deep-Whole-Body-Control/
+	FBC_BB/
+	FBC_baseline/
+	FBC_manip_husky/
+	advantage_mixing_conspect.md
+	docs/dwbc_verification_report.md
+	legged-robots-manipulation/
+	logs/dwbc_full_run/
+	logs/play/Jetbot_nav/
+	logs/play/baseline_FBC/
+	logs/play/go2_arx_leggedgym/
+	logs/play/husky_world_ik_coop/
+	logs/play/new_fbc/
+	logs/play/spot_flat/
+	logs/play/unitree_go2_arx_rough/
+	logs/rsl_rl/2026-02-26_17-54-57/
+	logs/rsl_rl/2026-03-05_14-32-34/
+	logs/rsl_rl/2026-03-05_14-36-16/
+	logs/rsl_rl/2026-03-05_14-51-38/
+	logs/rsl_rl/2026-03-05_17-35-22/
+	logs/rsl_rl/2026-03-05_18-01-51/
+	logs/rsl_rl/2026-03-05_18-28-00/
+	logs/rsl_rl/2026-03-05_20-56-24/
+	logs/rsl_rl/2026-03-05_20-57-02/
+	logs/rsl_rl/2026-03-05_20-57-57/
+	logs/rsl_rl/2026-03-06_00-23-35/
+	logs/rsl_rl/2026-03-18_14-43-52/
+	logs/rsl_rl/2026-03-18_14-46-04/
+	logs/rsl_rl/2026-03-18_16-38-30/
+	logs/rsl_rl/2026-03-19_00-47-08/
+	logs/rsl_rl/2026-03-19_00-53-44/
+	logs/rsl_rl/2026-03-19_00-59-09/
+	logs/rsl_rl/2026-03-19_01-06-49/
+	logs/rsl_rl/2026-03-30_01-21-09/
+	logs/rsl_rl/2026-03-30_01-27-08/
+	logs/rsl_rl/Jetbot_nav/
+	logs/rsl_rl/baseline_FBC/
+	logs/rsl_rl/dexsuite_kuka_allegro/
+	logs/rsl_rl/go2_arx_fbc_multi_critic/
+	logs/rsl_rl/go2_arx_leggedgym/
+	logs/rsl_rl/go2_arx_loco_manip_multi_critic/
+	logs/rsl_rl/husky_FBC_baseline/2025-12-30_22-25-08/
+	logs/rsl_rl/husky_FBC_v2/
+	logs/rsl_rl/husky_dwbc/
+	logs/rsl_rl/husky_ik_tracking/
+	logs/rsl_rl/husky_world_ik_coop/
+	logs/rsl_rl/new_fbc/
+	logs/rsl_rl/new_fbc_dwbc/
+	logs/rsl_rl/reach_ur10e/
+	logs/rsl_rl/spot_flat/
+	logs/rsl_rl/unitree_go2_arx_rough/
+	logs/skrl/FBC_BB/
+	logs/skrl/FBC_baseline/
+	logs/skrl/FBC_manip_husky/
+	logs/skrl/husky_FBC_tue/baseline_on_demo/
+	logs/skrl/reach_franka/2025-12-30_22-05-38_ppo_torch/
+	logs/skrl/reach_ur5_mm/
+	logs/skrl/reach_ur5mm/2025-12-11_20-31-29_ppo_torch/
+	logs/skrl/reach_ur5mm/2025-12-30_15-17-38_ppo_torch/
+	logs/skrl/reach_ur5mm/2025-12-30_17-31-58_ppo_torch/
+	logs/skrl/reach_ur5mm/2025-12-30_17-42-22_ppo_torch/
+	logs/skrl/reach_ur5mm/2025-12-30_17-44-46_ppo_torch/
+	logs/skrl/reach_ur5mm/2025-12-30_17-47-22_ppo_torch/
+	logs/skrl/reach_ur5mm/2025-12-30_17-48-21_ppo_torch/
+	logs/skrl/reach_ur5mm/2025-12-30_17-49-19_ppo_torch/
+	logs/skrl/reach_ur5mm/2025-12-30_18-07-22_ppo_torch/
+	logs/skrl/reach_ur5mm/2025-12-30_18-11-05_ppo_torch/
+	logs/skrl/reach_ur5mm/2025-12-30_18-16-58_ppo_torch/
+	logs/skrl/reach_ur5mm/2025-12-30_18-17-41_ppo_torch/
+	logs/skrl/reach_ur5mm/2025-12-30_18-18-41_ppo_torch/
+	logs/skrl/reach_ur5mm/2025-12-30_18-42-28_ppo_torch/
+	logs/skrl/reach_ur5mm/2025-12-30_19-06-28_ppo_torch/
+	logs/skrl/reach_ur5mm/2025-12-30_20-03-18_ppo_torch/
+	logs/skrl/reach_ur5mm/2025-12-30_20-44-49_ppo_torch/
+	logs/skrl/reach_ur5mm/2025-12-30_20-59-05_ppo_torch/
+	logs/skrl/reach_ur5mm/2025-12-30_21-21-53_ppo_torch/
+	logs/skrl/reach_ur5mm/2025-12-30_21-27-36_ppo_torch/
+	logs/skrl/reach_ur5mm/2025-12-30_21-48-03_ppo_torch/
+	multi_critic_learning_conspect.md
+	outputs/2025-12-11/20-31-29/
+	outputs/2025-12-11/20-43-27/
+	outputs/2025-12-11/20-48-40/
+	outputs/2025-12-11/21-00-09/
+	outputs/2025-12-11/21-04-00/
+	outputs/2025-12-11/21-17-37/
+	outputs/2025-12-11/21-28-37/
+	outputs/2025-12-11/21-30-14/
+	outputs/2025-12-11/21-54-42/
+	outputs/2025-12-11/22-02-16/
+	outputs/2025-12-11/22-25-24/
+	outputs/2025-12-15/
+	outputs/2025-12-17/
+	outputs/2025-12-18/
+	outputs/2025-12-27/
+	outputs/2025-12-30/
+	outputs/2026-01-22/
+	outputs/2026-01-23/
+	outputs/2026-01-25/
+	outputs/2026-01-26/
+	outputs/2026-02-12/
+	outputs/2026-02-13/
+	outputs/2026-02-14/
+	outputs/2026-03-19/
+	outputs/2026-03-30/
+	reach_franka/
+	reach_ur5_mm/
+	reach_ur5mm/25-12-11_20-43-32-702118_PPO/
+	reach_ur5mm/25-12-30_15-30-26-590459_PPO/
+	reach_ur5mm/25-12-30_15-38-29-776651_PPO/
+	reach_ur5mm/25-12-30_15-39-21-206576_PPO/
+	reach_ur5mm/25-12-30_18-04-02-899253_PPO/
+	reach_ur5mm/25-12-30_18-37-03-379291_PPO/
+	reach_ur5mm/25-12-30_18-41-49-649027_PPO/
+	reach_ur5mm/25-12-30_18-50-56-752634_PPO/
+	reach_ur5mm/25-12-30_19-39-37-800708_PPO/
+	reach_ur5mm/25-12-30_19-43-13-142135_PPO/
+	reach_ur5mm/25-12-30_19-43-52-306055_PPO/
+	reach_ur5mm/25-12-30_19-59-30-128079_PPO/
+	reach_ur5mm/25-12-30_20-26-15-547650_PPO/
+	reach_ur5mm/25-12-30_20-27-26-963379_PPO/
+	reach_ur5mm/25-12-30_20-28-23-154835_PPO/
+	reach_ur5mm/25-12-30_20-30-43-936912_PPO/
+	reach_ur5mm/25-12-30_20-33-56-498257_PPO/
+	reach_ur5mm/25-12-30_20-34-52-814602_PPO/
+	reach_ur5mm/25-12-30_20-35-47-837594_PPO/
+	reach_ur5mm/25-12-30_20-37-01-010059_PPO/
+	reach_ur5mm/25-12-30_20-37-48-347899_PPO/
+	reach_ur5mm/25-12-30_21-18-40-216107_PPO/
+	reach_ur5mm/25-12-30_21-19-25-213893_PPO/
+	reach_ur5mm/25-12-30_21-43-18-570892_PPO/
+	reach_ur5mm/25-12-30_21-45-44-024464_PPO/
+	scripts/rsl_rl/
+	source/isaaclab_assets/data/husky_asset/husky_mass_enable.usd
+	source/isaaclab_assets/data/husky_asset/husky_ur5_model.usd
+	source/isaaclab_assets/data/ur5_assets/ur5_IS.usd
+	source/isaaclab_assets/isaaclab_assets/robots/__pycache__/go2_arx.cpython-311.pyc
+	source/isaaclab_assets/isaaclab_assets/robots/go2_arx.py
+	source/isaaclab_rl/isaaclab_rl/__pycache__/__init__.cpython-313.pyc
+	source/isaaclab_rl/isaaclab_rl/rsl_rl/__pycache__/__init__.cpython-313.pyc
+	source/isaaclab_rl/isaaclab_rl/rsl_rl/__pycache__/distillation_cfg.cpython-313.pyc
+	source/isaaclab_rl/isaaclab_rl/rsl_rl/dwbc/
+	source/isaaclab_rl/isaaclab_rl/rsl_rl/multi_critic/
+	source/isaaclab_tasks/isaaclab_tasks/__pycache__/__init__.cpython-313.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_dwbc_env_cfg.py
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_ik_env_cfg.py
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_world_ik_env_cfg.py
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_dwbc_env_cfg.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_dwbc_env_cfg.cpython-313.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_ik_env_cfg.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_ik_env_cfg.cpython-313.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_world_ik_env_cfg.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_world_ik_env_cfg.cpython-313.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/__init__.cpython-313.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/__pycache__/rsl_rl_dwbc_cfg.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/__pycache__/rsl_rl_ik_ppo_cfg.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/__pycache__/rsl_rl_ik_ppo_cfg.cpython-313.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/__pycache__/rsl_rl_world_ik_ppo_cfg.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/__pycache__/rsl_rl_world_ik_ppo_cfg.cpython-313.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/rsl_rl_dwbc_cfg.py
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/rsl_rl_ik_ppo_cfg.py
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/rsl_rl_world_ik_ppo_cfg.py
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/husky_ik_mdp.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/husky_ik_mdp.cpython-313.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/husky_ik_mdp.py
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go2_arx/
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/spot/__pycache__/flat_env_cfg.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/spot/agents/__pycache__/rsl_rl_ppo_cfg.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/spot/mdp/__pycache__/
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__pycache__/constant_joint_action.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__pycache__/ee_goal_velocity_command.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/constant_joint_action.py
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/ee_goal_pose_2d_command.py
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/ee_goal_velocity_command.py
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/deploy/mdp/__pycache__/
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/deploy/reach/__pycache__/reach_env_cfg.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/deploy/reach/config/ur_10e/__pycache__/joint_pos_env_cfg.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/deploy/reach/config/ur_10e/agents/__pycache__/rsl_rl_ppo_cfg.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/dexsuite/__pycache__/adr_curriculum.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/dexsuite/__pycache__/dexsuite_env_cfg.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/dexsuite/config/kuka_allegro/__pycache__/dexsuite_kuka_allegro_env_cfg.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/dexsuite/config/kuka_allegro/agents/__pycache__/rsl_rl_ppo_cfg.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/dexsuite/config/kuka_allegro/rsl_rl_ppo_cfg.py
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/dexsuite/mdp/__pycache__/
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/dexsuite/mdp/commands/__pycache__/
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/config/jetbot/
+	source/isaaclab_tasks/isaaclab_tasks/utils/__pycache__/__init__.cpython-313.pyc
+	source/isaaclab_tasks/isaaclab_tasks/utils/__pycache__/importer.cpython-313.pyc
+	source/isaaclab_tasks/isaaclab_tasks/utils/__pycache__/parse_cfg.cpython-313.pyc
+
+no changes added to commit (use "git add" and/or "git commit -a") 
+
+
+--- git diff ---
+diff --git a/.vscode/settings.json b/.vscode/settings.json
+index 847bcedf73..47bfa4001b 100644
+--- a/.vscode/settings.json
++++ b/.vscode/settings.json
+@@ -64,7 +64,7 @@
+         "prestartup"
+     ],
+     // This enables python language server. Seems to work slightly better than jedi:
+-    "python.languageServer": "Pylance",
++    "python.languageServer": "None",
+     // We use "black" as a formatter:
+     "python.formatting.provider": "black",
+     "python.formatting.blackArgs": ["--line-length", "120"],
+@@ -98,5 +98,12 @@
+         "${workspaceFolder}/source/isaaclab",
+         "${workspaceFolder}/source/isaaclab_mimic",
+         "${workspaceFolder}/source/isaaclab_rl"
++    ],
++    "cursorpyright.analysis.extraPaths": [
++        "${workspaceFolder}/source/isaaclab_tasks",
++        "${workspaceFolder}/source/isaaclab_assets",
++        "${workspaceFolder}/source/isaaclab",
++        "${workspaceFolder}/source/isaaclab_mimic",
++        "${workspaceFolder}/source/isaaclab_rl"
+     ]
+ }
+diff --git a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_10000.pt b/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_10000.pt
+deleted file mode 100644
+index 463ad05a23..0000000000
+Binary files a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_10000.pt and /dev/null differ
+diff --git a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_15000.pt b/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_15000.pt
+deleted file mode 100644
+index 96ca49143d..0000000000
+Binary files a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_15000.pt and /dev/null differ
+diff --git a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_20000.pt b/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_20000.pt
+deleted file mode 100644
+index e0b6fea21b..0000000000
+Binary files a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_20000.pt and /dev/null differ
+diff --git a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_25000.pt b/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_25000.pt
+deleted file mode 100644
+index d529d00c94..0000000000
+Binary files a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_25000.pt and /dev/null differ
+diff --git a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_30000.pt b/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_30000.pt
+deleted file mode 100644
+index 024c86e399..0000000000
+Binary files a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_30000.pt and /dev/null differ
+diff --git a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_35000.pt b/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_35000.pt
+deleted file mode 100644
+index 15dd6faf9d..0000000000
+Binary files a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_35000.pt and /dev/null differ
+diff --git a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_40000.pt b/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_40000.pt
+deleted file mode 100644
+index e8b0c5b3cf..0000000000
+Binary files a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_40000.pt and /dev/null differ
+diff --git a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_45000.pt b/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_45000.pt
+deleted file mode 100644
+index c60ce3e28e..0000000000
+Binary files a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_45000.pt and /dev/null differ
+diff --git a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_5000.pt b/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_5000.pt
+deleted file mode 100644
+index 95f20e8ea1..0000000000
+Binary files a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_5000.pt and /dev/null differ
+diff --git a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_50000.pt b/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_50000.pt
+deleted file mode 100644
+index 6e17299dc7..0000000000
+Binary files a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/agent_50000.pt and /dev/null differ
+diff --git a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/best_agent.pt b/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/best_agent.pt
+deleted file mode 100644
+index b0f86e90d1..0000000000
+Binary files a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/checkpoints/best_agent.pt and /dev/null differ
+diff --git a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/events.out.tfevents.1764687777.maksimbr.21431.0 b/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/events.out.tfevents.1764687777.maksimbr.21431.0
+deleted file mode 100644
+index 91b4cd5496..0000000000
+Binary files a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/events.out.tfevents.1764687777.maksimbr.21431.0 and /dev/null differ
+diff --git a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/params/agent.yaml b/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/params/agent.yaml
+deleted file mode 100644
+index f2e3539e89..0000000000
+--- a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/params/agent.yaml
++++ /dev/null
+@@ -1,68 +0,0 @@
+-seed: 42
+-models:
+-  separate: false
+-  policy:
+-    class: GaussianMixin
+-    clip_actions: false
+-    clip_log_std: true
+-    min_log_std: -20.0
+-    max_log_std: 2.0
+-    initial_log_std: 0.0
+-    network:
+-    - name: net
+-      input: STATES
+-      layers:
+-      - 256
+-      - 256
+-      activations: elu
+-    output: ACTIONS
+-  value:
+-    class: DeterministicMixin
+-    clip_actions: false
+-    network:
+-    - name: net
+-      input: STATES
+-      layers:
+-      - 256
+-      - 256
+-      activations: elu
+-    output: ONE
+-memory:
+-  class: RandomMemory
+-  memory_size: -1
+-agent:
+-  class: PPO
+-  rollouts: 128
+-  learning_epochs: 10
+-  mini_batches: 16
+-  discount_factor: 0.99
+-  lambda: 0.95
+-  learning_rate: 0.0003
+-  learning_rate_scheduler: KLAdaptiveLR
+-  learning_rate_scheduler_kwargs:
+-    kl_threshold: 0.01
+-  state_preprocessor: RunningStandardScaler
+-  state_preprocessor_kwargs: null
+-  value_preprocessor: RunningStandardScaler
+-  value_preprocessor_kwargs: null
+-  random_timesteps: 0
+-  learning_starts: 0
+-  grad_norm_clip: 1.0
+-  ratio_clip: 0.2
+-  value_clip: 0.2
+-  clip_predicted_values: true
+-  entropy_loss_scale: 0.05
+-  value_loss_scale: 2.0
+-  kl_threshold: 0.0
+-  rewards_shaper_scale: 1.0
+-  time_limit_bootstrap: false
+-  experiment:
+-    directory: /home/maksim/IsaacLab/logs/skrl/husky_FBC_tue
+-    experiment_name: 2025-12-02_18-02-47_ppo_torch
+-    write_interval: auto
+-    checkpoint_interval: auto
+-trainer:
+-  class: SequentialTrainer
+-  timesteps: 50000
+-  environment_info: log
+-  close_environment_at_exit: false
+diff --git a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/params/env.yaml b/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/params/env.yaml
+deleted file mode 100644
+index 28ace7f9d7..0000000000
+--- a/logs/skrl/husky_FBC_tue/2025-12-02_18-02-47_ppo_torch/params/env.yaml
++++ /dev/null
+@@ -1,870 +0,0 @@
+-viewer:
+-  eye: !!python/tuple
+-  - 3.5
+-  - 3.5
+-  - 3.5
+-  lookat: !!python/tuple
+-  - 0.0
+-  - 0.0
+-  - 0.0
+-  cam_prim_path: /OmniverseKit_Persp
+-  resolution: !!python/tuple
+-  - 1280
+-  - 720
+-  origin_type: world
+-  env_index: 0
+-  asset_name: null
+-  body_name: null
+-sim:
+-  physics_prim_path: /physicsScene
+-  device: cuda:0
+-  dt: 0.016666666666666666
+-  render_interval: 2
+-  gravity: !!python/tuple
+-  - 0.0
+-  - 0.0
+-  - -9.81
+-  enable_scene_query_support: false
+-  use_fabric: true
+-  physx:
+-    solver_type: 1
+-    min_position_iteration_count: 1
+-    max_position_iteration_count: 255
+-    min_velocity_iteration_count: 0
+-    max_velocity_iteration_count: 255
+-    enable_ccd: false
+-    enable_stabilization: false
+-    enable_enhanced_determinism: false
+-    bounce_threshold_velocity: 0.5
+-    friction_offset_threshold: 0.04
+-    friction_correlation_distance: 0.025
+-    gpu_max_rigid_contact_count: 8388608
+-    gpu_max_rigid_patch_count: 163840
+-    gpu_found_lost_pairs_capacity: 2097152
+-    gpu_found_lost_aggregate_pairs_capacity: 33554432
+-    gpu_total_aggregate_pairs_capacity: 2097152
+-    gpu_collision_stack_size: 67108864
+-    gpu_heap_capacity: 67108864
+-    gpu_temp_buffer_capacity: 16777216
+-    gpu_max_num_partitions: 8
+-    gpu_max_soft_body_contacts: 1048576
+-    gpu_max_particle_contacts: 1048576
+-    solve_articulation_contact_last: false
+-  physics_material:
+-    func: isaaclab.sim.spawners.materials.physics_materials:spawn_rigid_body_material
+-    static_friction: 0.5
+-    dynamic_friction: 0.5
+-    restitution: 0.0
+-    friction_combine_mode: average
+-    restitution_combine_mode: average
+-    compliant_contact_stiffness: 0.0
+-    compliant_contact_damping: 0.0
+-  render:
+-    enable_translucency: null
+-    enable_reflections: null
+-    enable_global_illumination: null
+-    antialiasing_mode: null
+-    enable_dlssg: null
+-    enable_dl_denoiser: null
+-    dlss_mode: null
+-    enable_direct_lighting: null
+-    samples_per_pixel: null
+-    enable_shadows: null
+-    enable_ambient_occlusion: null
+-    carb_settings: null
+-    rendering_mode: null
+-  create_stage_in_memory: false
+-ui_window_class_type: isaaclab.envs.ui.manager_based_rl_env_window:ManagerBasedRLEnvWindow
+-seed: 42
+-decimation: 2
+-scene:
+-  num_envs: 4096
+-  env_spacing: 10.5
+-  lazy_sensor_update: true
+-  replicate_physics: true
+-  filter_collisions: true
+-  clone_in_fabric: false
+-  robot:
+-    class_type: isaaclab.assets.articulation.articulation:Articulation
+-    prim_path: '{ENV_REGEX_NS}/Robot'
+-    spawn:
+-      func: isaaclab.sim.spawners.from_files.from_files:spawn_from_usd
+-      visible: true
+-      semantic_tags: null
+-      copy_from_source: true
+-      mass_props: null
+-      deformable_props: null
+-      rigid_props:
+-        rigid_body_enabled: true
+-        kinematic_enabled: null
+-        disable_gravity: null
+-        linear_damping: null
+-        angular_damping: null
+-        max_linear_velocity: 1.0
+-        max_angular_velocity: 1.0
+-        max_depenetration_velocity: 1.0
+-        max_contact_impulse: null
+-        enable_gyroscopic_forces: true
+-        retain_accelerations: null
+-        solver_position_iteration_count: null
+-        solver_velocity_iteration_count: null
+-        sleep_threshold: null
+-        stabilization_threshold: null
+-      collision_props: null
+-      activate_contact_sensors: false
+-      scale: null
+-      articulation_props:
+-        articulation_enabled: null
+-        enabled_self_collisions: false
+-        solver_position_iteration_count: 8
+-        solver_velocity_iteration_count: 2
+-        sleep_threshold: null
+-        stabilization_threshold: null
+-        fix_root_link: null
+-      fixed_tendons_props: null
+-      spatial_tendons_props: null
+-      joint_drive_props: null
+-      visual_material_path: material
+-      visual_material: null
+-      usd_path: /home/maksim/IsaacLab/source/isaaclab_assets/data/husky_asset/FINAL_HUSKY.usd
+-      variants: null
+-    init_state:
+-      pos: !!python/tuple
+-      - 0.0
+-      - 0.0
+-      - 0.1
+-      rot: !!python/tuple
+-      - 1.0
+-      - 0.0
+-      - 0.0
+-      - 0.0
+-      lin_vel: !!python/tuple
+-      - 0.0
+-      - 0.0
+-      - 0.0
+-      ang_vel: !!python/tuple
+-      - 0.0
+-      - 0.0
+-      - 0.0
+-      joint_pos:
+-        shoulder_pan_joint: -0.12217304763960307
+-        shoulder_lift_joint: -1.4835298641951802
+-        elbow_joint: 1.9722220547535925
+-        wrist_1_joint: -2.0420352248333655
+-        wrist_2_joint: -1.5707963267948966
+-        wrist_3_joint: -0.13962634015954636
+-        robotiq_85_left_knuckle_joint: 0.0
+-        robotiq_85_right_knuckle_joint: 0.0
+-      joint_vel:
+-        .*: 0.0
+-    collision_group: 0
+-    debug_vis: false
+-    articulation_root_prim_path: null
+-    soft_joint_pos_limit_factor: 1.0
+-    actuators:
+-      arm_actuator:
+-        class_type: isaaclab.actuators.actuator_pd:ImplicitActuator
+-        joint_names_expr:
+-        - shoulder_pan_joint
+-        - shoulder_lift_joint
+-        - elbow_joint
+-        - wrist_1_joint
+-        - wrist_2_joint
+-        - wrist_3_joint
+-        effort_limit: null
+-        velocity_limit: null
+-        effort_limit_sim: 300.0
+-        velocity_limit_sim: 0.5
+-        stiffness: 2000.0
+-        damping: 100.0
+-        armature: null
+-        friction: null
+-        dynamic_friction: null
+-        viscous_friction: null
+-      gripper_actuator:
+-        class_type: isaaclab.actuators.actuator_pd:ImplicitActuator
+-        joint_names_expr:
+-        - robotiq_85_left_knuckle_joint
+-        - robotiq_85_right_knuckle_joint
+-        effort_limit: null
+-        velocity_limit: null
+-        effort_limit_sim: 0.6
+-        velocity_limit_sim: 5.0
+-        stiffness: 1000
+-        damping: 100
+-        armature: null
+-        friction: null
+-        dynamic_friction: null
+-        viscous_friction: null
+-      left_wheels:
+-        class_type: isaaclab.actuators.actuator_pd:ImplicitActuator
+-        joint_names_expr:
+-        - front_left_wheel_joint
+-        - rear_left_wheel_joint
+-        effort_limit: null
+-        velocity_limit: 1.0
+-        effort_limit_sim: null
+-        velocity_limit_sim: null
+-        stiffness: 0
+-        damping: 150
+-        armature: null
+-        friction: null
+-        dynamic_friction: null
+-        viscous_friction: null
+-      right_wheels:
+-        class_type: isaaclab.actuators.actuator_pd:ImplicitActuator
+-        joint_names_expr:
+-        - front_right_wheel_joint
+-        - rear_right_wheel_joint
+-        effort_limit: null
+-        velocity_limit: 1.0
+-        effort_limit_sim: null
+-        velocity_limit_sim: null
+-        stiffness: 0
+-        damping: 150
+-        armature: null
+-        friction: null
+-        dynamic_friction: null
+-        viscous_friction: null
+-    actuator_value_resolution_debug_print: false
+-  ground:
+-    class_type: null
+-    prim_path: /World/ground
+-    spawn:
+-      func: isaaclab.sim.spawners.from_files.from_files:spawn_ground_plane
+-      visible: true
+-      semantic_tags: null
+-      copy_from_source: true
+-      usd_path: https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.0/Isaac/Environments/Grid/default_environment.usd
+-      color: !!python/tuple
+-      - 0.0
+-      - 0.0
+-      - 0.0
+-      size: !!python/tuple
+-      - 100.0
+-      - 100.0
+-      physics_material:
+-        func: isaaclab.sim.spawners.materials.physics_materials:spawn_rigid_body_material
+-        static_friction: 0.5
+-        dynamic_friction: 0.5
+-        restitution: 0.0
+-        friction_combine_mode: average
+-        restitution_combine_mode: average
+-        compliant_contact_stiffness: 0.0
+-        compliant_contact_damping: 0.0
+-    init_state:
+-      pos: !!python/tuple
+-      - 0.0
+-      - 0.0
+-      - 0.0
+-      rot: !!python/tuple
+-      - 1.0
+-      - 0.0
+-      - 0.0
+-      - 0.0
+-    collision_group: 0
+-    debug_vis: false
+-  light:
+-    class_type: null
+-    prim_path: /World/light
+-    spawn:
+-      func: isaaclab.sim.spawners.lights.lights:spawn_light
+-      visible: true
+-      semantic_tags: null
+-      copy_from_source: true
+-      prim_type: DomeLight
+-      color: !!python/tuple
+-      - 0.75
+-      - 0.75
+-      - 0.75
+-      enable_color_temperature: false
+-      color_temperature: 6500.0
+-      normalize: false
+-      exposure: 0.0
+-      intensity: 2500.0
+-      texture_file: null
+-      texture_format: automatic
+-      visible_in_primary_ray: true
+-    init_state:
+-      pos: !!python/tuple
+-      - 0.0
+-      - 0.0
+-      - 0.0
+-      rot: !!python/tuple
+-      - 1.0
+-      - 0.0
+-      - 0.0
+-      - 0.0
+-    collision_group: 0
+-    debug_vis: false
+-recorders:
+-  dataset_file_handler_class_type: isaaclab.utils.datasets.hdf5_dataset_file_handler:HDF5DatasetFileHandler
+-  dataset_export_dir_path: /tmp/isaaclab/logs
+-  dataset_filename: dataset
+-  dataset_export_mode:
+-    _value_: 1
+-    _name_: EXPORT_ALL
+-    _sort_order_: 1
+-  export_in_record_pre_reset: true
+-observations:
+-  policy:
+-    concatenate_terms: true
+-    concatenate_dim: -1
+-    enable_corruption: false
+-    history_length: null
+-    flatten_history_dim: true
+-    base_lin_vel:
+-      func: isaaclab.envs.mdp.observations:base_lin_vel
+-      params: {}
+-      modifiers: null
+-      noise: null
+-      clip: null
+-      scale: null
+-      history_length: 0
+-      flatten_history_dim: true
+-    base_ang_vel:
+-      func: isaaclab.envs.mdp.observations:base_ang_vel
+-      params: {}
+-      modifiers: null
+-      noise: null
+-      clip: null
+-      scale: null
+-      history_length: 0
+-      flatten_history_dim: true
+-    pose_command:
+-      func: isaaclab.envs.mdp.observations:generated_commands
+-      params:
+-        command_name: ee_pose
+-      modifiers: null
+-      noise: null
+-      clip: null
+-      scale: null
+-      history_length: 0
+-      flatten_history_dim: true
+-    joint_pos:
+-      func: isaaclab.envs.mdp.observations:joint_pos_rel
+-      params: {}
+-      modifiers: null
+-      noise:
+-        func: isaaclab.utils.noise.noise_model:uniform_noise
+-        operation: add
+-        n_min: -0.01
+-        n_max: 0.01
+-      clip: null
+-      scale: null
+-      history_length: 0
+-      flatten_history_dim: true
+-    joint_vel:
+-      func: isaaclab.envs.mdp.observations:joint_vel_rel
+-      params: {}
+-      modifiers: null
+-      noise:
+-        func: isaaclab.utils.noise.noise_model:uniform_noise
+-        operation: add
+-        n_min: -0.01
+-        n_max: 0.01
+-      clip: null
+-      scale: null
+-      history_length: 0
+-      flatten_history_dim: true
+-    actions:
+-      func: isaaclab.envs.mdp.observations:last_action
+-      params: {}
+-      modifiers: null
+-      noise: null
+-      clip: null
+-      scale: null
+-      history_length: 0
+-      flatten_history_dim: true
+-actions:
+-  vel_actions:
+-    class_type: isaaclab_tasks.manager_based.full_body_control.mdp.custom_mdp:DiffDriveVelocityAction
+-    asset_name: robot
+-    debug_vis: false
+-    clip: null
+-    joint_names:
+-    - front_left_wheel_joint
+-    - front_right_wheel_joint
+-    - rear_left_wheel_joint
+-    - rear_right_wheel_joint
+-    scale: 0.2
+-    offset: 0.0
+-    preserve_order: false
+-    use_default_offset: false
+-    wheel_radius: 0.1651
+-    wheel_base: 0.7
+-    max_linear_speed: 1.0
+-    max_angular_speed: 3.0
+-  arm_actions:
+-    class_type: isaaclab.envs.mdp.actions.joint_actions:JointPositionAction
+-    asset_name: robot
+-    debug_vis: false
+-    clip: null
+-    joint_names:
+-    - shoulder_pan_joint
+-    - shoulder_lift_joint
+-    - elbow_joint
+-    - wrist_1_joint
+-    - wrist_2_joint
+-    - wrist_3_joint
+-    scale: 0.1
+-    offset: 0.0
+-    preserve_order: false
+-    use_default_offset: false
+-events:
+-  reset_base:
+-    func: isaaclab.envs.mdp.events:reset_root_state_uniform
+-    params:
+-      pose_range:
+-        x: !!python/tuple
+-        - -0.5
+-        - 0.5
+-        y: !!python/tuple
+-        - -0.5
+-        - 0.5
+-        yaw: !!python/tuple
+-        - 0
+-        - 0
+-      velocity_range:
+-        x: !!python/tuple
+-        - -0.0
+-        - 0.0
+-        y: !!python/tuple
+-        - -0.0
+-        - 0.0
+-        z: !!python/tuple
+-        - -0.0
+-        - 0.0
+-        roll: !!python/tuple
+-        - -0.0
+-        - 0.0
+-        pitch: !!python/tuple
+-        - -0.0
+-        - 0.0
+-        yaw: !!python/tuple
+-        - -0.0
+-        - 0.0
+-    mode: reset
+-    interval_range_s: null
+-    is_global_time: false
+-    min_step_count_between_reset: 0
+-  reset_robot_joints:
+-    func: isaaclab.envs.mdp.events:reset_joints_by_scale
+-    params:
+-      position_range: !!python/tuple
+-      - 0.9
+-      - 1.1
+-      velocity_range: !!python/tuple
+-      - 0.0
+-      - 0.0
+-    mode: reset
+-    interval_range_s: null
+-    is_global_time: false
+-    min_step_count_between_reset: 0
+-rerender_on_reset: false
+-wait_for_textures: true
+-xr: null
+-teleop_devices:
+-  devices: {}
+-export_io_descriptors: false
+-log_dir: null
+-is_finite_horizon: false
+-episode_length_s: 18
+-rewards:
+-  position_tracking:
+-    func: isaaclab_tasks.manager_based.full_body_control.mdp.rewards:position_command_error_tanh
+-    params:
+-      std: 1.5
+-      asset_cfg:
+-        name: robot
+-        joint_names: null
+-        joint_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        fixed_tendon_names: null
+-        fixed_tendon_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        body_names: base_link
+-        body_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        object_collection_names: null
+-        object_collection_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        preserve_order: false
+-      command_name: ee_pose
+-    weight: 0.85
+-  position_tracking_fine_grained:
+-    func: isaaclab_tasks.manager_based.full_body_control.mdp.rewards:position_command_error_tanh
+-    params:
+-      std: 0.2
+-      asset_cfg:
+-        name: robot
+-        joint_names: null
+-        joint_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        fixed_tendon_names: null
+-        fixed_tendon_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        body_names: base_link
+-        body_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        object_collection_names: null
+-        object_collection_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        preserve_order: false
+-      command_name: ee_pose
+-    weight: 0.25
+-  stability_at_goal:
+-    func: isaaclab_tasks.manager_based.full_body_control.mdp.rewards:stability_reward
+-    params:
+-      command_name: ee_pose
+-      position_threshold: 0.2
+-      orientation_threshold: 0.4
+-      lin_velocity_threshold: 0.2
+-      ang_velocity_threshold: 0.2
+-    weight: 0.3
+-  vel_pen:
+-    func: isaaclab_tasks.manager_based.full_body_control.mdp.rewards:distance_based_velocity_penalty
+-    params:
+-      command_name: ee_pose
+-    weight: -0.2
+-  end_effector_position_tracking:
+-    func: isaaclab_tasks.manager_based.full_body_control.mdp.rewards:position_command_error
+-    params:
+-      asset_cfg:
+-        name: robot
+-        joint_names: null
+-        joint_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        fixed_tendon_names: null
+-        fixed_tendon_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        body_names: gripper_link
+-        body_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        object_collection_names: null
+-        object_collection_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        preserve_order: false
+-      command_name: ee_pose
+-    weight: -0.45
+-  end_effector_position_tracking_fine_grained:
+-    func: isaaclab_tasks.manager_based.full_body_control.mdp.rewards:position_command_error_tanh
+-    params:
+-      asset_cfg:
+-        name: robot
+-        joint_names: null
+-        joint_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        fixed_tendon_names: null
+-        fixed_tendon_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        body_names: gripper_link
+-        body_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        object_collection_names: null
+-        object_collection_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        preserve_order: false
+-      std: 0.35
+-      command_name: ee_pose
+-    weight: 2.85
+-  end_effector_orientation_tracking:
+-    func: isaaclab_tasks.manager_based.full_body_control.mdp.rewards:orientation_command_error
+-    params:
+-      asset_cfg:
+-        name: robot
+-        joint_names: null
+-        joint_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        fixed_tendon_names: null
+-        fixed_tendon_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        body_names: gripper_link
+-        body_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        object_collection_names: null
+-        object_collection_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        preserve_order: false
+-      command_name: ee_pose
+-    weight: -0.6
+-  task_completion_bonus:
+-    func: isaaclab_tasks.manager_based.full_body_control.mdp.rewards:goal_reached_bonus
+-    params:
+-      asset_cfg:
+-        name: robot
+-        joint_names: null
+-        joint_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        fixed_tendon_names: null
+-        fixed_tendon_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        body_names: gripper_link
+-        body_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        object_collection_names: null
+-        object_collection_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        preserve_order: false
+-      command_name: ee_pose
+-      position_threshold: 0.05
+-      orientation_threshold: 0.2
+-    weight: 5.0
+-  time_penalty:
+-    func: isaaclab_tasks.manager_based.full_body_control.mdp.rewards:time_penalty
+-    params: {}
+-    weight: -0.05
+-  action_rate:
+-    func: isaaclab.envs.mdp.rewards:action_rate_l2
+-    params: {}
+-    weight: -0.0001
+-  joint_vel:
+-    func: isaaclab.envs.mdp.rewards:joint_vel_l2
+-    params:
+-      asset_cfg:
+-        name: robot
+-        joint_names: null
+-        joint_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        fixed_tendon_names: null
+-        fixed_tendon_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        body_names: null
+-        body_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        object_collection_names: null
+-        object_collection_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        preserve_order: false
+-    weight: -0.001
+-  torque_pen:
+-    func: isaaclab.envs.mdp.rewards:joint_torques_l2
+-    params: {}
+-    weight: -8.0e-07
+-terminations:
+-  time_out:
+-    func: isaaclab.envs.mdp.terminations:time_out
+-    params: {}
+-    time_out: true
+-  goal_reached:
+-    func: isaaclab_tasks.manager_based.full_body_control.mdp.rewards:goal_reached_bool
+-    params:
+-      asset_cfg:
+-        name: robot
+-        joint_names: null
+-        joint_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        fixed_tendon_names: null
+-        fixed_tendon_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        body_names: gripper_link
+-        body_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        object_collection_names: null
+-        object_collection_ids: !!python/object/apply:builtins.slice
+-        - null
+-        - null
+-        - null
+-        preserve_order: false
+-      command_name: ee_pose
+-      position_threshold: 0.05
+-      orientation_threshold: 0.2
+-    time_out: false
+-curriculum: null
+-commands:
+-  ee_pose:
+-    class_type: isaaclab.envs.mdp.commands.pose_command:UniformPoseFixedCommand
+-    resampling_time_range: !!python/tuple
+-    - 18.0
+-    - 18.0
+-    debug_vis: true
+-    asset_name: robot
+-    body_name: gripper_link
+-    make_quat_unique: false
+-    ranges:
+-      pos_x: !!python/tuple
+-      - -1.5
+-      - 1.5
+-      pos_y: !!python/tuple
+-      - -2.2
+-      - 2.2
+-      pos_z: !!python/tuple
+-      - 0.6
+-      - 0.95
+-      roll: !!python/tuple
+-      - 0.0
+-      - 0.0
+-      pitch: !!python/tuple
+-      - 0.0
+-      - 0.0
+-      yaw: !!python/tuple
+-      - 0
+-      - 0
+-    goal_pose_visualizer_cfg:
+-      prim_path: /Visuals/Command/goal_pose
+-      markers:
+-        frame:
+-          func: isaaclab.sim.spawners.from_files.from_files:spawn_from_usd
+-          visible: true
+-          semantic_tags: null
+-          copy_from_source: true
+-          mass_props: null
+-          deformable_props: null
+-          rigid_props: null
+-          collision_props: null
+-          activate_contact_sensors: false
+-          scale: !!python/tuple
+-          - 0.1
+-          - 0.1
+-          - 0.1
+-          articulation_props: null
+-          fixed_tendons_props: null
+-          spatial_tendons_props: null
+-          joint_drive_props: null
+-          visual_material_path: material
+-          visual_material: null
+-          usd_path: https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.0/Isaac/Props/UIElements/frame_prim.usd
+-          variants: null
+-        connecting_line:
+-          func: isaaclab.sim.spawners.shapes.shapes:spawn_cylinder
+-          visible: true
+-          semantic_tags: null
+-          copy_from_source: true
+-          mass_props: null
+-          rigid_props: null
+-          collision_props: null
+-          activate_contact_sensors: false
+-          visual_material_path: material
+-          visual_material:
+-            func: isaaclab.sim.spawners.materials.visual_materials:spawn_preview_surface
+-            diffuse_color: !!python/tuple
+-            - 1.0
+-            - 1.0
+-            - 0.0
+-            emissive_color: !!python/tuple
+-            - 0.0
+-            - 0.0
+-            - 0.0
+-            roughness: 1.0
+-            metallic: 0.0
+-            opacity: 1.0
+-          physics_material_path: material
+-          physics_material: null
+-          radius: 0.002
+-          height: 1.0
+-          axis: Z
+-    current_pose_visualizer_cfg:
+-      prim_path: /Visuals/Command/body_pose
+-      markers:
+-        frame:
+-          func: isaaclab.sim.spawners.from_files.from_files:spawn_from_usd
+-          visible: true
+-          semantic_tags: null
+-          copy_from_source: true
+-          mass_props: null
+-          deformable_props: null
+-          rigid_props: null
+-          collision_props: null
+-          activate_contact_sensors: false
+-          scale: !!python/tuple
+-          - 0.1
+-          - 0.1
+-          - 0.1
+-          articulation_props: null
+-          fixed_tendons_props: null
+-          spatial_tendons_props: null
+-          joint_drive_props: null
+-          visual_material_path: material
+-          visual_material: null
+-          usd_path: https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.0/Isaac/Props/UIElements/frame_prim.usd
+-          variants: null
+-        connecting_line:
+-          func: isaaclab.sim.spawners.shapes.shapes:spawn_cylinder
+-          visible: true
+-          semantic_tags: null
+-          copy_from_source: true
+-          mass_props: null
+-          rigid_props: null
+-          collision_props: null
+-          activate_contact_sensors: false
+-          visual_material_path: material
+-          visual_material:
+-            func: isaaclab.sim.spawners.materials.visual_materials:spawn_preview_surface
+-            diffuse_color: !!python/tuple
+-            - 1.0
+-            - 1.0
+-            - 0.0
+-            emissive_color: !!python/tuple
+-            - 0.0
+-            - 0.0
+-            - 0.0
+-            roughness: 1.0
+-            metallic: 0.0
+-            opacity: 1.0
+-          physics_material_path: material
+-          physics_material: null
+-          radius: 0.002
+-          height: 1.0
+-          axis: Z
+diff --git a/source/isaaclab/isaaclab/envs/mdp/__pycache__/rewards.cpython-311.pyc b/source/isaaclab/isaaclab/envs/mdp/__pycache__/rewards.cpython-311.pyc
+index bde53d781c..6c6b7f9578 100644
+Binary files a/source/isaaclab/isaaclab/envs/mdp/__pycache__/rewards.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/mdp/__pycache__/rewards.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/commands_cfg.cpython-311.pyc b/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/commands_cfg.cpython-311.pyc
+index dd7a69679c..ed652a79a6 100644
+Binary files a/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/commands_cfg.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/commands_cfg.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/pose_command.cpython-311.pyc b/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/pose_command.cpython-311.pyc
+index 0548787927..0ba1edaea8 100644
+Binary files a/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/pose_command.cpython-311.pyc and b/source/isaaclab/isaaclab/envs/mdp/commands/__pycache__/pose_command.cpython-311.pyc differ
+diff --git a/source/isaaclab/isaaclab/envs/mdp/commands/commands_cfg.py b/source/isaaclab/isaaclab/envs/mdp/commands/commands_cfg.py
+index 62c1c8d353..859ec85086 100644
+--- a/source/isaaclab/isaaclab/envs/mdp/commands/commands_cfg.py
++++ b/source/isaaclab/isaaclab/envs/mdp/commands/commands_cfg.py
+@@ -250,7 +250,13 @@ class TerrainBasedPose2dCommandCfg(UniformPose2dCommandCfg):
+ 
+ @configclass
+ class UniformPoseFixedCommandCfg(CommandTermCfg):
+-    """Configuration for uniform pose command generator."""
++    """Configuration for uniform pose command generator with optional per-env curriculum.
++
++    When ``enable_curriculum`` is True, target ranges are interpolated between
++    ``easy_ranges`` (difficulty=0) and ``ranges`` (difficulty=1) per environment.
++    The ``difficulty`` buffer lives on the command term and is updated externally
++    by a curriculum function.
++    """
+ 
+     class_type: type = UniformPoseFixedCommand
+ 
+@@ -289,7 +295,13 @@ class UniformPoseFixedCommandCfg(CommandTermCfg):
+         """Range for the yaw angle (in rad)."""
+ 
+     ranges: Ranges = MISSING
+-    """Ranges for the commands."""
++    """Full (hardest) ranges for the commands."""
++
++    enable_curriculum: bool = False
++    """Enable per-env difficulty curriculum. Defaults to False."""
++
++    easy_ranges: Ranges | None = None
++    """Easy (starting) ranges when curriculum is enabled. If None, uses ``ranges``."""
+ 
+     goal_pose_visualizer_cfg: VisualizationMarkersCfg = FRAME_MARKER_CFG.replace(prim_path="/Visuals/Command/goal_pose")
+     """The configuration for the goal pose visualization marker. Defaults to FRAME_MARKER_CFG."""
+diff --git a/source/isaaclab/isaaclab/envs/mdp/commands/pose_command.py b/source/isaaclab/isaaclab/envs/mdp/commands/pose_command.py
+index 659e7af601..7a90130aae 100644
+--- a/source/isaaclab/isaaclab/envs/mdp/commands/pose_command.py
++++ b/source/isaaclab/isaaclab/envs/mdp/commands/pose_command.py
+@@ -180,6 +180,11 @@ class UniformPoseFixedCommand(CommandTerm):
+ 
+     The command generator samples target poses uniformly relative to each environment's origin.
+     The commands are converted to the BASE frame of the robot for control purposes.
++
++    Supports per-env difficulty curriculum: when ``cfg.enable_curriculum`` is True,
++    target ranges are interpolated between ``cfg.easy_ranges`` (difficulty=0) and
++    ``cfg.ranges`` (difficulty=1). The ``difficulty`` buffer is updated externally
++    by a curriculum manager term.
+     """
+ 
+     cfg: UniformPoseFixedCommandCfg
+@@ -187,7 +192,7 @@ class UniformPoseFixedCommand(CommandTerm):
+     def __init__(self, cfg: UniformPoseCommandCfg, env: ManagerBasedEnv):
+         super().__init__(cfg, env)
+         self.robot: Articulation = env.scene[cfg.asset_name]
+-        
++
+         # extract body index for visualization
+         self.body_idx = self.robot.find_bodies(cfg.body_name)[0][0]
+ 
+@@ -201,28 +206,69 @@ class UniformPoseFixedCommand(CommandTerm):
+         self.metrics["position_error"] = torch.zeros(self.num_envs, device=self.device)
+         self.metrics["orientation_error"] = torch.zeros(self.num_envs, device=self.device)
+ 
++        # per-env difficulty for curriculum [0.0 = easy, 1.0 = full]
++        self.difficulty = torch.zeros(self.num_envs, device=self.device)
++
+     @property
+     def command(self) -> torch.Tensor:
+         """Desired pose command in BASE frame. Shape: (num_envs, 7)."""
+         return self.pose_command_b
+ 
++    def _lerp_range(self, easy: tuple[float, float], hard: tuple[float, float], d: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
++        """Linearly interpolate between easy and hard ranges per environment.
++
++        Args:
++            easy: (low, high) tuple for difficulty=0.
++            hard: (low, high) tuple for difficulty=1.
++            d: per-env difficulty values, shape (n,).
++
++        Returns:
++            (low, high) tensors of shape (n,).
++        """
++        lo = easy[0] + (hard[0] - easy[0]) * d
++        hi = easy[1] + (hard[1] - easy[1]) * d
++        return lo, hi
++
+     def _resample_command(self, env_ids: Sequence[int]):
+         """Sample new target poses in the WORLD frame relative to each environment's origin."""
+-        # Получаем origin каждой среды
+         env_origins = self._env.scene.env_origins[env_ids]
+-        
+-        r = torch.empty(len(env_ids), device=self.device)
++        n = len(env_ids)
+ 
+-        # --- Position относительно origin своей среды ---
+-        self.pose_command_w[env_ids, 0] = env_origins[:, 0] + r.uniform_(*self.cfg.ranges.pos_x)
+-        self.pose_command_w[env_ids, 1] = env_origins[:, 1] + r.uniform_(*self.cfg.ranges.pos_y)
+-        self.pose_command_w[env_ids, 2] = env_origins[:, 2] + r.uniform_(*self.cfg.ranges.pos_z)
++        use_curriculum = self.cfg.enable_curriculum and self.cfg.easy_ranges is not None
++
++        if use_curriculum:
++            d = self.difficulty[env_ids]
++            easy = self.cfg.easy_ranges
++            hard = self.cfg.ranges
++
++            # Position: per-env interpolated ranges
++            lo_x, hi_x = self._lerp_range((easy.pos_x[0], easy.pos_x[1]), (hard.pos_x[0], hard.pos_x[1]), d)
++            lo_y, hi_y = self._lerp_range((easy.pos_y[0], easy.pos_y[1]), (hard.pos_y[0], hard.pos_y[1]), d)
++
++            self.pose_command_w[env_ids, 0] = env_origins[:, 0] + torch.rand(n, device=self.device) * (hi_x - lo_x) + lo_x
++            self.pose_command_w[env_ids, 1] = env_origins[:, 1] + torch.rand(n, device=self.device) * (hi_y - lo_y) + lo_y
++            self.pose_command_w[env_ids, 2] = env_origins[:, 2] + torch.rand(n, device=self.device) * (hard.pos_z[1] - hard.pos_z[0]) + hard.pos_z[0]
++
++            # Orientation: interpolated ranges
++            lo_roll, hi_roll = self._lerp_range((easy.roll[0], easy.roll[1]), (hard.roll[0], hard.roll[1]), d)
++            lo_pitch, hi_pitch = self._lerp_range((easy.pitch[0], easy.pitch[1]), (hard.pitch[0], hard.pitch[1]), d)
++            lo_yaw, hi_yaw = self._lerp_range((easy.yaw[0], easy.yaw[1]), (hard.yaw[0], hard.yaw[1]), d)
++
++            euler_angles = torch.zeros(n, 3, device=self.device)
++            euler_angles[:, 0] = torch.rand(n, device=self.device) * (hi_roll - lo_roll) + lo_roll
++            euler_angles[:, 1] = torch.rand(n, device=self.device) * (hi_pitch - lo_pitch) + lo_pitch
++            euler_angles[:, 2] = torch.rand(n, device=self.device) * (hi_yaw - lo_yaw) + lo_yaw
++        else:
++            r = torch.empty(n, device=self.device)
++            self.pose_command_w[env_ids, 0] = env_origins[:, 0] + r.uniform_(*self.cfg.ranges.pos_x)
++            self.pose_command_w[env_ids, 1] = env_origins[:, 1] + r.uniform_(*self.cfg.ranges.pos_y)
++            self.pose_command_w[env_ids, 2] = env_origins[:, 2] + r.uniform_(*self.cfg.ranges.pos_z)
++
++            euler_angles = torch.zeros(n, 3, device=self.device)
++            euler_angles[:, 0].uniform_(*self.cfg.ranges.roll)
++            euler_angles[:, 1].uniform_(*self.cfg.ranges.pitch)
++            euler_angles[:, 2].uniform_(*self.cfg.ranges.yaw)
+ 
+-        # --- Orientation ---
+-        euler_angles = torch.zeros(len(env_ids), 3, device=self.device)
+-        euler_angles[:, 0].uniform_(*self.cfg.ranges.roll)
+-        euler_angles[:, 1].uniform_(*self.cfg.ranges.pitch)
+-        euler_angles[:, 2].uniform_(*self.cfg.ranges.yaw)
+         quat = quat_from_euler_xyz(euler_angles[:, 0], euler_angles[:, 1], euler_angles[:, 2])
+         self.pose_command_w[env_ids, 3:] = quat_unique(quat) if self.cfg.make_quat_unique else quat
+ 
+diff --git a/source/isaaclab/isaaclab/envs/mdp/rewards.py b/source/isaaclab/isaaclab/envs/mdp/rewards.py
+index 20df2a557e..34d19180ed 100644
+--- a/source/isaaclab/isaaclab/envs/mdp/rewards.py
++++ b/source/isaaclab/isaaclab/envs/mdp/rewards.py
+@@ -164,7 +164,7 @@ def joint_acc_l2(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntity
+     """Penalize joint accelerations on the articulation using L2 squared kernel.
+ 
+     NOTE: Only the joints configured in :attr:`asset_cfg.joint_ids` will have their joint accelerations contribute to the term.
+-    """
++    """ 
+     # extract the used quantities (to enable type-hinting)
+     asset: Articulation = env.scene[asset_cfg.name]
+     return torch.sum(torch.square(asset.data.joint_acc[:, asset_cfg.joint_ids]), dim=1)
+diff --git a/source/isaaclab/isaaclab/utils/__pycache__/assets.cpython-311.pyc b/source/isaaclab/isaaclab/utils/__pycache__/assets.cpython-311.pyc
+index 36ce9a7b2f..04749cd2a3 100644
+Binary files a/source/isaaclab/isaaclab/utils/__pycache__/assets.cpython-311.pyc and b/source/isaaclab/isaaclab/utils/__pycache__/assets.cpython-311.pyc differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__init__.py b/source/isaaclab_assets/isaaclab_assets/robots/__init__.py
+index f4771d2b7d..a5302c5e89 100644
+--- a/source/isaaclab_assets/isaaclab_assets/robots/__init__.py
++++ b/source/isaaclab_assets/isaaclab_assets/robots/__init__.py
+@@ -14,6 +14,7 @@ from .cart_double_pendulum import *
+ from .cartpole import *
+ from .fourier import *
+ from .franka import *
++from .go2_arx import *
+ from .galbot import *
+ from .humanoid import *
+ from .humanoid_28 import *
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index cc57b712d3..0000000000
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/__init__.cpython-311.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/__init__.cpython-311.pyc
+index c23d9db85a..25c85b8901 100644
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/__init__.cpython-311.pyc and b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/__init__.cpython-311.pyc differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/agility.cpython-311.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/agility.cpython-311.pyc
+deleted file mode 100644
+index 1d0b8a95cb..0000000000
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/agility.cpython-311.pyc and /dev/null differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/allegro.cpython-310.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/allegro.cpython-310.pyc
+deleted file mode 100644
+index 0eee84e80f..0000000000
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/allegro.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/aloha.cpython-310.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/aloha.cpython-310.pyc
+deleted file mode 100644
+index 1963684e25..0000000000
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/aloha.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ant.cpython-310.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ant.cpython-310.pyc
+deleted file mode 100644
+index e1ad43c1a2..0000000000
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ant.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/anymal.cpython-310.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/anymal.cpython-310.pyc
+deleted file mode 100644
+index f49a620a00..0000000000
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/anymal.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/cart_double_pendulum.cpython-310.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/cart_double_pendulum.cpython-310.pyc
+deleted file mode 100644
+index 640a4b5c48..0000000000
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/cart_double_pendulum.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/cartpole.cpython-310.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/cartpole.cpython-310.pyc
+deleted file mode 100644
+index ea825163ca..0000000000
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/cartpole.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/fourier.cpython-310.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/fourier.cpython-310.pyc
+deleted file mode 100644
+index f698b70571..0000000000
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/fourier.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/franka.cpython-310.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/franka.cpython-310.pyc
+deleted file mode 100644
+index bd02156062..0000000000
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/franka.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/humanoid.cpython-310.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/humanoid.cpython-310.pyc
+deleted file mode 100644
+index 7ec7f9d355..0000000000
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/humanoid.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/humanoid_28.cpython-310.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/humanoid_28.cpython-310.pyc
+deleted file mode 100644
+index 25fef58177..0000000000
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/humanoid_28.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/kinova.cpython-310.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/kinova.cpython-310.pyc
+deleted file mode 100644
+index 4da0e150bb..0000000000
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/kinova.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/quadcopter.cpython-310.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/quadcopter.cpython-310.pyc
+deleted file mode 100644
+index 6e18365f99..0000000000
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/quadcopter.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ridgeback_franka.cpython-310.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ridgeback_franka.cpython-310.pyc
+deleted file mode 100644
+index 79b5520c75..0000000000
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ridgeback_franka.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/sawyer.cpython-310.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/sawyer.cpython-310.pyc
+deleted file mode 100644
+index 4764dc3b55..0000000000
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/sawyer.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/shadow_hand.cpython-310.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/shadow_hand.cpython-310.pyc
+deleted file mode 100644
+index 3097daff6b..0000000000
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/shadow_hand.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/spot.cpython-310.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/spot.cpython-310.pyc
+deleted file mode 100644
+index 091d02c0bb..0000000000
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/spot.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/spot.cpython-311.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/spot.cpython-311.pyc
+index 023a5d563b..3e143ac7b3 100644
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/spot.cpython-311.pyc and b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/spot.cpython-311.pyc differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/unitree.cpython-310.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/unitree.cpython-310.pyc
+deleted file mode 100644
+index 66e8b08399..0000000000
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/unitree.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/universal_robots.cpython-310.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/universal_robots.cpython-310.pyc
+deleted file mode 100644
+index f1f56f800b..0000000000
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/universal_robots.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc
+index 739836c325..e493976b59 100644
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc and b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/spot.py b/source/isaaclab_assets/isaaclab_assets/robots/spot.py
+index 6513484965..0be3d8f386 100644
+--- a/source/isaaclab_assets/isaaclab_assets/robots/spot.py
++++ b/source/isaaclab_assets/isaaclab_assets/robots/spot.py
+@@ -133,29 +133,41 @@ and the output torque (N*m). It is used to interpolate the output torque based o
+ 
+ SPOT_CFG = ArticulationCfg(
+     spawn=sim_utils.UsdFileCfg(
+-        usd_path=f"{ISAAC_NUCLEUS_DIR}/Robots/BostonDynamics/spot/spot.usd",
++        usd_path="/home/maksim/Downloads/spot_with_arm.usd",
+         activate_contact_sensors=True,
+         rigid_props=sim_utils.RigidBodyPropertiesCfg(
+             disable_gravity=False,
+             retain_accelerations=False,
+-            linear_damping=0.0,
+-            angular_damping=0.0,
+-            max_linear_velocity=1000.0,
+-            max_angular_velocity=1000.0,
+-            max_depenetration_velocity=1.0,
++            linear_damping=0.1,
++            angular_damping=0.5,
++            max_linear_velocity=100.0,
++            max_angular_velocity=100.0,
++            max_depenetration_velocity=0.5,
+         ),
+         articulation_props=sim_utils.ArticulationRootPropertiesCfg(
+-            enabled_self_collisions=True, solver_position_iteration_count=4, solver_velocity_iteration_count=0
++            enabled_self_collisions=False, solver_position_iteration_count=8, solver_velocity_iteration_count=4
++        ),
++        collision_props=sim_utils.CollisionPropertiesCfg(
++            contact_offset=0.02,
++            rest_offset=0.0,
+         ),
+     ),
+     init_state=ArticulationCfg.InitialStateCfg(
+-        pos=(0.0, 0.0, 0.5),
++        pos=(0.0, 0.0, 0.6),
+         joint_pos={
+             "[fh]l_hx": 0.1,  # all left hip_x
+             "[fh]r_hx": -0.1,  # all right hip_x
+             "f[rl]_hy": 0.9,  # front hip_y
+             "h[rl]_hy": 1.1,  # hind hip_y
+             ".*_kn": -1.5,  # all knees
++            # arm in neutral position (not inside body)
++            "arm0_sh0": 0.0,
++            "arm0_sh1": 0.0,
++            "arm0_el0": 0.0,
++            "arm0_el1": 0.0,
++            "arm0_wr0": 0.0,
++            "arm0_wr1": 0.0,
++            "arm0_f1x": 0.0,
+         },
+         joint_vel={".*": 0.0},
+     ),
+@@ -177,6 +189,22 @@ SPOT_CFG = ArticulationCfg(
+             min_delay=0,  # physics time steps (min: 2.0*0=0.0ms)
+             max_delay=4,  # physics time steps (max: 2.0*4=8.0ms)
+         ),
++        "spot_arm": DelayedPDActuatorCfg(
++            joint_names_expr=["arm0_(sh|el|wr)[01]"],
++            effort_limit=100.0,
++            stiffness=300.0,
++            damping=30.0,
++            min_delay=0,
++            max_delay=0,
++        ),
++        "spot_gripper": DelayedPDActuatorCfg(
++            joint_names_expr=["arm0_f1x"],
++            effort_limit=30.0,
++            stiffness=150.0,
++            damping=15.0,
++            min_delay=0,
++            max_delay=0,
++        ),
+     },
+ )
+ """Configuration for the Boston Dynamics Spot robot."""
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/ur5_husky.py b/source/isaaclab_assets/isaaclab_assets/robots/ur5_husky.py
+index 42e6a48268..89a67019c5 100644
+--- a/source/isaaclab_assets/isaaclab_assets/robots/ur5_husky.py
++++ b/source/isaaclab_assets/isaaclab_assets/robots/ur5_husky.py
+@@ -1,8 +1,6 @@
+ 
+-# Environment configuration
+-# THis file is the overall configuration of the UR5 fined tuned for simulation
+-# You can have different configuration for different scenarios
+-"""Configuration for the UR5_husky e robot with velocity-driven wheels."""
++"""Configuration for the UR5_husky robot with velocity-driven wheels."""
++
+ import isaaclab.sim as sim_utils
+ from isaaclab.actuators import ImplicitActuatorCfg
+ from isaaclab.assets import ArticulationCfg
+@@ -16,18 +14,18 @@ damping_wheel_const = 150 # Демпфирование для управлени
+ UR5M_CFG = ArticulationCfg(
+     prim_path="/ur5",
+     spawn=sim_utils.UsdFileCfg(
+-        usd_path=os.path.join("/home/maksim/IsaacLab/source/isaaclab_assets/data/husky_asset/FINAL_HUSKY.usd"),
++        usd_path=os.path.join("/home/maksim/IsaacLab/source/isaaclab_assets/data/husky_asset/husky_mass_enable.usd"),
+         rigid_props=sim_utils.RigidBodyPropertiesCfg(
+             rigid_body_enabled=True,
+-            max_linear_velocity=1.0,
+-            max_angular_velocity=1.0,
+-            max_depenetration_velocity=1.0,
++            max_linear_velocity=5.0,
++            max_angular_velocity=5.0,
++            max_depenetration_velocity=3.0,
+             enable_gyroscopic_forces=True,
+         ),
+         articulation_props=sim_utils.ArticulationRootPropertiesCfg(
+             enabled_self_collisions=False,
+-            solver_position_iteration_count=8,  # 4
+-            solver_velocity_iteration_count=2,  # 0
++            solver_position_iteration_count=16,  # 4
++            solver_velocity_iteration_count=8,  # 0
+         ),
+     ),
+     init_state=ArticulationCfg.InitialStateCfg(
+@@ -53,22 +51,44 @@ UR5M_CFG = ArticulationCfg(
+                 "wrist_2_joint",
+                 "wrist_3_joint",
+             ],
+-            velocity_limit_sim=0.5,  # 0.5,
+-            effort_limit_sim=300.0,  # 300
+-            stiffness=2000.0,        # 2000
+-            damping=100.0,           # 100
++
++            # В IsaacLab ImplicitActuator = PD-контроллер
++            # stiffness = Kp
++            # damping   = Kd
++
++            stiffness={
++                "shoulder_pan_joint": 9400.0,
++                "shoulder_lift_joint": 10020.0,
++                "elbow_joint": 10230.0,
++                "wrist_1_joint": 3940.0,
++                "wrist_2_joint": 3940.0,
++                "wrist_3_joint": 1000.0,
++            },
++
++            damping={
++                "shoulder_pan_joint": 1600.4,
++                "shoulder_lift_joint": 1200.4,
++                "elbow_joint": 1200.1,
++                "wrist_1_joint": 1200.6,
++                "wrist_2_joint": 1200.1,
++                "wrist_3_joint": 1200.0,
++            },
++
++            # ограничения можно оставить выключенными
++            effort_limit_sim=None,
++            velocity_limit_sim=None,
+         ),
+         "gripper_actuator": ImplicitActuatorCfg(
+             joint_names_expr=["robotiq_85_left_knuckle_joint", "robotiq_85_right_knuckle_joint"],
+-            effort_limit_sim=0.6,    # 0.6
+-            velocity_limit_sim=5.0,  # 5
++            # effort_limit_sim=0.6,    # 0.6
++            # velocity_limit_sim=5.0,  # 5
+             stiffness=1000,          # 6oo
+             damping=100,             # 40
+         ),
+         "left_wheels": ImplicitActuatorCfg(
+                 joint_names_expr=["front_left_wheel_joint", "rear_left_wheel_joint"],
+                 effort_limit_sim=300,
+-                velocity_limit_sim=10.0,
++                velocity_limit_sim=7.0,
+                 stiffness=stiffness_wheel_const,
+                 damping=damping_wheel_const
+             ),
+@@ -76,10 +96,10 @@ UR5M_CFG = ArticulationCfg(
+         "right_wheels": ImplicitActuatorCfg(
+                 joint_names_expr=["front_right_wheel_joint", "rear_right_wheel_joint"],
+                 effort_limit_sim=300,
+-                velocity_limit_sim=10.0,
++                velocity_limit_sim=7.0,
+                 stiffness=stiffness_wheel_const,
+                 damping=damping_wheel_const,
+             ),
+     }
+ )
+-"""Configuration for the UR5_husky robot with velocity-driven wheels."""
+\ No newline at end of file
++
+diff --git a/source/isaaclab_rl/isaaclab_rl/rsl_rl/__init__.py b/source/isaaclab_rl/isaaclab_rl/rsl_rl/__init__.py
+index 74f26d196e..efd0c4cc0a 100644
+--- a/source/isaaclab_rl/isaaclab_rl/rsl_rl/__init__.py
++++ b/source/isaaclab_rl/isaaclab_rl/rsl_rl/__init__.py
+@@ -21,3 +21,5 @@ from .rl_cfg import *
+ from .rnd_cfg import RslRlRndCfg
+ from .symmetry_cfg import RslRlSymmetryCfg
+ from .vecenv_wrapper import RslRlVecEnvWrapper
++
++from . import dwbc  # noqa: F401
+diff --git a/source/isaaclab_rl/isaaclab_rl/rsl_rl/__pycache__/__init__.cpython-311.pyc b/source/isaaclab_rl/isaaclab_rl/rsl_rl/__pycache__/__init__.cpython-311.pyc
+index 7c17f0698e..86064d9cbc 100644
+Binary files a/source/isaaclab_rl/isaaclab_rl/rsl_rl/__pycache__/__init__.cpython-311.pyc and b/source/isaaclab_rl/isaaclab_rl/rsl_rl/__pycache__/__init__.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_env_cfg.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_env_cfg.py
+index bb71d9fc88..455f2037a4 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_env_cfg.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_env_cfg.py
+@@ -1,4 +1,4 @@
+-# Copyright (c) 2022-2025, The Isaac Lab Project Developers (https://github.com/isaac-sim/IsaacLab/blob/main/CONTRIBUTORS.md).
++# Copyright (c) 2022-2025, The Isaac Lab Project Developers.
+ # All rights reserved.
+ #
+ # SPDX-License-Identifier: BSD-3-Clause
+@@ -16,27 +16,27 @@ from isaaclab.managers import TerminationTermCfg as DoneTerm
+ from isaaclab.managers import ActionTermCfg as ActionTerm
+ from isaaclab.utils import configclass
+ from isaaclab.scene import InteractiveSceneCfg
+-from isaaclab.utils.assets import ISAACLAB_NUCLEUS_DIR
+ from isaaclab.utils.noise import AdditiveUniformNoiseCfg as Unoise
+ from isaaclab.managers import CurriculumTermCfg as CurrTerm
+ 
+ import isaaclab_tasks.manager_based.full_body_control.mdp as mdp
+-from isaaclab_tasks.manager_based.full_body_control.mdp.custom_mdp import DiffDriveVelocityAction, DiffDriveVelocityActionCfg
+-from isaaclab_assets.robots import ur5_husky # isort: skip
+-
+-
++from isaaclab_tasks.manager_based.full_body_control.mdp.custom_mdp import DiffDriveVelocityActionCfg
++from isaaclab_assets.robots import ur5_husky
+ 
+ UR5M_CFG = ur5_husky.UR5M_CFG
+ 
+-
+-
+ @configclass
+ class FBCSceneCfg(InteractiveSceneCfg):
+-
+     # world
+     ground = AssetBaseCfg(
+         prim_path="/World/ground",
+-        spawn=sim_utils.GroundPlaneCfg(),
++        spawn=sim_utils.GroundPlaneCfg(
++            physics_material=sim_utils.RigidBodyMaterialCfg(
++                static_friction=0.5,
++                dynamic_friction=0.5,
++                restitution=0.0,
++            )
++        ),
+         init_state=AssetBaseCfg.InitialStateCfg(pos=(0.0, 0.0, 0.0)),
+     )
+ 
+@@ -49,24 +49,25 @@ class FBCSceneCfg(InteractiveSceneCfg):
+         spawn=sim_utils.DomeLightCfg(color=(0.75, 0.75, 0.75), intensity=2500.0),
+     )
+ 
+-
+-
+ @configclass
+ class EventCfg:
+     """Configuration for events."""
+-
+     reset_base = EventTerm(
+         func=mdp.reset_root_state_uniform,
+         mode="reset",
+         params={
+-            "pose_range": {"x": (0.0, 0.0), "y": (0.0, 0.0), "yaw": (0, 0)},
++            "pose_range": {
++                "x": (-0.5, 0.5),
++                "y": (-0.5, 0.5),
++                "yaw": (0.0, 0.0)
++            },
+             "velocity_range": {
+-                "x": (-0.0, 0.0),
+-                "y": (-0.0, 0.0),
+-                "z": (-0.0, 0.0),
+-                "roll": (-0.0, 0.0),
+-                "pitch": (-0.0, 0.0),
+-                "yaw": (-0.0, 0.0),
++                "x": (0.0, 0.0),
++                "y": (0.0, 0.0),
++                "z": (0.0, 0.0),
++                "roll": (0.0, 0.0),
++                "pitch": (0.0, 0.0),
++                "yaw": (0.0, 0.0),
+             },
+         },
+     )
+@@ -74,26 +75,32 @@ class EventCfg:
+         func=mdp.reset_joints_by_scale,
+         mode="reset",
+         params={
+-            "position_range": (0.5, 1.5),
++            "position_range": (0.9, 1.1),
+             "velocity_range": (0.0, 0.0),
+         },
+     )
+ 
+-
+ @configclass
+ class ActionsCfg:
+     """Action specifications for the MDP."""
+     vel_actions: ActionTerm = DiffDriveVelocityActionCfg(
+-    asset_name="robot",
+-    joint_names=["front_left_wheel_joint", "front_right_wheel_joint","rear_left_wheel_joint", "rear_right_wheel_joint"],
+-    wheel_radius=0.1651,  # Радиус колес Husky
+-    wheel_base=0.7,# Расстояние между левыми и правыми колесами
+-    scale= 0.6
++        asset_name="robot",
++        joint_names=["front_left_wheel_joint", "front_right_wheel_joint",
++                     "rear_left_wheel_joint", "rear_right_wheel_joint"],
++        wheel_radius=0.17775,
++        wheel_base=0.5708,
++        max_linear_speed=3.0,
++        max_angular_speed=2.5,
++        scale=1.0,
++        linear_velocity_sign=-1.0,  # ось X базы в USD Husky смотрит назад
++    )
++    arm_actions: ActionTerm = mdp.JointPositionActionCfg(
++        asset_name="robot",
++        joint_names=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint",
++                     "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
++        scale=0.4,
++        use_default_offset=False
+     )
+-    arm_actions : ActionTerm = mdp.JointPositionActionCfg(
+-            asset_name="robot", joint_names=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"], scale=0.3, use_default_offset=False
+-        )
+-
+ 
+ @configclass
+ class ObservationsCfg:
+@@ -102,217 +109,273 @@ class ObservationsCfg:
+     @configclass
+     class PolicyCfg(ObsGroup):
+         """Observations for policy group."""
+-
+-        # observation terms (order preserved)
++        
+         base_lin_vel = ObsTerm(func=mdp.base_lin_vel)
+         base_ang_vel = ObsTerm(func=mdp.base_ang_vel)
+-        pose_command = ObsTerm(func=mdp.generated_commands, params={"command_name": "ee_pose"})
+-        joint_pos = ObsTerm(func=mdp.joint_pos_rel, noise=Unoise(n_min=-0.01, n_max=0.01))
+-        joint_vel = ObsTerm(func=mdp.joint_vel_rel, noise=Unoise(n_min=-0.01, n_max=0.01))
++        pose_command = ObsTerm(
++            func=mdp.generated_commands,
++            params={"command_name": "ee_pose"}
++        )
++        # distance = ObsTerm(func = mdp.position_command_error,params={
++        #     "asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"),
++        #     "command_name": "ee_pose"
++        # })
++        joint_pos = ObsTerm(
++            func=mdp.joint_pos_rel,
++            noise=Unoise(n_min=-0.01, n_max=0.01)
++        )
++        # joint_vel = ObsTerm(
++        #     func=mdp.joint_vel_rel,
++        #     noise=Unoise(n_min=-0.01, n_max=0.01)
++        # )
+         actions = ObsTerm(func=mdp.last_action)
+ 
+-
+-        def __post_init__(self):
+-            self.enable_corruption = True
+-            self.concatenate_terms = True
+-
+-    # observation groups
+     policy: PolicyCfg = PolicyCfg()
+ 
+-
+ @configclass
+ class RewardsCfg:
+-    """Reward terms for the MDP."""
+-
+-    # termination_penalty = RewTerm(func=mdp.is_terminated, weight=-400.0)
+-    # position_tracking = RewTerm(
+-    #     func=mdp.position_command_error,
+-    #     weight=-2.25,
+-    #     params={"asset_cfg": SceneEntityCfg("robot", body_names='base_link'), "command_name": "ee_pose"},
+-    # )
+-
+-
+-    # position_tracking_fine_grained = RewTerm(
+-    #     func=mdp.position_command_error_tanh,
+-    #     weight=0.85,
+-    #     params={"std":0.3,"asset_cfg": SceneEntityCfg("robot", body_names='base_link'), "command_name": "ee_pose"},
+-    # )
+-
+-    # stability_at_goal = RewTerm(
+-    #     func=mdp.stability_reward,
+-    #     weight=0.05,
+-    #     params={
+-    #         "command_name": "ee_pose",
+-    #         "position_threshold": 0.2,
+-    #         "orientation_threshold": 0.4,
+-    #         "lin_velocity_threshold": 0.2,
+-    #         "ang_velocity_threshold": 0.2
+-    #     }
+-    # )
+-
+-    # vel_pen = RewTerm(func = mdp.distance_based_velocity_penalty, 
+-    #                   weight = -0.2, params={"command_name": "ee_pose"})
++    """Reward terms for the MDP - оптимизированная структура без конфликтов."""
+     
+-    # # task terms
+-    # end_effector_position_tracking = RewTerm(
+-    #     func=mdp.position_command_error,
+-    #     weight=-0.65,
+-    #     params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "command_name": "ee_pose"},
+-    # )
+-    # end_effector_position_tracking_fine_grained = RewTerm(
+-    #     func=mdp.position_command_error_tanh,
+-    #     weight=2.85,
+-    #     params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "std": 0.35 ,"command_name": "ee_pose"},
+-    # )
++    # ==========================================
++    # ОСНОВНЫЕ НАГРАДЫ ЗА ВЫПОЛНЕНИЕ ЗАДАЧИ
++    # ==========================================
+     
+-    # end_effector_orientation_tracking = RewTerm(
+-    #     func=mdp.orientation_command_error,
+-    #     weight=-0.5,
+-    #     params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "command_name": "ee_pose"},
+-    # )
+-
+-
+-        # Большая награда за успешное достижение цели
+-    task_completion_bonus = RewTerm(
++    # Главная награда: экспоненциальная награда за точность позиции
++    # Использует tanh для smooth gradient и избегает дублирования с L2
++    position_tracking_global = RewTerm(
++        func=mdp.position_command_error,
++        weight=-3.0,
++        params={
++            "asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"),
++            "command_name": "ee_pose"
++        }
++    )
++    position_tracking_1 = RewTerm(
++        func=mdp.position_command_error_tanh,
++        weight=5.0,
++        params={
++            "asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"),
++            "std": 0.12,  # Более агрессивный std для четкого gradient
++            "command_name": "ee_pose"
++        },
++    )
++    position_tracking_2 = RewTerm(
++        func=mdp.position_command_error_tanh,
++        weight=2.0,
++        params={
++            "asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"),
++            "std": 0.3,  # Более агрессивный std для четкого gradient
++            "command_name": "ee_pose"
++        },
++    )
++    
++    # Награда за ориентацию (отдельно, не конфликтует с позицией)
++    orientation_tracking = RewTerm(
++        func=mdp.orientation_command_error,
++        weight=-2.0,  # Негативная награда (штраф) за ошибку ориентации
++        params={
++            "asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"),
++            "command_name": "ee_pose"
++        },
++    )
++    
++    # Бонус за успешное достижение цели
++    # Даётся только когда робот действительно у цели
++    goal_reached_bonus = RewTerm(
+         func=mdp.goal_reached_bonus,
+-        weight=5.0,  # Большой бонус за достижение цели
++        weight=10.0,  # Большой бонус за успех
+         params={
+             "asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"),
+             "command_name": "ee_pose",
+-            "position_threshold": 0.05,  # Точный порог для достижения
++            "position_threshold": 0.08,
++            "orientation_threshold": 0.3,
++        }
++    )
++    
++    # ==========================================
++    # НАГРАДЫ ЗА ЭФФЕКТИВНОЕ ПОВЕДЕНИЕ
++    # ==========================================
++    
++    # Награда за стабильность около цели
++    # Мотивирует остановиться, когда достиг цели
++    stability_bonus = RewTerm(
++        func=mdp.stability_reward,
++        weight=3.0,
++        params={
++            "command_name": "ee_pose",
++            "position_threshold": 0.15,
+             "orientation_threshold": 0.4,
++            "lin_velocity_threshold": 0.15,
++            "ang_velocity_threshold": 0.3
+         }
+     )
+     
+-    # # Штраф за неудачное завершение эпизода
+-    # failure_penalty = RewTerm(
+-    #     func=mdp.episode_failure_penalty,
+-    #     weight=-2.0,  # Штраф за провал
+-    #     params={
+-    #         "asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"),
+-    #         "command_name": "ee_pose",
+-    #         "failure_distance": 0.25,  # Если дальше этого расстояния в конце
+-    #     }
+-    # )
++    # Прогрессивная награда: штраф за скорость только вблизи цели
++    # Далеко от цели - можно двигаться быстро, близко - нужно замедлиться
++    approach_penalty = RewTerm(
++        func=mdp.distance_based_velocity_penalty,
++        weight=-0.3,
++        params={"command_name": "ee_pose"}
++    )
+     
+-    # Прогрессивный штраф за затягивание эпизода
+-    # time_penalty = RewTerm(
+-    #     func=mdp.time_penalty,
+-    #     weight=-0.05,  # Небольшой штраф за каждый шаг
+-    #     params={}
+-    # )
+-    nav_rew = RewTerm(
+-        func = mdp.navigation_rewards_combined,
+-        weight=1,
++    # ==========================================
++    # ШТРАФЫ ЗА НЕЭФФЕКТИВНОСТЬ
++    # ==========================================
++    
++    # Мягкий штраф за время (мотивирует не затягивать)
++    time_penalty = RewTerm(
++        func=mdp.time_penalty,
++        weight=-0.01,
+         params={}
+-
+-
+     )
+-    manip_rew = RewTerm(
+-        func = mdp.manipulation_rewards_combined,
+-        weight=3,
++    
++    # ==========================================
++    # РЕГУЛЯРИЗАЦИЯ (МИНИМАЛЬНЫЕ ШТРАФЫ)
++    # ==========================================
++    
++    # Штраф за резкие изменения действий
++    # Делаем очень маленьким, чтобы не мешать основной задаче
++    action_smoothness = RewTerm(
++        func=mdp.action_rate_l2,
++        weight=-0.008
++    )
++    
++    # Штраф за высокие скорости суставов
++    # Предотвращает слишком резкие движения
++    joint_velocity_penalty = RewTerm(
++        func=mdp.joint_vel_l2,
++        weight=-0.002,
++        params={"asset_cfg": SceneEntityCfg("robot")},
++    )
++    joint_acc_penalty = RewTerm(
++        func=mdp.joint_acc_l2,
++        weight=-0.000008,
++        params={"asset_cfg": SceneEntityCfg("robot")},
++    )
++    
++    
++    # Штраф за большие крутящие моменты
++    # Защита оборудования и энергоэффективность
++    torque_penalty = RewTerm(
++        func=mdp.joint_torques_l2,
++        weight=-1e-6,
+         params={}
+-
+     )
++    
++    # ==========================================
++    # ДОПОЛНИТЕЛЬНЫЕ НАГРАДЫ (ОПЦИОНАЛЬНО)
++    # ==========================================
++    
++    # Если хотите добавить награду за движение в правильном направлении:
++    # progress_reward = RewTerm(
++    #     func=mdp.progress_to_goal,
++    #     weight=0.5,
++    #     params={"command_name": "ee_pose"}
++    # )
++    
++    # Если хотите штрафовать за столкновения:
++    # collision_penalty = RewTerm(
++    #     func=mdp.collision_penalty,
++    #     weight=-1.0,
++    #     params={}
++    # )
+ 
+ 
++# ==========================================
++# ПОЯСНЕНИЕ СТРУКТУРЫ НАГРАД
++# ==========================================
++"""
++Приоритеты наград (от большего к меньшему весу):
+ 
++1. goal_reached_bonus (10.0) - самая важная награда
++   ↓ Мотивирует успешное завершение задачи
+ 
+-    action_rate = RewTerm(func=mdp.action_rate_l2, weight=-1e-3)
++2. position_tracking (5.0) - основная награда
++   ↓ Непрерывно направляет к цели
+ 
+-    joint_vel = RewTerm(
+-        func=mdp.joint_vel_l2,
+-        weight=-1e-4,
+-        params={"asset_cfg": SceneEntityCfg("robot")},
+-    )
++3. orientation_tracking (-2.0) - вторичная награда
++   ↓ Обеспечивает правильную ориентацию
+ 
+-    torque_pen = RewTerm(
+-        func=mdp.joint_torques_l2,
+-        weight=-5e-8,
+-        params={}
++4. stability_bonus (1.0) - награда за качество
++   ↓ Учит останавливаться у цели
+ 
+-    )
++5. approach_penalty (-0.3) - штраф за неаккуратность
++   ↓ Учит замедляться при приближении
+ 
++6. time_penalty (-0.01) - мотивация эффективности
++   ↓ Не даёт медлить
+ 
++7. Регуляризация (< 0.001) - минимальные штрафы
++   ↓ Не мешают основной задаче, но улучшают качество
+ 
++Ключевые принципы:
++- Нет дублирования: position используется только через tanh
++- Четкая иерархия: главные награды на 2+ порядка больше регуляризации
++- Баланс: положительные награды (16.0) > отрицательные (~2.3)
++- Масштабирование: все веса подобраны так, чтобы не заглушать друг друга
++"""
+ 
+ @configclass
+ class CommandsCfg:
+     """Command terms for the MDP."""
+-
+     ee_pose = mdp.UniformPoseFixedCommandCfg(
+-            asset_name="robot",
+-            body_name='gripper_link',
+-            resampling_time_range=(18.0, 18.0),
+-            debug_vis=True,
+-            ranges=mdp.UniformPoseFixedCommandCfg.Ranges(
+-                pos_x=(-0.4,0.4),
+-                pos_y=(-0.4,0.4),
+-                pos_z=(0.6, 0.95),
+-                roll=(0.0, 0.0),
+-                pitch=(0.0,0.0),  # depends on end-effector axis
+-                yaw=(0, 0),
+-            ),
+-        )
+-    
+-
++        asset_name="robot",
++        body_name='gripper_link',
++        resampling_time_range=(10.0, 18.0),  # Curriculum: начинаем с более частой смены целей
++        debug_vis=True,
++        ranges=mdp.UniformPoseFixedCommandCfg.Ranges(
++            pos_x=(-1.5, 1.5),
++            pos_y=(-2.2, 2.2),
++            pos_z=(0.6, 0.95),
++            roll=(0.0, 0.0),
++            pitch=(0.0, 0.0),
++            yaw=(0.0, 0.0),
++        ),
++    )
+ 
+-    
+ @configclass
+ class TerminationsCfg:
+     """Termination terms for the MDP."""
+-
+-    time_out = DoneTerm(func=mdp.time_out, time_out=True) 
+-    goal_reached = DoneTerm(func=mdp.goal_reached_bool,    params={
++    time_out = DoneTerm(func=mdp.time_out, time_out=True)
++    
++    goal_reached = DoneTerm(
++        func=mdp.goal_reached_bool,
++        params={
+             "asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"),
+             "command_name": "ee_pose",
+-            "position_threshold": 0.05,  # Точный порог для достижения
++            "position_threshold": 0.05,
+             "orientation_threshold": 0.2,
+-        })
+-
+-# @configclass
+-# class CurriculumCfg:
+-#     success_rate = CurrTerm(
+-#         func=mdp.compute_success_rate,
+-#         params={
+-#             "command_name": "ee_pose",       
+-#             "position_threshold": 0.05,      
+-#             "orientation_threshold": 0.2     
+-#         }
+-#     )
+-
++        }
++    )
+ 
+ @configclass
+ class FBCEnvCfg(ManagerBasedRLEnvCfg):
+-    """Configuration for the navigation environment."""
+-
+-    # environment settings
++    """Configuration for the full body control environment."""
++    
++    # Scene settings
+     scene: FBCSceneCfg = FBCSceneCfg(num_envs=4096, env_spacing=10.5)
++    
++    # Basic settings
+     actions: ActionsCfg = ActionsCfg()
+     observations: ObservationsCfg = ObservationsCfg()
+     events: EventCfg = EventCfg()
+-    # mdp settings
++    
++    # MDP settings
+     commands: CommandsCfg = CommandsCfg()
+     rewards: RewardsCfg = RewardsCfg()
+     terminations: TerminationsCfg = TerminationsCfg()
+-    # curriculum: CurriculumCfg = CurriculumCfg()
+ 
+     def __post_init__(self):
+         """Post initialization."""
+         self.decimation = 2
+         self.sim.render_interval = self.decimation
+-        self.episode_length_s = 18
++        self.episode_length_s = 18.0
+         self.viewer.eye = (3.5, 3.5, 3.5)
+-        # simulation settings
+         self.sim.dt = 1.0 / 60.0
+ 
+ class FBCEnvCfg_PLAY(FBCEnvCfg):
+     def __post_init__(self) -> None:
+-        # post init of parent
+         super().__post_init__()
+-
+-        # make a smaller scene for play
+         self.scene.num_envs = 50
+         self.scene.env_spacing = 2.5
+-        # disable randomization for play
+-        self.observations.policy.enable_corruption = False
++        self.observations.policy.enable_corruption = False
+\ No newline at end of file
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__init__.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__init__.py
+index 831f50eb26..62e1fbe0be 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__init__.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__init__.py
+@@ -32,3 +32,75 @@ gym.register(
+         "skrl_cfg_entry_point": f"{agents.__name__}:skrl_ppo_cfg.yaml",
+     },
+ )
++
++##
++# DWBC loco-manipulation (dual-head actor/critic + DAgger)
++##
++
++gym.register(
++    id="Isaac-FBC-Husky-DWBC-v0",
++    entry_point="isaaclab.envs:ManagerBasedRLEnv",
++    disable_env_checker=True,
++    kwargs={
++        "env_cfg_entry_point": f"{__name__}.FBC_dwbc_env_cfg:HuskyDwbcEnvCfg",
++        "rsl_rl_cfg_entry_point": f"{agents.__name__}.rsl_rl_dwbc_cfg:HuskyDwbcRunnerCfg",
++    },
++)
++
++gym.register(
++    id="Isaac-FBC-Husky-DWBC-Play-v0",
++    entry_point="isaaclab.envs:ManagerBasedRLEnv",
++    disable_env_checker=True,
++    kwargs={
++        "env_cfg_entry_point": f"{__name__}.FBC_dwbc_env_cfg:HuskyDwbcEnvCfg_PLAY",
++        "rsl_rl_cfg_entry_point": f"{agents.__name__}.rsl_rl_dwbc_cfg:HuskyDwbcRunnerCfg",
++    },
++)
++
++##
++# IK-based EE trajectory tracking (Go2-ARX style pipeline for Husky)
++##
++
++gym.register(
++    id="Isaac-FBC-Husky-IK-v0",
++    entry_point="isaaclab.envs:ManagerBasedRLEnv",
++    disable_env_checker=True,
++    kwargs={
++        "env_cfg_entry_point": f"{__name__}.FBC_ik_env_cfg:HuskyIkEnvCfg",
++        "rsl_rl_cfg_entry_point": f"{agents.__name__}.rsl_rl_ik_ppo_cfg:HuskyIkPPORunnerCfg",
++    },
++)
++
++gym.register(
++    id="Isaac-FBC-Husky-IK-Play-v0",
++    entry_point="isaaclab.envs:ManagerBasedRLEnv",
++    disable_env_checker=True,
++    kwargs={
++        "env_cfg_entry_point": f"{__name__}.FBC_ik_env_cfg:HuskyIkEnvCfg_PLAY",
++        "rsl_rl_cfg_entry_point": f"{agents.__name__}.rsl_rl_ik_ppo_cfg:HuskyIkPPORunnerCfg",
++    },
++)
++
++##
++# World-frame IK tracking (base-arm cooperation)
++##
++
++gym.register(
++    id="Isaac-FBC-Husky-WorldIK-v0",
++    entry_point="isaaclab.envs:ManagerBasedRLEnv",
++    disable_env_checker=True,
++    kwargs={
++        "env_cfg_entry_point": f"{__name__}.FBC_world_ik_env_cfg:HuskyWorldIkEnvCfg",
++        "rsl_rl_cfg_entry_point": f"{agents.__name__}.rsl_rl_world_ik_ppo_cfg:HuskyWorldIkPPORunnerCfg",
++    },
++)
++
++gym.register(
++    id="Isaac-FBC-Husky-WorldIK-Play-v0",
++    entry_point="isaaclab.envs:ManagerBasedRLEnv",
++    disable_env_checker=True,
++    kwargs={
++        "env_cfg_entry_point": f"{__name__}.FBC_world_ik_env_cfg:HuskyWorldIkEnvCfg_PLAY",
++        "rsl_rl_cfg_entry_point": f"{agents.__name__}.rsl_rl_world_ik_ppo_cfg:HuskyWorldIkPPORunnerCfg",
++    },
++)
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_env_cfg.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_env_cfg.cpython-311.pyc
+index 48345a622c..9cc3b3197b 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_env_cfg.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_env_cfg.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/__init__.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/__init__.cpython-311.pyc
+index 5910e146ca..c2bb614a91 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/__init__.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/__init__.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/__pycache__/rsl_rl_ppo_cfg.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/__pycache__/rsl_rl_ppo_cfg.cpython-311.pyc
+index 16d93a0d82..429e8129b4 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/__pycache__/rsl_rl_ppo_cfg.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/__pycache__/rsl_rl_ppo_cfg.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/rsl_rl_ppo_cfg.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/rsl_rl_ppo_cfg.py
+index 13be97fd15..2657cc6b24 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/rsl_rl_ppo_cfg.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/rsl_rl_ppo_cfg.py
+@@ -10,29 +10,29 @@ from isaaclab_rl.rsl_rl import RslRlOnPolicyRunnerCfg, RslRlPpoActorCriticCfg, R
+ 
+ @configclass
+ class FBCEnvPPORunnerCfg(RslRlOnPolicyRunnerCfg):
+-    num_steps_per_env = 24  # увеличено с 8
+-    max_iterations = 1500
+-    save_interval = 50
+-    experiment_name = "husky_FBC_baseline"
++    num_steps_per_env = 256  # Увеличено для лучшей статистики
++    max_iterations = 500    # Больше итераций
++    save_interval = 100
++    experiment_name = "new_fbc"
++    
+     policy = RslRlPpoActorCriticCfg(
+-        init_noise_std=1.0,  # увеличено с 0.5
+-        actor_obs_normalization=True,
+-        critic_obs_normalization=True,
+-        actor_hidden_dims=[256, 256],  # увеличена емкость
+-        critic_hidden_dims=[256, 256],
++        init_noise_std=0.8,  # Больше исследования вначале
++        actor_hidden_dims=[512, 256, 128],  # Больше капасити
++        critic_hidden_dims=[512, 256, 128],
+         activation="elu",
+     )
++    
+     algorithm = RslRlPpoAlgorithmCfg(
+-        value_loss_coef=0.5,  # уменьшено с 1.0
++        value_loss_coef=1.0,
+         use_clipped_value_loss=True,
+-        clip_param=0.1,  # уменьшено с 0.2
+-        entropy_coef=0.01,  # увеличено с 0.005
+-        num_learning_epochs=8,  # уменьшено с 5
+-        num_mini_batches=32,  # уменьшено с 16
+-        learning_rate=1.0e-4,  # уменьшено с 1.0e-3
++        clip_param=0.2,
++        entropy_coef=0.005,  # Увеличено для исследования
++        num_learning_epochs=8,  # Больше эпох
++        num_mini_batches=32,    # Уменьшено (256*4096/32 = разумный batch)
++        learning_rate=3.0e-4,   # Немного ниже для стабильности
+         schedule="adaptive",
+         gamma=0.99,
+         lam=0.95,
+-        desired_kl=0.01,  # увеличено с 0.01
+-        max_grad_norm=1.0,  # уменьшено с 1.0
+-    )
+\ No newline at end of file
++        desired_kl=0.04,        # Более консервативно
++        max_grad_norm=1.0,
++    )  
+\ No newline at end of file
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/skrl_ppo_cfg.yaml b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/skrl_ppo_cfg.yaml
+index 9e9ef16acc..74908fab8d 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/skrl_ppo_cfg.yaml
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/skrl_ppo_cfg.yaml
+@@ -1,85 +1,72 @@
+-# Copyright (c) 2022-2025, The Isaac Lab Project Developers (https://github.com/isaac-sim/IsaacLab/blob/main/CONTRIBUTORS.md).
+-# All rights reserved.
+-#
+-# SPDX-License-Identifier: BSD-3-Clause
+-
+ seed: 42
+-
+-
+-# Models are instantiated using skrl's model instantiator utility
+-# https://skrl.readthedocs.io/en/latest/api/utils/model_instantiators.html
+ models:
+-  separate: False
+-  policy:  # see gaussian_model parameters
++  separate: false
++  policy:
+     class: GaussianMixin
+-    clip_actions: False
+-    clip_log_std: True
++    clip_actions: false
++    clip_log_std: true
+     min_log_std: -20.0
+     max_log_std: 2.0
+     initial_log_std: 0.0
+     network:
+-      - name: net
+-        input: OBSERVATIONS
+-        layers: [64, 64]
+-        activations: elu
++    - name: net
++      input: OBSERVATIONS
++      layers:
++      - 256
++      - 128
++      - 64
++      activations: elu
+     output: ACTIONS
+-  value:  # see deterministic_model parameters
++  value:
+     class: DeterministicMixin
+-    clip_actions: False
++    clip_actions: false
+     network:
+-      - name: net
+-        input: OBSERVATIONS
+-        layers: [64, 64]
+-        activations: elu
++    - name: net
++      input: OBSERVATIONS
++      layers:
++      - 256
++      - 128
++      - 64
++      activations: elu
+     output: ONE
+-
+-
+-# Rollout memory
+-# https://skrl.readthedocs.io/en/latest/api/memories/random.html
+ memory:
+   class: RandomMemory
+-  memory_size: -1  # automatically determined (same as agent:rollouts)
+-
+-
+-# PPO agent configuration (field names are from PPO_DEFAULT_CONFIG)
+-# https://skrl.readthedocs.io/en/latest/api/agents/ppo.html
++  memory_size: -1
+ agent:
+   class: PPO
+-  rollouts: 24
++  rollouts: 96
+   learning_epochs: 5
+-  mini_batches: 4
++  mini_batches: 96
+   discount_factor: 0.99
+   lambda: 0.95
+-  learning_rate: 1.0e-03
++  learning_rate: 0.0005
+   learning_rate_scheduler: KLAdaptiveLR
+   learning_rate_scheduler_kwargs:
+-    kl_threshold: 0.01
+-  state_preprocessor: RunningStandardScaler
++    kl_threshold: 0.008
++  state_preprocessor: null
+   state_preprocessor_kwargs: null
+-  value_preprocessor: RunningStandardScaler
++  value_preprocessor: null
+   value_preprocessor_kwargs: null
+   random_timesteps: 0
+   learning_starts: 0
+   grad_norm_clip: 1.0
+   ratio_clip: 0.2
+   value_clip: 0.2
+-  clip_predicted_values: True
+-  entropy_loss_scale: 0.01
+-  value_loss_scale: 1.0
++  clip_predicted_values: true
++  entropy_loss_scale: 0.001
++  value_loss_scale: 2.0
+   kl_threshold: 0.0
+-  rewards_shaper_scale: 1.0
+-  time_limit_bootstrap: False
+-  # logging and checkpoint
++  rewards_shaper_scale: 1
++  time_limit_bootstrap: false
+   experiment:
+-    directory: "FBC_MIXING"
++    directory: /home/maksim/IsaacLab/logs/skrl/FBC_BB
+     experiment_name: ""
+     write_interval: auto
+     checkpoint_interval: auto
+-
+-
+-# Sequential trainer
+-# https://skrl.readthedocs.io/en/latest/api/trainers/sequential.html
++    callbacks:
++      on_step_end: 1
+ trainer:
+   class: SequentialTrainer
+-  timesteps: 24000
++  timesteps: 80000
+   environment_info: log
++  close_environment_at_exit: false
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/custom_mdp.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/custom_mdp.cpython-311.pyc
+index efcbf672eb..55d9a6a21c 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/custom_mdp.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/custom_mdp.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/rewards.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/rewards.cpython-311.pyc
+index 54804118e3..e4b4cba722 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/rewards.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/rewards.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/custom_mdp.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/custom_mdp.py
+index a4f3d8a527..5d65e864c1 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/custom_mdp.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/custom_mdp.py
+@@ -11,13 +11,21 @@ from skrl.utils import logger
+ class DiffDriveVelocityAction(JointVelocityAction):
+     """ActionTerm для дифференциального привода 4 колес.
+ 
+-    Ожидает action от политики: [v_lin, omega]
+-    - v_lin: нормированная линейная скорость [-1, 1]
+-    - omega: нормированная угловая скорость [-1, 1]
++    Ожидает от политики 2 действия (линейная и угловая скорость платформы):
++    - action[0]: v_lin — нормированная линейная скорость вдоль X базы [-1, 1] -> м/с
++    - action[1]: omega — нормированная угловая скорость (yaw) [-1, 1] -> рад/с
++
++    Внутри преобразует (v_lin, omega) в угловые скорости 4 колёс через дифф. кинематику
++    и записывает в _processed_actions для apply_actions (4 колёса).
+     """
+ 
+     cfg: "DiffDriveVelocityActionCfg"
+ 
++    @property
++    def action_dim(self) -> int:
++        """Размер входа от политики: 2 (v_lin, omega). Не 4 (колёса)."""
++        return 2
++
+     def process_actions(self, actions: torch.Tensor):
+         """
+         Преобразует действия RL в угловые скорости колес.
+@@ -28,7 +36,9 @@ class DiffDriveVelocityAction(JointVelocityAction):
+         actions = actions.clamp(-1.0, 1.0)
+ 
+         # масштабируем под физические значения
+-        v_lin = actions[:, 0:1] * self.cfg.max_linear_speed   # м/с
++        # linear_velocity_sign: для Husky USD часто +X базы смотрит назад; при -1 положительная
++        # команда "вперёд" даёт движение к цели (синяя стрелка совпадает с зелёной).
++        v_lin = self.cfg.linear_velocity_sign * actions[:, 0:1] * self.cfg.max_linear_speed   # м/с
+         omega = actions[:, 1:2] * self.cfg.max_angular_speed  # рад/с
+ 
+         # параметры робота
+@@ -64,8 +74,11 @@ class DiffDriveVelocityActionCfg(JointVelocityActionCfg):
+     wheel_base: float = 0.8    # м (расстояние между левыми и правыми колесами)
+ 
+     # максимальные скорости
+-    max_linear_speed: float = 5.0   # м/с
+-    max_angular_speed: float = 5.0  # рад/с
++    max_linear_speed: float = 10.0   # м/с
++    max_angular_speed: float = 10.0  # рад/с
+     scale: float = 1.0
++    # знак линейной скорости: 1.0 = положительный action = движение по +X базы;
++    # -1.0 = если в USD ось X базы смотрит назад (Husky), чтобы синяя стрелка шла к цели
++    linear_velocity_sign: float = 1.0
+     # дополнительные опции
+     use_default_offset: bool = False
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/rewards.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/rewards.py
+index 5ca032b964..d89a2240b1 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/rewards.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/rewards.py
+@@ -237,6 +237,39 @@ def time_penalty(env: "ManagerBasedRLEnv") -> torch.Tensor:
+     return torch.ones(env.num_envs, device=env.device)
+ 
+ 
++def far_from_goal_bool(
++    env: "ManagerBasedRLEnv",
++    asset_cfg: SceneEntityCfg,
++    command_name: str,
++    distance_threshold: float = 5.0,
++) -> torch.Tensor:
++    """Булева терминация: робот (указанный asset_cfg/body) уехал дальше порога от цели."""
++    asset: RigidObject = env.scene[asset_cfg.name]
++    command = env.command_manager.get_command(command_name)
++
++    des_pos_b = command[:, :3]
++    des_pos_w, _ = combine_frame_transforms(asset.data.root_pos_w, asset.data.root_quat_w, des_pos_b)
++    if isinstance(asset_cfg.body_ids, slice):
++        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids][:, 0]
++    else:
++        curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]]
++    distance = torch.norm(curr_pos_w - des_pos_w, dim=1)
++
++    return distance > distance_threshold
++
++
++def far_from_goal_penalty(
++    env: "ManagerBasedRLEnv",
++    asset_cfg: SceneEntityCfg,
++    command_name: str,
++    distance_threshold: float = 5.0,
++    penalty_value: float = -10.0,
++) -> torch.Tensor:
++    """Штраф, совпадающий по условию с far_from_goal_bool: -10, если робот дальше порога."""
++    far = far_from_goal_bool(env, asset_cfg=asset_cfg, command_name=command_name, distance_threshold=distance_threshold)
++    return far.float() * penalty_value
++
++
+ 
+ 
+ 
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index 3fc7d6b9f5..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index de219e86e4..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index 6982ec2be6..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/a1/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/a1/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index 76fea4b130..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/a1/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/a1/agents/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/a1/agents/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index b6e3d2b2c4..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/a1/agents/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_b/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_b/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index e826bab725..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_b/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_b/agents/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_b/agents/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index c793e5face..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_b/agents/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_c/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_c/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index 7204825575..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_c/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_c/__pycache__/flat_env_cfg.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_c/__pycache__/flat_env_cfg.cpython-311.pyc
+deleted file mode 100644
+index 0cff8bf87c..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_c/__pycache__/flat_env_cfg.cpython-311.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_c/__pycache__/rough_env_cfg.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_c/__pycache__/rough_env_cfg.cpython-311.pyc
+deleted file mode 100644
+index ad40ae33fc..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_c/__pycache__/rough_env_cfg.cpython-311.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_c/agents/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_c/agents/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index 72bec8b0d5..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_c/agents/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_d/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_d/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index 80eabbdaeb..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_d/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_d/agents/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_d/agents/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index 84b8717a92..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/anymal_d/agents/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/cassie/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/cassie/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index d59d5e57f2..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/cassie/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/cassie/agents/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/cassie/agents/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index 4181d1a858..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/cassie/agents/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/digit/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/digit/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index a5f5476cf7..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/digit/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/digit/__pycache__/rough_env_cfg.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/digit/__pycache__/rough_env_cfg.cpython-311.pyc
+deleted file mode 100644
+index eafed9b4c2..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/digit/__pycache__/rough_env_cfg.cpython-311.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/digit/agents/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/digit/agents/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index 259f1b1472..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/digit/agents/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/g1/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/g1/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index a984c1e8ec..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/g1/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/g1/agents/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/g1/agents/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index 608e5f49e3..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/g1/agents/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go1/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go1/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index 8482d10d1b..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go1/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go1/agents/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go1/agents/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index 61033101a6..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go1/agents/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go2/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go2/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index 950829844a..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go2/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go2/agents/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go2/agents/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index cf6293f36c..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/go2/agents/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/h1/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/h1/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index 222a12fc0a..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/h1/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/h1/agents/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/h1/agents/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index 168ed2fc01..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/h1/agents/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/spot/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/spot/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index ee288e92bd..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/spot/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/spot/agents/__pycache__/__init__.cpython-310.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/spot/agents/__pycache__/__init__.cpython-310.pyc
+deleted file mode 100644
+index e898043eb9..0000000000
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/spot/agents/__pycache__/__init__.cpython-310.pyc and /dev/null differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/spot/flat_env_cfg.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/spot/flat_env_cfg.py
+index 4b2f5509ba..435de14f08 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/spot/flat_env_cfg.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/config/spot/flat_env_cfg.py
+@@ -49,7 +49,9 @@ COBBLESTONE_ROAD_CFG = terrain_gen.TerrainGeneratorCfg(
+ class SpotActionsCfg:
+     """Action specifications for the MDP."""
+ 
+-    joint_pos = mdp.JointPositionActionCfg(asset_name="robot", joint_names=[".*"], scale=0.2, use_default_offset=True)
++    joint_pos = mdp.JointPositionActionCfg(
++        asset_name="robot", joint_names=[".*_hx", ".*_hy", ".*_kn"], scale=0.2, use_default_offset=True
++    )
+ 
+ 
+ @configclass
+@@ -91,10 +93,14 @@ class SpotObservationsCfg:
+         )
+         velocity_commands = ObsTerm(func=mdp.generated_commands, params={"command_name": "base_velocity"})
+         joint_pos = ObsTerm(
+-            func=mdp.joint_pos_rel, params={"asset_cfg": SceneEntityCfg("robot")}, noise=Unoise(n_min=-0.05, n_max=0.05)
++            func=mdp.joint_pos_rel,
++            params={"asset_cfg": SceneEntityCfg("robot", joint_names=[".*_hx", ".*_hy", ".*_kn"])},
++            noise=Unoise(n_min=-0.05, n_max=0.05),
+         )
+         joint_vel = ObsTerm(
+-            func=mdp.joint_vel_rel, params={"asset_cfg": SceneEntityCfg("robot")}, noise=Unoise(n_min=-0.5, n_max=0.5)
++            func=mdp.joint_vel_rel,
++            params={"asset_cfg": SceneEntityCfg("robot", joint_names=[".*_hx", ".*_hy", ".*_kn"])},
++            noise=Unoise(n_min=-0.5, n_max=0.5),
+         )
+         actions = ObsTerm(func=mdp.last_action)
+ 
+@@ -127,7 +133,7 @@ class SpotEventCfg:
+         func=mdp.randomize_rigid_body_mass,
+         mode="startup",
+         params={
+-            "asset_cfg": SceneEntityCfg("robot", body_names="body"),
++            "asset_cfg": SceneEntityCfg("robot", body_names="base"),
+             "mass_distribution_params": (-2.5, 2.5),
+             "operation": "add",
+         },
+@@ -138,7 +144,7 @@ class SpotEventCfg:
+         func=mdp.apply_external_force_torque,
+         mode="reset",
+         params={
+-            "asset_cfg": SceneEntityCfg("robot", body_names="body"),
++            "asset_cfg": SceneEntityCfg("robot", body_names="base"),
+             "force_range": (0.0, 0.0),
+             "torque_range": (-0.0, 0.0),
+         },
+@@ -193,7 +199,7 @@ class SpotRewardsCfg:
+             "mode_time": 0.3,
+             "velocity_threshold": 0.5,
+             "asset_cfg": SceneEntityCfg("robot"),
+-            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*_foot"),
++            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*lleg"),
+         },
+     )
+     base_angular_velocity = RewardTermCfg(
+@@ -213,7 +219,7 @@ class SpotRewardsCfg:
+             "std": 0.05,
+             "tanh_mult": 2.0,
+             "target_height": 0.1,
+-            "asset_cfg": SceneEntityCfg("robot", body_names=".*_foot"),
++            "asset_cfg": SceneEntityCfg("robot", body_names=".*lleg"),
+         },
+     )
+     gait = RewardTermCfg(
+@@ -223,7 +229,7 @@ class SpotRewardsCfg:
+             "std": 0.1,
+             "max_err": 0.2,
+             "velocity_threshold": 0.5,
+-            "synced_feet_pair_names": (("fl_foot", "hr_foot"), ("fr_foot", "hl_foot")),
++            "synced_feet_pair_names": (("fl_lleg", "hr_lleg"), ("fr_lleg", "hl_lleg")),
+             "asset_cfg": SceneEntityCfg("robot"),
+             "sensor_cfg": SceneEntityCfg("contact_forces"),
+         },
+@@ -234,7 +240,7 @@ class SpotRewardsCfg:
+     air_time_variance = RewardTermCfg(
+         func=spot_mdp.air_time_variance_penalty,
+         weight=-1.0,
+-        params={"sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*_foot")},
++        params={"sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*lleg")},
+     )
+     base_motion = RewardTermCfg(
+         func=spot_mdp.base_motion_penalty, weight=-2.0, params={"asset_cfg": SceneEntityCfg("robot")}
+@@ -246,8 +252,8 @@ class SpotRewardsCfg:
+         func=spot_mdp.foot_slip_penalty,
+         weight=-0.5,
+         params={
+-            "asset_cfg": SceneEntityCfg("robot", body_names=".*_foot"),
+-            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*_foot"),
++            "asset_cfg": SceneEntityCfg("robot", body_names=".*lleg"),
++            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*lleg"),
+             "threshold": 1.0,
+         },
+     )
+@@ -260,7 +266,7 @@ class SpotRewardsCfg:
+         func=spot_mdp.joint_position_penalty,
+         weight=-0.7,
+         params={
+-            "asset_cfg": SceneEntityCfg("robot", joint_names=".*"),
++            "asset_cfg": SceneEntityCfg("robot", joint_names=[".*_hx", ".*_hy", ".*_kn"]),
+             "stand_still_scale": 5.0,
+             "velocity_threshold": 0.5,
+         },
+@@ -268,7 +274,7 @@ class SpotRewardsCfg:
+     joint_torques = RewardTermCfg(
+         func=spot_mdp.joint_torques_penalty,
+         weight=-5.0e-4,
+-        params={"asset_cfg": SceneEntityCfg("robot", joint_names=".*")},
++        params={"asset_cfg": SceneEntityCfg("robot", joint_names=[".*_hx", ".*_hy", ".*_kn"])},
+     )
+     joint_vel = RewardTermCfg(
+         func=spot_mdp.joint_velocity_penalty,
+@@ -284,7 +290,7 @@ class SpotTerminationsCfg:
+     time_out = DoneTerm(func=mdp.time_out, time_out=True)
+     body_contact = DoneTerm(
+         func=mdp.illegal_contact,
+-        params={"sensor_cfg": SceneEntityCfg("contact_forces", body_names=["body", ".*leg"]), "threshold": 1.0},
++        params={"sensor_cfg": SceneEntityCfg("contact_forces", body_names=["base", ".*leg"]), "threshold": 1.0},
+     )
+     terrain_out_of_bounds = DoneTerm(
+         func=mdp.terrain_out_of_bounds,
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__init__.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__init__.py
+index a8a1af6d92..9320e91e5c 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__init__.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__init__.py
+@@ -7,6 +7,8 @@
+ 
+ from isaaclab.envs.mdp import *  # noqa: F401, F403
+ 
++from .constant_joint_action import *  # noqa: F401, F403
+ from .curriculums import *  # noqa: F401, F403
++from .ee_goal_velocity_command import EeGoalVelocityCommand, EeGoalVelocityCommandCfg  # noqa: F401
+ from .rewards import *  # noqa: F401, F403
+ from .terminations import *  # noqa: F401, F403
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__pycache__/__init__.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__pycache__/__init__.cpython-311.pyc
+index 3614662ee7..4c2589f65c 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__pycache__/__init__.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__pycache__/__init__.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__pycache__/curriculums.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__pycache__/curriculums.cpython-311.pyc
+index 23abbd0ee7..75a00baea3 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__pycache__/curriculums.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__pycache__/curriculums.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__pycache__/rewards.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__pycache__/rewards.cpython-311.pyc
+index 13807b6378..29f89c97e8 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__pycache__/rewards.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/__pycache__/rewards.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/curriculums.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/curriculums.py
+index 69b7e09b38..a491981979 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/curriculums.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/curriculums.py
+@@ -23,14 +23,77 @@ if TYPE_CHECKING:
+     from isaaclab.envs import ManagerBasedRLEnv
+ 
+ 
++def ee_target_curriculum(
++    env: ManagerBasedRLEnv,
++    env_ids: Sequence[int],
++    command_name: str = "ee_pose",
++    success_threshold: float = 0.15,
++    difficulty_step: float = 0.05,
++    success_pos_threshold: float = 0.1,
++    success_ori_threshold: float = 0.2,
++) -> dict[str, float]:
++    """Per-env curriculum that adjusts EE target difficulty based on tracking error.
++
++    At each environment reset the curriculum checks the final position error.
++    If the error is below ``success_threshold`` the difficulty is increased,
++    if it is above ``3 * success_threshold`` it is decreased.
++
++    Also tracks success rate: an episode is "successful" if both position error
++    < ``success_pos_threshold`` and orientation error < ``success_ori_threshold``
++    at the end of the episode.
++
++    The difficulty value lives on the command term's ``difficulty`` buffer and
++    is used by :class:`UniformPoseFixedCommand` to interpolate between easy and hard ranges.
++
++    Returns:
++        Dict with mean difficulty and success rate for logging.
++    """
++    ee_cmd = env.command_manager._terms[command_name]
++    pos_error = ee_cmd.metrics["position_error"][env_ids]
++    ori_error = ee_cmd.metrics["orientation_error"][env_ids]
++
++    # --- Success rate tracking (end-of-episode: pos < 0.1 m, ori < 0.2 rad) ---
++    if not hasattr(ee_cmd, "_success_buf"):
++        from collections import deque
++        ee_cmd._success_buf = deque(maxlen=1000)
++
++    success = (pos_error < success_pos_threshold) & (ori_error < success_ori_threshold)
++    ee_cmd._success_buf.extend(success.float().cpu().tolist())
++    success_rate = sum(ee_cmd._success_buf) / max(len(ee_cmd._success_buf), 1)
++
++    # --- Curriculum update: same threshold (0.15) for "move up" so difficulty grows when close enough ---
++    move_up = pos_error < success_threshold
++    move_down = (pos_error > success_threshold * 3.0) & (~move_up)
++
++    ee_cmd.difficulty[env_ids] = torch.clamp(
++        ee_cmd.difficulty[env_ids]
++        + difficulty_step * move_up.float()
++        - difficulty_step * move_down.float(),
++        0.0,
++        1.0,
++    )
++    return {
++        "mean_difficulty": ee_cmd.difficulty.mean().item(),
++        "success_rate": success_rate,
++    }
++
++
+ def terrain_levels_vel(
+-    env: ManagerBasedRLEnv, env_ids: Sequence[int], asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
++    env: ManagerBasedRLEnv,
++    env_ids: Sequence[int],
++    asset_cfg: SceneEntityCfg = SceneEntityCfg("robot"),
++    move_up_distance_ratio: float = 0.5,
+ ) -> torch.Tensor:
+     """Curriculum based on the distance the robot walked when commanded to move at a desired velocity.
+ 
+     This term is used to increase the difficulty of the terrain when the robot walks far enough and decrease the
+     difficulty when the robot walks less than half of the distance required by the commanded velocity.
+ 
++    Args:
++        move_up_distance_ratio: Fraction of terrain size (e.g. size[0]) beyond which the robot is
++            considered to have "walked far enough" and terrain level is increased. Default 0.5 (half of 8m = 4m).
++            For loco-manip with nearby goals (e.g. 0.5--2.5 m), use a smaller value (e.g. 0.25–0.3).
++
+     .. note::
+         It is only possible to use this term with the terrain type ``generator``. For further information
+         on different terrain types, check the :class:`isaaclab.terrains.TerrainImporter` class.
+@@ -45,7 +108,7 @@ def terrain_levels_vel(
+     # compute the distance the robot walked
+     distance = torch.norm(asset.data.root_pos_w[env_ids, :2] - env.scene.env_origins[env_ids, :2], dim=1)
+     # robots that walked far enough progress to harder terrains
+-    move_up = distance > terrain.cfg.terrain_generator.size[0] / 2
++    move_up = distance > terrain.cfg.terrain_generator.size[0] * move_up_distance_ratio
+     # robots that walked less than half of their required distance go to simpler terrains
+     move_down = distance < torch.norm(command[env_ids, :2], dim=1) * env.max_episode_length_s * 0.5
+     move_down *= ~move_up
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/rewards.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/rewards.py
+index 7a1fc12a1d..8cb16f0508 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/rewards.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/locomotion/velocity/mdp/rewards.py
+@@ -114,3 +114,102 @@ def stand_still_joint_deviation_l1(
+     command = env.command_manager.get_command(command_name)
+     # Penalize motion when command is nearly zero.
+     return mdp.joint_deviation_l1(env, asset_cfg) * (torch.norm(command[:, :2], dim=1) < command_threshold)
++
++
++# =============================================================================
++# Gaussian (Φ) rewards — paper "Multi-critic Learning for Whole-body ..."
++# Φ(v, σ²) = exp(-v^T v / σ²). Parameter std = sqrt(σ²).
++# =============================================================================
++
++
++def flat_orientation_exp(
++    env: ManagerBasedRLEnv, std: float, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
++) -> torch.Tensor:
++    """Reward flat base orientation: Φ(θ_roll,pitch, σ²) = exp(-||proj_gravity_xy||²/σ²)."""
++    sq_error = mdp.flat_orientation_l2(env, asset_cfg)
++    return torch.exp(-sq_error / (std * std))
++
++
++def base_height_exp(
++    env: ManagerBasedRLEnv,
++    target_height: float,
++    std: float,
++    asset_cfg: SceneEntityCfg = SceneEntityCfg("robot"),
++    sensor_cfg: SceneEntityCfg | None = None,
++) -> torch.Tensor:
++    """Reward torso height near target: Φ(h - ĥ, σ²) = exp(-(h-ĥ)²/σ²)."""
++    sq_error = mdp.base_height_l2(env, target_height=target_height, asset_cfg=asset_cfg, sensor_cfg=sensor_cfg)
++    return torch.exp(-sq_error / (std * std))
++
++
++def lin_vel_z_exp(
++    env: ManagerBasedRLEnv, std: float, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
++) -> torch.Tensor:
++    """Reward small vertical base velocity: Φ(v_z, σ²) = exp(-v_z²/σ²)."""
++    sq_error = mdp.lin_vel_z_l2(env, asset_cfg)
++    return torch.exp(-sq_error / (std * std))
++
++
++def ang_vel_xy_exp(
++    env: ManagerBasedRLEnv, std: float, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
++) -> torch.Tensor:
++    """Reward small roll/pitch angular velocity: Φ(ω_xy, σ²) = exp(-||ω_xy||²/σ²)."""
++    sq_error = mdp.ang_vel_xy_l2(env, asset_cfg)
++    return torch.exp(-sq_error / (std * std))
++
++
++def action_rate_exp(env: ManagerBasedRLEnv, std: float) -> torch.Tensor:
++    """Reward smooth actions: Φ(a_t - a_{t-1}, σ²) = exp(-||Δa||²/σ²)."""
++    sq_error = mdp.action_rate_l2(env)
++    return torch.exp(-sq_error / (std * std))
++
++
++def joint_torques_exp(
++    env: ManagerBasedRLEnv, std: float, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
++) -> torch.Tensor:
++    """Reward low joint torques: Φ(τ, σ²) = exp(-||τ||²/σ²)."""
++    sq_error = mdp.joint_torques_l2(env, asset_cfg)
++    return torch.exp(-sq_error / (std * std))
++
++
++def joint_vel_exp(
++    env: ManagerBasedRLEnv, std: float, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
++) -> torch.Tensor:
++    """Reward low joint velocities: Φ(q̇, σ²) = exp(-||q̇||²/σ²)."""
++    sq_error = mdp.joint_vel_l2(env, asset_cfg)
++    return torch.exp(-sq_error / (std * std))
++
++
++def action_rate_exp_slice(
++    env: ManagerBasedRLEnv, std: float, start_idx: int, end_idx: int
++) -> torch.Tensor:
++    """Reward smooth actions on a slice: Φ(Δa[start:end], σ²) = exp(-||Δa||²/σ²)."""
++    delta = env.action_manager.action[:, start_idx:end_idx] - env.action_manager.prev_action[:, start_idx:end_idx]
++    sq_error = torch.sum(delta * delta, dim=1)
++    return torch.exp(-sq_error / (std * std))
++
++
++def arm_base_proximity_penalty(
++    env: ManagerBasedRLEnv,
++    asset_cfg: SceneEntityCfg = SceneEntityCfg("robot"),
++    arm_body_names: str = "arm_link.*",
++    base_body_name: str = "base",
++    margin: float = 0.15,
++) -> torch.Tensor:
++    """Penalize when any arm link is closer than margin to the base (discourages self-intersection).
++
++    Returns the number of envs where min(arm-to-base distance) < margin. Use with negative weight.
++    With enabled_self_collisions=False the arm can pass through the base; this term teaches the policy to avoid it.
++    """
++    from isaaclab.assets import Articulation
++
++    asset: Articulation = env.scene[asset_cfg.name]
++    base_ids, _ = asset.find_bodies(base_body_name)
++    arm_ids, _ = asset.find_bodies(arm_body_names)
++    if not base_ids or not arm_ids:
++        return torch.zeros(env.num_envs, device=env.device)
++    base_pos = asset.data.body_pos_w[:, base_ids[0], :]
++    arm_pos = asset.data.body_pos_w[:, arm_ids, :]
++    dist = torch.norm(arm_pos - base_pos.unsqueeze(1), dim=-1)
++    min_dist = dist.min(dim=1)[0]
++    return (min_dist < margin).float()
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/dexsuite/config/kuka_allegro/agents/rsl_rl_ppo_cfg.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/dexsuite/config/kuka_allegro/agents/rsl_rl_ppo_cfg.py
+deleted file mode 100644
+index f796557573..0000000000
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/dexsuite/config/kuka_allegro/agents/rsl_rl_ppo_cfg.py
++++ /dev/null
+@@ -1,39 +0,0 @@
+-# Copyright (c) 2022-2025, The Isaac Lab Project Developers (https://github.com/isaac-sim/IsaacLab/blob/main/CONTRIBUTORS.md).
+-# All rights reserved.
+-#
+-# SPDX-License-Identifier: BSD-3-Clause
+-
+-from isaaclab.utils import configclass
+-
+-from isaaclab_rl.rsl_rl import RslRlOnPolicyRunnerCfg, RslRlPpoActorCriticCfg, RslRlPpoAlgorithmCfg
+-
+-
+-@configclass
+-class DexsuiteKukaAllegroPPORunnerCfg(RslRlOnPolicyRunnerCfg):
+-    num_steps_per_env = 32
+-    obs_groups = {"policy": ["policy", "proprio", "perception"], "critic": ["policy", "proprio", "perception"]}
+-    max_iterations = 15000
+-    save_interval = 250
+-    experiment_name = "dexsuite_kuka_allegro"
+-    policy = RslRlPpoActorCriticCfg(
+-        init_noise_std=1.0,
+-        actor_obs_normalization=True,
+-        critic_obs_normalization=True,
+-        actor_hidden_dims=[512, 256, 128],
+-        critic_hidden_dims=[512, 256, 128],
+-        activation="elu",
+-    )
+-    algorithm = RslRlPpoAlgorithmCfg(
+-        value_loss_coef=1.0,
+-        use_clipped_value_loss=True,
+-        clip_param=0.2,
+-        entropy_coef=0.005,
+-        num_learning_epochs=5,
+-        num_mini_batches=4,
+-        learning_rate=1.0e-3,
+-        schedule="adaptive",
+-        gamma=0.99,
+-        lam=0.95,
+-        desired_kl=0.01,
+-        max_grad_norm=1.0,
+-    )
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/__pycache__/reach_env_cfg.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/__pycache__/reach_env_cfg.cpython-311.pyc
+index 7156a1f967..85e6316c13 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/__pycache__/reach_env_cfg.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/__pycache__/reach_env_cfg.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/__pycache__/joint_pos_env_cfg.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/__pycache__/joint_pos_env_cfg.cpython-311.pyc
+index b8252db81d..a088515df2 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/__pycache__/joint_pos_env_cfg.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/__pycache__/joint_pos_env_cfg.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/agents/skrl_ppo_cfg.yaml b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/agents/skrl_ppo_cfg.yaml
+index 4ebba0c73a..4eb68147bd 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/agents/skrl_ppo_cfg.yaml
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/agents/skrl_ppo_cfg.yaml
+@@ -19,8 +19,8 @@ models:
+     initial_log_std: 0.0
+     network:
+       - name: net
+-        input: STATES
+-        layers: [256, 256]
++        input: OBSERVATIONS
++        layers: [64, 64]
+         activations: elu
+     output: ACTIONS
+   value:  # see deterministic_model parameters
+@@ -28,8 +28,8 @@ models:
+     clip_actions: False
+     network:
+       - name: net
+-        input: STATES
+-        layers: [256, 256]
++        input: OBSERVATIONS
++        layers: [64, 64]
+         activations: elu
+     output: ONE
+ 
+@@ -45,12 +45,12 @@ memory:
+ # https://skrl.readthedocs.io/en/latest/api/agents/ppo.html
+ agent:
+   class: PPO
+-  rollouts: 128
+-  learning_epochs: 10
+-  mini_batches: 16
++  rollouts: 24
++  learning_epochs: 5
++  mini_batches: 4
+   discount_factor: 0.99
+   lambda: 0.95
+-  learning_rate: 3.0e-04
++  learning_rate: 1.0e-03
+   learning_rate_scheduler: KLAdaptiveLR
+   learning_rate_scheduler_kwargs:
+     kl_threshold: 0.01
+@@ -64,14 +64,14 @@ agent:
+   ratio_clip: 0.2
+   value_clip: 0.2
+   clip_predicted_values: True
+-  entropy_loss_scale: 0.05
+-  value_loss_scale: 2.0
++  entropy_loss_scale: 0.01
++  value_loss_scale: 1.0
+   kl_threshold: 0.0
+   rewards_shaper_scale: 1.0
+   time_limit_bootstrap: False
+   # logging and checkpoint
+   experiment:
+-    directory: "reach_ur5mm"
++    directory: "reach_ur5_mm"
+     experiment_name: ""
+     write_interval: auto
+     checkpoint_interval: auto
+@@ -81,5 +81,5 @@ agent:
+ # https://skrl.readthedocs.io/en/latest/api/trainers/sequential.html
+ trainer:
+   class: SequentialTrainer
+-  timesteps: 50000
++  timesteps: 24000
+   environment_info: log
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/joint_pos_env_cfg.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/joint_pos_env_cfg.py
+index b813582868..25949aa500 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/joint_pos_env_cfg.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/joint_pos_env_cfg.py
+@@ -27,87 +27,11 @@ from isaaclab.assets import ArticulationCfg
+ from isaaclab.utils.assets import ISAACLAB_NUCLEUS_DIR
+ import os
+ import math
++from isaaclab_assets.robots import ur5_husky # isort: skip
+ 
+-stiffness_wheel_const = 0  # Жесткость для управления скоростью колес
+-damping_wheel_const =30   # Демпфирование для управления скоростью колес
+-UR5M_CFG = ArticulationCfg(
+-    prim_path="/ur5",
+-    spawn=sim_utils.UsdFileCfg(
+-        usd_path=os.path.join("/home/maksim/IsaacLab/source/isaaclab_assets/data/husky_asset/FINAL_HUSKY.usd"),
+-        rigid_props=sim_utils.RigidBodyPropertiesCfg(
+-            rigid_body_enabled=True,
+-            max_linear_velocity=2.0,
+-            max_angular_velocity=2.0,
+-            max_depenetration_velocity=2.0,
+-            enable_gyroscopic_forces=True,
+-        ),
+-        articulation_props=sim_utils.ArticulationRootPropertiesCfg(
+-            enabled_self_collisions=False,
+-            solver_position_iteration_count=8,  # 4
+-            solver_velocity_iteration_count=2,  # 0
+-        ),
+-    ),
+-    init_state=ArticulationCfg.InitialStateCfg(
+-        pos=(0.0, 0.0, 0.0),
+-        joint_pos={
+-            "shoulder_pan_joint": math.radians(-7.0),             # 132.0°
+-            "shoulder_lift_joint": math.radians(-85.0),           # -8.9°
+-            "elbow_joint": math.radians(113.0),                   # -86.3°
+-            "wrist_1_joint": math.radians(-117.0),                # -104.0°
+-            "wrist_2_joint": math.radians(-90.0),                 # -1.0°
+-            "wrist_3_joint": math.radians(-8.0),                  # 33.0°
+-            "robotiq_85_left_knuckle_joint": math.radians(0.0),   # 26.0°
+-            "robotiq_85_right_knuckle_joint": math.radians(0.0),  # 26.0°
+-        }
+-    ),
+-    actuators={
+-        "arm_actuator": ImplicitActuatorCfg(
+-            joint_names_expr=[
+-                "shoulder_pan_joint",
+-                "shoulder_lift_joint",
+-                "elbow_joint",
+-                "wrist_1_joint",
+-                "wrist_2_joint",
+-                "wrist_3_joint",
+-            ],
+-            velocity_limit_sim=0.5,  # 0.5,
+-            effort_limit_sim=300.0,  # 300
+-            stiffness=2000.0,        # 2000
+-            damping=100.0,           # 100
+-        ),
+-        "gripper_actuator": ImplicitActuatorCfg(
+-            joint_names_expr=["robotiq_85_left_knuckle_joint", "robotiq_85_right_knuckle_joint"],
+-            effort_limit_sim=0.6,    # 0.6
+-            velocity_limit_sim=5.0,  # 5
+-            stiffness=1000,          # 6oo
+-            damping=100,             # 40
+-        ),
+-        "wheel_actuators": ImplicitActuatorCfg(
+-        joint_names_expr=[
+-            "front_left_wheel_joint",
+-            "front_right_wheel_joint",
+-            "rear_right_wheel_joint",
+-            "rear_left_wheel_joint",
+-        ],
+-        effort_limit=100,
+-        velocity_limit=100.0,
+-        stiffness={
+-        "front_left_wheel_joint": stiffness_wheel_const,
+-        "front_right_wheel_joint": stiffness_wheel_const,
+-        "rear_right_wheel_joint": stiffness_wheel_const,
+-        "rear_left_wheel_joint": stiffness_wheel_const,
+-        },
+-        damping={
+-        "front_left_wheel_joint": damping_wheel_const,
+-        "front_right_wheel_joint": damping_wheel_const,
+-        "rear_right_wheel_joint": damping_wheel_const,
+-        "rear_left_wheel_joint": damping_wheel_const,
+-        },
+-        )
+ 
+-    }
+-)
+ 
++UR5M_CFG = ur5_husky.UR5M_CFG
+ 
+ @configclass
+ class UR5MMReachEnvCfg(ReachEnvCfg):
+@@ -125,7 +49,7 @@ class UR5MMReachEnvCfg(ReachEnvCfg):
+ 
+         # override actions
+         self.actions.arm_action = mdp.JointPositionActionCfg(
+-            asset_name="robot", joint_names=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"], scale=1.0, use_default_offset=True
++            asset_name="robot", joint_names=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"], scale=0.5, use_default_offset=True
+         )
+ 
+         # override command generator body
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/mdp/__pycache__/rewards.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/mdp/__pycache__/rewards.cpython-311.pyc
+index bbdee0109b..5f0580e2c5 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/mdp/__pycache__/rewards.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/mdp/__pycache__/rewards.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/mdp/rewards.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/mdp/rewards.py
+index 0f318ce98d..61a327d957 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/mdp/rewards.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/mdp/rewards.py
+@@ -53,6 +53,32 @@ def position_command_error_tanh(
+     return 1 - torch.tanh(distance / std)
+ 
+ 
++def position_command_error_tanh_curriculum(
++    env: ManagerBasedRLEnv,
++    std_easy: float,
++    std_hard: float,
++    command_name: str,
++    asset_cfg: SceneEntityCfg,
++) -> torch.Tensor:
++    """Reward EE position tracking with curriculum on std: std = lerp(std_easy, std_hard, difficulty).
++
++    Uses the command term's ``difficulty`` buffer (e.g. from ee_target_curriculum).
++    When difficulty=0 (easy) std=std_easy (wider kernel); when difficulty=1 (hard) std=std_hard (tighter).
++    """
++    asset: RigidObject = env.scene[asset_cfg.name]
++    command = env.command_manager.get_command(command_name)
++    ee_cmd = env.command_manager._terms[command_name]
++    difficulty = ee_cmd.difficulty  # (num_envs,)
++
++    des_pos_b = command[:, :3]
++    des_pos_w, _ = combine_frame_transforms(asset.data.root_pos_w, asset.data.root_quat_w, des_pos_b)
++    curr_pos_w = asset.data.body_pos_w[:, asset_cfg.body_ids[0]]  # type: ignore
++    distance = torch.norm(curr_pos_w - des_pos_w, dim=1)
++
++    std = std_easy + (std_hard - std_easy) * difficulty
++    return 1 - torch.tanh(distance / std)
++
++
+ def orientation_command_error(env: ManagerBasedRLEnv, command_name: str, asset_cfg: SceneEntityCfg) -> torch.Tensor:
+     """Penalize tracking orientation error using shortest path.
+ 
+@@ -68,3 +94,23 @@ def orientation_command_error(env: ManagerBasedRLEnv, command_name: str, asset_c
+     des_quat_w = quat_mul(asset.data.root_quat_w, des_quat_b)
+     curr_quat_w = asset.data.body_quat_w[:, asset_cfg.body_ids[0]]  # type: ignore
+     return quat_error_magnitude(curr_quat_w, des_quat_w)
++
++
++# Gaussian (Φ) rewards — paper "Multi-critic Learning for Whole-body ..."
++# Φ(v, σ²) = exp(-||v||²/σ²). Parameter std = sqrt(σ²).
++
++
++def position_command_error_exp(
++    env: ManagerBasedRLEnv, std: float, command_name: str, asset_cfg: SceneEntityCfg
++) -> torch.Tensor:
++    """Reward EE position tracking: Φ(||p_ee - p_des||, σ²) = exp(-||pos_error||²/σ²)."""
++    err = position_command_error(env, command_name=command_name, asset_cfg=asset_cfg)
++    return torch.exp(-(err * err) / (std * std))
++
++
++def orientation_command_error_exp(
++    env: ManagerBasedRLEnv, std: float, command_name: str, asset_cfg: SceneEntityCfg
++) -> torch.Tensor:
++    """Reward EE orientation tracking: Φ(θ_error, σ²) = exp(-θ_error²/σ²)."""
++    err = orientation_command_error(env, command_name=command_name, asset_cfg=asset_cfg)
++    return torch.exp(-(err * err) / (std * std))
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/reach_env_cfg.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/reach_env_cfg.py
+index 63b66d1a2c..1c79559eb6 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/reach_env_cfg.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/reach_env_cfg.py
+@@ -24,7 +24,7 @@ from isaaclab.scene import InteractiveSceneCfg
+ from isaaclab.utils import configclass
+ from isaaclab.utils.assets import ISAAC_NUCLEUS_DIR
+ from isaaclab.utils.noise import AdditiveUniformNoiseCfg as Unoise
+-
++from isaaclab_tasks.manager_based.full_body_control.mdp.custom_mdp import DiffDriveVelocityAction, DiffDriveVelocityActionCfg
+ import isaaclab_tasks.manager_based.manipulation.reach.mdp as mdp
+ 
+ ##
+@@ -73,12 +73,12 @@ class CommandsCfg:
+     ee_pose = mdp.UniformPoseCommandCfg(
+         asset_name="robot",
+         body_name=MISSING,
+-        resampling_time_range=(4.0, 4.0),
++        resampling_time_range=(6.0, 6.0),
+         debug_vis=True,
+         ranges=mdp.UniformPoseCommandCfg.Ranges(
+-            pos_x=(0.8,0.9),
++            pos_x=(0.3,0.9),
+             pos_y=(-0.2, 0.2),
+-            pos_z=(0.7, 0.8),
++            pos_z=(0.4, 0.8),
+             roll=(0.0, 0.0),
+             pitch=MISSING,  # depends on end-effector axis
+             yaw=(0, 0),
+@@ -92,6 +92,13 @@ class ActionsCfg:
+ 
+     arm_action: ActionTerm = MISSING
+     gripper_action: ActionTerm | None = None
++    vel_actions: ActionTerm = DiffDriveVelocityActionCfg(
++    asset_name="robot",
++    joint_names=["front_left_wheel_joint", "front_right_wheel_joint","rear_left_wheel_joint", "rear_right_wheel_joint"],
++    wheel_radius=0.1651,  # Радиус колес Husky
++    wheel_base=0.6,
++    scale= 0.5 
++    )
+ 
+ 
+ @configclass
+@@ -103,8 +110,8 @@ class ObservationsCfg:
+         """Observations for policy group."""
+ 
+         # observation terms (order preserved)
+-        joint_pos = ObsTerm(func=mdp.joint_pos_rel, noise=Unoise(n_min=-0.01, n_max=0.01))
+-        joint_vel = ObsTerm(func=mdp.joint_vel_rel, noise=Unoise(n_min=-0.01, n_max=0.01))
++        joint_pos = ObsTerm(func=mdp.joint_pos_rel, noise=Unoise(n_min=-0.05, n_max=0.05))
++        # joint_vel = ObsTerm(func=mdp.joint_vel_rel, noise=Unoise(n_min=-0.01, n_max=0.01))
+         pose_command = ObsTerm(func=mdp.generated_commands, params={"command_name": "ee_pose"})
+         actions = ObsTerm(func=mdp.last_action)
+ 
+@@ -157,12 +164,12 @@ class RewardsCfg:
+     # task terms
+     end_effector_position_tracking = RewTerm(
+         func=mdp.position_command_error,
+-        weight=-0.15,
++        weight=-0.25,
+         params={"asset_cfg": SceneEntityCfg("robot", body_names=MISSING), "command_name": "ee_pose"},
+     )
+     end_effector_position_tracking_fine_grained = RewTerm(
+         func=mdp.position_command_error_tanh,
+-        weight=0.15,
++        weight=0.35,
+         params={"asset_cfg": SceneEntityCfg("robot", body_names=MISSING), "std": 0.3, "command_name": "ee_pose"},
+     )
+     end_effector_orientation_tracking = RewTerm(
+@@ -175,7 +182,7 @@ class RewardsCfg:
+     action_rate = RewTerm(func=mdp.action_rate_l2, weight=-0.0001)
+     joint_vel = RewTerm(
+         func=mdp.joint_vel_l2,
+-        weight=-0.001,
++        weight=-0.002,
+         params={"asset_cfg": SceneEntityCfg("robot")},
+     )
+ 
+@@ -229,20 +236,3 @@ class ReachEnvCfg(ManagerBasedRLEnvCfg):
+         self.viewer.eye = (3.5, 3.5, 3.5)
+         # simulation settings
+         self.sim.dt = 1.0 / 60.0
+-
+-        # self.teleop_devices = DevicesCfg(
+-        #     devices={
+-        #         "keyboard": Se3KeyboardCfg(
+-        #             gripper_term=False,
+-        #             sim_device=self.sim.device,
+-        #         ),
+-        #         "gamepad": Se3GamepadCfg(
+-        #             gripper_term=False,
+-        #             sim_device=self.sim.device,
+-        #         ),
+-        #         "spacemouse": Se3SpaceMouseCfg(
+-        #             gripper_term=False,
+-        #             sim_device=self.sim.device,
+-        #         ),
+-        #     },
+-        # )
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/__pycache__/custom_mdp.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/__pycache__/custom_mdp.cpython-311.pyc
+index 231a82d086..5e865d9e54 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/__pycache__/custom_mdp.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/__pycache__/custom_mdp.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/custom_mdp.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/custom_mdp.py
+index 2871394b9d..3bda118646 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/custom_mdp.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/navigation/mdp/custom_mdp.py
+@@ -39,7 +39,7 @@ class DiffDriveVelocityAction(JointVelocityAction):
+ 
+         # создаем вектор скоростей для 4-х колес
+         # [front_left, front_right, rear_left, rear_right]
+-        wheel_vels = torch.cat([v_left, v_right, v_left, v_right], dim=1)
++        wheel_vels = torch.cat([v_left, v_right], dim=1)
+ 
+         # сохраняем обработанные действия
+         self._processed_actions = wheel_vels

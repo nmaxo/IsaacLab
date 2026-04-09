@@ -24,7 +24,7 @@ from isaaclab.scene import InteractiveSceneCfg
 from isaaclab.utils import configclass
 from isaaclab.utils.assets import ISAAC_NUCLEUS_DIR
 from isaaclab.utils.noise import AdditiveUniformNoiseCfg as Unoise
-
+from isaaclab_tasks.manager_based.full_body_control.mdp.custom_mdp import DiffDriveVelocityAction, DiffDriveVelocityActionCfg
 import isaaclab_tasks.manager_based.manipulation.reach.mdp as mdp
 
 ##
@@ -73,12 +73,12 @@ class CommandsCfg:
     ee_pose = mdp.UniformPoseCommandCfg(
         asset_name="robot",
         body_name=MISSING,
-        resampling_time_range=(4.0, 4.0),
+        resampling_time_range=(6.0, 6.0),
         debug_vis=True,
         ranges=mdp.UniformPoseCommandCfg.Ranges(
-            pos_x=(0.8,0.9),
+            pos_x=(0.3,0.9),
             pos_y=(-0.2, 0.2),
-            pos_z=(0.7, 0.8),
+            pos_z=(0.4, 0.8),
             roll=(0.0, 0.0),
             pitch=MISSING,  # depends on end-effector axis
             yaw=(0, 0),
@@ -92,6 +92,13 @@ class ActionsCfg:
 
     arm_action: ActionTerm = MISSING
     gripper_action: ActionTerm | None = None
+    vel_actions: ActionTerm = DiffDriveVelocityActionCfg(
+    asset_name="robot",
+    joint_names=["front_left_wheel_joint", "front_right_wheel_joint","rear_left_wheel_joint", "rear_right_wheel_joint"],
+    wheel_radius=0.1651,  # Радиус колес Husky
+    wheel_base=0.6,
+    scale= 0.5 
+    )
 
 
 @configclass
@@ -103,8 +110,8 @@ class ObservationsCfg:
         """Observations for policy group."""
 
         # observation terms (order preserved)
-        joint_pos = ObsTerm(func=mdp.joint_pos_rel, noise=Unoise(n_min=-0.01, n_max=0.01))
-        joint_vel = ObsTerm(func=mdp.joint_vel_rel, noise=Unoise(n_min=-0.01, n_max=0.01))
+        joint_pos = ObsTerm(func=mdp.joint_pos_rel, noise=Unoise(n_min=-0.05, n_max=0.05))
+        # joint_vel = ObsTerm(func=mdp.joint_vel_rel, noise=Unoise(n_min=-0.01, n_max=0.01))
         pose_command = ObsTerm(func=mdp.generated_commands, params={"command_name": "ee_pose"})
         actions = ObsTerm(func=mdp.last_action)
 
@@ -157,12 +164,12 @@ class RewardsCfg:
     # task terms
     end_effector_position_tracking = RewTerm(
         func=mdp.position_command_error,
-        weight=-0.15,
+        weight=-0.25,
         params={"asset_cfg": SceneEntityCfg("robot", body_names=MISSING), "command_name": "ee_pose"},
     )
     end_effector_position_tracking_fine_grained = RewTerm(
         func=mdp.position_command_error_tanh,
-        weight=0.15,
+        weight=0.35,
         params={"asset_cfg": SceneEntityCfg("robot", body_names=MISSING), "std": 0.3, "command_name": "ee_pose"},
     )
     end_effector_orientation_tracking = RewTerm(
@@ -175,7 +182,7 @@ class RewardsCfg:
     action_rate = RewTerm(func=mdp.action_rate_l2, weight=-0.0001)
     joint_vel = RewTerm(
         func=mdp.joint_vel_l2,
-        weight=-0.001,
+        weight=-0.002,
         params={"asset_cfg": SceneEntityCfg("robot")},
     )
 
@@ -229,20 +236,3 @@ class ReachEnvCfg(ManagerBasedRLEnvCfg):
         self.viewer.eye = (3.5, 3.5, 3.5)
         # simulation settings
         self.sim.dt = 1.0 / 60.0
-
-        # self.teleop_devices = DevicesCfg(
-        #     devices={
-        #         "keyboard": Se3KeyboardCfg(
-        #             gripper_term=False,
-        #             sim_device=self.sim.device,
-        #         ),
-        #         "gamepad": Se3GamepadCfg(
-        #             gripper_term=False,
-        #             sim_device=self.sim.device,
-        #         ),
-        #         "spacemouse": Se3SpaceMouseCfg(
-        #             gripper_term=False,
-        #             sim_device=self.sim.device,
-        #         ),
-        #     },
-        # )

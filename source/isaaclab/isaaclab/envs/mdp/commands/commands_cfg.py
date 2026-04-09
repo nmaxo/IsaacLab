@@ -250,7 +250,13 @@ class TerrainBasedPose2dCommandCfg(UniformPose2dCommandCfg):
 
 @configclass
 class UniformPoseFixedCommandCfg(CommandTermCfg):
-    """Configuration for uniform pose command generator."""
+    """Configuration for uniform pose command generator with optional per-env curriculum.
+
+    When ``enable_curriculum`` is True, target ranges are interpolated between
+    ``easy_ranges`` (difficulty=0) and ``ranges`` (difficulty=1) per environment.
+    The ``difficulty`` buffer lives on the command term and is updated externally
+    by a curriculum function.
+    """
 
     class_type: type = UniformPoseFixedCommand
 
@@ -289,7 +295,13 @@ class UniformPoseFixedCommandCfg(CommandTermCfg):
         """Range for the yaw angle (in rad)."""
 
     ranges: Ranges = MISSING
-    """Ranges for the commands."""
+    """Full (hardest) ranges for the commands."""
+
+    enable_curriculum: bool = False
+    """Enable per-env difficulty curriculum. Defaults to False."""
+
+    easy_ranges: Ranges | None = None
+    """Easy (starting) ranges when curriculum is enabled. If None, uses ``ranges``."""
 
     goal_pose_visualizer_cfg: VisualizationMarkersCfg = FRAME_MARKER_CFG.replace(prim_path="/Visuals/Command/goal_pose")
     """The configuration for the goal pose visualization marker. Defaults to FRAME_MARKER_CFG."""

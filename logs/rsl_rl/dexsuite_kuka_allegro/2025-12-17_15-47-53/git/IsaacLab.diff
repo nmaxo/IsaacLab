@@ -1,0 +1,573 @@
+--- git status ---
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc
+	modified:   source/isaaclab_assets/isaaclab_assets/robots/ur5_husky.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_env_cfg.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_env_cfg.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/skrl_ppo_cfg.yaml
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/rewards.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/rewards.py
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/__pycache__/reach_env_cfg.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/__pycache__/joint_pos_env_cfg.cpython-311.pyc
+	modified:   source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/joint_pos_env_cfg.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	FBC_manip_husky/
+	logs/rsl_rl/dexsuite_kuka_allegro/
+	logs/skrl/FBC_manip_husky/
+	logs/skrl/reach_ur5mm/2025-12-11_20-31-29_ppo_torch/
+	outputs/2025-12-11/20-31-29/
+	outputs/2025-12-11/20-43-27/
+	outputs/2025-12-11/20-48-40/
+	outputs/2025-12-11/21-00-09/
+	outputs/2025-12-11/21-04-00/
+	outputs/2025-12-11/21-17-37/
+	outputs/2025-12-11/21-28-37/
+	outputs/2025-12-11/21-30-14/
+	outputs/2025-12-11/21-54-42/
+	outputs/2025-12-11/22-02-16/
+	outputs/2025-12-11/22-25-24/
+	outputs/2025-12-15/
+	outputs/2025-12-17/
+	reach_ur5mm/25-12-11_20-43-32-702118_PPO/
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/dexsuite/__pycache__/adr_curriculum.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/dexsuite/__pycache__/dexsuite_env_cfg.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/dexsuite/config/kuka_allegro/__pycache__/dexsuite_kuka_allegro_env_cfg.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/dexsuite/config/kuka_allegro/agents/__pycache__/rsl_rl_ppo_cfg.cpython-311.pyc
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/dexsuite/mdp/__pycache__/
+	source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/dexsuite/mdp/commands/__pycache__/
+
+no changes added to commit (use "git add" and/or "git commit -a") 
+
+
+--- git diff ---
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc
+index 739836c325..cc031f822d 100644
+Binary files a/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc and b/source/isaaclab_assets/isaaclab_assets/robots/__pycache__/ur5_husky.cpython-311.pyc differ
+diff --git a/source/isaaclab_assets/isaaclab_assets/robots/ur5_husky.py b/source/isaaclab_assets/isaaclab_assets/robots/ur5_husky.py
+index 42e6a48268..15e9a7b40d 100644
+--- a/source/isaaclab_assets/isaaclab_assets/robots/ur5_husky.py
++++ b/source/isaaclab_assets/isaaclab_assets/robots/ur5_husky.py
+@@ -10,8 +10,8 @@ from isaaclab.utils.assets import ISAACLAB_NUCLEUS_DIR
+ import os
+ import math
+ 
+-stiffness_wheel_const = 0 # Жесткость для управления скоростью колес
+-damping_wheel_const = 150 # Демпфирование для управления скоростью колес
++stiffness_wheel_const = 1.2 # Жесткость для управления скоростью колес
++damping_wheel_const = 100 # Демпфирование для управления скоростью колес
+ 
+ UR5M_CFG = ArticulationCfg(
+     prim_path="/ur5",
+@@ -68,7 +68,7 @@ UR5M_CFG = ArticulationCfg(
+         "left_wheels": ImplicitActuatorCfg(
+                 joint_names_expr=["front_left_wheel_joint", "rear_left_wheel_joint"],
+                 effort_limit_sim=300,
+-                velocity_limit_sim=10.0,
++                velocity_limit_sim=8.0,
+                 stiffness=stiffness_wheel_const,
+                 damping=damping_wheel_const
+             ),
+@@ -76,7 +76,7 @@ UR5M_CFG = ArticulationCfg(
+         "right_wheels": ImplicitActuatorCfg(
+                 joint_names_expr=["front_right_wheel_joint", "rear_right_wheel_joint"],
+                 effort_limit_sim=300,
+-                velocity_limit_sim=10.0,
++                velocity_limit_sim=8.0,
+                 stiffness=stiffness_wheel_const,
+                 damping=damping_wheel_const,
+             ),
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_env_cfg.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_env_cfg.py
+index bb71d9fc88..6c952f0d84 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_env_cfg.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/FBC_env_cfg.py
+@@ -74,7 +74,7 @@ class EventCfg:
+         func=mdp.reset_joints_by_scale,
+         mode="reset",
+         params={
+-            "position_range": (0.5, 1.5),
++            "position_range": (0.55, 1.25),
+             "velocity_range": (0.0, 0.0),
+         },
+     )
+@@ -88,10 +88,10 @@ class ActionsCfg:
+     joint_names=["front_left_wheel_joint", "front_right_wheel_joint","rear_left_wheel_joint", "rear_right_wheel_joint"],
+     wheel_radius=0.1651,  # Радиус колес Husky
+     wheel_base=0.7,# Расстояние между левыми и правыми колесами
+-    scale= 0.6
++    scale= 0.6,
+     )
+     arm_actions : ActionTerm = mdp.JointPositionActionCfg(
+-            asset_name="robot", joint_names=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"], scale=0.3, use_default_offset=False
++            asset_name="robot", joint_names=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"], scale=1.0, use_default_offset=True
+         )
+ 
+ 
+@@ -108,7 +108,6 @@ class ObservationsCfg:
+         base_ang_vel = ObsTerm(func=mdp.base_ang_vel)
+         pose_command = ObsTerm(func=mdp.generated_commands, params={"command_name": "ee_pose"})
+         joint_pos = ObsTerm(func=mdp.joint_pos_rel, noise=Unoise(n_min=-0.01, n_max=0.01))
+-        joint_vel = ObsTerm(func=mdp.joint_vel_rel, noise=Unoise(n_min=-0.01, n_max=0.01))
+         actions = ObsTerm(func=mdp.last_action)
+ 
+ 
+@@ -138,49 +137,49 @@ class RewardsCfg:
+     #     params={"std":0.3,"asset_cfg": SceneEntityCfg("robot", body_names='base_link'), "command_name": "ee_pose"},
+     # )
+ 
+-    # stability_at_goal = RewTerm(
+-    #     func=mdp.stability_reward,
+-    #     weight=0.05,
+-    #     params={
+-    #         "command_name": "ee_pose",
+-    #         "position_threshold": 0.2,
+-    #         "orientation_threshold": 0.4,
+-    #         "lin_velocity_threshold": 0.2,
+-    #         "ang_velocity_threshold": 0.2
+-    #     }
+-    # )
++    stability_at_goal = RewTerm(
++        func=mdp.stability_reward,
++        weight=0.5,
++        params={
++            "command_name": "ee_pose",
++            "position_threshold": 0.15,
++            "orientation_threshold": 0.2,
++            "lin_velocity_threshold": 0.8,
++            "ang_velocity_threshold": 0.28,
++        }
++    )
+ 
+-    # vel_pen = RewTerm(func = mdp.distance_based_velocity_penalty, 
+-    #                   weight = -0.2, params={"command_name": "ee_pose"})
++    vel_pen = RewTerm(func = mdp.distance_based_velocity_penalty, 
++                      weight = -0.2, params={"command_name": "ee_pose"})
+     
+     # # task terms
+-    # end_effector_position_tracking = RewTerm(
+-    #     func=mdp.position_command_error,
+-    #     weight=-0.65,
+-    #     params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "command_name": "ee_pose"},
+-    # )
+-    # end_effector_position_tracking_fine_grained = RewTerm(
+-    #     func=mdp.position_command_error_tanh,
+-    #     weight=2.85,
+-    #     params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "std": 0.35 ,"command_name": "ee_pose"},
+-    # )
++    end_effector_position_tracking = RewTerm(
++        func=mdp.position_command_error,
++        weight=-0.45,
++        params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "command_name": "ee_pose"},
++    )
++    end_effector_position_tracking_fine_grained = RewTerm(
++        func=mdp.position_command_error_tanh,
++        weight=4.0,
++        params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "std": 0.15 ,"command_name": "ee_pose"},
++    )
+     
+-    # end_effector_orientation_tracking = RewTerm(
+-    #     func=mdp.orientation_command_error,
+-    #     weight=-0.5,
+-    #     params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "command_name": "ee_pose"},
+-    # )
++    end_effector_orientation_tracking = RewTerm(
++        func=mdp.orientation_command_error,
++        weight=-0.7,
++        params={"asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"), "command_name": "ee_pose"},
++    )
+ 
+ 
+         # Большая награда за успешное достижение цели
+     task_completion_bonus = RewTerm(
+         func=mdp.goal_reached_bonus,
+-        weight=5.0,  # Большой бонус за достижение цели
++        weight=3.0,  # Большой бонус за достижение цели
+         params={
+             "asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"),
+             "command_name": "ee_pose",
+             "position_threshold": 0.05,  # Точный порог для достижения
+-            "orientation_threshold": 0.4,
++            "orientation_threshold": 0.2,
+         }
+     )
+     
+@@ -196,46 +195,63 @@ class RewardsCfg:
+     # )
+     
+     # Прогрессивный штраф за затягивание эпизода
+-    # time_penalty = RewTerm(
+-    #     func=mdp.time_penalty,
+-    #     weight=-0.05,  # Небольшой штраф за каждый шаг
+-    #     params={}
+-    # )
+-    nav_rew = RewTerm(
+-        func = mdp.navigation_rewards_combined,
+-        weight=1,
++    time_penalty = RewTerm(
++        func=mdp.time_penalty,
++        weight=-0.05,  # Небольшой штраф за каждый шаг
+         params={}
+-
+-
+     )
+-    manip_rew = RewTerm(
+-        func = mdp.manipulation_rewards_combined,
+-        weight=3,
+-        params={}
+-
+-    )
+-
++    # nav_rew = RewTerm(
++    #     func = mdp.navigation_rewards_combined,
++    #     weight=5,
++    #     params={}
+ 
+ 
++    # )
++    # manip_rew = RewTerm(
++    #     func = mdp.manipulation_rewards_combined,
++    #     weight=3,
++    #     params={}
+ 
+-    action_rate = RewTerm(func=mdp.action_rate_l2, weight=-1e-3)
++    # )
++    # ===== КОНТРОЛЬ КАЧЕСТВА ДВИЖЕНИЙ =====
++    
+ 
++    
++    
++    # ===== КОНТРОЛЬ МАНИПУЛЯТОРА (МИНИМАЛЬНЫЙ) =====
++    
++    # Слабый штраф на скорость суставов (разрешаем активное движение)
+     joint_vel = RewTerm(
+         func=mdp.joint_vel_l2,
+-        weight=-1e-4,
++        weight=-0.005,  # ОЧЕНЬ СЛАБЫЙ штраф - манипулятор должен активно работать
+         params={"asset_cfg": SceneEntityCfg("robot")},
+     )
+ 
++    # Минимальный штраф на крутящие моменты
+     torque_pen = RewTerm(
+         func=mdp.joint_torques_l2,
+-        weight=-5e-8,
+-        params={}
++        weight=-1e-7,  # МИНИМАЛЬНЫЙ штраф
++        params={"asset_cfg": SceneEntityCfg("robot")},
++    )
++    
++    # Штраф на скорость изменения действий (для плавности)
++    action_rate = RewTerm(
++        func=mdp.action_rate_l2,
++        weight=-0.04,  # Плавные переходы между действиями
++    )
+ 
++    # ===== ВРЕМЕННОЙ ШТРАФ =====
++    
++    time_penalty = RewTerm(
++        func=mdp.time_penalty,
++        weight=-0.05,  # Мотивирует быстрое решение задачи
++        params={}
+     )
+ 
+ 
+ 
+ 
++
+ @configclass
+ class CommandsCfg:
+     """Command terms for the MDP."""
+@@ -246,9 +262,9 @@ class CommandsCfg:
+             resampling_time_range=(18.0, 18.0),
+             debug_vis=True,
+             ranges=mdp.UniformPoseFixedCommandCfg.Ranges(
+-                pos_x=(-0.4,0.4),
+-                pos_y=(-0.4,0.4),
+-                pos_z=(0.6, 0.95),
++                pos_x=(-3.0,3.0),
++                pos_y=(-3.0,3.0),
++                pos_z=(0.22, 0.95),
+                 roll=(0.0, 0.0),
+                 pitch=(0.0,0.0),  # depends on end-effector axis
+                 yaw=(0, 0),
+@@ -267,7 +283,7 @@ class TerminationsCfg:
+             "asset_cfg": SceneEntityCfg("robot", body_names="gripper_link"),
+             "command_name": "ee_pose",
+             "position_threshold": 0.05,  # Точный порог для достижения
+-            "orientation_threshold": 0.2,
++            "orientation_threshold": 0.4,
+         })
+ 
+ # @configclass
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_env_cfg.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_env_cfg.cpython-311.pyc
+index 48345a622c..99897cdccd 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_env_cfg.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/__pycache__/FBC_env_cfg.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/skrl_ppo_cfg.yaml b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/skrl_ppo_cfg.yaml
+index 9e9ef16acc..ab8a1d19d3 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/skrl_ppo_cfg.yaml
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/config/husky/agents/skrl_ppo_cfg.yaml
+@@ -19,8 +19,8 @@ models:
+     initial_log_std: 0.0
+     network:
+       - name: net
+-        input: OBSERVATIONS
+-        layers: [64, 64]
++        input: STATES
++        layers: [256, 256]
+         activations: elu
+     output: ACTIONS
+   value:  # see deterministic_model parameters
+@@ -28,8 +28,8 @@ models:
+     clip_actions: False
+     network:
+       - name: net
+-        input: OBSERVATIONS
+-        layers: [64, 64]
++        input: STATES
++        layers: [256, 256]
+         activations: elu
+     output: ONE
+ 
+@@ -45,12 +45,12 @@ memory:
+ # https://skrl.readthedocs.io/en/latest/api/agents/ppo.html
+ agent:
+   class: PPO
+-  rollouts: 24
+-  learning_epochs: 5
+-  mini_batches: 4
++  rollouts: 128
++  learning_epochs: 10
++  mini_batches: 16
+   discount_factor: 0.99
+   lambda: 0.95
+-  learning_rate: 1.0e-03
++  learning_rate: 3.0e-04
+   learning_rate_scheduler: KLAdaptiveLR
+   learning_rate_scheduler_kwargs:
+     kl_threshold: 0.01
+@@ -64,14 +64,14 @@ agent:
+   ratio_clip: 0.2
+   value_clip: 0.2
+   clip_predicted_values: True
+-  entropy_loss_scale: 0.01
+-  value_loss_scale: 1.0
++  entropy_loss_scale: 0.05
++  value_loss_scale: 2.0
+   kl_threshold: 0.0
+   rewards_shaper_scale: 1.0
+   time_limit_bootstrap: False
+   # logging and checkpoint
+   experiment:
+-    directory: "FBC_MIXING"
++    directory: "FBC_manip_husky"
+     experiment_name: ""
+     write_interval: auto
+     checkpoint_interval: auto
+@@ -81,5 +81,5 @@ agent:
+ # https://skrl.readthedocs.io/en/latest/api/trainers/sequential.html
+ trainer:
+   class: SequentialTrainer
+-  timesteps: 24000
++  timesteps: 50000
+   environment_info: log
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/rewards.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/rewards.cpython-311.pyc
+index 54804118e3..beec8987a4 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/rewards.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/__pycache__/rewards.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/rewards.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/rewards.py
+index 5ca032b964..39683d30bb 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/rewards.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/full_body_control/mdp/rewards.py
+@@ -62,7 +62,7 @@ def stability_reward(
+ def distance_based_velocity_penalty(
+     env: "ManagerBasedRLEnv",
+     command_name: str,
+-    activation_distance: float = 1.0
++    activation_distance: float = 0.7
+ ) -> torch.Tensor:
+     """
+     Штраф за скорость, который увеличивается по мере приближения к цели.
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/__pycache__/reach_env_cfg.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/__pycache__/reach_env_cfg.cpython-311.pyc
+index 7156a1f967..c9e1a2cbe8 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/__pycache__/reach_env_cfg.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/__pycache__/reach_env_cfg.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/__pycache__/joint_pos_env_cfg.cpython-311.pyc b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/__pycache__/joint_pos_env_cfg.cpython-311.pyc
+index b8252db81d..845066a601 100644
+Binary files a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/__pycache__/joint_pos_env_cfg.cpython-311.pyc and b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/__pycache__/joint_pos_env_cfg.cpython-311.pyc differ
+diff --git a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/joint_pos_env_cfg.py b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/joint_pos_env_cfg.py
+index b813582868..0c233791e6 100644
+--- a/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/joint_pos_env_cfg.py
++++ b/source/isaaclab_tasks/isaaclab_tasks/manager_based/manipulation/reach/config/ur5_with_base/joint_pos_env_cfg.py
+@@ -27,86 +27,91 @@ from isaaclab.assets import ArticulationCfg
+ from isaaclab.utils.assets import ISAACLAB_NUCLEUS_DIR
+ import os
+ import math
++from isaaclab_assets.robots import ur5_husky # isort: skip
+ 
+-stiffness_wheel_const = 0  # Жесткость для управления скоростью колес
+-damping_wheel_const =30   # Демпфирование для управления скоростью колес
+-UR5M_CFG = ArticulationCfg(
+-    prim_path="/ur5",
+-    spawn=sim_utils.UsdFileCfg(
+-        usd_path=os.path.join("/home/maksim/IsaacLab/source/isaaclab_assets/data/husky_asset/FINAL_HUSKY.usd"),
+-        rigid_props=sim_utils.RigidBodyPropertiesCfg(
+-            rigid_body_enabled=True,
+-            max_linear_velocity=2.0,
+-            max_angular_velocity=2.0,
+-            max_depenetration_velocity=2.0,
+-            enable_gyroscopic_forces=True,
+-        ),
+-        articulation_props=sim_utils.ArticulationRootPropertiesCfg(
+-            enabled_self_collisions=False,
+-            solver_position_iteration_count=8,  # 4
+-            solver_velocity_iteration_count=2,  # 0
+-        ),
+-    ),
+-    init_state=ArticulationCfg.InitialStateCfg(
+-        pos=(0.0, 0.0, 0.0),
+-        joint_pos={
+-            "shoulder_pan_joint": math.radians(-7.0),             # 132.0°
+-            "shoulder_lift_joint": math.radians(-85.0),           # -8.9°
+-            "elbow_joint": math.radians(113.0),                   # -86.3°
+-            "wrist_1_joint": math.radians(-117.0),                # -104.0°
+-            "wrist_2_joint": math.radians(-90.0),                 # -1.0°
+-            "wrist_3_joint": math.radians(-8.0),                  # 33.0°
+-            "robotiq_85_left_knuckle_joint": math.radians(0.0),   # 26.0°
+-            "robotiq_85_right_knuckle_joint": math.radians(0.0),  # 26.0°
+-        }
+-    ),
+-    actuators={
+-        "arm_actuator": ImplicitActuatorCfg(
+-            joint_names_expr=[
+-                "shoulder_pan_joint",
+-                "shoulder_lift_joint",
+-                "elbow_joint",
+-                "wrist_1_joint",
+-                "wrist_2_joint",
+-                "wrist_3_joint",
+-            ],
+-            velocity_limit_sim=0.5,  # 0.5,
+-            effort_limit_sim=300.0,  # 300
+-            stiffness=2000.0,        # 2000
+-            damping=100.0,           # 100
+-        ),
+-        "gripper_actuator": ImplicitActuatorCfg(
+-            joint_names_expr=["robotiq_85_left_knuckle_joint", "robotiq_85_right_knuckle_joint"],
+-            effort_limit_sim=0.6,    # 0.6
+-            velocity_limit_sim=5.0,  # 5
+-            stiffness=1000,          # 6oo
+-            damping=100,             # 40
+-        ),
+-        "wheel_actuators": ImplicitActuatorCfg(
+-        joint_names_expr=[
+-            "front_left_wheel_joint",
+-            "front_right_wheel_joint",
+-            "rear_right_wheel_joint",
+-            "rear_left_wheel_joint",
+-        ],
+-        effort_limit=100,
+-        velocity_limit=100.0,
+-        stiffness={
+-        "front_left_wheel_joint": stiffness_wheel_const,
+-        "front_right_wheel_joint": stiffness_wheel_const,
+-        "rear_right_wheel_joint": stiffness_wheel_const,
+-        "rear_left_wheel_joint": stiffness_wheel_const,
+-        },
+-        damping={
+-        "front_left_wheel_joint": damping_wheel_const,
+-        "front_right_wheel_joint": damping_wheel_const,
+-        "rear_right_wheel_joint": damping_wheel_const,
+-        "rear_left_wheel_joint": damping_wheel_const,
+-        },
+-        )
+ 
+-    }
+-)
++
++UR5M_CFG = ur5_husky.UR5M_CFG
++
++# stiffness_wheel_const = 0  # Жесткость для управления скоростью колес
++# damping_wheel_const =30   # Демпфирование для управления скоростью колес
++# UR5M_CFG = ArticulationCfg(
++#     prim_path="/ur5",
++#     spawn=sim_utils.UsdFileCfg(
++#         usd_path=os.path.join("/home/maksim/IsaacLab/source/isaaclab_assets/data/husky_asset/FINAL_HUSKY.usd"),
++#         rigid_props=sim_utils.RigidBodyPropertiesCfg(
++#             rigid_body_enabled=True,
++#             max_linear_velocity=2.0,
++#             max_angular_velocity=2.0,
++#             max_depenetration_velocity=2.0,
++#             enable_gyroscopic_forces=True,
++#         ),
++#         articulation_props=sim_utils.ArticulationRootPropertiesCfg(
++#             enabled_self_collisions=False,
++#             solver_position_iteration_count=8,  # 4
++#             solver_velocity_iteration_count=2,  # 0
++#         ),
++#     ),
++#     init_state=ArticulationCfg.InitialStateCfg(
++#         pos=(0.0, 0.0, 0.0),
++#         joint_pos={
++#             "shoulder_pan_joint": math.radians(-7.0),             # 132.0°
++#             "shoulder_lift_joint": math.radians(-85.0),           # -8.9°
++#             "elbow_joint": math.radians(113.0),                   # -86.3°
++#             "wrist_1_joint": math.radians(-117.0),                # -104.0°
++#             "wrist_2_joint": math.radians(-90.0),                 # -1.0°
++#             "wrist_3_joint": math.radians(-8.0),                  # 33.0°
++#             "robotiq_85_left_knuckle_joint": math.radians(0.0),   # 26.0°
++#             "robotiq_85_right_knuckle_joint": math.radians(0.0),  # 26.0°
++#         }
++#     ),
++#     actuators={
++#         "arm_actuator": ImplicitActuatorCfg(
++#             joint_names_expr=[
++#                 "shoulder_pan_joint",
++#                 "shoulder_lift_joint",
++#                 "elbow_joint",
++#                 "wrist_1_joint",
++#                 "wrist_2_joint",
++#                 "wrist_3_joint",
++#             ],
++#             velocity_limit_sim=0.5,  # 0.5,
++#             effort_limit_sim=300.0,  # 300
++#             stiffness=2000.0,        # 2000
++#             damping=100.0,           # 100
++#         ),
++#         "gripper_actuator": ImplicitActuatorCfg(
++#             joint_names_expr=["robotiq_85_left_knuckle_joint", "robotiq_85_right_knuckle_joint"],
++#             effort_limit_sim=0.6,    # 0.6
++#             velocity_limit_sim=5.0,  # 5
++#             stiffness=1000,          # 6oo
++#             damping=100,             # 40
++#         ),
++#         "wheel_actuators": ImplicitActuatorCfg(
++#         joint_names_expr=[
++#             "front_left_wheel_joint",
++#             "front_right_wheel_joint",
++#             "rear_right_wheel_joint",
++#             "rear_left_wheel_joint",
++#         ],
++#         effort_limit=100,
++#         velocity_limit=100.0,
++#         stiffness={
++#         "front_left_wheel_joint": stiffness_wheel_const,
++#         "front_right_wheel_joint": stiffness_wheel_const,
++#         "rear_right_wheel_joint": stiffness_wheel_const,
++#         "rear_left_wheel_joint": stiffness_wheel_const,
++#         },
++#         damping={
++#         "front_left_wheel_joint": damping_wheel_const,
++#         "front_right_wheel_joint": damping_wheel_const,
++#         "rear_right_wheel_joint": damping_wheel_const,
++#         "rear_left_wheel_joint": damping_wheel_const,
++#         },
++#         )
++
++#     }
++# )
+ 
+ 
+ @configclass
